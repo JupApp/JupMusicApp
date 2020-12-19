@@ -15,8 +15,7 @@ class SearchVC: UIViewController{
         
         musicSearch.becomeFirstResponder()
         
-        print("Im garbage")
-        }
+    }
         
     
     @IBOutlet weak var musicSearch: UISearchBar!
