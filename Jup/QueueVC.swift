@@ -31,8 +31,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
   
     
-    let testData = ["Stunnin'", "Curtis Waters"]
-    
+  
         override func viewDidLoad() {
         super.viewDidLoad()
         

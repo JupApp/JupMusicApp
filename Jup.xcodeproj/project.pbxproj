@@ -11,19 +11,15 @@
 		B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66EF181258AAEC600E21B4D /* SongCell.xib */; };
 		B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051EE2571F41900E4077C /* AppDelegate.swift */; };
 		B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051F02571F41900E4077C /* SceneDelegate.swift */; };
-		B67051F32571F41900E4077C /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051F22571F41900E4077C /* MainVC.swift */; };
 		B67051F62571F41900E4077C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67051F42571F41900E4077C /* Main.storyboard */; };
 		B67051FB2571F41C00E4077C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67051F92571F41C00E4077C /* LaunchScreen.storyboard */; };
 		B67052062571F41C00E4077C /* JupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67052052571F41C00E4077C /* JupTests.swift */; };
 		B67052112571F41C00E4077C /* JupUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67052102571F41C00E4077C /* JupUITests.swift */; };
-		B670522B2571F5D800E4077C /* HostVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B670522A2571F5D800E4077C /* HostVC.storyboard */; };
-		B67052332571F76E00E4077C /* HostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67052322571F76E00E4077C /* HostVC.swift */; };
 		B670523C2571F8C500E4077C /* PoopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670523B2571F8C500E4077C /* PoopVC.swift */; };
 		B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */; };
 		B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5243D257D9F440030F15B /* QueueVC.swift */; };
 		B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BB3CE225811C6E0043CA04 /* SearchVC.swift */; };
 		B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6C871DD257D3B36004BE0BF /* Assets.xcassets */; };
-		B6D19D2C25749E22001BD926 /* HostQueueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D19D2B25749E22001BD926 /* HostQueueVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +45,6 @@
 		B67051EB2571F41900E4077C /* Jup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67051EE2571F41900E4077C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B67051F02571F41900E4077C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B67051F22571F41900E4077C /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		B67051F52571F41900E4077C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B67051FA2571F41C00E4077C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B67051FC2571F41C00E4077C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,14 +54,11 @@
 		B670520C2571F41C00E4077C /* JupUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JupUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67052102571F41C00E4077C /* JupUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JupUITests.swift; sourceTree = "<group>"; };
 		B67052122571F41C00E4077C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B670522A2571F5D800E4077C /* HostVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HostVC.storyboard; sourceTree = "<group>"; };
-		B67052322571F76E00E4077C /* HostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostVC.swift; sourceTree = "<group>"; };
 		B670523B2571F8C500E4077C /* PoopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoopVC.swift; sourceTree = "<group>"; };
 		B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueSettingsVC.swift; sourceTree = "<group>"; };
 		B6A5243D257D9F440030F15B /* QueueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QueueVC.swift; path = Jup/QueueVC.swift; sourceTree = SOURCE_ROOT; };
 		B6BB3CE225811C6E0043CA04 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		B6C871DD257D3B36004BE0BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = SOURCE_ROOT; };
-		B6D19D2B25749E22001BD926 /* HostQueueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostQueueVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +90,6 @@
 			isa = PBXGroup;
 			children = (
 				B67051ED2571F41900E4077C /* Jup */,
-				B6717CC7258941B70009414A /* NotUsedVC */,
-				B67052262571F53400E4077C /* Host */,
 				B67052042571F41C00E4077C /* JupTests */,
 				B670520F2571F41C00E4077C /* JupUITests */,
 				B67051EC2571F41900E4077C /* Products */,
@@ -150,14 +140,6 @@
 			path = JupUITests;
 			sourceTree = "<group>";
 		};
-		B67052262571F53400E4077C /* Host */ = {
-			isa = PBXGroup;
-			children = (
-				B670522A2571F5D800E4077C /* HostVC.storyboard */,
-			);
-			path = Host;
-			sourceTree = "<group>";
-		};
 		B670523A2571F88F00E4077C /* VCs */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,16 +149,6 @@
 				B670523B2571F8C500E4077C /* PoopVC.swift */,
 			);
 			path = VCs;
-			sourceTree = "<group>";
-		};
-		B6717CC7258941B70009414A /* NotUsedVC */ = {
-			isa = PBXGroup;
-			children = (
-				B67051F22571F41900E4077C /* MainVC.swift */,
-				B67052322571F76E00E4077C /* HostVC.swift */,
-				B6D19D2B25749E22001BD926 /* HostQueueVC.swift */,
-			);
-			path = NotUsedVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,7 +258,6 @@
 				B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */,
 				B67051F62571F41900E4077C /* Main.storyboard in Resources */,
 				B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */,
-				B670522B2571F5D800E4077C /* HostVC.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,12 +284,9 @@
 			files = (
 				B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */,
 				B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */,
-				B67051F32571F41900E4077C /* MainVC.swift in Sources */,
-				B67052332571F76E00E4077C /* HostVC.swift in Sources */,
 				B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */,
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
-				B6D19D2C25749E22001BD926 /* HostQueueVC.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
 				B670523C2571F8C500E4077C /* PoopVC.swift in Sources */,
 			);
