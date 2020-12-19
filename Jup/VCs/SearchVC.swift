@@ -15,6 +15,7 @@ class SearchVC: UIViewController{
         
         musicSearch.becomeFirstResponder()
         
+        print("Im garbage")
         }
         
     
