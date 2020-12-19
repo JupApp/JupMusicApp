@@ -11,7 +11,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 12
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
