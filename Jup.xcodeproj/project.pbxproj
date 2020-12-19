@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8696BC7C258E474B00C8D6C0 /* TestGithub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8696BC7B258E474B00C8D6C0 /* TestGithub.swift */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
 		B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66EF181258AAEC600E21B4D /* SongCell.xib */; };
 		B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051EE2571F41900E4077C /* AppDelegate.swift */; };
@@ -45,7 +44,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8696BC7B258E474B00C8D6C0 /* TestGithub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestGithub.swift; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		B66EF181258AAEC600E21B4D /* SongCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SongCell.xib; sourceTree = "<group>"; };
 		B67051EB2571F41900E4077C /* Jup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,7 +175,6 @@
 				B67051F22571F41900E4077C /* MainVC.swift */,
 				B67052322571F76E00E4077C /* HostVC.swift */,
 				B6D19D2B25749E22001BD926 /* HostQueueVC.swift */,
-				8696BC7B258E474B00C8D6C0 /* TestGithub.swift */,
 			);
 			path = NotUsedVC;
 			sourceTree = "<group>";
@@ -320,7 +317,6 @@
 				B67052332571F76E00E4077C /* HostVC.swift in Sources */,
 				B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */,
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
-				8696BC7C258E474B00C8D6C0 /* TestGithub.swift in Sources */,
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
 				B6D19D2C25749E22001BD926 /* HostQueueVC.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
