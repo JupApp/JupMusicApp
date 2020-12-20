@@ -6,6 +6,16 @@
 //
 import MediaPlayer
 
-class MediaPlayerDelegate {
+protocol MediaPlayerDelegate {
+    func play()
     
+    func pause()
+    
+    func skip()
+    
+    func addSong()
+    
+    func likeSong()
+    
+    func updateQueueWithSnapshot()
 }

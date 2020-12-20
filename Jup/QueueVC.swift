@@ -21,8 +21,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
   
-    
-  
     override func viewDidLoad() {
         super.viewDidLoad()
         
