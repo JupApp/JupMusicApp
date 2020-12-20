@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
+		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
 		B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66EF181258AAEC600E21B4D /* SongCell.xib */; };
 		B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051EE2571F41900E4077C /* AppDelegate.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		B66EF181258AAEC600E21B4D /* SongCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SongCell.xib; sourceTree = "<group>"; };
 		B67051EB2571F41900E4077C /* Jup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +121,8 @@
 				B67051FC2571F41C00E4077C /* Info.plist */,
 				B670523A2571F88F00E4077C /* VCs */,
 				B66EF180258AAEC600E21B4D /* SongCell.swift */,
+				866A92AD258EEFC5000BD69D /* SearchCell.swift */,
+				866A92AE258EEFC5000BD69D /* SearchCell.xib */,
 				B66EF181258AAEC600E21B4D /* SongCell.xib */,
 			);
 			path = Jup;
@@ -255,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B67051FB2571F41C00E4077C /* LaunchScreen.storyboard in Resources */,
+				866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */,
 				B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */,
 				B67051F62571F41900E4077C /* Main.storyboard in Resources */,
 				B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */,
@@ -288,6 +295,7 @@
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
+				866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */,
 				B670523C2571F8C500E4077C /* PoopVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

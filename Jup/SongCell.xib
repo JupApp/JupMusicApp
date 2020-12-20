@@ -12,7 +12,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SongCell" rowHeight="50" id="KGk-i7-Jjw" customClass="SongCell" customModule="Jup" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="357" height="51"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="357" height="51"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -29,7 +29,7 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5PR-jk-DUY">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5PR-jk-DUY">
                         <rect key="frame" x="58" y="26" width="33" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -39,9 +39,11 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="es9-gd-PdC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0WD-rd-H8R"/>
+                    <constraint firstItem="5PR-jk-DUY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="26" id="5jE-vd-ToM"/>
                     <constraint firstItem="es9-gd-PdC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BWM-O8-Qlz"/>
                     <constraint firstAttribute="trailing" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="20" symbolic="YES" id="D7R-xe-ifF"/>
                     <constraint firstItem="Fzy-hv-lQN" firstAttribute="leading" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="8" symbolic="YES" id="FvL-Ks-UqZ"/>
+                    <constraint firstAttribute="bottom" secondItem="Fzy-hv-lQN" secondAttribute="bottom" constant="22" id="Xkl-jV-B5t"/>
                     <constraint firstAttribute="bottom" secondItem="5PR-jk-DUY" secondAttribute="bottom" constant="9" id="lpw-zK-zc0"/>
                     <constraint firstItem="5PR-jk-DUY" firstAttribute="leading" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="8" symbolic="YES" id="nwH-8P-ZrQ"/>
                     <constraint firstAttribute="bottom" secondItem="es9-gd-PdC" secondAttribute="bottom" id="rE1-72-KQq"/>

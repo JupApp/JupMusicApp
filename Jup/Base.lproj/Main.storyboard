@@ -320,6 +320,9 @@
                                                     <state key="normal" title="Start">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <segue destination="TfO-Ke-MaO" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="rwm-nm-gu5"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" red="0.91162312030000003" green="0.96084374189999999" blue="0.94886618850000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -489,22 +492,69 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="light"/>
                             </searchBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="52r-n1-45D">
+                                <rect key="frame" x="20" y="56" width="374" height="48"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="toc-jt-MGO">
+                                        <rect key="frame" x="0.0" y="9" width="187" height="30"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" red="0.95686274770000002" green="0.98431372640000003" blue="0.97647058959999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="AppleMusicLibrary:" destination="DUb-Gg-gF2" eventType="touchUpInside" id="P3i-ja-45n"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRq-Gj-NLp">
+                                        <rect key="frame" x="187" y="0.0" width="187" height="48"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Button">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tqf-Qu-4Lt">
+                                <rect key="frame" x="30" y="114" width="354" height="694"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchCell" id="xkI-sD-6Rn" customClass="SongCell" customModule="Jup" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="354" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xkI-sD-6Rn" id="6PJ-Pj-ibd">
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8U9-TZ-H1G"/>
                         <color key="backgroundColor" red="0.91162312030000003" green="0.96084374189999999" blue="0.94886618850000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="52r-n1-45D" secondAttribute="trailing" constant="20" id="1gN-dq-baz"/>
+                            <constraint firstItem="52r-n1-45D" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="20" id="4s1-ug-FVz"/>
+                            <constraint firstItem="52r-n1-45D" firstAttribute="width" secondItem="qda-sB-21p" secondAttribute="height" multiplier="187:421" id="KQg-Gb-tqr"/>
+                            <constraint firstItem="tqf-Qu-4Lt" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="30" id="PEt-jL-mtu"/>
                             <constraint firstItem="rEM-u1-xpZ" firstAttribute="top" secondItem="8U9-TZ-H1G" secondAttribute="top" id="WMD-jZ-NGa"/>
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="rEM-u1-xpZ" secondAttribute="trailing" id="XWF-SK-UvM"/>
+                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="bottom" secondItem="tqf-Qu-4Lt" secondAttribute="bottom" id="btD-Jb-U5L"/>
                             <constraint firstItem="rEM-u1-xpZ" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" id="ner-Lz-c1c"/>
+                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="tqf-Qu-4Lt" secondAttribute="trailing" constant="30" id="vP9-5M-XIN"/>
+                            <constraint firstItem="52r-n1-45D" firstAttribute="top" secondItem="rEM-u1-xpZ" secondAttribute="bottom" id="vaf-hw-K0k"/>
+                            <constraint firstItem="tqf-Qu-4Lt" firstAttribute="top" secondItem="52r-n1-45D" secondAttribute="bottom" constant="10" id="yfc-H2-a2G"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="AppleMusicLibraryBut" destination="toc-jt-MGO" id="EeW-OM-sR0"/>
+                        <outlet property="SearhTableView" destination="tqf-Qu-4Lt" id="T7R-6s-O0q"/>
+                        <outlet property="SpotifyLibraryBut" destination="DRq-Gj-NLp" id="OwF-Y1-SJy"/>
                         <outlet property="musicSearch" destination="rEM-u1-xpZ" id="J5z-5W-Aa4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rpa-I5-yHw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2371" y="-286"/>
+            <point key="canvasLocation" x="2369.5652173913045" y="-286.60714285714283"/>
         </scene>
         <!--PoopVC-->
         <scene sceneID="e9A-TU-ic6">
@@ -544,7 +594,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Roa-lE-6EY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="780.841121495327" y="388.12095032397411"/>
+            <point key="canvasLocation" x="779.71014492753625" y="387.72321428571428"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
