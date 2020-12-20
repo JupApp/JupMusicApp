@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */; };
+		15DBD86D258F9C460068FEB4 /* BTCommunicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */; };
+		15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */; };
+		15DBD87A258F9D990068FEB4 /* BTHostDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD879258F9D990068FEB4 /* BTHostDelegate.swift */; };
+		15DBD87F258F9DF40068FEB4 /* SearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD87E258F9DF40068FEB4 /* SearchDelegate.swift */; };
+		15DBD884258F9E2F0068FEB4 /* HostSearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD883258F9E2F0068FEB4 /* HostSearchDelegate.swift */; };
+		15DBD889258F9F700068FEB4 /* ParticipantSearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD888258F9F700068FEB4 /* ParticipantSearchDelegate.swift */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
@@ -42,6 +49,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerDelegate.swift; sourceTree = "<group>"; };
+		15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCommunicationDelegate.swift; sourceTree = "<group>"; };
+		15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTParticipantDelegate.swift; sourceTree = "<group>"; };
+		15DBD879258F9D990068FEB4 /* BTHostDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTHostDelegate.swift; sourceTree = "<group>"; };
+		15DBD87E258F9DF40068FEB4 /* SearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDelegate.swift; sourceTree = "<group>"; };
+		15DBD883258F9E2F0068FEB4 /* HostSearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostSearchDelegate.swift; sourceTree = "<group>"; };
+		15DBD888258F9F700068FEB4 /* ParticipantSearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantSearchDelegate.swift; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
@@ -90,6 +104,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15DBD865258F99950068FEB4 /* MediaPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */,
+			);
+			path = MediaPlayer;
+			sourceTree = "<group>";
+		};
+		15DBD86A258F99B80068FEB4 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				15DBD87E258F9DF40068FEB4 /* SearchDelegate.swift */,
+				15DBD883258F9E2F0068FEB4 /* HostSearchDelegate.swift */,
+				15DBD888258F9F700068FEB4 /* ParticipantSearchDelegate.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		15DBD86B258F99C70068FEB4 /* BlueToothCommunication */ = {
+			isa = PBXGroup;
+			children = (
+				15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */,
+				15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */,
+				15DBD879258F9D990068FEB4 /* BTHostDelegate.swift */,
+			);
+			path = BlueToothCommunication;
+			sourceTree = "<group>";
+		};
 		B67051E22571F41900E4077C = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +155,8 @@
 		B67051ED2571F41900E4077C /* Jup */ = {
 			isa = PBXGroup;
 			children = (
+				15DBD86B258F99C70068FEB4 /* BlueToothCommunication */,
+				15DBD86A258F99B80068FEB4 /* Search */,
 				B67051EE2571F41900E4077C /* AppDelegate.swift */,
 				B67051F02571F41900E4077C /* SceneDelegate.swift */,
 				B67051F42571F41900E4077C /* Main.storyboard */,
@@ -124,6 +168,7 @@
 				866A92AD258EEFC5000BD69D /* SearchCell.swift */,
 				866A92AE258EEFC5000BD69D /* SearchCell.xib */,
 				B66EF181258AAEC600E21B4D /* SongCell.xib */,
+				15DBD865258F99950068FEB4 /* MediaPlayer */,
 			);
 			path = Jup;
 			sourceTree = "<group>";
@@ -290,13 +335,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */,
+				15DBD87F258F9DF40068FEB4 /* SearchDelegate.swift in Sources */,
 				B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */,
 				B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */,
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
+				15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */,
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
+				15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
 				866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */,
+				15DBD884258F9E2F0068FEB4 /* HostSearchDelegate.swift in Sources */,
 				B670523C2571F8C500E4077C /* ParticipantSettingsVC.swift in Sources */,
+				15DBD87A258F9D990068FEB4 /* BTHostDelegate.swift in Sources */,
+				15DBD889258F9F700068FEB4 /* ParticipantSearchDelegate.swift in Sources */,
+				15DBD86D258F9C460068FEB4 /* BTCommunicationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

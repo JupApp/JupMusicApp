@@ -25,17 +25,17 @@ class QueueSettingsVC: UITableViewController{
     
     @objc func switchChanged(sender: UISwitch!) {
     
-    if !sender.isOn {
-        return
-    }
-    if sender != strictQueueSwitch && strictQueueSwitch.isOn {
-        strictQueueSwitch.setOn(false, animated: true)
-            
-    }
-    if sender != voteQueueSwitch && voteQueueSwitch.isOn {
-            voteQueueSwitch.setOn(false, animated: true)
+        if !sender.isOn {
+            return
+        }
+        if sender != strictQueueSwitch && strictQueueSwitch.isOn {
+            strictQueueSwitch.setOn(false, animated: true)
+                
+        }
+        if sender != voteQueueSwitch && voteQueueSwitch.isOn {
+                voteQueueSwitch.setOn(false, animated: true)
 
-    }
+        }
     }
 }
 

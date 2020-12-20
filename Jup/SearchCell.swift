@@ -13,6 +13,7 @@ class SearchCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
     @IBOutlet weak var SCSongTitle: UILabel!
     @IBOutlet weak var SCSongAlbumArt: UIImageView!
     @IBOutlet weak var SCSongArtist: UILabel!

@@ -10,17 +10,6 @@ import UIKit
 class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
-        return SongCell
-        }
-    
-    
     @IBOutlet weak var albumBackground: UIImageView!
     
     @IBOutlet weak var nowPlayingAlbum: UIImageView!
@@ -29,16 +18,31 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
     @IBOutlet weak var queueTable: UITableView!
     
+    var btDelegate: BTCommunicationDelegate!
+    var mpDelegate: MediaPlayerDelegate!
   
     
   
-        override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         let nib = UINib(nibName: "SongCell", bundle: nil)
         queueTable.register(nib, forCellReuseIdentifier: "SongCell")
         queueTable.delegate = self
         queueTable.dataSource = self
+    }
+    
+    
+    //FIX!!!!!!
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+
+    }
+    
+    //FIX!!!!!!
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
+        return SongCell
     }
         
 }
