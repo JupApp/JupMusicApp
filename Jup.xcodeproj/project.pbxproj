@@ -17,7 +17,7 @@
 		B67051FB2571F41C00E4077C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67051F92571F41C00E4077C /* LaunchScreen.storyboard */; };
 		B67052062571F41C00E4077C /* JupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67052052571F41C00E4077C /* JupTests.swift */; };
 		B67052112571F41C00E4077C /* JupUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67052102571F41C00E4077C /* JupUITests.swift */; };
-		B670523C2571F8C500E4077C /* PoopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670523B2571F8C500E4077C /* PoopVC.swift */; };
+		B670523C2571F8C500E4077C /* ParticipantSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670523B2571F8C500E4077C /* ParticipantSettingsVC.swift */; };
 		B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */; };
 		B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5243D257D9F440030F15B /* QueueVC.swift */; };
 		B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BB3CE225811C6E0043CA04 /* SearchVC.swift */; };
@@ -58,7 +58,7 @@
 		B670520C2571F41C00E4077C /* JupUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JupUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67052102571F41C00E4077C /* JupUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JupUITests.swift; sourceTree = "<group>"; };
 		B67052122571F41C00E4077C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B670523B2571F8C500E4077C /* PoopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoopVC.swift; sourceTree = "<group>"; };
+		B670523B2571F8C500E4077C /* ParticipantSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantSettingsVC.swift; sourceTree = "<group>"; };
 		B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueSettingsVC.swift; sourceTree = "<group>"; };
 		B6A5243D257D9F440030F15B /* QueueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QueueVC.swift; path = Jup/QueueVC.swift; sourceTree = SOURCE_ROOT; };
 		B6BB3CE225811C6E0043CA04 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 				B6A5243D257D9F440030F15B /* QueueVC.swift */,
 				B6BB3CE225811C6E0043CA04 /* SearchVC.swift */,
 				B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */,
-				B670523B2571F8C500E4077C /* PoopVC.swift */,
+				B670523B2571F8C500E4077C /* ParticipantSettingsVC.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -296,7 +296,7 @@
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
 				866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */,
-				B670523C2571F8C500E4077C /* PoopVC.swift in Sources */,
+				B670523C2571F8C500E4077C /* ParticipantSettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

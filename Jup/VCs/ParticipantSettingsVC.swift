@@ -1,5 +1,5 @@
 //
-//  PoopVC.swift
+//  ParticipantSettingsVC.swift
 //  Jup
 //
 //  Created by Zach Venanzi on 11/27/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PoopVC: UIViewController {
+class ParticipantSettingsVC: UIViewController {
     
     var tableView: UITableView!
    
