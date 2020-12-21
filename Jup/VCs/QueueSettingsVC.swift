@@ -26,9 +26,13 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         voteQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        //Code to make segmented text field text color black
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
     }
     //Zachs Attempt to make text field go away with return key
-    func usernameTextFielfShouldReturn(_ usernameTextField: UITextField) -> Bool{
+    func usernameTextFielfShouldReturn(_ textField: UITextField) -> Bool{
         self.view.endEditing(true)
     }
     

@@ -77,6 +77,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.84986907239999998" green="0.96476846930000004" blue="0.94098073240000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
                             <tableViewSection headerTitle="Display Name" id="haH-bo-o9b">
                                 <cells>
@@ -92,7 +93,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartInsertDeleteType="no" smartQuotesType="no"/>
                                                 </textField>
                                             </subviews>
                                             <color key="backgroundColor" red="0.91162312030000003" green="0.96084374189999999" blue="0.94886618850000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -120,11 +121,11 @@
                                                     <rect key="frame" x="20" y="6" width="356" height="33"/>
                                                     <color key="backgroundColor" red="0.83339554069999999" green="0.96477073430000004" blue="0.93704587220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <segments>
-                                                        <segment title="Apple Music"/>
+                                                        <segment title="Apple Music" width="177.5"/>
                                                         <segment title="Spotify"/>
                                                     </segments>
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="selectedSegmentTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <connections>
                                                         <action selector="PlatformChanged:" destination="d8E-AH-NBx" eventType="valueChanged" id="7dG-fh-Dmi"/>
                                                     </connections>
@@ -293,6 +294,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="tLP-YR-kv1" secondAttribute="height" multiplier="174:17" id="bEJ-mX-F72"/>
                                                     </constraints>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -412,7 +414,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="50"/>
                                                             <state key="normal" image="Return White"/>
                                                             <connections>
-                                                                <segue destination="BYZ-38-t0r" kind="presentation" animates="NO" id="bbc-SO-zmL"/>
+                                                                <segue destination="BYZ-38-t0r" kind="presentation" animates="NO" modalPresentationStyle="fullScreen" id="bbc-SO-zmL"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
@@ -571,13 +573,6 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="Background Home Screeen – 1" translatesAutoresizingMaskIntoConstraints="NO" id="bBC-Rf-fjp">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbC-eV-v2h">
-                                <rect key="frame" x="20" y="792" width="45" height="50"/>
-                                <state key="normal" image="Return"/>
-                                <connections>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" animates="NO" modalPresentationStyle="fullScreen" id="dqj-Ij-jBE"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Join" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-x0-E9T">
                                 <rect key="frame" x="120" y="174" width="188" height="134"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -586,12 +581,10 @@
                         <viewLayoutGuide key="safeArea" id="PpK-TY-XLz"/>
                         <color key="backgroundColor" red="0.66941320896148682" green="0.91683816909790039" blue="0.92838412523269653" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="cbC-eV-v2h" firstAttribute="leading" secondItem="PpK-TY-XLz" secondAttribute="leading" constant="20" id="3JE-ia-VhF"/>
                             <constraint firstAttribute="bottom" secondItem="bBC-Rf-fjp" secondAttribute="bottom" id="IqB-MD-vO0"/>
                             <constraint firstItem="bBC-Rf-fjp" firstAttribute="top" secondItem="fBK-zg-HWC" secondAttribute="top" id="M6u-V6-339"/>
                             <constraint firstAttribute="trailing" secondItem="bBC-Rf-fjp" secondAttribute="trailing" id="WWR-qb-Nmq"/>
                             <constraint firstItem="bBC-Rf-fjp" firstAttribute="leading" secondItem="fBK-zg-HWC" secondAttribute="leading" id="jzg-dA-Eq2"/>
-                            <constraint firstItem="PpK-TY-XLz" firstAttribute="bottom" secondItem="cbC-eV-v2h" secondAttribute="bottom" constant="20" id="v7l-UX-n58"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lhf-Es-4qX"/>
@@ -601,15 +594,11 @@
             <point key="canvasLocation" x="779.71014492753625" y="387.72321428571428"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="dqj-Ij-jBE"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="Background Home Screeen" width="414" height="736"/>
         <image name="Background Home Screeen – 1" width="414" height="736"/>
         <image name="Group" width="39.666667938232422" height="45.666667938232422"/>
         <image name="Join" width="188" height="133.66667175292969"/>
-        <image name="Return" width="44.666667938232422" height="50"/>
         <image name="Return White" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
         <image name="placeholder" width="300" height="300"/>
