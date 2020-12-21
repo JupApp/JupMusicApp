@@ -7,7 +7,7 @@
 
 import UIKit
 
-class QueueSettingsVC: UITableViewController{
+class QueueSettingsVC: UITableViewController {
 
     @IBOutlet weak var voteQueueSwitch: UISwitch!
     @IBOutlet weak var strictQueueSwitch: UISwitch!
