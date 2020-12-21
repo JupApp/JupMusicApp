@@ -35,15 +35,32 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQA-5Q-stQ">
+                        <rect key="frame" x="313" y="7" width="37" height="37"/>
+                        <state key="normal" image="Up"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="4" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="22v-Y6-KqJ">
+                        <rect key="frame" x="334" y="0.0" width="23" height="18"/>
+                        <color key="backgroundColor" red="0.66133075952529907" green="0.92722964286804199" blue="0.8873748779296875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                        <color key="textColor" red="0.95686274770000002" green="0.98431372640000003" blue="0.97647058959999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="es9-gd-PdC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0WD-rd-H8R"/>
+                    <constraint firstAttribute="trailing" secondItem="cQA-5Q-stQ" secondAttribute="trailing" constant="7" id="541-fc-IFA"/>
                     <constraint firstItem="5PR-jk-DUY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="26" id="5jE-vd-ToM"/>
+                    <constraint firstAttribute="trailing" secondItem="22v-Y6-KqJ" secondAttribute="trailing" id="6DX-7i-fJD"/>
                     <constraint firstItem="es9-gd-PdC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BWM-O8-Qlz"/>
                     <constraint firstAttribute="trailing" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="20" symbolic="YES" id="D7R-xe-ifF"/>
+                    <constraint firstItem="cQA-5Q-stQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="ENv-5G-eMA"/>
                     <constraint firstItem="Fzy-hv-lQN" firstAttribute="leading" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="8" symbolic="YES" id="FvL-Ks-UqZ"/>
+                    <constraint firstAttribute="bottom" secondItem="22v-Y6-KqJ" secondAttribute="bottom" id="R8q-Ji-4Bz"/>
                     <constraint firstAttribute="bottom" secondItem="Fzy-hv-lQN" secondAttribute="bottom" constant="22" id="Xkl-jV-B5t"/>
+                    <constraint firstAttribute="bottom" secondItem="cQA-5Q-stQ" secondAttribute="bottom" constant="7" id="fS5-ch-kJz"/>
+                    <constraint firstItem="22v-Y6-KqJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fqk-0a-PxL"/>
                     <constraint firstAttribute="bottom" secondItem="5PR-jk-DUY" secondAttribute="bottom" constant="9" id="lpw-zK-zc0"/>
                     <constraint firstItem="5PR-jk-DUY" firstAttribute="leading" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="8" symbolic="YES" id="nwH-8P-ZrQ"/>
                     <constraint firstAttribute="bottom" secondItem="es9-gd-PdC" secondAttribute="bottom" id="rE1-72-KQq"/>
@@ -53,8 +70,9 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="LikeButton" destination="cQA-5Q-stQ" id="uEH-Uj-k3L"/>
+                <outlet property="LikeButtonCountLabel" destination="22v-Y6-KqJ" id="hOh-Uq-Wle"/>
                 <outlet property="aristCellName" destination="5PR-jk-DUY" id="8Uj-OU-vef"/>
-                <outlet property="songCellAlbum" destination="es9-gd-PdC" id="qhz-Ah-iKx"/>
                 <outlet property="songCellName" destination="Fzy-hv-lQN" id="Ia6-z9-Lpp"/>
             </connections>
             <point key="canvasLocation" x="163.04347826086959" y="98.772321428571431"/>
@@ -62,5 +80,6 @@
     </objects>
     <resources>
         <image name="TestAlbum" width="325" height="325"/>
+        <image name="Up" width="37" height="37"/>
     </resources>
 </document>
