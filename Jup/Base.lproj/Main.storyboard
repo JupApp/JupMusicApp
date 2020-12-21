@@ -120,11 +120,14 @@
                                                     <rect key="frame" x="20" y="6" width="356" height="33"/>
                                                     <color key="backgroundColor" red="0.83339554069999999" green="0.96477073430000004" blue="0.93704587220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <segments>
-                                                        <segment title="Apple Music" enabled="NO"/>
+                                                        <segment title="Apple Music"/>
                                                         <segment title="Spotify"/>
                                                     </segments>
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <action selector="PlatformChanged:" destination="d8E-AH-NBx" eventType="valueChanged" id="7dG-fh-Dmi"/>
+                                                    </connections>
                                                 </segmentedControl>
                                             </subviews>
                                             <color key="backgroundColor" red="0.89094382520000004" green="0.96477133039999996" blue="0.94491893049999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

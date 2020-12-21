@@ -7,7 +7,7 @@
 
 import UIKit
 
-class QueueSettingsVC: UITableViewController{
+class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
 
     @IBOutlet weak var voteQueueSwitch: UISwitch!
     @IBOutlet weak var strictQueueSwitch: UISwitch!
@@ -20,11 +20,22 @@ class QueueSettingsVC: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameTextField.delegate = self
         // Do any additional setup after loading the view.
         strictQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
         voteQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    //Zachs Attempt to make text field go away with return key
+    func usernameTextFielfShouldReturn(_ usernameTextField: UITextField) -> Bool{
+        self.view.endEditing(true)
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(false)
+    }
+        
     @objc func switchChanged(sender: UISwitch!) {
     
         if !sender.isOn {
