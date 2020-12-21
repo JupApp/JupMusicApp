@@ -16,6 +16,9 @@
 		15DBD889258F9F700068FEB4 /* ParticipantSearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD888258F9F700068FEB4 /* ParticipantSearchDelegate.swift */; };
 		15DBD88E258FA48E0068FEB4 /* HostMPDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD88D258FA48E0068FEB4 /* HostMPDelegate.swift */; };
 		15DBD893258FA49C0068FEB4 /* ParticipantMPDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD892258FA49C0068FEB4 /* ParticipantMPDelegate.swift */; };
+		15DBD898258FB8360068FEB4 /* MediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD897258FB8360068FEB4 /* MediaPlayer.swift */; };
+		15DBD89D259001870068FEB4 /* AMMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD89C259001870068FEB4 /* AMMediaPlayer.swift */; };
+		15DBD8A2259001B60068FEB4 /* SpotifyMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
@@ -60,6 +63,9 @@
 		15DBD888258F9F700068FEB4 /* ParticipantSearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantSearchDelegate.swift; sourceTree = "<group>"; };
 		15DBD88D258FA48E0068FEB4 /* HostMPDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostMPDelegate.swift; sourceTree = "<group>"; };
 		15DBD892258FA49C0068FEB4 /* ParticipantMPDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantMPDelegate.swift; sourceTree = "<group>"; };
+		15DBD897258FB8360068FEB4 /* MediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayer.swift; sourceTree = "<group>"; };
+		15DBD89C259001870068FEB4 /* AMMediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMMediaPlayer.swift; sourceTree = "<group>"; };
+		15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMediaPlayer.swift; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
@@ -114,6 +120,9 @@
 				15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */,
 				15DBD88D258FA48E0068FEB4 /* HostMPDelegate.swift */,
 				15DBD892258FA49C0068FEB4 /* ParticipantMPDelegate.swift */,
+				15DBD897258FB8360068FEB4 /* MediaPlayer.swift */,
+				15DBD89C259001870068FEB4 /* AMMediaPlayer.swift */,
+				15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */,
 			);
 			path = MediaPlayer;
 			sourceTree = "<group>";
@@ -342,9 +351,11 @@
 			files = (
 				B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */,
 				15DBD87F258F9DF40068FEB4 /* SearchDelegate.swift in Sources */,
+				15DBD8A2259001B60068FEB4 /* SpotifyMediaPlayer.swift in Sources */,
 				B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */,
 				15DBD893258FA49C0068FEB4 /* ParticipantMPDelegate.swift in Sources */,
 				B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */,
+				15DBD89D259001870068FEB4 /* AMMediaPlayer.swift in Sources */,
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
 				15DBD88E258FA48E0068FEB4 /* HostMPDelegate.swift in Sources */,
 				15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */,
@@ -357,6 +368,7 @@
 				15DBD87A258F9D990068FEB4 /* BTHostDelegate.swift in Sources */,
 				15DBD889258F9F700068FEB4 /* ParticipantSearchDelegate.swift in Sources */,
 				15DBD86D258F9C460068FEB4 /* BTCommunicationDelegate.swift in Sources */,
+				15DBD898258FB8360068FEB4 /* MediaPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,6 +545,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LT3MWZH387;
 				INFOPLIST_FILE = Jup/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -551,6 +564,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LT3MWZH387;
 				INFOPLIST_FILE = Jup/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

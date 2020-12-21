@@ -348,6 +348,7 @@
                         <outlet property="allowRepeatsSwitch" destination="jxk-OX-PL2" id="ChS-yv-4yz"/>
                         <outlet property="passwordSwitch" destination="owJ-mR-ap5" id="3pv-EJ-aFr"/>
                         <outlet property="passwordTextField" destination="tLP-YR-kv1" id="Eod-SM-Lpi"/>
+                        <outlet property="platformChoiceControl" destination="2VW-Wq-mOi" id="NFv-da-vNE"/>
                         <outlet property="strictQueueSwitch" destination="i7g-8n-xmT" id="PnE-mX-roe"/>
                         <outlet property="usernameTextField" destination="JEs-NW-cJ5" id="lm7-Ly-Tn2"/>
                         <outlet property="voteQueueSwitch" destination="EQE-md-Otg" id="KAN-nN-MKq"/>

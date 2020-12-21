@@ -7,27 +7,29 @@
 import UIKit
 
 class HostMPDelegate: MediaPlayerDelegate {
+    var mediaPlayer: MediaPlayer?
+    
     
     var songTimer: Timer?
     
     func play() {
-        <#code#>
+        
     }
     
     func pause() {
-        <#code#>
+        
     }
     
     func skip() {
-        <#code#>
+        
     }
     
     func addSong() {
-        <#code#>
+        
     }
     
     func likeSong() {
-        <#code#>
+        
     }
     
     func updateQueueWithSnapshot() {

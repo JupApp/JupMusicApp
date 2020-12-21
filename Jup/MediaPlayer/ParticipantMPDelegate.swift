@@ -7,6 +7,8 @@
 import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
+    var mediaPlayer: MediaPlayer?
+    
     
     var songTimer: Timer?
     

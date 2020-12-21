@@ -4,9 +4,13 @@
 //
 //  Created by Nick Venanzi on 12/20/20.
 //
-import MediaPlayer
+import UIKit
 
 protocol MediaPlayerDelegate {
+    
+    var songTimer: Timer? { get }
+    var mediaPlayer: MediaPlayer? { get }
+    
     func play()
     
     func pause()
