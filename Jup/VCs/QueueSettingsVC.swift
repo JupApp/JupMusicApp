@@ -7,7 +7,7 @@
 
 import UIKit
 
-class QueueSettingsVC: UITableViewController {
+class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
 
     @IBOutlet weak var voteQueueSwitch: UISwitch!
     @IBOutlet weak var strictQueueSwitch: UISwitch!
@@ -16,15 +16,62 @@ class QueueSettingsVC: UITableViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     
+    enum Platform {
+        case APPLE_MUSIC
+        case SPOTIFY
+        
+        mutating func toggle() {
+            if self == .APPLE_MUSIC {
+                self = .SPOTIFY
+            } else {
+                self = .APPLE_MUSIC
+            }
+        }
+        
+        func printPlatform() {
+            if self == .APPLE_MUSIC {
+                print("Current platform: Apple Music")
+            } else {
+                print("Current platform: Spotify")
+            }
+        }
+    }
+    
+    var platform: Platform = .APPLE_MUSIC
+    
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameTextField.delegate = self
         // Do any additional setup after loading the view.
         strictQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
         voteQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        //Code to make segmented text field text color black
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
+        
+        platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
+        
     }
     
+    @objc func choiceControlSwitched(sender: UISegmentedControl) {
+        platform.toggle()
+        platform.printPlatform()
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(false)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+        
     @objc func switchChanged(sender: UISwitch!) {
     
         if !sender.isOn {
