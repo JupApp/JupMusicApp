@@ -21,7 +21,16 @@ class ParticipantSettingsVC: UIViewController {
     }
     
     @objc func connectToSpotify(_ sender: UIButton) {
-        print("Poop")
+        let storage = UserDefaults.standard
+        
+        if let name = storage.string(forKey: "Name") {
+            if name == "Garbage" {
+                sender.setTitle("POOP", for: .normal)
+            }
+        } else {
+            print("Unsuccessful retrieval, setting name now...")
+            storage.set("Garbage", forKey: "Name")
+        }
     }
     
 }
