@@ -21,16 +21,15 @@ class ParticipantSettingsVC: UIViewController {
     }
     
     @objc func connectToSpotify(_ sender: UIButton) {
-        let storage = UserDefaults.standard
         
-        if let name = storage.string(forKey: "Name") {
-            if name == "Garbage" {
-                sender.setTitle("POOP", for: .normal)
-            }
-        } else {
-            print("Unsuccessful retrieval, setting name now...")
-            storage.set("Garbage", forKey: "Name")
-        }
+        let requestedScopes: SPTScope = [.appRemoteControl, .userReadRecentlyPlayed, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative, .userLibraryRead]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.sessionManager.initiateSession(with: requestedScopes, options: .default)
+        
     }
+
     
+
+    
+
 }
