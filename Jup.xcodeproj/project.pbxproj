@@ -19,6 +19,7 @@
 		15DBD898258FB8360068FEB4 /* MediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD897258FB8360068FEB4 /* MediaPlayer.swift */; };
 		15DBD89D259001870068FEB4 /* AMMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD89C259001870068FEB4 /* AMMediaPlayer.swift */; };
 		15DBD8A2259001B60068FEB4 /* SpotifyMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */; };
+		15DBD8AD259423400068FEB4 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15DBD8AC259423400068FEB4 /* SpotifyiOS.framework */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
@@ -66,6 +67,8 @@
 		15DBD897258FB8360068FEB4 /* MediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayer.swift; sourceTree = "<group>"; };
 		15DBD89C259001870068FEB4 /* AMMediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMMediaPlayer.swift; sourceTree = "<group>"; };
 		15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMediaPlayer.swift; sourceTree = "<group>"; };
+		15DBD8AC259423400068FEB4 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
+		15DBD8B4259428010068FEB4 /* Jup-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jup-Bridging-Header.h"; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15DBD8AD259423400068FEB4 /* SpotifyiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +154,9 @@
 		B67051E22571F41900E4077C = {
 			isa = PBXGroup;
 			children = (
+				15DBD8B4259428010068FEB4 /* Jup-Bridging-Header.h */,
 				B67051ED2571F41900E4077C /* Jup */,
+				15DBD8AC259423400068FEB4 /* SpotifyiOS.framework */,
 				B67052042571F41C00E4077C /* JupTests */,
 				B670520F2571F41C00E4077C /* JupUITests */,
 				B67051EC2571F41900E4077C /* Products */,
@@ -546,13 +552,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LT3MWZH387;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Jup/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = Venanzi.Jup;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Jup-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -565,13 +577,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LT3MWZH387;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Jup/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = Venanzi.Jup;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Jup-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
