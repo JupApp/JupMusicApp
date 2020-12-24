@@ -18,7 +18,7 @@ class AMMediaPlayer: MediaPlayer {
         
     }
     
-    func setUpNextSong() {
+    func transitionNextSong() {
         
     }
     
