@@ -13,7 +13,7 @@ protocol MediaPlayer {
     
     func skip()
     
-    func setUpNextSong()
+    func transitionNextSong()
     
     func loadEntireQueue()
 }

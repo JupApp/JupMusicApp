@@ -18,7 +18,7 @@ class SpotifyMediaPlayer: MediaPlayer {
         
     }
     
-    func setUpNextSong() {
+    func transitionNextSong() {
         
     }
     
