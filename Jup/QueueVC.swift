@@ -17,6 +17,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     @IBOutlet weak var nowPlayingArtist: UILabel!
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
     @IBOutlet weak var queueTable: UITableView!
+    @IBOutlet weak var leaveQueueButton: UIButton!
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
@@ -28,6 +29,16 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         queueTable.register(nib, forCellReuseIdentifier: "SongCell")
         queueTable.delegate = self
         queueTable.dataSource = self
+        
+        //Zachs Alert Attempt
+        let leaveQueueAlert = UIAlertController(title: "Leave the Queue", message: nil, preferredStyle: .alert)
+        leaveQueueAlert.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: nil))
+        leaveQueueAlert.addAction(UIAlertAction(title: "Stay", style: .cancel, handler: nil))
+    
+    
+       
+        }
+
     }
     
     
@@ -43,7 +54,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         return SongCell
     }
         
-}
+
 
 
 

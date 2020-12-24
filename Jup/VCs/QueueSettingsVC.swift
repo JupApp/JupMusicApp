@@ -15,7 +15,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var passwordSwitch: UISwitch!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
-    
+
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
     override func viewDidLoad() {
@@ -30,6 +30,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         //Code to make segmented text field text color black
         let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
+        
     }
     //Zachs Attempt to make text field go away with return key
     func usernameTextFielfShouldReturn(_ textField: UITextField) -> Bool{

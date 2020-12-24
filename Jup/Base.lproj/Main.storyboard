@@ -413,9 +413,6 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
                                                             <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="50"/>
                                                             <state key="normal" image="Return White"/>
-                                                            <connections>
-                                                                <segue destination="BYZ-38-t0r" kind="presentation" animates="NO" modalPresentationStyle="fullScreen" id="bbc-SO-zmL"/>
-                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
                                                             <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="50"/>
@@ -475,6 +472,7 @@
                     <navigationItem key="navigationItem" id="vMW-J8-VZa"/>
                     <connections>
                         <outlet property="albumBackground" destination="ZGk-Oz-p3n" id="L7l-0W-YdW"/>
+                        <outlet property="leaveQueueButton" destination="fJ2-rY-4F5" id="kHX-jZ-H5e"/>
                         <outlet property="nowPlayingAlbum" destination="foI-Tk-QUo" id="UFi-Su-75L"/>
                         <outlet property="nowPlayingArtist" destination="dGW-Xq-HLz" id="tXc-3d-cOX"/>
                         <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
