@@ -20,6 +20,7 @@
 		15DBD89D259001870068FEB4 /* AMMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD89C259001870068FEB4 /* AMMediaPlayer.swift */; };
 		15DBD8A2259001B60068FEB4 /* SpotifyMediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */; };
 		15DBD8AD259423400068FEB4 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15DBD8AC259423400068FEB4 /* SpotifyiOS.framework */; };
+		15DBD8BC25951F8A0068FEB4 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8BB25951F8A0068FEB4 /* Platform.swift */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
@@ -69,6 +70,7 @@
 		15DBD8A1259001B60068FEB4 /* SpotifyMediaPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMediaPlayer.swift; sourceTree = "<group>"; };
 		15DBD8AC259423400068FEB4 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		15DBD8B4259428010068FEB4 /* Jup-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jup-Bridging-Header.h"; sourceTree = "<group>"; };
+		15DBD8BB25951F8A0068FEB4 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				15DBD86B258F99C70068FEB4 /* BlueToothCommunication */,
 				15DBD86A258F99B80068FEB4 /* Search */,
 				15DBD865258F99950068FEB4 /* MediaPlayer */,
+				15DBD8BB25951F8A0068FEB4 /* Platform.swift */,
 			);
 			path = Jup;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15DBD8BC25951F8A0068FEB4 /* Platform.swift in Sources */,
 				B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */,
 				15DBD87F258F9DF40068FEB4 /* SearchDelegate.swift in Sources */,
 				15DBD8A2259001B60068FEB4 /* SpotifyMediaPlayer.swift in Sources */,

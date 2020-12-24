@@ -16,26 +16,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
 
-    enum Platform {
-        case APPLE_MUSIC
-        case SPOTIFY
-        
-        mutating func toggle() {
-            if self == .APPLE_MUSIC {
-                self = .SPOTIFY
-            } else {
-                self = .APPLE_MUSIC
-            }
-        }
-        
-        func printPlatform() {
-            if self == .APPLE_MUSIC {
-                print("Current platform: Apple Music")
-            } else {
-                print("Current platform: Spotify")
-            }
-        }
-    }
     
     var platform: Platform = .APPLE_MUSIC
     

@@ -24,8 +24,9 @@ class ParticipantSettingsVC: UIViewController {
         
         let requestedScopes: SPTScope = [.appRemoteControl, .userReadRecentlyPlayed, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative, .userLibraryRead]
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.sessionManager.initiateSession(with: requestedScopes, options: .default)
-        
+        if appDelegate.sessionManager.session?.isExpired == true {
+            appDelegate.sessionManager.initiateSession(with: requestedScopes, options: .default)
+        }
     }
 
     
