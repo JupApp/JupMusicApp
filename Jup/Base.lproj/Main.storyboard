@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,7 +29,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6EJ-pa-bXZ">
                                         <rect key="frame" x="0.0" y="409" width="414" height="409"/>
                                         <connections>
-                                            <segue destination="1IT-YM-SUP" kind="show" id="BjS-4K-4CT"/>
+                                            <segue destination="1IT-YM-SUP" kind="show" id="Obq-H1-cQa"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -125,10 +126,7 @@
                                                         <segment title="Spotify"/>
                                                     </segments>
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="selectedSegmentTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <connections>
-                                                        <action selector="PlatformChanged:" destination="d8E-AH-NBx" eventType="valueChanged" id="7dG-fh-Dmi"/>
-                                                    </connections>
+                                                    <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </segmentedControl>
                                             </subviews>
                                             <color key="backgroundColor" red="0.89094382520000004" green="0.96477133039999996" blue="0.94491893049999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -560,10 +558,10 @@
             </objects>
             <point key="canvasLocation" x="2369.5652173913045" y="-286.60714285714283"/>
         </scene>
-        <!--PoopVC-->
+        <!--Participant SettingsVC-->
         <scene sceneID="e9A-TU-ic6">
             <objects>
-                <viewController id="1IT-YM-SUP" customClass="PoopVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1IT-YM-SUP" customClass="ParticipantSettingsVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fBK-zg-HWC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -575,6 +573,14 @@
                                 <rect key="frame" x="120" y="174" width="188" height="134"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bP-uT-u33">
+                                <rect key="frame" x="143" y="433" width="145" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <state key="normal" title="Connect to Spotify">
+                                    <color key="titleColor" systemColor="systemGreenColor"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PpK-TY-XLz"/>
                         <color key="backgroundColor" red="0.66941320896148682" green="0.91683816909790039" blue="0.92838412523269653" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -586,6 +592,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lhf-Es-4qX"/>
+                    <connections>
+                        <outlet property="connectToSpotifyButton" destination="8bP-uT-u33" id="VjQ-26-3m4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Roa-lE-6EY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -600,8 +609,14 @@
         <image name="Return White" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
         <image name="placeholder" width="300" height="300"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

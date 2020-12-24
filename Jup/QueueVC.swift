@@ -10,6 +10,7 @@ import UIKit
 class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     
+    
     @IBOutlet weak var albumBackground: UIImageView!
     
     @IBOutlet weak var nowPlayingAlbum: UIImageView!
@@ -35,10 +36,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         leaveQueueAlert.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: nil))
         leaveQueueAlert.addAction(UIAlertAction(title: "Stay", style: .cancel, handler: nil))
     
-    
-       
-        }
-
     }
     
     
@@ -58,3 +55,4 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
 
 
+}

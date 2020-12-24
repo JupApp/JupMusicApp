@@ -16,6 +16,29 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
 
+    enum Platform {
+        case APPLE_MUSIC
+        case SPOTIFY
+        
+        mutating func toggle() {
+            if self == .APPLE_MUSIC {
+                self = .SPOTIFY
+            } else {
+                self = .APPLE_MUSIC
+            }
+        }
+        
+        func printPlatform() {
+            if self == .APPLE_MUSIC {
+                print("Current platform: Apple Music")
+            } else {
+                print("Current platform: Spotify")
+            }
+        }
+    }
+    
+    var platform: Platform = .APPLE_MUSIC
+    
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
     override func viewDidLoad() {
@@ -31,14 +54,23 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
         
+
+        platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
+        
     }
-    //Zachs Attempt to make text field go away with return key
-    func usernameTextFielfShouldReturn(_ textField: UITextField) -> Bool{
-        self.view.endEditing(true)
+    
+    @objc func choiceControlSwitched(sender: UISegmentedControl) {
+        platform.toggle()
+        platform.printPlatform()
     }
     
     @objc func dismissKeyboard() {
         view.endEditing(false)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
         
     @objc func switchChanged(sender: UISwitch!) {
