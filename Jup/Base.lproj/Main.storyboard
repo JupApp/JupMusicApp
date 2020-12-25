@@ -509,8 +509,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="QqK-7T-acy">
-                                <rect key="frame" x="55" y="56" width="282" height="48"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="QqK-7T-acy">
+                                <rect key="frame" x="66" y="56" width="282" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="toc-jt-MGO">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="48"/>
@@ -527,6 +527,10 @@
                                         </state>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="toc-jt-MGO" firstAttribute="top" secondItem="QqK-7T-acy" secondAttribute="top" id="bO2-Qh-a6b"/>
+                                    <constraint firstItem="toc-jt-MGO" firstAttribute="centerX" secondItem="QqK-7T-acy" secondAttribute="centerX" id="r2s-Y1-yGV"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8U9-TZ-H1G"/>
@@ -537,6 +541,7 @@
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="rEM-u1-xpZ" secondAttribute="trailing" id="XWF-SK-UvM"/>
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="bottom" secondItem="tqf-Qu-4Lt" secondAttribute="bottom" id="btD-Jb-U5L"/>
                             <constraint firstItem="rEM-u1-xpZ" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" id="ner-Lz-c1c"/>
+                            <constraint firstItem="QqK-7T-acy" firstAttribute="centerX" secondItem="qda-sB-21p" secondAttribute="centerX" id="tx4-y2-Llc"/>
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="tqf-Qu-4Lt" secondAttribute="trailing" constant="30" id="vP9-5M-XIN"/>
                         </constraints>
                     </view>
