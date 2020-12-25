@@ -13,7 +13,7 @@ protocol MediaPlayer {
     
     func skip()
     
-    func transitionNextSong()
-    
-    func loadEntireQueue()
+    func transitionNextSong(_ songItem: SongItem, completionHandler: @escaping (Error?) -> ())
+
+    func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ())
 }

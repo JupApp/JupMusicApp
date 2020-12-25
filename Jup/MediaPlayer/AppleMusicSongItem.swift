@@ -1,0 +1,51 @@
+//
+//  AppleMusicSongItem.swift
+//  Jup
+//
+//  Created by Nick Venanzi on 12/25/20.
+//
+
+
+
+class AppleMusicSongItem: SongItem {
+
+    var uri: String
+    var artistName: String
+    var songTitle: String
+    var albumURL: String
+    var songLength: UInt
+    
+    var albumArtwork: UIImage?
+    
+    init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
+        uri = id
+        artistName = artist
+        songTitle = song
+        self.albumURL = albumURL
+        songLength = length
+    }
+    
+    func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
+        if let artwork = albumArtwork {
+            completionHandler(artwork)
+            return
+        }
+        guard let url: URL = URL(string: albumURL) else {
+            completionHandler(UIImage())
+            return
+        }
+        let request = URLRequest(url: url)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let data = data else { completionHandler(UIImage()); return }
+            DispatchQueue.main.async {
+                self.albumArtwork = UIImage(data: data)
+                completionHandler(self.albumArtwork ?? UIImage())
+            }
+        }
+        task.resume()
+    }
+    
+    
+    
+}

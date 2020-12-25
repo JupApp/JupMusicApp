@@ -18,11 +18,11 @@ class AppleMusicMediaPlayer: MediaPlayer {
         
     }
     
-    func transitionNextSong() {
-        
+    func transitionNextSong(_ songItem: SongItem, completionHandler: @escaping (Error?) -> ()) {
+
     }
     
-    func loadEntireQueue() {
+    func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ()) {
         
     }
     

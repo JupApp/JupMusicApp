@@ -1,0 +1,21 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Jup' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Jup
+
+  target 'JupTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'JupUITests' do
+    # Pods for testing
+  end
+
+pod 'SideMenu'
+
+end
