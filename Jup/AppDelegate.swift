@@ -8,8 +8,7 @@
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate {
-    
+class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -67,6 +66,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
       let manager = SPTSessionManager(configuration: self.configuration, delegate: self)
       return manager
     }()
+    
+    func connectToSpotify() {
+        let requestedScopes: SPTScope = [.appRemoteControl, .userReadRecentlyPlayed, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative, .userLibraryRead]
+        if sessionManager.session?.isExpired == true {
+            sessionManager.initiateSession(with: requestedScopes, options: .default)
+        }
+    }
+    
+    // ########### SPOTIFY APP REMOTE SETUP BELOW ##################
+    
+    lazy var appRemote: SPTAppRemote = {
+      let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .debug)
+        appRemote.connectionParameters.accessToken = sessionManager.session?.accessToken
+      appRemote.delegate = self
+      return appRemote
+    }()
+    
+    func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
+        print("connected to spotify app")
+    }
+    
+    func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        print("failed to connect to spotify app")
+    }
+    
+    func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
+        print("disconnected from spotify app")
+
+    }
+    
+    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+        print("spotify app state changed")
+
+    }
+    
+    func connectSpotifyAppRemote() {
+      self.appRemote.authorizeAndPlayURI("")
+    }
     
     
 }

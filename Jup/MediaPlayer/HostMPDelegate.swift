@@ -32,10 +32,37 @@ class HostMPDelegate: MediaPlayerDelegate {
             if !AMAccess {
                 return nil
             }
-            
             mediaPlayer = AppleMusicMediaPlayer()
-        } else if platform == .SPOTIFY {
             
+        } else if platform == .SPOTIFY {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.connectToSpotify()
+            guard let expired = appDelegate.sessionManager.session?.isExpired else {
+                return nil
+            }
+            if expired {
+                return nil
+            }
+            
+            appDelegate.connectSpotifyAppRemote()
+            if !appDelegate.appRemote.isConnected {
+                return nil
+            }
+            
+            var hasPremium: Bool = false
+            appDelegate.appRemote.userAPI?.fetchCapabilities(callback: { (result, error) in
+                guard let capability = result as? SPTAppRemoteUserCapabilities else {
+                    return
+                }
+                if capability.canPlayOnDemand {
+                    hasPremium = true
+                }
+            })
+            if !hasPremium { return nil }
+            guard let player = appDelegate.appRemote.playerAPI else {
+                return nil
+            }
+            mediaPlayer = SpotifyMediaPlayer(player)
         }
     }
     

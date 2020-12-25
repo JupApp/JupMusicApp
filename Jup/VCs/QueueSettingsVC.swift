@@ -16,6 +16,12 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
 
+    @IBSegueAction func segueToQueue(_ coder: NSCoder) -> QueueVC? {
+        let queueVC = QueueVC(coder: coder)
+        queueVC?.isHost = true
+        queueVC?.platform = platform
+        return queueVC
+    }
     
     var platform: Platform = .APPLE_MUSIC
     

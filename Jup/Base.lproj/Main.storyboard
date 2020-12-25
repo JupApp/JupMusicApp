@@ -324,7 +324,7 @@
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="TfO-Ke-MaO" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="rwm-nm-gu5"/>
+                                                        <segue destination="TfO-Ke-MaO" kind="presentation" destinationCreationSelector="segueToQueue:" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="rwm-nm-gu5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -416,7 +416,7 @@
                                                             <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="50"/>
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
-                                                                <segue destination="DUb-Gg-gF2" kind="popoverPresentation" destinationCreationSelector="queueSearchSeque:" popoverAnchorView="3Db-Q6-aVt" id="ehq-al-aAf">
+                                                                <segue destination="DUb-Gg-gF2" kind="popoverPresentation" destinationCreationSelector="segueToSearchVC:" popoverAnchorView="3Db-Q6-aVt" id="ehq-al-aAf">
                                                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                                                 </segue>
                                                             </connections>

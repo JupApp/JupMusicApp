@@ -22,9 +22,23 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
+    var isHost: Bool = false
+    var platform: Platform = .APPLE_MUSIC
   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if isHost {
+            mpDelegate = HostMPDelegate(platform)
+            if mpDelegate == nil {
+                print("Failed to authorize to \(platform) platform, QueueVC will be idle")
+            }
+            btDelegate = BTHostDelegate()
+        } else {
+            mpDelegate = ParticipantMPDelegate()
+            btDelegate = BTParticipantDelegate()
+        }
+        
         
         let nib = UINib(nibName: "SongCell", bundle: nil)
         queueTable.register(nib, forCellReuseIdentifier: "SongCell")
@@ -39,6 +53,12 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     }
     
     
+    @IBSegueAction func segueToSearchVC(_ coder: NSCoder) -> SearchVC? {
+        let searchVC = SearchVC(coder: coder)
+        searchVC?.platform = platform
+        searchVC?.isHost = isHost
+        return searchVC
+    }
     //FIX!!!!!!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1

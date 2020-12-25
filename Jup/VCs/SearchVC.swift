@@ -15,6 +15,8 @@ class SearchVC: UIViewController{
     @IBOutlet weak var musicSearchBar: UISearchBar!
        
     var searchDelegate: SearchDelegate!
+    var platform: Platform = .APPLE_MUSIC
+    var isHost: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
