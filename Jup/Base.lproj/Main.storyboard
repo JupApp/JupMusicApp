@@ -3,7 +3,6 @@
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -509,7 +508,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="QqK-7T-acy">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="QqK-7T-acy">
                                 <rect key="frame" x="66" y="56" width="282" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="toc-jt-MGO">
@@ -527,15 +526,12 @@
                                         </state>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="toc-jt-MGO" firstAttribute="top" secondItem="QqK-7T-acy" secondAttribute="top" id="bO2-Qh-a6b"/>
-                                    <constraint firstItem="toc-jt-MGO" firstAttribute="centerX" secondItem="QqK-7T-acy" secondAttribute="centerX" id="r2s-Y1-yGV"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8U9-TZ-H1G"/>
                         <color key="backgroundColor" red="0.91162312030000003" green="0.96084374189999999" blue="0.94886618850000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="QqK-7T-acy" firstAttribute="top" secondItem="rEM-u1-xpZ" secondAttribute="bottom" id="FUK-sE-dWw"/>
                             <constraint firstItem="tqf-Qu-4Lt" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="30" id="PEt-jL-mtu"/>
                             <constraint firstItem="rEM-u1-xpZ" firstAttribute="top" secondItem="8U9-TZ-H1G" secondAttribute="top" id="WMD-jZ-NGa"/>
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="rEM-u1-xpZ" secondAttribute="trailing" id="XWF-SK-UvM"/>
@@ -567,31 +563,42 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="Background Home Screeen – 1" translatesAutoresizingMaskIntoConstraints="NO" id="bBC-Rf-fjp">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Join" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-x0-E9T">
-                                <rect key="frame" x="120" y="174" width="188" height="134"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Join" translatesAutoresizingMaskIntoConstraints="NO" id="T9B-x0-E9T">
+                                <rect key="frame" x="120" y="180.33333333333334" width="188" height="134.00000000000003"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bP-uT-u33">
-                                <rect key="frame" x="143" y="433" width="145" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" name="AccentColor"/>
-                                <state key="normal" title="Connect to Spotify">
-                                    <color key="titleColor" systemColor="systemGreenColor"/>
-                                </state>
-                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DQD-Qe-usZ">
+                                <rect key="frame" x="40" y="322.33333333333326" width="334" height="45.666666666666686"/>
+                                <color key="backgroundColor" red="0.9098039269" green="0.96078431610000004" blue="0.9529411793" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartInsertDeleteType="no" smartQuotesType="no"/>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UPR-dr-2H7">
+                                <rect key="frame" x="30" y="403" width="354" height="128"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PpK-TY-XLz"/>
                         <color key="backgroundColor" red="0.66941320896148682" green="0.91683816909790039" blue="0.92838412523269653" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="PpK-TY-XLz" firstAttribute="bottom" secondItem="UPR-dr-2H7" secondAttribute="bottom" constant="20" id="2H2-Rh-6cz"/>
+                            <constraint firstItem="UPR-dr-2H7" firstAttribute="centerX" secondItem="fBK-zg-HWC" secondAttribute="centerX" id="4JR-85-804"/>
+                            <constraint firstItem="UPR-dr-2H7" firstAttribute="top" secondItem="DQD-Qe-usZ" secondAttribute="bottom" constant="10" id="84Z-a1-JH7"/>
+                            <constraint firstItem="DQD-Qe-usZ" firstAttribute="leading" secondItem="PpK-TY-XLz" secondAttribute="leading" constant="40" id="Evt-tM-emu"/>
+                            <constraint firstItem="PpK-TY-XLz" firstAttribute="trailing" secondItem="DQD-Qe-usZ" secondAttribute="trailing" constant="40" id="Hxb-mH-EQQ"/>
                             <constraint firstAttribute="bottom" secondItem="bBC-Rf-fjp" secondAttribute="bottom" id="IqB-MD-vO0"/>
                             <constraint firstItem="bBC-Rf-fjp" firstAttribute="top" secondItem="fBK-zg-HWC" secondAttribute="top" id="M6u-V6-339"/>
+                            <constraint firstItem="PpK-TY-XLz" firstAttribute="trailing" secondItem="UPR-dr-2H7" secondAttribute="trailing" constant="30" id="Pei-FK-zA7"/>
                             <constraint firstAttribute="trailing" secondItem="bBC-Rf-fjp" secondAttribute="trailing" id="WWR-qb-Nmq"/>
+                            <constraint firstItem="UPR-dr-2H7" firstAttribute="leading" secondItem="PpK-TY-XLz" secondAttribute="leading" constant="30" id="Xnp-3y-rxZ"/>
+                            <constraint firstItem="DQD-Qe-usZ" firstAttribute="top" secondItem="T9B-x0-E9T" secondAttribute="bottom" constant="8" symbolic="YES" id="iv1-XS-tIu"/>
                             <constraint firstItem="bBC-Rf-fjp" firstAttribute="leading" secondItem="fBK-zg-HWC" secondAttribute="leading" id="jzg-dA-Eq2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lhf-Es-4qX"/>
                     <connections>
-                        <outlet property="connectToSpotifyButton" destination="8bP-uT-u33" id="VjQ-26-3m4"/>
+                        <outlet property="joinableQueuesTable" destination="UPR-dr-2H7" id="x9j-5L-4jZ"/>
+                        <outlet property="usernameTextField" destination="DQD-Qe-usZ" id="1KS-2M-Kad"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Roa-lE-6EY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -607,14 +614,8 @@
         <image name="Return White" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
         <image name="placeholder" width="300" height="300"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

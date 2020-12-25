@@ -8,13 +8,16 @@
 import UIKit
 
 class ParticipantSettingsVC: UIViewController {
-    
-    var tableView: UITableView!
-   
+        
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var joinableQueuesTable: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
     }
+    
+ 
 
     
 
