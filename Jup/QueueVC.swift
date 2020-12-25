@@ -12,7 +12,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     
     @IBOutlet weak var albumBackground: UIImageView!
-    
     @IBOutlet weak var nowPlayingAlbum: UIImageView!
     @IBOutlet weak var nowPlayingTitle: UILabel!
     @IBOutlet weak var nowPlayingArtist: UILabel!

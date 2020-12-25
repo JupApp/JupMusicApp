@@ -24,6 +24,8 @@
 		15DBD8C425957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 15DBD8C325957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
+		8695CCCB25958FAE006021DA /* joinableQueueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8695CCC925958FAE006021DA /* joinableQueueCell.swift */; };
+		8695CCCC25958FAE006021DA /* joinableQueueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8695CCCA25958FAE006021DA /* joinableQueueCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
 		B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66EF181258AAEC600E21B4D /* SongCell.xib */; };
 		B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051EE2571F41900E4077C /* AppDelegate.swift */; };
@@ -75,6 +77,8 @@
 		15DBD8C325957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_5CWA2J2HGK.p8; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
+		8695CCC925958FAE006021DA /* joinableQueueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = joinableQueueCell.swift; sourceTree = "<group>"; };
+		8695CCCA25958FAE006021DA /* joinableQueueCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = joinableQueueCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		B66EF181258AAEC600E21B4D /* SongCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SongCell.xib; sourceTree = "<group>"; };
 		B67051EB2571F41900E4077C /* Jup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +194,8 @@
 				B670523A2571F88F00E4077C /* VCs */,
 				866A92AD258EEFC5000BD69D /* SearchCell.swift */,
 				866A92AE258EEFC5000BD69D /* SearchCell.xib */,
+				8695CCC925958FAE006021DA /* joinableQueueCell.swift */,
+				8695CCCA25958FAE006021DA /* joinableQueueCell.xib */,
 				B66EF180258AAEC600E21B4D /* SongCell.swift */,
 				B66EF181258AAEC600E21B4D /* SongCell.xib */,
 				15DBD86B258F99C70068FEB4 /* BlueToothCommunication */,
@@ -337,6 +343,7 @@
 				B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */,
 				B67051F62571F41900E4077C /* Main.storyboard in Resources */,
 				B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */,
+				8695CCCC25958FAE006021DA /* joinableQueueCell.xib in Resources */,
 				15DBD8C425957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,6 +380,7 @@
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
 				15DBD88E258FA48E0068FEB4 /* HostMPDelegate.swift in Sources */,
 				15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */,
+				8695CCCB25958FAE006021DA /* joinableQueueCell.swift in Sources */,
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
 				15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,

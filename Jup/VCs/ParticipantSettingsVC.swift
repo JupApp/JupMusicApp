@@ -13,9 +13,11 @@ class ParticipantSettingsVC: UIViewController {
    
     @IBOutlet weak var connectToSpotifyButton: UIButton!
     
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var joinableQueuesTable: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         connectToSpotifyButton.addTarget(self, action: #selector(connectToSpotify(_:)), for: .touchUpInside)
         
     }
