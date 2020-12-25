@@ -9,9 +9,9 @@ import UIKit
 
 class SearchVC: UIViewController{
     
-    @IBOutlet weak var SpotifyLibraryButton: UIButton!
-    @IBOutlet weak var AppleMusicLibraryButton: UIButton!
-    @IBOutlet weak var SearhTableView: UITableView!
+    @IBOutlet weak var spotifyLibraryButton: UIButton!
+    @IBOutlet weak var appleMusicLibraryButton: UIButton!
+    @IBOutlet weak var searhTableView: UITableView!
     @IBOutlet weak var musicSearchBar: UISearchBar!
        
     var searchDelegate: SearchDelegate!
@@ -21,7 +21,8 @@ class SearchVC: UIViewController{
         
         //This makes the keyboard show up immediately after seque
         musicSearchBar.becomeFirstResponder()
-        
+        searchDelegate = SearchDelegate()
+        searchDelegate.searchAMLibrary()
     }
 
 }

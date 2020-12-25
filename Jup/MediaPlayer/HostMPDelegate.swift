@@ -33,7 +33,9 @@ class HostMPDelegate: MediaPlayerDelegate {
                 return nil
             }
             
-            mediaPlayer = AMMediaPlayer()
+            mediaPlayer = AppleMusicMediaPlayer()
+        } else if platform == .SPOTIFY {
+            
         }
     }
     

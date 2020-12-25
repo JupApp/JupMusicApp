@@ -5,7 +5,7 @@
 //  Created by Nick Venanzi on 12/20/20.
 //
 
-class AMMediaPlayer: MediaPlayer {
+class AppleMusicMediaPlayer: MediaPlayer {
     func play() {
         
     }
