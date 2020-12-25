@@ -39,14 +39,11 @@ class SearchDelegate {
     
     func getAMAuthorizationKey() -> String? {
         do {
-            
             guard let path = Bundle.main.path(forResource: "AuthKey_5CWA2J2HGK", ofType: ".p8") else {
                 return nil
             }
             let fileURL = URL(fileURLWithPath: path);
-            
             let data = try Data(contentsOf: fileURL)
-            
             guard let key = String(data: data, encoding: .utf8) else {
                 print("Failed to convert data to string")
                 return nil
@@ -54,7 +51,6 @@ class SearchDelegate {
             return key
         }
         catch {
-            print("Error: \(error)")
             return nil
         }
     }
