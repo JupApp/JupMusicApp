@@ -4,7 +4,7 @@
 //
 //  Created by Zach Venanzi on 12/6/20.
 //
-
+import SideMenu
 import UIKit
 
 class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
@@ -23,6 +23,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
+    var participantMenu: SideMenuNavigationController
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,12 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         let leaveQueueAlert = UIAlertController(title: "Leave the Queue", message: nil, preferredStyle: .alert)
         leaveQueueAlert.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: nil))
         leaveQueueAlert.addAction(UIAlertAction(title: "Stay", style: .cancel, handler: nil))
+        
+        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
     
+    }
+    @IBAction func participantMenuTapped(){
+        present(participantMenu!, animated: true)
     }
     
     

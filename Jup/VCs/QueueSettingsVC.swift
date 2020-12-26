@@ -4,7 +4,6 @@
 //
 //  Created by Zach Venanzi on 12/11/20.
 //
-
 import UIKit
 
 class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
@@ -40,10 +39,9 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
         
-
         platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
-        
     }
+    
     
     @objc func choiceControlSwitched(sender: UISegmentedControl) {
         platform.toggle()

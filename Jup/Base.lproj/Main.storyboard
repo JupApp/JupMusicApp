@@ -410,6 +410,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
                                                             <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="50"/>
                                                             <state key="normal" image="Return White"/>
+                                                            <connections>
+                                                                <action selector="participantMenuTapped" destination="TfO-Ke-MaO" eventType="touchDown" id="6Yp-V8-y4L"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
                                                             <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="50"/>
