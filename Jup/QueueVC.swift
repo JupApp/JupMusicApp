@@ -54,7 +54,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     }
     @IBAction func participantMenuTapped(){
-        present(participantMenu!, animated: true)
+        present(participantMenu, animated: true)
     }
     
     

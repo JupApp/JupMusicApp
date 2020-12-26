@@ -40,7 +40,7 @@
                         <rect key="frame" x="313" y="7" width="37" height="37"/>
                         <state key="normal" image="Up"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="100" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22v-Y6-KqJ">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="10" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22v-Y6-KqJ">
                         <rect key="frame" x="334" y="0.0" width="23" height="18"/>
                         <color key="backgroundColor" systemColor="systemRedColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="37"/>
@@ -70,12 +70,6 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-            <connections>
-                <outlet property="LikeButton" destination="cQA-5Q-stQ" id="uEH-Uj-k3L"/>
-                <outlet property="LikeButtonCountLabel" destination="22v-Y6-KqJ" id="hOh-Uq-Wle"/>
-                <outlet property="aristCellName" destination="5PR-jk-DUY" id="8Uj-OU-vef"/>
-                <outlet property="songCellName" destination="Fzy-hv-lQN" id="Ia6-z9-Lpp"/>
-            </connections>
             <point key="canvasLocation" x="163.04347826086959" y="98.772321428571431"/>
         </tableViewCell>
     </objects>
