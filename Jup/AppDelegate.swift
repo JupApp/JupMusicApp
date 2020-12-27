@@ -69,8 +69,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func connectToSpotify() {
         let requestedScopes: SPTScope = [.appRemoteControl, .userReadRecentlyPlayed, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative, .userLibraryRead]
-        if sessionManager.session?.isExpired == true {
+        guard let session = sessionManager.session else {
             sessionManager.initiateSession(with: requestedScopes, options: .default)
+            return
+        }
+        if session.isExpired == true {
+            sessionManager.renewSession()
         }
     }
     

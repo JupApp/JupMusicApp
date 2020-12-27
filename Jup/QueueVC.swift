@@ -7,7 +7,7 @@
 import SideMenu
 import UIKit
 
-class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
     
@@ -23,11 +23,12 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var participantMenu: SideMenuNavigationController
+    var participantMenu: SideMenuNavigationController?
   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        participantMenu = SideMenuNavigationController(rootViewController: self)
         if isHost {
             mpDelegate = HostMPDelegate(platform)
             if mpDelegate == nil {
@@ -54,7 +55,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     }
     @IBAction func participantMenuTapped(){
-        present(participantMenu, animated: true)
+        present(participantMenu!, animated: true)
     }
     
     

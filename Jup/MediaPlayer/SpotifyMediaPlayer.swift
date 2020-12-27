@@ -27,11 +27,12 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer, SPTAppRemotePlayerStateDelegate
     }
     
     var player: SPTAppRemotePlayerAPI
-    var state: SPTAppRemotePlayerState
+    var state: SPTAppRemotePlayerState?
     
     init(_ spotifyPlayer: SPTAppRemotePlayerAPI) {
         player = spotifyPlayer
         player.setRepeatMode(.off)
+        super.init()
         player.subscribe { (success, _) in
             guard let state = success as? SPTAppRemotePlayerState else {
                 fatalError("Couldn't subscribe to player state changes")
@@ -62,9 +63,6 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer, SPTAppRemotePlayerStateDelegate
     }
     
     func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ()) {
-        player.getPlayerState { (<#Any?#>, <#Error?#>) in
-            <#code#>
-        }
         guard let spotifyItemList = songItems as? [SpotifySongItem] else {
             fatalError("Cannot Downcast SongItem array to SpotifySongItemArray")
         }

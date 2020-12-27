@@ -38,31 +38,40 @@ class HostMPDelegate: MediaPlayerDelegate {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.connectToSpotify()
             guard let expired = appDelegate.sessionManager.session?.isExpired else {
+                print("No session")
                 return nil
             }
             if expired {
+                print("Session expired")
                 return nil
             }
             
             appDelegate.connectSpotifyAppRemote()
             if !appDelegate.appRemote.isConnected {
+                print("valid session but app Remote not connected")
                 return nil
             }
             
             var hasPremium: Bool = false
             appDelegate.appRemote.userAPI?.fetchCapabilities(callback: { (result, error) in
                 guard let capability = result as? SPTAppRemoteUserCapabilities else {
+                    print("failed to retrieve capabilities")
                     return
                 }
                 if capability.canPlayOnDemand {
                     hasPremium = true
                 }
             })
-            if !hasPremium { return nil }
+            if !hasPremium {
+                print("does not have premium")
+                return nil
+            }
             guard let player = appDelegate.appRemote.playerAPI else {
+                print("no playerAPI")
                 return nil
             }
             mediaPlayer = SpotifyMediaPlayer(player)
+            print((mediaPlayer as? SpotifyMediaPlayer)?.state)
         }
     }
     
