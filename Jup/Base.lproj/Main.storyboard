@@ -368,7 +368,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TestAlbum" translatesAutoresizingMaskIntoConstraints="NO" id="ZGk-Oz-p3n">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Queue Background" translatesAutoresizingMaskIntoConstraints="NO" id="ZGk-Oz-p3n">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyL-8x-TrE">
@@ -380,7 +380,7 @@
                                         <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="9nI-rx-CLW">
                                             <rect key="frame" x="30" y="40" width="354" height="856"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="foI-Tk-QUo">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noSongPlayingImage" translatesAutoresizingMaskIntoConstraints="NO" id="foI-Tk-QUo">
                                                     <rect key="frame" x="14.666666666666657" y="0.0" width="325" height="325"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="325" id="5XT-Ok-NCM"/>
@@ -638,10 +638,10 @@
         <image name="Background Home Screeen – 1" width="414" height="736"/>
         <image name="Group" width="39.666667938232422" height="45.666667938232422"/>
         <image name="Join" width="188" height="133.66667175292969"/>
+        <image name="Queue Background" width="533" height="960"/>
         <image name="Return White" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
-        <image name="TestAlbum" width="325" height="325"/>
-        <image name="placeholder" width="300" height="300"/>
+        <image name="noSongPlayingImage" width="330" height="330"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

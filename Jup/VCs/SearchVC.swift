@@ -20,8 +20,6 @@ class SearchVC: UIViewController{
     var platform: Platform = .APPLE_MUSIC
     var isHost: Bool = false
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
