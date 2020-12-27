@@ -28,7 +28,9 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        participantMenu = SideMenuNavigationController(rootViewController: self)
+        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
+        
+        
         if isHost {
             mpDelegate = HostMPDelegate(platform)
             if mpDelegate == nil {
@@ -56,6 +58,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     @IBAction func participantMenuTapped(){
         present(participantMenu!, animated: true)
+    
     }
     
     
