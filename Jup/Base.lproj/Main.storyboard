@@ -323,7 +323,7 @@
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="TfO-Ke-MaO" kind="presentation" destinationCreationSelector="segueToQueue:" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="rwm-nm-gu5"/>
+                                                        <action selector="verifyAndSegueToQueue:" destination="d8E-AH-NBx" eventType="touchUpInside" id="23V-hW-EIB"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -354,6 +354,7 @@
                         <outlet property="strictQueueSwitch" destination="i7g-8n-xmT" id="PnE-mX-roe"/>
                         <outlet property="usernameTextField" destination="JEs-NW-cJ5" id="lm7-Ly-Tn2"/>
                         <outlet property="voteQueueSwitch" destination="EQE-md-Otg" id="KAN-nN-MKq"/>
+                        <segue destination="TfO-Ke-MaO" kind="presentation" identifier="segueToQueue" destinationCreationSelector="segueToQueue:" modalPresentationStyle="fullScreen" id="Ggz-E1-Q6M"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gSP-v3-L50" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -409,17 +410,17 @@
                                                     </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="90" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-7k-yma">
-                                                    <rect key="frame" x="21" y="401" width="312" height="49"/>
+                                                    <rect key="frame" x="21" y="401" width="312" height="50"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
-                                                            <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="49"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="50"/>
                                                             <state key="normal" image="Return White"/>
                                                             <connections>
                                                                 <action selector="participantMenuTapped" destination="TfO-Ke-MaO" eventType="touchDown" id="6Yp-V8-y4L"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
-                                                            <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="49"/>
+                                                            <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="50"/>
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
                                                                 <segue destination="DUb-Gg-gF2" kind="popoverPresentation" destinationCreationSelector="segueToSearchVC:" popoverAnchorView="3Db-Q6-aVt" id="ehq-al-aAf">
@@ -428,17 +429,17 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxT-bg-LYr">
-                                                            <rect key="frame" x="272.33333333333331" y="0.0" width="39.666666666666686" height="49"/>
+                                                            <rect key="frame" x="272.33333333333331" y="0.0" width="39.666666666666686" height="50"/>
                                                             <state key="normal" image="Group"/>
                                                         </button>
                                                     </subviews>
                                                 </stackView>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-zc-Gqo">
-                                                    <rect key="frame" x="12" y="455" width="330" height="4"/>
+                                                    <rect key="frame" x="12" y="456" width="330" height="4"/>
                                                     <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </progressView>
                                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qpg-jf-dnw">
-                                                    <rect key="frame" x="12" y="464" width="330" height="392"/>
+                                                    <rect key="frame" x="12" y="465" width="330" height="391"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <sections/>
                                                 </tableView>

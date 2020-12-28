@@ -5,6 +5,8 @@
 //  Created by Zach Venanzi on 12/11/20.
 //
 import UIKit
+import StoreKit
+
 
 class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
 
@@ -14,15 +16,9 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var passwordSwitch: UISwitch!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
-
-    @IBSegueAction func segueToQueue(_ coder: NSCoder) -> QueueVC? {
-        let queueVC = QueueVC(coder: coder)
-        queueVC?.isHost = true
-        queueVC?.platform = platform
-        return queueVC
-    }
     
     var platform: Platform = .APPLE_MUSIC
+    var openedSpotify: Bool = false
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
@@ -42,6 +38,74 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        if openedSpotify {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.bringBackToVC?()
+        }
+    }
+    
+    @IBSegueAction func segueToQueue(_ coder: NSCoder) -> QueueVC? {
+        let queueVC = QueueVC(coder: coder)
+        queueVC?.isHost = true
+        queueVC?.platform = platform
+        print("\n\n\nHOST AND PLATFORM NOTED\n\n\n")
+        return queueVC
+    }
+    
+    
+    @IBAction func verifyAndSegueToQueue(_ sender: Any) {
+        if platform == .APPLE_MUSIC {
+            if SKCloudServiceController.authorizationStatus() == .notDetermined {
+                SKCloudServiceController.requestAuthorization {(status:
+                    SKCloudServiceAuthorizationStatus) in
+                    switch status {
+                    case .authorized:                 self.performSegue(withIdentifier: "segueToQueue", sender: nil)
+                        return
+                    default: break
+                    }
+                }
+            } else if (SKCloudServiceController.authorizationStatus() == .authorized) {
+                performSegue(withIdentifier: "segueToQueue", sender: nil)
+                return
+            }
+
+            //no access, raise alert
+            
+            // #################################
+            //     INSERT ALERT CALL HERE
+            // #################################
+        } else if platform == .SPOTIFY {
+            openedSpotify = true
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            appDelegate.connectToSpotify {
+                print("Callback initiated")
+                guard let expired = appDelegate.sessionManager.session?.isExpired else {
+                    print("No session")
+                    // #################################
+                    //     INSERT ALERT CALL HERE
+                    // #################################
+                    return
+                }
+                if expired {
+                    print("Session expired")
+                    // #################################
+                    //     INSERT ALERT CALL HERE
+                    // #################################
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "segueToQueue", sender: nil)
+                }
+                
+            }
+        }
+        
+    }
+ 
     
     @objc func choiceControlSwitched(sender: UISegmentedControl) {
         platform.toggle()

@@ -39,6 +39,7 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     
     func retrieveArtwork(completionHandler: @escaping (UIImage) -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         appDelegate.appRemote.imageAPI?.fetchImage(forItem: AlbumURLString(albumURL), with: CGSize(width: 40, height: 40), callback: { (success, error) in
             if let image = success as? UIImage {
                 completionHandler(image)

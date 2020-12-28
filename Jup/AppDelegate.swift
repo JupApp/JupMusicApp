@@ -33,14 +33,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func sessionManager(manager: SPTSessionManager, didInitiate session: SPTSession) {
         print("success", session)
+        bringBackToVC?()
+        bringBackToVC = nil
     }
     
     func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
         print("error", error)
+        bringBackToVC?()
+        bringBackToVC = nil
     }
     
     func sessionManager(manager: SPTSessionManager, didRenew session: SPTSession) {
         print("renewed", session)
+        bringBackToVC?()
+        bringBackToVC = nil
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -50,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     let SpotifyClientID = "93de9a96fb6c4cb39844ac6e98427885"
     let SpotifyRedirectURL = URL(string: "jup-spotify-login://spotify-login-callback")!
+    
+    var bringBackToVC: (() -> ())?
 
     lazy var configuration = SPTConfiguration(
       clientID: SpotifyClientID,
@@ -75,10 +83,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         }
         if session.isExpired == true {
             sessionManager.renewSession()
+            return
         }
+        bringBackToVC?()
+        bringBackToVC = nil
+        
     }
     
-    // ########### SPOTIFY APP REMOTE SETUP BELOW ##################
+    func connectToSpotify(completionHandler: @escaping () -> ()) {
+        bringBackToVC = completionHandler
+        connectToSpotify()
+    }
     
     lazy var appRemote: SPTAppRemote = {
       let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .debug)
@@ -88,15 +103,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }()
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
-        print("connected to spotify app")
+        print("\n\n\n\n\n\nconnected to spotify app\n\n\n\n\n\n\n\n")
+        bringBackToVC?()
+        bringBackToVC = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
-        print("failed to connect to spotify app")
+        print("\n\n\n\n\n\nfailed to connect to spotify app\n\n\n\n\n\n")
+        print(error.debugDescription)
+        bringBackToVC?()
+        bringBackToVC = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
-        print("disconnected from spotify app")
+        print("\n\n\n\n\n\ndisconnected from spotify app\n\n\n\n\n\n")
 
     }
     
@@ -105,10 +125,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
 
     }
     
-    func connectSpotifyAppRemote() {
-      self.appRemote.authorizeAndPlayURI("")
+    func connect(_ uri: String, completionHandler: @escaping () -> ()) {
+        bringBackToVC = completionHandler
+        self.appRemote.authorizeAndPlayURI(uri)
+
     }
-    
+
     
 }
 

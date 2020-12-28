@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate{
 
     var window: UIWindow?
 
@@ -39,6 +39,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        guard let _ = appDelegate.bringBackToVC else {
+            return
+        }
+        print("scene entering foreground")
+        appDelegate.appRemote.connect()
+
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -46,7 +54,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
+    
+    
 
 }
 

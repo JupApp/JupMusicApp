@@ -7,6 +7,8 @@
 import SideMenu
 import UIKit
 
+class SpotifyAppRemoteError: Error {}
+
 class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
@@ -24,16 +26,12 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
     var participantMenu: SideMenuNavigationController?
-  
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        participantMenu = SideMenuNavigationController(rootViewController: self)
+        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
         if isHost {
             mpDelegate = HostMPDelegate(platform)
-            if mpDelegate == nil {
-                print("Failed to authorize to \(platform) platform, QueueVC will be idle")
-            }
             btDelegate = BTHostDelegate()
         } else {
             mpDelegate = ParticipantMPDelegate()
@@ -50,9 +48,18 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let leaveQueueAlert = UIAlertController(title: "Leave the Queue", message: nil, preferredStyle: .alert)
         leaveQueueAlert.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: nil))
         leaveQueueAlert.addAction(UIAlertAction(title: "Stay", style: .cancel, handler: nil))
+        participantMenu!.leftSide = true
         
-        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
+        self.nowPlayingAlbum.image = UIImage(named: "Join")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(play))
+        self.nowPlayingAlbum.addGestureRecognizer(tap)
+        self.nowPlayingAlbum.isMultipleTouchEnabled = true
+        self.nowPlayingAlbum.isUserInteractionEnabled = true
     
+    }
+    
+    @objc func play() {
+        mpDelegate.play()
     }
     @IBAction func participantMenuTapped(){
         present(participantMenu!, animated: true)
