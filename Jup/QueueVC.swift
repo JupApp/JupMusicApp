@@ -55,6 +55,10 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         var particpants = ["Zach","Nick"]
         var host = ["Zach"]
     }
+    func triggerRemotePlayerFailureAlert(){
+        let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
+            musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
+    }
         
         
     
