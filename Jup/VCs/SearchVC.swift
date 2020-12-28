@@ -13,8 +13,6 @@ class SearchVC: UIViewController{
     @IBOutlet weak var appleMusicLibraryButton: UIButton!
     @IBOutlet weak var searhTableView: UITableView!
     @IBOutlet weak var musicSearchBar: UISearchBar!
-    @IBOutlet weak var spotifyButtonView: UIView!
-    @IBOutlet weak var appleMusicButtonView: UIView!
     
     var searchDelegate: SearchDelegate!
     var platform: Platform = .APPLE_MUSIC
