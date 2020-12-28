@@ -43,7 +43,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     }
     //Alert for if no access to AM or Spotify
     func triggerMusicServiceAlert(){
-        let musicServicAert = UIAlertController(title: "Access to selected Music Service not available ", message: nil, preferredStyle: .alert)
+        let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
             musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
     }
     

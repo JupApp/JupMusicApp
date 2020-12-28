@@ -28,8 +28,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
-        
         
         if isHost {
             mpDelegate = HostMPDelegate(platform)
@@ -48,14 +46,18 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         queueTable.delegate = self
         queueTable.dataSource = self
         
-        //Zachs Alert Attempt
-        let leaveQueueAlert = UIAlertController(title: "Leave the Queue", message: nil, preferredStyle: .alert)
-        leaveQueueAlert.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: nil))
-        leaveQueueAlert.addAction(UIAlertAction(title: "Stay", style: .cancel, handler: nil))
-        
         participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
-    
+        participantMenu?.leftSide = true
+        SideMenuManager.default.leftMenuNavigationController = participantMenu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
     }
+    class ParticipantMenuController: UITableViewController{
+        var particpants = ["Zach","Nick"]
+        var host = ["Zach"]
+    }
+        
+        
+    
     @IBAction func participantMenuTapped(){
         present(participantMenu!, animated: true)
     
