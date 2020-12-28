@@ -29,7 +29,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
+
         if isHost {
             mpDelegate = HostMPDelegate(platform)
             btDelegate = BTHostDelegate()
@@ -44,25 +44,37 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         queueTable.delegate = self
         queueTable.dataSource = self
         
-        //Zachs Alert Attempt
-        let leaveQueueAlert = UIAlertController(title: "Leave the Queue", message: nil, preferredStyle: .alert)
-        leaveQueueAlert.addAction(UIAlertAction(title: "Leave", style: .destructive, handler: nil))
-        leaveQueueAlert.addAction(UIAlertAction(title: "Stay", style: .cancel, handler: nil))
-        participantMenu!.leftSide = true
-        
         self.nowPlayingAlbum.image = UIImage(named: "Join")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
         self.nowPlayingAlbum.addGestureRecognizer(tap)
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
-    
+
+        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
+        participantMenu?.leftSide = true
+        SideMenuManager.default.leftMenuNavigationController = participantMenu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
     }
     
     @objc func play() {
         mpDelegate.play()
     }
+    
+    class ParticipantMenuController: UITableViewController{
+        var particpants = ["Zach","Nick"]
+        var host = ["Zach"]
+    }
+    
+    func triggerRemotePlayerFailureAlert(){
+        let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
+            musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
+    }
+        
+        
+    
     @IBAction func participantMenuTapped(){
         present(participantMenu!, animated: true)
+    
     }
     
     

@@ -502,7 +502,7 @@
                                 <textInputTraits key="textInputTraits" keyboardAppearance="light"/>
                             </searchBar>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tqf-Qu-4Lt">
-                                <rect key="frame" x="30" y="101" width="354" height="707"/>
+                                <rect key="frame" x="30" y="103" width="354" height="705"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -517,38 +517,25 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="QqK-7T-acy">
-                                <rect key="frame" x="30" y="56" width="354" height="33"/>
+                                <rect key="frame" x="30" y="56" width="354" height="35"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" id="pHz-n4-pkV">
-                                        <rect key="frame" x="0.0" y="0.0" width="162" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="toc-jt-MGO">
-                                                <rect key="frame" x="0.0" y="-3" width="162" height="39"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
-                                                <state key="normal" title="Apple Music">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.82352948189999997" green="0.89803922179999995" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" id="AjV-eW-apt">
-                                        <rect key="frame" x="192" y="0.0" width="162" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRq-Gj-NLp">
-                                                <rect key="frame" x="50" y="1" width="66" height="35"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
-                                                <state key="normal" title="Spotify">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRq-Gj-NLp">
+                                        <rect key="frame" x="0.0" y="0.0" width="162" height="35"/>
                                         <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </view>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <state key="normal" title="Spotify">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="toc-jt-MGO">
+                                        <rect key="frame" x="192" y="0.0" width="162" height="35"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Apple Music ">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -568,11 +555,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="appleMusicButtonView" destination="pHz-n4-pkV" id="gHR-V6-xlW"/>
                         <outlet property="appleMusicLibraryButton" destination="toc-jt-MGO" id="Wnl-WG-69c"/>
                         <outlet property="musicSearchBar" destination="rEM-u1-xpZ" id="YBW-hH-YOG"/>
                         <outlet property="searhTableView" destination="tqf-Qu-4Lt" id="hS4-jh-EcG"/>
-                        <outlet property="spotifyButtonView" destination="AjV-eW-apt" id="HFh-Z8-RBe"/>
                         <outlet property="spotifyLibraryButton" destination="DRq-Gj-NLp" id="aDa-d5-i9c"/>
                     </connections>
                 </viewController>

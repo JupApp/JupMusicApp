@@ -13,8 +13,6 @@ class SearchVC: UIViewController{
     @IBOutlet weak var appleMusicLibraryButton: UIButton!
     @IBOutlet weak var searhTableView: UITableView!
     @IBOutlet weak var musicSearchBar: UISearchBar!
-    @IBOutlet weak var spotifyButtonView: UIView!
-    @IBOutlet weak var appleMusicButtonView: UIView!
     
     var searchDelegate: SearchDelegate!
     var platform: Platform = .APPLE_MUSIC
@@ -23,10 +21,12 @@ class SearchVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let spotifyButtonView = UIView()
-        spotifyButtonView.layer.cornerRadius = 4.0
-        let appleMusicButtonview = UIView()
-        appleMusicButtonview.layer.cornerRadius = 4.0
+        spotifyLibraryButton.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
+        spotifyLibraryButton.layer.cornerRadius = 13
+        appleMusicLibraryButton.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
+        appleMusicLibraryButton.layer.cornerRadius = 13
+
+
 
         
         //This makes the keyboard show up immediately after seque
