@@ -25,7 +25,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var participantMenu: SideMenuNavigationController?
+    var participantMenu: ParticipantMenuViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
 
-        participantMenu = SideMenuNavigationController(rootViewController: UIViewController())
+        participantMenu = ParticipantMenuViewController(rootViewController: UIViewController())
         participantMenu?.leftSide = true
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
@@ -60,10 +60,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         mpDelegate.play()
     }
     
-    class ParticipantMenuController: UITableViewController{
-        var particpants = ["Zach","Nick"]
-        var host = ["Zach"]
-    }
     
     func triggerRemotePlayerFailureAlert(){
         let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
