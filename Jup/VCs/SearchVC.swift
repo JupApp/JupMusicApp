@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchVC: UIViewController{
+class SearchVC: UIViewController {
     
     @IBOutlet weak var spotifyLibraryButton: UIButton!
     @IBOutlet weak var appleMusicLibraryButton: UIButton!

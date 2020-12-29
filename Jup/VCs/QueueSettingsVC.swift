@@ -49,6 +49,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             appDelegate.bringBackToVC?()
+            openedSpotify = false 
         }
     }
     

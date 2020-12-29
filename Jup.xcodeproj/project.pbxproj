@@ -25,6 +25,7 @@
 		15DBD8CC259617790068FEB4 /* SongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8CB259617790068FEB4 /* SongItem.swift */; };
 		15DBD8D125961C5B0068FEB4 /* AppleMusicSongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8D025961C5B0068FEB4 /* AppleMusicSongItem.swift */; };
 		15DBD8D6259623B00068FEB4 /* SpotifySongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8D5259623B00068FEB4 /* SpotifySongItem.swift */; };
+		863AB4BC259A4AC7004283D7 /* ParticipantMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863AB4BB259A4AC7004283D7 /* ParticipantMenuViewController.swift */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		8695CCCB25958FAE006021DA /* joinableQueueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8695CCC925958FAE006021DA /* joinableQueueCell.swift */; };
@@ -86,6 +87,7 @@
 		1B5B1007181C7345DA10AE30 /* Pods-Jup-JupUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jup-JupUITests.debug.xcconfig"; path = "Target Support Files/Pods-Jup-JupUITests/Pods-Jup-JupUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		292C811B77DF784F6C60FC60 /* Pods-JupTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JupTests.debug.xcconfig"; path = "Target Support Files/Pods-JupTests/Pods-JupTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7AAEC20AE656B1FC30B1A699 /* Pods-Jup-JupUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jup-JupUITests.release.xcconfig"; path = "Target Support Files/Pods-Jup-JupUITests/Pods-Jup-JupUITests.release.xcconfig"; sourceTree = "<group>"; };
+		863AB4BB259A4AC7004283D7 /* ParticipantMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantMenuViewController.swift; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		8695CCC925958FAE006021DA /* joinableQueueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = joinableQueueCell.swift; sourceTree = "<group>"; };
@@ -191,6 +193,20 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		863AB4C6259A843D004283D7 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				866A92AD258EEFC5000BD69D /* SearchCell.swift */,
+				866A92AE258EEFC5000BD69D /* SearchCell.xib */,
+				8695CCC925958FAE006021DA /* joinableQueueCell.swift */,
+				8695CCCA25958FAE006021DA /* joinableQueueCell.xib */,
+				B66EF180258AAEC600E21B4D /* SongCell.swift */,
+				B66EF181258AAEC600E21B4D /* SongCell.xib */,
+			);
+			name = Cells;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		B67051E22571F41900E4077C = {
 			isa = PBXGroup;
 			children = (
@@ -223,12 +239,7 @@
 				B67051F92571F41C00E4077C /* LaunchScreen.storyboard */,
 				B67051FC2571F41C00E4077C /* Info.plist */,
 				B670523A2571F88F00E4077C /* VCs */,
-				866A92AD258EEFC5000BD69D /* SearchCell.swift */,
-				866A92AE258EEFC5000BD69D /* SearchCell.xib */,
-				8695CCC925958FAE006021DA /* joinableQueueCell.swift */,
-				8695CCCA25958FAE006021DA /* joinableQueueCell.xib */,
-				B66EF180258AAEC600E21B4D /* SongCell.swift */,
-				B66EF181258AAEC600E21B4D /* SongCell.xib */,
+				863AB4C6259A843D004283D7 /* Cells */,
 				15DBD86B258F99C70068FEB4 /* BlueToothCommunication */,
 				15DBD86A258F99B80068FEB4 /* Search */,
 				15DBD865258F99950068FEB4 /* MediaPlayer */,
@@ -244,6 +255,7 @@
 				B6BB3CE225811C6E0043CA04 /* SearchVC.swift */,
 				B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */,
 				B670523B2571F8C500E4077C /* ParticipantSettingsVC.swift */,
+				863AB4BB259A4AC7004283D7 /* ParticipantMenuViewController.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -507,6 +519,7 @@
 				B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */,
 				15DBD8CC259617790068FEB4 /* SongItem.swift in Sources */,
 				15DBD893258FA49C0068FEB4 /* ParticipantMPDelegate.swift in Sources */,
+				863AB4BC259A4AC7004283D7 /* ParticipantMenuViewController.swift in Sources */,
 				B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */,
 				15DBD89D259001870068FEB4 /* AppleMusicMediaPlayer.swift in Sources */,
 				15DBD8D6259623B00068FEB4 /* SpotifySongItem.swift in Sources */,
