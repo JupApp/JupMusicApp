@@ -36,6 +36,8 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
         
         platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
+        
+
     }
     //Alert for if no access to AM or Spotify
     func triggerMusicServiceAlert(){

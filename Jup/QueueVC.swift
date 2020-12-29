@@ -27,6 +27,9 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var platform: Platform = .APPLE_MUSIC
     var participantMenu: ParticipantMenuViewController?
     
+    let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,6 +59,10 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         participantMenu?.leftSide = true
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+        
+        failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
+        failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
+
     }
     
     @objc func play() {
@@ -92,6 +99,11 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
         return SongCell
+    }
+    func failedSpotifyConnectionAlert(_ act:UIAlertAction){
+        //Code for beep boop bopping
+    }
+    func returnToSettingsSegue(_ act:UIAlertAction){
     }
         
     @objc func didEnterBackground() {
