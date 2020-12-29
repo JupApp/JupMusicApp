@@ -22,6 +22,8 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
+    let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.delegate = self
@@ -37,12 +39,9 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         
         platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
         
+        musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
 
-    }
-    //Alert for if no access to AM or Spotify
-    func triggerMusicServiceAlert(){
-        let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
-            musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,7 +58,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         let queueVC = QueueVC(coder: coder)
         queueVC?.isHost = true
         queueVC?.platform = platform
-        print("\n\n\nHOST AND PLATFORM NOTED\n\n\n")
         return queueVC
     }
     
@@ -81,10 +79,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
             }
 
             //no access, raise alert
-            
-            // #################################
-            //     INSERT ALERT CALL HERE
-            // #################################
+            self.present(musicServicAert, animated: true)
         } else if platform == .SPOTIFY {
             openedSpotify = true
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -93,16 +88,12 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                 print("Callback initiated")
                 guard let expired = appDelegate.sessionManager.session?.isExpired else {
                     print("No session")
-                    // #################################
-                    //     INSERT ALERT CALL HERE
-                    // #################################
+                    self.present(self.musicServicAert, animated: true)
                     return
                 }
                 if expired {
                     print("Session expired")
-                    // #################################
-                    //     INSERT ALERT CALL HERE
-                    // #################################
+                    self.present(self.musicServicAert, animated: true)
                     return
                 }
                 DispatchQueue.main.async {

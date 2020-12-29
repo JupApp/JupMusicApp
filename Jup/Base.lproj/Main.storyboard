@@ -483,6 +483,7 @@
                         <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
                         <outlet property="nowPlayingTitle" destination="CTf-KG-p3i" id="aPw-Mi-J1E"/>
                         <outlet property="queueTable" destination="qpg-jf-dnw" id="9zt-ec-Kzo"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="segueToHome" modalPresentationStyle="fullScreen" id="qS6-JS-Vib"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -6,10 +6,18 @@
 //
 import UIKit
 
+enum State {
+    case PLAYING
+    case PAUSED
+    case TRANSITIONING
+    case NO_SONG_SET
+}
+
 protocol MediaPlayerDelegate {
-    
+    var parentVC: QueueVC { get }
     var songTimer: Timer? { get }
     var mediaPlayer: MediaPlayer? { get }
+    var state: State { get set }
     
     func play()
     

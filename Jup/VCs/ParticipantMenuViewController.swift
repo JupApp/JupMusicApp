@@ -10,7 +10,7 @@ import UIKit
 
 class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDataSource, UITableViewDelegate {
     
-    var participantTableView: UITableView!
+    var participantTableView: UITableView = UITableView()
     
     let hostCell = "Host"
     let particpantCell = "Participant"
@@ -28,11 +28,11 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDa
         participantTableView.register(nib, forCellReuseIdentifier: "SongCell")
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        return UITableViewCell()
     }
     
    
@@ -51,7 +51,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDa
 //        }
 //
 //
-    }
+//    }
 }
     
     

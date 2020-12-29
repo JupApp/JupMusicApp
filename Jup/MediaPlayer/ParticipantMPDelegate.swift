@@ -8,10 +8,14 @@ import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
     var mediaPlayer: MediaPlayer?
-    
-    
+    var parentVC: QueueVC
     var songTimer: Timer?
+    var state: State
     
+    init(_ parentVC: QueueVC) {
+        self.parentVC = parentVC
+        self.state = .NO_SONG_SET
+    }
     //dont do anything if participant tries to play pause or skip
     func play() {}
     func pause() {}

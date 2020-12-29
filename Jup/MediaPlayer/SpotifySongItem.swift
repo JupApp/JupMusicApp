@@ -15,9 +15,7 @@ class AlbumURLString: NSObject, SPTAppRemoteImageRepresentable {
 class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var title: String?
     var subtitle: String?
-    var identifier: String {
-        print("Accessing identifier of uri: \(uri)")
-        return uri }
+    var identifier: String { return uri }
     var isAvailableOffline: Bool = true
     var isPlayable: Bool = true
     var isContainer: Bool = false

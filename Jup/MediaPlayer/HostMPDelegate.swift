@@ -10,15 +10,24 @@ import StoreKit
 
 
 class HostMPDelegate: MediaPlayerDelegate {
+    var state: State
+    
+    var parentVC: QueueVC
     var mediaPlayer: MediaPlayer?
+    
     let uris: [String] = ["spotify:track:2EjXfH91m7f8HiJN1yQg97", "spotify:track:6HlqioVbMHWnPOmm5Wf7NN","spotify:track:4jWr4c9xp3D2QBd7I7xEqn", "spotify:track:609qKv3KPAbdtp0LQH2buA", "spotify:track:1TwLKNsCnhi1HxbIi4bAW0"]
     var uri_count = 0
-    init(_ platform: Platform) {
-
+    init(_ platform: Platform, _ queueVC: QueueVC) {
+        self.parentVC = queueVC
         if platform == .APPLE_MUSIC {
             mediaPlayer = AppleMusicMediaPlayer()
         } else if platform == .SPOTIFY {
             mediaPlayer = SpotifyMediaPlayer()
+        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.state = .NO_SONG_SET
+        appDelegate.triggerAlertInVC = {
+            self.parentVC.present(self.parentVC.failedSpotifyConnectionAlert, animated: true)
         }
     }
     
@@ -27,11 +36,10 @@ class HostMPDelegate: MediaPlayerDelegate {
     func play() {
         let songItem: SongItem = SpotifySongItem(uri: uris[0], artist: "", song: "", albumURL: "", length: 100)
         mediaPlayer?.transitionNextSong(songItem) { (error) in
-            if let _ = error {
-                print("error accessing remote player and song to play")
-                return
-            }
-            print("Success!!!!!!")
+//            if let _ = error {
+//
+//                return
+//            }
         }
     }
     
@@ -62,11 +70,9 @@ class HostMPDelegate: MediaPlayerDelegate {
             songItemArray.append(songItem)
         }
         self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in
-            if let error = e {
-                print(error.localizedDescription)
-            } else {
-                print("Successfully loaded up queue")
-            }
+//            if let _ = e {
+//            } else {
+//            }
         })
     }
     

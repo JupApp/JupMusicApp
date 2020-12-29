@@ -40,13 +40,13 @@
 //    
 //}
 
-class SpotifyMediaPlayer: NSObject, MediaPlayer, SPTAppRemotePlayerStateDelegate {
-    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        self.state = playerState
+class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelegate*/ {
+//    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+//        self.state = playerState
 //        print("Name of Track playing: \(self.state?.track.name)\nName of Artist: \(self.state?.track.artist)\nPosition In Track: \(self.state?.playbackPosition)\n  out of: \(self.state?.track.duration)")
-    }
+//    }
     var player: SPTAppRemotePlayerAPI?
-    var state: SPTAppRemotePlayerState?
+//    var state: SPTAppRemotePlayerState?
 
     func play() {
         player?.resume()
@@ -85,14 +85,14 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer, SPTAppRemotePlayerStateDelegate
                     
                     self.player = appDelegate.appRemote.playerAPI
                     self.player?.setRepeatMode(.off)
-                    self.player?.delegate = self
-                    self.player?.subscribe { (success, error) in
-                        if let _ = error {
-                            completionHandler(SpotifyAppRemoteError())
-                            return
-                        }
-                        self.state = success as? SPTAppRemotePlayerState
-                    }
+//                    self.player?.delegate = self
+//                    self.player?.subscribe { (success, error) in
+//                        if let _ = error {
+//                            completionHandler(SpotifyAppRemoteError())
+//                            return
+//                        }
+//                        self.state = success as? SPTAppRemotePlayerState
+//                    }
                     self.player?.play(spotifySongItem) { (_, e) in
 //                        if let _ = e {
 //                            print("error, its with trying to play song")
@@ -136,11 +136,51 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer, SPTAppRemotePlayerStateDelegate
 //        }
 //
 //    }
+    func clearQueue(completionHandler: @escaping () -> ()) {
+        self.player?.getPlayerState({ (state, error) in
+            if let _ = error {
+                print("failed to retrieve state information, cannot clear queue")
+                completionHandler()
+                return
+            }
+            let currentState = state as! SPTAppRemotePlayerState
+            self.clearQueueHelper {
+                self.player?.play(currentState.track.uri, callback: { (_, e) in
+                    if let _ = e {
+                        print("Failed to resume playing song after clearing queue")
+                        completionHandler()
+                        return
+                    }
+                    self.player?.seek(toPosition: currentState.playbackPosition, callback: { (_, e) in
+                        if let _ = e {
+                            print("Failed to resume playing song to previous playback position after clearing the queue")
+                        }
+                        completionHandler()
+                    })
+                })
+            }
+        })
+    }
+    
+    func clearQueueHelper(completionHandler: @escaping () -> ()) {
+        self.player?.skip(toNext: { (_, e) in
+            if let _ = e {
+                print("Reached end of skipping in queue, will now resume playing current song")
+                completionHandler()
+            } else {
+                print("Will continue skipping songs until end is reached")
+                self.clearQueueHelper(completionHandler: completionHandler)
+            }
+        })
+    }
+    
     func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ()) {
         guard let spotifyItemList = songItems as? [SpotifySongItem] else {
             fatalError("Cannot Downcast SongItem array to SpotifySongItemArray")
         }
-        enqueueSongList(spotifyItemList, 0, completionHandler: completionHandler)
+//        clearQueue {
+            self.enqueueSongList(spotifyItemList, 0, completionHandler: completionHandler)
+//        }
     }
     
     func enqueueSongList(_ songItems: [SpotifySongItem], _ currentIndex: Int, completionHandler: @escaping (Error?) -> ()) {
@@ -148,7 +188,8 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer, SPTAppRemotePlayerStateDelegate
             completionHandler(nil)
             return
         }
-        let nextItem: SpotifySongItem = songItems[songItems.endIndex - currentIndex]
+        print("Current Index: \(currentIndex)\nSongList Last Index: \(songItems.endIndex)")
+        let nextItem: SpotifySongItem = songItems[songItems.endIndex - currentIndex - 1]
         self.player?.enqueueTrackUri(nextItem.uri, callback: { (_, e) in
             if let _ = e {
                 print("Failed to enqueue track with URI: \(nextItem.uri)")

@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     let SpotifyRedirectURL = URL(string: "jup-spotify-login://spotify-login-callback")!
     
     var bringBackToVC: (() -> ())?
+    var triggerAlertInVC: (() -> ())?
 
     lazy var configuration = SPTConfiguration(
       clientID: SpotifyClientID,
@@ -103,53 +104,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
       return appRemote
     }()
     
-    var tryReconnecting = true
-    
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
-        print("\n\n\n\n\n\nconnected to spotify app\n\n\n\n\n\n\n\n")
+        print("\n\nconnected to spotify app\n\n")
         bringBackToVC?()
         bringBackToVC = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
-        print("\n\n\n\n\n\nfailed to connect to spotify app\n\n\n\n\n\n")
-        print(error.debugDescription)
-        print("But is it connected...? - \(appRemote.isConnected)")
-        
-        if tryReconnecting {
-            connect("", completionHandler: bringBackToVC!)
-            tryReconnecting = false
-        } else {
-            bringBackToVC?()
-            bringBackToVC = nil
-            tryReconnecting = true
-        }
+        print("\n\nfailed to connect to spotify app\n\n")
+        bringBackToVC?()
+        bringBackToVC = nil
+        triggerAlertInVC?()
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
-        print("\n\n\n\n\n\ndisconnected from spotify app\n\n\n\n\n\n")
-        connect("") {
-            print("attempted to connect back to spotify app after disconnecting")
-        }
-        if tryReconnecting {
-            if bringBackToVC == nil {
-                bringBackToVC = {
-                    print("attempted to connect back to spotify app after disconnecting")
-                }
-            }
-            connect("", completionHandler: bringBackToVC!)
-            bringBackToVC = nil
-            tryReconnecting = false
-        } else {
-            bringBackToVC?()
-            bringBackToVC = nil
-            tryReconnecting = true
-        }
-
+        print("\n\ndisconnected from spotify app\n\n")
+//        connect("") {
+//            print("attempted to connect back to spotify app after disconnecting")
+//        }
+        triggerAlertInVC?()
     }
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        print("Player state changed")
+//        print("Player state changed")
     }
     
     func connect(_ uri: String, completionHandler: @escaping () -> ()) {
@@ -157,38 +134,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }
     
     func connect(_ uri: String, _ playbackPosition: Int, completionHandler: @escaping () -> ()) {
-        bringBackToVC = completionHandler
-        if self.appRemote.isConnected {
-            
-            self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
-                if let _ = e {
-                    print("Was connected, but failed to play song...")
-                } else {
-                    self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in
-                        self.bringBackToVC?()
-                        self.bringBackToVC = nil
-                    })
-                }
-            })
+        if playbackPosition == 0 {
+            bringBackToVC = completionHandler
         } else {
-            SPTAppRemote.checkIfSpotifyAppIsActive { (active) in
-                if active {
-                    self.bringBackToVC = {
-                        print("hopefully connected by now... \(self.appRemote.isConnected)")
-                        self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
-                            if let _ = e {
-                                print("Was connected, but failed to play song...")
-                            } else {
-                                self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
-                            }
-                        })
-                    }
-                    self.appRemote.connect()
-                } else {
-                    self.appRemote.authorizeAndPlayURI(uri)
+            bringBackToVC = { self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
+                guard e == nil else {
+                    print("Was connected, but failed to play song...")
+                    return
                 }
-            }
+                self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
+            })}
         }
+        self.appRemote.authorizeAndPlayURI(uri)
+
+//        if self.appRemote.isConnected {
+//
+//            self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
+//                if let _ = e {
+//                    print("Was connected, but failed to play song...")
+//                } else {
+//                    self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in
+//                        self.bringBackToVC?()
+//                        self.bringBackToVC = nil
+//                    })
+//                }
+//            })
+//        } else {
+//            SPTAppRemote.checkIfSpotifyAppIsActive { (active) in
+//                if active {
+//                    self.bringBackToVC = {
+//                        print("hopefully connected by now... \(self.appRemote.isConnected)")
+//                        self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
+//                            if let _ = e {
+//                                print("Was connected, but failed to play song...")
+//                            } else {
+//                                self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
+//                            }
+//                        })
+//                    }
+//                    self.appRemote.connect()
+//                } else {
+//                    self.appRemote.authorizeAndPlayURI(uri)
+//                }
+//            }
+//        }
     }
 
     

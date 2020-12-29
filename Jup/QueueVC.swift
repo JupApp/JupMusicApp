@@ -36,10 +36,10 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
         if isHost {
-            mpDelegate = HostMPDelegate(platform)
+            mpDelegate = HostMPDelegate(platform, self)
             btDelegate = BTHostDelegate()
         } else {
-            mpDelegate = ParticipantMPDelegate()
+            mpDelegate = ParticipantMPDelegate(self)
             btDelegate = BTParticipantDelegate()
         }
         
@@ -68,20 +68,11 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @objc func play() {
         mpDelegate.play()
     }
-    
-    
-    func triggerRemotePlayerFailureAlert(){
-        let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
-            musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
-    }
-        
-        
-    
+
     @IBAction func participantMenuTapped(){
         present(participantMenu!, animated: true)
     
     }
-    
     
     @IBSegueAction func segueToSearchVC(_ coder: NSCoder) -> SearchVC? {
         let searchVC = SearchVC(coder: coder)
@@ -100,10 +91,51 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
         return SongCell
     }
+    
     func failedSpotifyConnectionAlert(_ act:UIAlertAction){
         //Code for beep boop bopping
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        switch (mpDelegate.state) {
+        case .NO_SONG_SET:
+            //do nothing
+            break
+        case .PAUSED:
+            appDelegate.appRemote.playerAPI?.getPlayerState({ (state, error) in
+                var uri: String = ""
+                var position: Int = 0
+                if let _ = error {
+                    print("error retrieving state, setting current song as uri and playback position to 0")
+                } else {
+                    uri = (state as! SPTAppRemotePlayerState).track.uri
+                    position = (state as! SPTAppRemotePlayerState).playbackPosition
+                }
+                appDelegate.connect(uri, position) {
+                    appDelegate.appRemote.playerAPI?.pause({ (_, _) in })
+                }
+            })
+            break
+        case .PLAYING:
+            appDelegate.appRemote.playerAPI?.getPlayerState({ (state, error) in
+                var uri: String = ""
+                var position: Int = 0
+                if let _ = error {
+                    print("error retrieving state, setting current song as uri and playback position to 0")
+                } else {
+                    uri = (state as! SPTAppRemotePlayerState).track.uri
+                    position = (state as! SPTAppRemotePlayerState).playbackPosition
+                }
+                appDelegate.connect(uri, position) {}
+            })
+            break
+        case .TRANSITIONING:
+            // if song up next, connect and then play up next song
+            print("TO DO")
+            // if no song up next, transition to .NO_SONG_SET, dont connect
+        }
     }
+    
     func returnToSettingsSegue(_ act:UIAlertAction){
+        performSegue(withIdentifier: "segueToHome", sender: nil)
     }
         
     @objc func didEnterBackground() {
