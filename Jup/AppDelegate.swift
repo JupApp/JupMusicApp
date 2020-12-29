@@ -9,6 +9,7 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -102,6 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
       return appRemote
     }()
     
+    var tryReconnecting = true
+    
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         print("\n\n\n\n\n\nconnected to spotify app\n\n\n\n\n\n\n\n")
         bringBackToVC?()
@@ -111,24 +114,81 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
         print("\n\n\n\n\n\nfailed to connect to spotify app\n\n\n\n\n\n")
         print(error.debugDescription)
-        bringBackToVC?()
-        bringBackToVC = nil
+        print("But is it connected...? - \(appRemote.isConnected)")
+        
+        if tryReconnecting {
+            connect("", completionHandler: bringBackToVC!)
+            tryReconnecting = false
+        } else {
+            bringBackToVC?()
+            bringBackToVC = nil
+            tryReconnecting = true
+        }
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         print("\n\n\n\n\n\ndisconnected from spotify app\n\n\n\n\n\n")
+        connect("") {
+            print("attempted to connect back to spotify app after disconnecting")
+        }
+        if tryReconnecting {
+            if bringBackToVC == nil {
+                bringBackToVC = {
+                    print("attempted to connect back to spotify app after disconnecting")
+                }
+            }
+            connect("", completionHandler: bringBackToVC!)
+            bringBackToVC = nil
+            tryReconnecting = false
+        } else {
+            bringBackToVC?()
+            bringBackToVC = nil
+            tryReconnecting = true
+        }
 
     }
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        print("spotify app state changed")
-
+        print("Player state changed")
     }
     
     func connect(_ uri: String, completionHandler: @escaping () -> ()) {
+        connect(uri, 0, completionHandler: completionHandler)
+    }
+    
+    func connect(_ uri: String, _ playbackPosition: Int, completionHandler: @escaping () -> ()) {
         bringBackToVC = completionHandler
-        self.appRemote.authorizeAndPlayURI(uri)
-
+        if self.appRemote.isConnected {
+            
+            self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
+                if let _ = e {
+                    print("Was connected, but failed to play song...")
+                } else {
+                    self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in
+                        self.bringBackToVC?()
+                        self.bringBackToVC = nil
+                    })
+                }
+            })
+        } else {
+            SPTAppRemote.checkIfSpotifyAppIsActive { (active) in
+                if active {
+                    self.bringBackToVC = {
+                        print("hopefully connected by now... \(self.appRemote.isConnected)")
+                        self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
+                            if let _ = e {
+                                print("Was connected, but failed to play song...")
+                            } else {
+                                self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
+                            }
+                        })
+                    }
+                    self.appRemote.connect()
+                } else {
+                    self.appRemote.authorizeAndPlayURI(uri)
+                }
+            }
+        }
     }
 
     

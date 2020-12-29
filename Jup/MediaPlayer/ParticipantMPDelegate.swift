@@ -25,5 +25,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         // TO-DO
     }
     
+    func loadQueueIntoPlayer() {
+    }
+    
     
 }

@@ -11,7 +11,7 @@ import StoreKit
 
 class HostMPDelegate: MediaPlayerDelegate {
     var mediaPlayer: MediaPlayer?
-    let uris: [String] = ["spotify:track:2EjXfH91m7f8HiJN1yQg97", "6HlqioVbMHWnPOmm5Wf7NN","4jWr4c9xp3D2QBd7I7xEqn", "609qKv3KPAbdtp0LQH2buA", "1TwLKNsCnhi1HxbIi4bAW0"]
+    let uris: [String] = ["spotify:track:2EjXfH91m7f8HiJN1yQg97", "spotify:track:6HlqioVbMHWnPOmm5Wf7NN","spotify:track:4jWr4c9xp3D2QBd7I7xEqn", "spotify:track:609qKv3KPAbdtp0LQH2buA", "spotify:track:1TwLKNsCnhi1HxbIi4bAW0"]
     var uri_count = 0
     init(_ platform: Platform) {
 
@@ -53,6 +53,21 @@ class HostMPDelegate: MediaPlayerDelegate {
     
     func updateQueueWithSnapshot() {
         fatalError()
+    }
+    
+    func loadQueueIntoPlayer() {
+        var songItemArray: [SpotifySongItem] = []
+        for uri in uris[1...] {
+            let songItem: SpotifySongItem = SpotifySongItem(uri: uri, artist: "", song: "", albumURL: "", length: 100)
+            songItemArray.append(songItem)
+        }
+        self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in
+            if let error = e {
+                print(error.localizedDescription)
+            } else {
+                print("Successfully loaded up queue")
+            }
+        })
     }
     
     

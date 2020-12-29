@@ -30,6 +30,8 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
         if isHost {
             mpDelegate = HostMPDelegate(platform)
             btDelegate = BTHostDelegate()
@@ -96,6 +98,10 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return SongCell
     }
         
+    @objc func didEnterBackground() {
+        print("App entering background")
+        mpDelegate.loadQueueIntoPlayer()
+    }
 
 
 

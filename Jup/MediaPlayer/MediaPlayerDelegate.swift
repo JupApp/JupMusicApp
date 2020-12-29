@@ -21,5 +21,7 @@ protocol MediaPlayerDelegate {
     
     func likeSong()
     
+    func loadQueueIntoPlayer()
+
     func updateQueueWithSnapshot()
 }
