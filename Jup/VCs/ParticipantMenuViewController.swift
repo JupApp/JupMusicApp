@@ -8,51 +8,30 @@
 import SideMenu
 import UIKit
 
-class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDataSource, UITableViewDelegate {
+class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDelegate, UITableViewDataSource {
     
     var participantTableView: UITableView = UITableView()
+
     
-    let hostCell = "Host"
-    let particpantCell = "Participant"
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        participantTableView.delegate = self
-        participantTableView.dataSource = self
-        
-        self.view.addSubview(participantTableView)
-        participantTableView.frame = self.view.bounds
-        
-        //do these two lines for each nib you want to include in table view
-        let nib = UINib(nibName: "SongCell", bundle: nil)
-        participantTableView.register(nib, forCellReuseIdentifier: "SongCell")
+        participantTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
+        
+    var items = ["1","2","3","4"]
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return items.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = items[indexPath.row]
+        return cell
     }
-    
-   
-//    self.tableView.register(
-//        UINib(Nibname:SearchCell)
-//        )
-    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        tableView.register("SearchCell", forCellReuseIdentifier:self.hostCell)
-//        if indexPath.row == 0 {
-//            let cell = Bundle.main.loadNibNamed("Search", owner: self, options: nil)
-//            return cell
-//        } else if indexPath.row == 1 {
-//            let cell = Bundle.main.loadNibNamed("SongCell", owner: self, options: nil)
-//            return cell
-//        }
-//
-//
-//    }
 }
+
+
     
     
 

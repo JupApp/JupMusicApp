@@ -9,7 +9,7 @@ import UIKit
 
 class SpotifyAppRemoteError: Error {}
 
-class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     
     
@@ -25,7 +25,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var participantMenu: ParticipantMenuViewController?
+    var participantMenu: SideMenuNavigationController?
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
 
@@ -142,8 +142,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         print("App entering background")
         mpDelegate.loadQueueIntoPlayer()
     }
-
-
-
-
 }
+
+    
