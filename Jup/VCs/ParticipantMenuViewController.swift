@@ -8,33 +8,64 @@
 import SideMenu
 import UIKit
 
-class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDataSource, UITableViewDelegate {
+class ParticipantMenuViewController: SideMenuNavigationController{
     
-    var participantTableView: UITableView!
+    var participantMenu: SideMenuNavigationController?
     
-    let hostCell = "Host"
-    let particpantCell = "Participant"
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        participantTableView.delegate = self
-        participantTableView.dataSource = self
-        
-        self.view.addSubview(participantTableView)
-        participantTableView.frame = self.view.bounds
-        
-        //do these two lines for each nib you want to include in table view
-        let nib = UINib(nibName: "SongCell", bundle: nil)
-        participantTableView.register(nib, forCellReuseIdentifier: "SongCell")
+        participantMenu = SideMenuNavigationController(rootViewController: ParticipantMenuTable())
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
-    }
+    class ParticipantMenuTable: UITableViewController{
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        var items = ["1","2","3","4"]
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        }
+        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return items.count
+        }
+        override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.textLabel?.text = items[indexPath.row]
+        return cell
+        
+        }
     }
+            
+}
+
     
+    
+//    var participantTableView: UITableView!
+//
+//    let hostCell = "Host"
+//    let particpantCell = "Participant"
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        participantTableView.delegate = self
+//        participantTableView.dataSource = self
+//
+//        self.view.addSubview(participantTableView)
+//        participantTableView.frame = self.view.bounds
+//
+//        //do these two lines for each nib you want to include in table view
+//        let nib = UINib(nibName: "SongCell", bundle: nil)
+//        participantTableView.register(nib, forCellReuseIdentifier: "SongCell")
+//    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        <#code#>
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        <#code#>
+//    }
+//
    
 //    self.tableView.register(
 //        UINib(Nibname:SearchCell)
@@ -51,8 +82,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDa
 //        }
 //
 //
-    }
-}
+    
     
     
 
