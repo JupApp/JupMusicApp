@@ -8,7 +8,7 @@
 import SideMenu
 import UIKit
 
-class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDelegate, UITableViewDataSource {
+class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDelegate, UITableViewDataSource{
     
     var participantTableView: UITableView = UITableView()
 
@@ -17,25 +17,41 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         super.viewDidLoad()
         participantTableView.delegate = self
         participantTableView.dataSource = self
-        participantTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        //participantTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        participantTableView.register(SearchCell.self, forCellReuseIdentifier: "SearchCell")
         self.view.addSubview(participantTableView)
         participantTableView.frame = self.view.bounds
+        let cellNib = UINib(nibName: "SearchCell", bundle: nil)
+        participantTableView.register(cellNib, forCellReuseIdentifier: "SearchCell")
+
+
     }
         
     var items = ["1","2","3","4"]
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("\n\n\n\n\n\n\n\n\n\nRows function got called\n\n\n\n\n\n\n\n\n\n\n")
-        return items.count
+        return 10
     }
-
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-            cell.textLabel?.text = items[indexPath.row]
-        return cell
+        var cell = tableView.dequeueReusableCell(
+                withIdentifier: "SearchCell", for: indexPath) as? SearchCell
+        if cell == nil {
+            cell = SearchCell(style:.default, reuseIdentifier: "SearchCell")
+            cell?.SCSongAlbumArt.image = UIImage(named: "Join")
+            cell?.SCSongArtist.text = "Bob th e"
+            cell?.SCSongTitle.text = "asdasdasd"
+            
+        }
+       
+     //   let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        // cell.textLabel?.text = items[indexPath.row]
+        return cell!
     }
 }
-
 
     
     
