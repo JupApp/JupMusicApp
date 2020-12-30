@@ -35,7 +35,7 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CheckmarkImage" translatesAutoresizingMaskIntoConstraints="NO" id="OI3-KK-9iz">
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CheckmarkImage" translatesAutoresizingMaskIntoConstraints="NO" id="OI3-KK-9iz" userLabel="Add Song image">
                         <rect key="frame" x="281" y="10" width="29" height="31"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmp-vD-ZZG">
@@ -71,7 +71,6 @@
                 <outlet property="SCSongArtist" destination="m0s-is-NK7" id="8SX-0B-c5t"/>
                 <outlet property="SCSongTitle" destination="snY-l4-kBo" id="eyk-Cy-VJf"/>
                 <outlet property="addSongButton" destination="Nmp-vD-ZZG" id="ZS2-jD-1FG"/>
-                <outlet property="addSongIMage" destination="OI3-KK-9iz" id="J72-9m-U99"/>
             </connections>
             <point key="canvasLocation" x="-213.04347826086959" y="108.48214285714285"/>
         </tableViewCell>
