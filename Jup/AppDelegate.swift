@@ -179,6 +179,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
 //            }
 //        }
     }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+      if self.appRemote.isConnected {
+        self.appRemote.disconnect()
+      }
+    }
 
     
 }
