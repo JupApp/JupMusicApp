@@ -50,13 +50,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         bringBackToVC = nil
     }
     
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-      self.sessionManager.application(app, open: url, options: options)
-      return true
+        print("HOIOIOIOIOYAHHAHAAH\n\n\n\n\n\n\n\n")
+        let parameters = appRemote.authorizationParameters(from: url);
+        self.sessionManager.application(app, open: url, options: options)
+        if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
+            print("\n\n\n\n\nWOAHHHHHHH\n\n\n\n")
+            appRemote.connectionParameters.accessToken = access_token
+            self.accessToken = access_token
+        }
+        return true
     }
     
     let SpotifyClientID = "93de9a96fb6c4cb39844ac6e98427885"
     let SpotifyRedirectURL = URL(string: "jup-spotify-login://spotify-login-callback")!
+    static private let kAccessTokenKey = "access-token-key"
     
     var bringBackToVC: (() -> ())?
     var triggerAlertInVC: (() -> ())?
@@ -97,9 +106,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         connectToSpotify()
     }
     
+    // taken from demo app in spotify ios sdk
+    var accessToken = UserDefaults.standard.string(forKey: kAccessTokenKey) {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(accessToken, forKey: AppDelegate.kAccessTokenKey)
+        }
+    }
+    
     lazy var appRemote: SPTAppRemote = {
-      let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .debug)
-        appRemote.connectionParameters.accessToken = sessionManager.session?.accessToken
+      let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .none)
+        appRemote.connectionParameters.accessToken = self.accessToken
+
+//        appRemote.connectionParameters.accessToken = sessionManager.session?.accessToken
       appRemote.delegate = self
       return appRemote
     }()

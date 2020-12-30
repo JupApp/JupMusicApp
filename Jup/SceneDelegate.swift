@@ -40,11 +40,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate{
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
+//
         guard let _ = appDelegate.bringBackToVC else {
             return
         }
-        print("scene entering foreground")
+//        print(appDelegate.appRemote.isConnected)
         appDelegate.appRemote.connect()
 
     }
@@ -53,6 +53,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate{
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        print("\n\n\n\n\n\n HOISDSJFSIUDISUDH \n\n\n\n\n")
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let parameters = appDelegate.appRemote.authorizationParameters(from: url);
+
+        if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
+            appDelegate.appRemote.connectionParameters.accessToken = access_token
+            appDelegate.accessToken = access_token
+        }
+
     }
     
     
