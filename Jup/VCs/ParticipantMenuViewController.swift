@@ -17,21 +17,19 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         super.viewDidLoad()
         participantTableView.delegate = self
         participantTableView.dataSource = self
-        //participantTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         participantTableView.register(SearchCell.self, forCellReuseIdentifier: "SearchCell")
         self.view.addSubview(participantTableView)
         participantTableView.frame = self.view.bounds
         let cellNib = UINib(nibName: "SearchCell", bundle: nil)
         participantTableView.register(cellNib, forCellReuseIdentifier: "SearchCell")
-
+        participantTableView.
+        
 
     }
         
-    var items = ["1","2","3","4"]
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("\n\n\n\n\n\n\n\n\n\nRows function got called\n\n\n\n\n\n\n\n\n\n\n")
-        return 10
+        return 1
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50

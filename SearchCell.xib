@@ -35,16 +35,32 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CheckmarkImage" translatesAutoresizingMaskIntoConstraints="NO" id="OI3-KK-9iz">
+                        <rect key="frame" x="281" y="10" width="29" height="31"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmp-vD-ZZG">
+                        <rect key="frame" x="277" y="8" width="35" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Nmp-vD-ZZG" secondAttribute="height" multiplier="35:34" id="EL4-IW-dGl"/>
+                        </constraints>
+                        <state key="normal" image="PlusImage"/>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="OI3-KK-9iz" secondAttribute="trailing" constant="10" id="4xc-Sz-eiz"/>
+                    <constraint firstAttribute="bottom" secondItem="Nmp-vD-ZZG" secondAttribute="bottom" constant="8" id="6f8-W7-4nn"/>
                     <constraint firstAttribute="bottom" secondItem="m0s-is-NK7" secondAttribute="bottom" constant="9" id="9Sl-Sg-0PM"/>
                     <constraint firstAttribute="bottom" secondItem="snY-l4-kBo" secondAttribute="bottom" constant="21" id="Av2-3I-RDu"/>
                     <constraint firstItem="m0s-is-NK7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="FOU-fs-MiW"/>
                     <constraint firstItem="m0s-is-NK7" firstAttribute="leading" secondItem="i3t-eY-4MF" secondAttribute="trailing" constant="8" symbolic="YES" id="Kd8-N5-lm6"/>
+                    <constraint firstAttribute="trailing" secondItem="Nmp-vD-ZZG" secondAttribute="trailing" constant="8" id="Re6-Vb-jcm"/>
                     <constraint firstItem="snY-l4-kBo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="ZMU-8w-Ach"/>
+                    <constraint firstItem="Nmp-vD-ZZG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="cXr-CE-LqE"/>
                     <constraint firstItem="i3t-eY-4MF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="eKN-Nz-Fr7"/>
+                    <constraint firstItem="OI3-KK-9iz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="iae-Kd-f9I"/>
                     <constraint firstItem="i3t-eY-4MF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="lET-Up-Zv1"/>
                     <constraint firstAttribute="bottom" secondItem="i3t-eY-4MF" secondAttribute="bottom" id="pMS-aW-nju"/>
+                    <constraint firstAttribute="bottom" secondItem="OI3-KK-9iz" secondAttribute="bottom" constant="9" id="tWt-By-Thx"/>
                     <constraint firstItem="snY-l4-kBo" firstAttribute="leading" secondItem="i3t-eY-4MF" secondAttribute="trailing" constant="8" symbolic="YES" id="ufV-5q-c7j"/>
                 </constraints>
             </tableViewCellContentView>
@@ -54,11 +70,15 @@
                 <outlet property="SCSongAlbumArt" destination="i3t-eY-4MF" id="61u-GG-jg7"/>
                 <outlet property="SCSongArtist" destination="m0s-is-NK7" id="8SX-0B-c5t"/>
                 <outlet property="SCSongTitle" destination="snY-l4-kBo" id="eyk-Cy-VJf"/>
+                <outlet property="addSongButton" destination="Nmp-vD-ZZG" id="ZS2-jD-1FG"/>
+                <outlet property="addSongIMage" destination="OI3-KK-9iz" id="J72-9m-U99"/>
             </connections>
             <point key="canvasLocation" x="-213.04347826086959" y="108.48214285714285"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="CheckmarkImage" width="29" height="41.5"/>
+        <image name="PlusImage" width="41" height="41"/>
         <image name="TestAlbum" width="325" height="325"/>
     </resources>
 </document>
