@@ -14,6 +14,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.presentationStyle = .viewSlideOutMenuPartialIn
         participantTableView.delegate = self
         participantTableView.dataSource = self
         participantTableView.register(ParticipantMenuCell.self, forCellReuseIdentifier: "ParticipantMenuCell")
@@ -23,12 +24,15 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         participantTableView.register(cellNib, forCellReuseIdentifier: "ParticipantMenuCell")
         participantTableView.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
         participantTableView.separatorStyle = .none
+        self.menuWidth = 200
+        
         
     //Code for TableView SideMenu
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("\n\n\n\n\n\n\n\n\n\nRows function got called\n\n\n\n\n\n\n\n\n\n\n")
         if section == 0{
@@ -39,19 +43,51 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         }
     return section
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionName: String
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionHeader = UILabel()
+//        let sectionTitle = UILabel()
         switch section {
-            case 0:
-                sectionName = NSLocalizedString("Host", comment: "Host")
-            case 1:
-                sectionName = NSLocalizedString("Participants", comment: "Participants")
+        case 0:
+            print("\n\n\n\n\n\n\n\n POOP 0\n\n\n\n\n\n")
+
+            sectionHeader.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
+            sectionHeader.text = "Host"
+            sectionHeader.textColor = .lightGray
+            sectionHeader.font = UIFont.systemFont(ofSize: 10)
             
-            default:
-                sectionName = ""
+
+
+//            sectionHeader.addSubview(sectionTitle)
+//            sectionTitle.backgroundColor = .black
+
+        case 1:
+            sectionHeader.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
+            sectionHeader.text = "Participant"
+            sectionHeader.textColor = .lightGray
+            sectionHeader.font = UIFont.systemFont(ofSize: 10)
+            sectionHeader.textAlignment = .left
+//            sectionHeader.addSubview(sectionTitle)
+
+        default:
+            sectionHeader.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
+//            sectionTitle.backgroundColor = .black
+
         }
-        return sectionName
+        return sectionHeader
     }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        let sectionHeader: String
+//        switch section {
+//            case 0:
+//                sectionHeader = NSLocalizedString("Host", comment: "Host")
+//            case 1:
+//                sectionHeader = NSLocalizedString("Participants", comment: "Participants")
+//
+//            default:
+//                sectionHeader = ""
+//        }
+//        return sectionHeader
+//    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
@@ -64,4 +100,3 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         return cell!
     }
 }
-

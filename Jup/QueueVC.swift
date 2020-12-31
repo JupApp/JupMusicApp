@@ -59,6 +59,8 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         participantMenu?.leftSide = true
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+
+        
         
         
         
