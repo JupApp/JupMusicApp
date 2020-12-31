@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="g6q-yV-2gd">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -21,15 +21,9 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evl-Dk-fxa">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="409"/>
-                                        <connections>
-                                            <segue destination="d8E-AH-NBx" kind="show" id="WpC-A3-3Np"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6EJ-pa-bXZ">
                                         <rect key="frame" x="0.0" y="409" width="414" height="409"/>
-                                        <connections>
-                                            <segue destination="1IT-YM-SUP" kind="show" id="Obq-H1-cQa"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -46,6 +40,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="899"/>
                                 <color key="tintColor" red="0.78431367870000002" green="0.89411771299999998" blue="0.89803922179999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </imageView>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="maD-U8-WyB">
+                                <rect key="frame" x="-67" y="818" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </navigationBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -68,7 +66,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-199.19999999999999" y="79.802955665024641"/>
+            <point key="canvasLocation" x="-583" y="-831"/>
         </scene>
         <!--Queue SettingsVC-->
         <scene sceneID="tWv-95-t1T">
@@ -346,6 +344,9 @@
                             <outlet property="delegate" destination="d8E-AH-NBx" id="s0v-6k-fMv"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="" image="tabBarHost" selectedImage="tabBarHost" id="haw-i2-oRs">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" id="bTX-vV-pUp"/>
                     <connections>
                         <outlet property="allowRepeatsSwitch" destination="jxk-OX-PL2" id="ChS-yv-4yz"/>
@@ -360,7 +361,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gSP-v3-L50" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="779.71014492753625" y="-286.60714285714283"/>
+            <point key="canvasLocation" x="139" y="-488"/>
         </scene>
         <!--QueueVC-->
         <scene sceneID="Se4-Hc-GY0">
@@ -484,7 +485,6 @@
                         <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
                         <outlet property="nowPlayingTitle" destination="CTf-KG-p3i" id="aPw-Mi-J1E"/>
                         <outlet property="queueTable" destination="qpg-jf-dnw" id="9zt-ec-Kzo"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="segueToHome" modalPresentationStyle="fullScreen" id="qS6-JS-Vib"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -568,6 +568,28 @@
             </objects>
             <point key="canvasLocation" x="2369.5652173913045" y="-286.60714285714283"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="5S0-hG-8Q2">
+            <objects>
+                <tabBarController id="g6q-yV-2gd" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="3Rw-MB-KSq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.48235297199999999" green="0.97254908080000002" blue="0.74117654560000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="selectedImageTintColor" red="0.9098039269" green="0.96078431610000004" blue="0.9529411793" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="d8E-AH-NBx" kind="relationship" relationship="viewControllers" id="uVS-Gg-Kwn"/>
+                        <segue destination="1IT-YM-SUP" kind="relationship" relationship="viewControllers" id="VAX-Xx-7M5"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Euu-i5-u2L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-803" y="-133"/>
+        </scene>
         <!--Participant SettingsVC-->
         <scene sceneID="e9A-TU-ic6">
             <objects>
@@ -611,6 +633,7 @@
                             <constraint firstItem="bBC-Rf-fjp" firstAttribute="leading" secondItem="fBK-zg-HWC" secondAttribute="leading" id="jzg-dA-Eq2"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="" image="tabBarJoin" id="ZIm-rf-nXL"/>
                     <navigationItem key="navigationItem" id="lhf-Es-4qX"/>
                     <connections>
                         <outlet property="joinableQueuesTable" destination="UPR-dr-2H7" id="x9j-5L-4jZ"/>
@@ -631,6 +654,8 @@
         <image name="Return White" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
         <image name="noSongPlayingImage" width="330" height="330"/>
+        <image name="tabBarHost" width="46" height="49"/>
+        <image name="tabBarJoin" width="66" height="50"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -22,13 +22,18 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         participantTableView.frame = self.view.bounds
         let cellNib = UINib(nibName: "ParticipantMenuCell", bundle: nil)
         participantTableView.register(cellNib, forCellReuseIdentifier: "ParticipantMenuCell")
-        participantTableView.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
+        //participantTableView.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
         participantTableView.separatorStyle = .none
         self.menuWidth = 200
-        
-        
-    //Code for TableView SideMenu
+        participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "Queue Background")!)
+//        let blurEffect = UIBlurEffect(style: .dark)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = view.bounds
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        view.addSubview(blurEffectView)
+//    //Code for TableView SideMenu
     }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -43,6 +48,9 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         }
     return section
     }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10
+    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeader = UILabel()
 //        let sectionTitle = UILabel()
@@ -51,43 +59,23 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
             print("\n\n\n\n\n\n\n\n POOP 0\n\n\n\n\n\n")
 
             sectionHeader.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
-            sectionHeader.text = "Host"
-            sectionHeader.textColor = .lightGray
-            sectionHeader.font = UIFont.systemFont(ofSize: 10)
-            
-
-
-//            sectionHeader.addSubview(sectionTitle)
-//            sectionTitle.backgroundColor = .black
+//            sectionHeader.text = "Host"
+//            sectionHeader.textColor = .lightGray
+//            sectionHeader.font = UIFont.systemFont(ofSize: 10)
 
         case 1:
             sectionHeader.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
-            sectionHeader.text = "Participant"
-            sectionHeader.textColor = .lightGray
-            sectionHeader.font = UIFont.systemFont(ofSize: 10)
-            sectionHeader.textAlignment = .left
+//            sectionHeader.text = "Participant"
+//            sectionHeader.textColor = .lightGray
+//            sectionHeader.font = UIFont.systemFont(ofSize: 10)
+//            sectionHeader.textAlignment = .left
 //            sectionHeader.addSubview(sectionTitle)
 
         default:
             sectionHeader.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
-//            sectionTitle.backgroundColor = .black
-
         }
         return sectionHeader
     }
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let sectionHeader: String
-//        switch section {
-//            case 0:
-//                sectionHeader = NSLocalizedString("Host", comment: "Host")
-//            case 1:
-//                sectionHeader = NSLocalizedString("Participants", comment: "Participants")
-//
-//            default:
-//                sectionHeader = ""
-//        }
-//        return sectionHeader
-//    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
@@ -99,4 +87,5 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         }
         return cell!
     }
+    
 }
