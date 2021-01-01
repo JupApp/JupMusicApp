@@ -56,7 +56,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate{
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        print("\n\n\n\n\n\n HOISDSJFSIUDISUDH \n\n\n\n\n")
         guard let url = URLContexts.first?.url else {
             return
         }

@@ -16,4 +16,6 @@ protocol MediaPlayer {
     func transitionNextSong(_ songItem: SongItem, completionHandler: @escaping (Error?) -> ())
 
     func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ())
+    
+    func getTimeInfo(completionHandler: @escaping (Double, Double) -> ())
 }

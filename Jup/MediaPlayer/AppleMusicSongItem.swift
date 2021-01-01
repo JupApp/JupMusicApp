@@ -14,6 +14,7 @@ class AppleMusicSongItem: SongItem {
     var songTitle: String
     var albumURL: String
     var songLength: UInt
+    var likes: Int = 0
     
     var albumArtwork: UIImage?
     
@@ -24,6 +25,16 @@ class AppleMusicSongItem: SongItem {
         self.albumURL = albumURL
         songLength = length
     }
+    
+    init(_ songMap: [String: Any]) {
+        self.uri = songMap["uri"] as! String
+        self.artistName = songMap["artistName"] as! String
+        self.songTitle = songMap["songTitle"] as! String
+        self.albumURL = songMap["albumURL"] as! String
+        self.songLength = UInt(songMap["songLength"] as! Int)
+        self.likes = songMap["likes"] as! Int
+    }
+    
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
         if let artwork = albumArtwork {
