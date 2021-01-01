@@ -12,6 +12,19 @@ protocol SongItem {
     var songTitle: String { get }
     var albumURL: String { get }
     var songLength: UInt { get }
+    var albumArtwork: UIImage? { get set }
+    var likes: Int { get set }
+
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ())
+    
 }
+
+extension SongItem {
+    
+    func getSongMap() -> [String: Any] {
+        return ["uri": uri, "artistName": artistName, "songTitle": songTitle,
+                "albumURL": albumURL, "songLength": songLength, "progress": 0.0, "likes": likes]
+    }
+}
+

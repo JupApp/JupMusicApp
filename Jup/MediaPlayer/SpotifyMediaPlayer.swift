@@ -200,6 +200,20 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
         })
         
     }
+    
+    func getTimeInfo(completionHandler: @escaping (Double, Double) -> ()) {
+        self.player?.getPlayerState({ (state, error) in
+            if let _ = error {
+                fatalError("failed get player state rip")
+            } else {
+                let playerState: SPTAppRemotePlayerState = state as! SPTAppRemotePlayerState
+                let songDuration: Double = Double(playerState.track.duration)
+                let timeLeft: Double = songDuration - Double(playerState.playbackPosition)
+                completionHandler(timeLeft, songDuration)
+            }
+        })
+    }
+
 
     
     
