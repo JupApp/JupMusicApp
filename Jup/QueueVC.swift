@@ -9,7 +9,16 @@ import UIKit
 
 class SpotifyAppRemoteError: Error {}
 
-class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
+struct SongTableItem: Hashable, Equatable {
+    var title: String
+    var artist: String
+    var uri: String
+    var albumArtwork: UIImage
+    var contributor: String
+    var likes: Int
+}
+
+class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
     
     
     
@@ -26,6 +35,14 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
     var participantMenu: SideMenuNavigationController?
+    
+    lazy var datasource =
+            UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
+        let cell =
+            tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as! SongCell
+        cell.textLabel!.text = s
+        return cell
+    }
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     override func viewDidLoad() {
@@ -45,7 +62,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         let nib = UINib(nibName: "SongCell", bundle: nil)
         queueTable.register(nib, forCellReuseIdentifier: "SongCell")
         queueTable.delegate = self
-        queueTable.dataSource = self
+//        queueTable.dataSource = self
         
         self.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
@@ -82,17 +99,17 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         searchVC?.isHost = isHost
         return searchVC
     }
-    //FIX!!!!!!
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-
-    }
-    
-    //FIX!!!!!!
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
-        return SongCell
-    }
+//    //FIX!!!!!!
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 1
+//
+//    }
+//
+//    //FIX!!!!!!
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
+//        return SongCell
+//    }
     
     func failedSpotifyConnectionAlert(_ act:UIAlertAction){
         //Code for beep boop bopping

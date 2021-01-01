@@ -9,16 +9,16 @@ import UIKit
 
 class SongCell: UITableViewCell {
     
-    @IBOutlet var songCellLabel:UILabel!
-    @IBOutlet var aristCellLabel:UILabel!
-    @IBOutlet weak var songCellAlbumImage: UIImageView!
-    @IBOutlet weak var likeButtonCountLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var artistLabel: UILabel!
+    @IBOutlet weak var albumArtwork: UIImageView!
+    @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        likeButtonCountLabel.adjustsFontSizeToFitWidth = true
+        likeCountLabel.adjustsFontSizeToFitWidth = true
         // Initialization code
     }
     
