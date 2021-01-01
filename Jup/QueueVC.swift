@@ -34,13 +34,13 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var participantMenu: SideMenuNavigationController?
+    var participantMenu: ParticipantMenuViewController?
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
         let cell =
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as! SongCell
-        cell.textLabel!.text = s
+        //cell.textLabel!.text = s
         return cell
     }
     
@@ -74,7 +74,8 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
         participantMenu?.leftSide = true
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
-
+        participantMenu?.menuWidth = 200
+        participantMenu?.parentVC = self
         
         
         
@@ -154,9 +155,9 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
     }
     
     func returnToSettingsSegue(_ act:UIAlertAction){
-        performSegue(withIdentifier: "segueToHome", sender: nil)
+        performSegue(withIdentifier: "segueToSettings", sender: nil)
     }
-        
+    
     @objc func didEnterBackground() {
         print("App entering background")
         mpDelegate.loadQueueIntoPlayer()

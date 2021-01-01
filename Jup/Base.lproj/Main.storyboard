@@ -66,7 +66,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-583" y="-831"/>
+            <point key="canvasLocation" x="-672" y="-960"/>
         </scene>
         <!--Queue SettingsVC-->
         <scene sceneID="tWv-95-t1T">
@@ -319,7 +319,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                                     <state key="normal" title="Host">
-                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="verifyAndSegueToQueue:" destination="d8E-AH-NBx" eventType="touchUpInside" id="23V-hW-EIB"/>
@@ -485,6 +485,7 @@
                         <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
                         <outlet property="nowPlayingTitle" destination="CTf-KG-p3i" id="aPw-Mi-J1E"/>
                         <outlet property="queueTable" destination="qpg-jf-dnw" id="9zt-ec-Kzo"/>
+                        <segue destination="g6q-yV-2gd" kind="presentation" identifier="segueToSettings" destinationCreationSelector="segueToSettings:" modalPresentationStyle="fullScreen" id="Lgp-8R-7Zg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -573,7 +574,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euu-i5-u2L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-803" y="-133"/>
+            <point key="canvasLocation" x="-791" y="-171"/>
         </scene>
         <!--Participant SettingsVC-->
         <scene sceneID="mCE-QX-xTX">
@@ -585,7 +586,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PPB-tJ-lZ8">
                                 <rect key="frame" x="27.333333333333343" y="88" width="359.33333333333326" height="45.666666666666657"/>
-                                <color key="backgroundColor" red="0.90588235859999999" green="0.96078431610000004" blue="0.94901961089999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.90588235859999999" green="0.96078431610000004" blue="0.94901961089999998" alpha="0.53810533940397354" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="PPB-tJ-lZ8" secondAttribute="height" multiplier="118:15" id="gx9-aZ-4Id"/>
                                 </constraints>
@@ -604,13 +605,13 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEz-f2-gpf">
                                 <rect key="frame" x="21.666666666666657" y="715" width="370.66666666666674" height="48"/>
-                                <color key="backgroundColor" red="0.90588235859999999" green="0.96078431610000004" blue="0.94901961089999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.90588235859999999" green="0.96078431610000004" blue="0.94901961089999998" alpha="0.59349130794701987" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zEz-f2-gpf" secondAttribute="height" multiplier="85:11" id="Jb8-kZ-NyX"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                 <state key="normal" title="Join">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <segue destination="TfO-Ke-MaO" kind="presentation" identifier="participantToQueue" destinationCreationSelector="segueToQueue:" modalPresentationStyle="fullScreen" id="mDx-d9-ECJ"/>
@@ -618,25 +619,9 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x6Q-aG-5UH">
                                 <rect key="frame" x="45" y="153.66666666666669" width="324" height="541.33333333333326"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="8Pa-wW-vEb">
-                                        <rect key="frame" x="0.0" y="28" width="324" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8Pa-wW-vEb" id="zn7-rF-VUx">
-                                            <rect key="frame" x="0.0" y="0.0" width="324" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="YyX-7e-is1">
-                                        <rect key="frame" x="0.0" y="71.666667938232422" width="324" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YyX-7e-is1" id="IGA-uh-4eA">
-                                            <rect key="frame" x="0.0" y="0.0" width="324" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Qi5-4O-mes"/>
@@ -666,7 +651,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mDx-d9-ECJ"/>
+        <segue reference="Ggz-E1-Q6M"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Background Home Screeen" width="414" height="736"/>
