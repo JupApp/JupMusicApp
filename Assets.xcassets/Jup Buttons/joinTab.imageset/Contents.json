@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "tabBarHost.png",
+      "filename" : "joinTab.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "joinTab@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "joinTab@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -47,6 +47,12 @@
                         <color key="textColor" red="0.95686274770000002" green="0.98431372640000003" blue="0.97647058959999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ContributorLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hi-jC-e9D">
+                        <rect key="frame" x="99" y="26" width="103" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.78431367870000002" green="0.89411771299999998" blue="0.89803922179999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -54,7 +60,9 @@
                     <constraint firstAttribute="trailing" secondItem="cQA-5Q-stQ" secondAttribute="trailing" constant="7" id="541-fc-IFA"/>
                     <constraint firstItem="5PR-jk-DUY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="26" id="5jE-vd-ToM"/>
                     <constraint firstAttribute="trailing" secondItem="22v-Y6-KqJ" secondAttribute="trailing" id="6DX-7i-fJD"/>
+                    <constraint firstItem="5hi-jC-e9D" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="26" id="6YL-Kc-PPe"/>
                     <constraint firstItem="es9-gd-PdC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BWM-O8-Qlz"/>
+                    <constraint firstItem="5hi-jC-e9D" firstAttribute="leading" secondItem="5PR-jk-DUY" secondAttribute="trailing" constant="8" symbolic="YES" id="CXX-yq-h3O"/>
                     <constraint firstAttribute="trailing" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="307" id="D7R-xe-ifF"/>
                     <constraint firstItem="cQA-5Q-stQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="ENv-5G-eMA"/>
                     <constraint firstItem="Fzy-hv-lQN" firstAttribute="leading" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="8" symbolic="YES" id="FvL-Ks-UqZ"/>
@@ -63,6 +71,7 @@
                     <constraint firstAttribute="bottom" secondItem="cQA-5Q-stQ" secondAttribute="bottom" constant="7" id="fS5-ch-kJz"/>
                     <constraint firstItem="22v-Y6-KqJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fqk-0a-PxL"/>
                     <constraint firstAttribute="bottom" secondItem="5PR-jk-DUY" secondAttribute="bottom" constant="9" id="lpw-zK-zc0"/>
+                    <constraint firstAttribute="bottom" secondItem="5hi-jC-e9D" secondAttribute="bottom" constant="9" id="mvA-ls-D99"/>
                     <constraint firstItem="5PR-jk-DUY" firstAttribute="leading" secondItem="es9-gd-PdC" secondAttribute="trailing" constant="8" symbolic="YES" id="nwH-8P-ZrQ"/>
                     <constraint firstAttribute="bottom" secondItem="es9-gd-PdC" secondAttribute="bottom" constant="1" id="rE1-72-KQq"/>
                     <constraint firstItem="Fzy-hv-lQN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="xpv-np-wcw"/>
@@ -73,6 +82,7 @@
             <connections>
                 <outlet property="albumArtwork" destination="es9-gd-PdC" id="Acz-sB-byp"/>
                 <outlet property="artistLabel" destination="5PR-jk-DUY" id="HFa-ze-9TE"/>
+                <outlet property="contributorLabel" destination="5hi-jC-e9D" id="yjY-dU-PUX"/>
                 <outlet property="likeButton" destination="cQA-5Q-stQ" id="YJC-9Q-81P"/>
                 <outlet property="likeCountLabel" destination="22v-Y6-KqJ" id="Nw2-19-4qg"/>
                 <outlet property="titleLabel" destination="Fzy-hv-lQN" id="EFU-xy-CkI"/>

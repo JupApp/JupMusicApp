@@ -25,7 +25,11 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         //participantTableView.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
         participantTableView.separatorStyle = .none
         self.menuWidth = 200
+        participantTableView.isScrollEnabled = true
+        participantTableView.frame = CGRect(x: 0, y: 10, width: view.frame.width, height: view.frame.height-58)
         participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "Queue Background")!)
+        let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY, width: view.frame.width, height: 58))
+        exitQueueButton.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
 //        let blurEffect = UIBlurEffect(style: .dark)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 //        blurEffectView.frame = view.bounds
@@ -44,7 +48,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
             return 1
         }
         if section == 1{
-            return 5
+            return 2
         }
     return section
     }

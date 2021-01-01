@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "joinBarButton.png",
+      "filename" : "hostTab.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "hostTab@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "hostTab@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -14,6 +14,8 @@ class SongCell: UITableViewCell {
     @IBOutlet weak var albumArtwork: UIImageView!
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var contributorLabel: UILabel!
+
     
 
     override func awakeFromNib() {

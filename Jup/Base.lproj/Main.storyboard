@@ -344,7 +344,7 @@
                             <outlet property="delegate" destination="d8E-AH-NBx" id="s0v-6k-fMv"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="" image="tabBarHost" selectedImage="tabBarHost" id="haw-i2-oRs">
+                    <tabBarItem key="tabBarItem" title="" image="hostTab" selectedImage="hostTab" id="haw-i2-oRs">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="bTX-vV-pUp"/>
@@ -618,7 +618,6 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x6Q-aG-5UH">
                                 <rect key="frame" x="45" y="153.66666666666669" width="324" height="541.33333333333326"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="8Pa-wW-vEb">
@@ -654,7 +653,7 @@
                             <constraint firstItem="Qi5-4O-mes" firstAttribute="bottom" secondItem="zEz-f2-gpf" secondAttribute="bottom" constant="50" id="zKz-VR-Sf5"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabBarJoin" id="xv5-KL-fLT"/>
+                    <tabBarItem key="tabBarItem" title="" image="joinTab" id="xv5-KL-fLT"/>
                     <connections>
                         <outlet property="displayNameTextField" destination="PPB-tJ-lZ8" id="QGc-1v-cM9"/>
                         <outlet property="joinQueueButton" destination="zEz-f2-gpf" id="eaR-z2-vli"/>
@@ -675,9 +674,9 @@
         <image name="Queue Background" width="533" height="960"/>
         <image name="Return White" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
+        <image name="hostTab" width="46" height="49"/>
+        <image name="joinTab" width="66" height="50"/>
         <image name="noSongPlayingImage" width="330" height="330"/>
-        <image name="tabBarHost" width="46" height="49"/>
-        <image name="tabBarJoin" width="66" height="50"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
