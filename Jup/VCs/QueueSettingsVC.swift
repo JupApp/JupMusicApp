@@ -53,13 +53,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
         
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
-<<<<<<< HEAD
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-
-
-=======
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
->>>>>>> b9512287fef6dc9e173c182cf59bf264f4f8d70d
 
     }
     

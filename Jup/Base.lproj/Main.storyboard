@@ -613,7 +613,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="TfO-Ke-MaO" kind="presentation" modalPresentationStyle="fullScreen" id="mDx-d9-ECJ"/>
+                                    <segue destination="TfO-Ke-MaO" kind="presentation" identifier="participantToQueue" destinationCreationSelector="segueToQueue:" modalPresentationStyle="fullScreen" id="mDx-d9-ECJ"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x6Q-aG-5UH">
@@ -667,7 +667,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ggz-E1-Q6M"/>
+        <segue reference="mDx-d9-ECJ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Background Home Screeen" width="414" height="736"/>
