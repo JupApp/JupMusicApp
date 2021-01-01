@@ -40,6 +40,8 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         platformChoiceControl.addTarget(self, action: #selector(choiceControlSwitched(sender:)), for: .valueChanged)
         
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+
 
 
     }
