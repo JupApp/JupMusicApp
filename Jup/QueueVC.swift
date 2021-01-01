@@ -28,8 +28,6 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var participantMenu: SideMenuNavigationController?
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,7 +47,7 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         queueTable.delegate = self
         queueTable.dataSource = self
         
-        self.nowPlayingAlbum.image = UIImage(named: "Join")
+        self.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
         self.nowPlayingAlbum.addGestureRecognizer(tap)
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
@@ -59,6 +57,10 @@ class QueueVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         participantMenu?.leftSide = true
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+
+        
+        
+        
         
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))

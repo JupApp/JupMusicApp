@@ -26,8 +26,15 @@ class SearchVC: UIViewController {
         appleMusicLibraryButton.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
         appleMusicLibraryButton.layer.cornerRadius = 13
 
-
-
+        //this is for the placeholder switching 
+        if Platform.self == AppleMusicMediaPlayer.self{
+            musicSearchBar.placeholder = "search Apple Music"
+            return
+        }
+        if Platform.self == SpotifyMediaPlayer.self{
+            musicSearchBar.placeholder = "search Spotify"
+            return
+        }
         
         //This makes the keyboard show up immediately after seque
         musicSearchBar.becomeFirstResponder()
