@@ -26,5 +26,9 @@ extension SongItem {
         return ["uri": uri, "artistName": artistName, "songTitle": songTitle,
                 "albumURL": albumURL, "songLength": songLength, "progress": 0.0, "likes": likes]
     }
+    
+    func getSongTableItem() -> SongTableItem {
+        return SongTableItem(title: songTitle, artist: artistName, uri: uri, albumArtwork: albumArtwork ?? UIImage(), contributor: "", likes: likes)
+    }
 }
 

@@ -9,16 +9,24 @@ import UIKit
 
 class SpotifyAppRemoteError: Error {}
 
-struct SongTableItem: Hashable, Equatable {
+struct SongTableItem: Hashable {
     var title: String
     var artist: String
     var uri: String
     var albumArtwork: UIImage
     var contributor: String
     var likes: Int
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uri)
+    }
+    
+    static func ==(lhs: SongTableItem, rhs: SongTableItem) -> Bool {
+               return lhs.uri == rhs.uri
+    }
 }
 
-class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
+class QueueVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     
@@ -36,13 +44,18 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
     var platform: Platform = .APPLE_MUSIC
     var participantMenu: SideMenuNavigationController?
     
-    lazy var datasource =
-            UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
-        let cell =
-            tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as! SongCell
-        cell.textLabel!.text = s
-        return cell
-    }
+//    lazy var datasource =
+//            UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
+//        var cell =
+//            tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
+//                cell?.albumArtwork.image = UIImage(named: "Join")
+//        cell?.artistLabel.text = s.artist
+//        cell?.contributorLabel.text = s.contributor
+//        cell?.likeCountLabel.text = s.likes.description
+//        cell?.titleLabel.text = s.title
+//        print("\n\n\n\n\n\(s.artist)\n\n\n\n\n\n")
+//        return cell
+//    }
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     override func viewDidLoad() {
@@ -60,9 +73,21 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
         
         
         let nib = UINib(nibName: "SongCell", bundle: nil)
+
         queueTable.register(nib, forCellReuseIdentifier: "SongCell")
         queueTable.delegate = self
-//        queueTable.dataSource = self
+        queueTable.dataSource = self
+    
+
+//        var snap = NSDiffableDataSourceSnapshot<String, SongTableItem>()
+//        snap.appendSections(["Queue"])
+//        snap.appendItems(songs.map({ (songItem) -> SongTableItem in
+//            songItem.getSongTableItem()
+//        }), toSection: "Queue")
+////        snap.appendItems(songs.map({ (songItem) -> SongTableItem in
+////            songItem.getSongTableItem()
+////        }))
+//        datasource.apply(snap, animatingDifferences: false)
         
         self.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
@@ -75,17 +100,17 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
 
-        
-        
-        
-        
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
 
     }
-    
+    var songs: [SongItem] = [AppleMusicSongItem(id: "0", artist: "pooper0", song: "Poop0", albumURL: "www", length: 100), AppleMusicSongItem(id: "1", artist: "pooper1", song: "Poop1", albumURL: "www", length: 110), AppleMusicSongItem(id: "2", artist: "pooper2", song: "Poop2", albumURL: "www", length: 120), AppleMusicSongItem(id: "3", artist: "pooper3", song: "Poop3", albumURL: "www", length: 130)]
+    var counter: Int = 0
     @objc func play() {
-        mpDelegate.play()
+        mpDelegate.addSong(songs[counter])
+        counter += 1
+        print("\n\n\n\n\(queueTable.numberOfRows(inSection: 0))\n\n\n\n")
+//        mpDelegate.play()
     }
 
     @IBAction func participantMenuTapped(){
@@ -99,17 +124,26 @@ class QueueVC: UIViewController, /*UITableViewDataSource, */UITableViewDelegate{
         searchVC?.isHost = isHost
         return searchVC
     }
-//    //FIX!!!!!!
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
-//
-//    }
-//
-//    //FIX!!!!!!
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let SongCell = queueTable.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath)
-//        return SongCell
-//    }
+//    FIX!!!!!!
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+
+    }
+
+    //FIX!!!!!!
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var songCell = tableView.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath) as? SongCell
+        if songCell == nil {
+            songCell = SongCell(style:.default, reuseIdentifier: "SongCell")
+        }
+        let songTableItem: SongTableItem = songs[indexPath.row].getSongTableItem()
+        songCell?.albumArtwork.image = UIImage(named: "Join")
+        songCell?.artistLabel.text = songTableItem.artist
+        songCell?.contributorLabel.text = songTableItem.contributor
+        songCell?.likeCountLabel.text = String(songTableItem.likes)
+        songCell?.titleLabel.text = songTableItem.title
+        return songCell!
+    }
     
     func failedSpotifyConnectionAlert(_ act:UIAlertAction){
         //Code for beep boop bopping

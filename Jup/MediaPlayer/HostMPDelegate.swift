@@ -131,12 +131,24 @@ class HostMPDelegate: MediaPlayerDelegate {
         })
     }
     
-    func addSong() {
-        
+    func addSong(_ songItem: SongItem) {
+        //super simple implementation at the moment
+        queue.append(songItem.uri)
+        songMap[songItem.uri] = songItem
+        print("about to update data source")
+        updateDataSource()
     }
     
-    func likeSong() {
-        
+    func likeSong(_ uri: String, _ liked: Bool) {
+        // super simple implementation at the moment
+        guard let _ = songMap[uri] else {
+            //
+            //alert via BT that the song is no longer available in queue for liking
+            //
+            return
+        }
+        songMap[uri]!.likes += liked ? 1 : -1
+        updateDataSource()
     }
     
     func updateQueueWithSnapshot(_ snapshot: [String: Any]) {

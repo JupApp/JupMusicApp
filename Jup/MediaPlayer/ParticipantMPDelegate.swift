@@ -40,8 +40,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     //should not encounter these functions as a participant
-    func addSong() { fatalError() }
-    func likeSong() { fatalError() }
+    func addSong(_ songItem: SongItem) { fatalError() }
+    func likeSong(_ uri: String, _ liked: Bool) { fatalError() }
     
     func updateQueueWithSnapshot(_ snapshot: [String: Any]) {
         self.songTimer = nil

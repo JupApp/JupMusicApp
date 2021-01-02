@@ -31,9 +31,9 @@ protocol MediaPlayerDelegate {
     
     func transitionToNextSong()
     
-    func addSong()
+    func addSong(_ songItem: SongItem)
     
-    func likeSong()
+    func likeSong(_ uri: String, _ liked: Bool)
     
     func loadQueueIntoPlayer()
 
@@ -42,6 +42,8 @@ protocol MediaPlayerDelegate {
     func getQueueSnapshot() -> [String: Any]
     
     func updateAlbumArtwork()
+    
+    func updateDataSource()
 
 }
 
@@ -66,5 +68,15 @@ extension MediaPlayerDelegate {
             self.parentVC.nowPlayingArtist.text = songItem.artistName
             self.parentVC.nowPlayingTitle.text = songItem.songTitle
         }
+    }
+    
+    func updateDataSource() {
+//        var snap = NSDiffableDataSourceSnapshot<String, SongTableItem>()
+//        snap.appendSections(["Queue"])
+//        snap.appendItems(queue.map({ (uri) -> SongTableItem in
+//            songMap[uri]!.getSongTableItem()
+//        }))
+//        print("\n\n\n\nItems in Data source: \(snap.numberOfItems)\n\n\n\n")
+//        parentVC.datasource.apply(snap, animatingDifferences: true)
     }
 }

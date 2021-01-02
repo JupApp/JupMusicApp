@@ -387,20 +387,22 @@
                                                     <rect key="frame" x="14.666666666666657" y="0.0" width="325" height="325"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="325" id="5XT-Ok-NCM"/>
+                                                        <constraint firstAttribute="width" secondItem="foI-Tk-QUo" secondAttribute="height" multiplier="1:1" id="Nnt-L9-Vra"/>
                                                         <constraint firstAttribute="width" constant="325" id="RB7-tM-zaw"/>
+                                                        <constraint firstAttribute="width" secondItem="foI-Tk-QUo" secondAttribute="height" multiplier="1:1" id="tob-M6-ggO"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vfB-tm-z7I">
-                                                    <rect key="frame" x="30" y="330" width="294" height="66"/>
+                                                    <rect key="frame" x="30" y="330" width="294" height="27"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTf-KG-p3i">
-                                                            <rect key="frame" x="0.0" y="0.0" width="294" height="36"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTf-KG-p3i">
+                                                            <rect key="frame" x="0.0" y="0.0" width="294" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                                             <color key="textColor" red="0.95970290899276733" green="0.98437434434890747" blue="0.97632890939712524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGW-Xq-HLz">
-                                                            <rect key="frame" x="0.0" y="36" width="294" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="294" height="27"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                                                             <color key="textColor" red="0.83339554069999999" green="0.96477073430000004" blue="0.93704587220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -412,17 +414,17 @@
                                                     </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="90" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-7k-yma">
-                                                    <rect key="frame" x="21" y="401" width="312" height="50"/>
+                                                    <rect key="frame" x="21" y="362" width="312" height="49"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
-                                                            <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="49"/>
                                                             <state key="normal" image="Return White"/>
                                                             <connections>
                                                                 <action selector="participantMenuTapped" destination="TfO-Ke-MaO" eventType="touchDown" id="6Yp-V8-y4L"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
-                                                            <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="50"/>
+                                                            <rect key="frame" x="134.66666666666666" y="0.0" width="47.666666666666657" height="49"/>
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
                                                                 <segue destination="DUb-Gg-gF2" kind="popoverPresentation" destinationCreationSelector="segueToSearchVC:" popoverAnchorView="3Db-Q6-aVt" id="ehq-al-aAf">
@@ -431,23 +433,34 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxT-bg-LYr">
-                                                            <rect key="frame" x="272.33333333333331" y="0.0" width="39.666666666666686" height="50"/>
+                                                            <rect key="frame" x="272.33333333333331" y="0.0" width="39.666666666666686" height="49"/>
                                                             <state key="normal" image="Group"/>
                                                         </button>
                                                     </subviews>
                                                 </stackView>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-zc-Gqo">
-                                                    <rect key="frame" x="12" y="456" width="330" height="4"/>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-zc-Gqo">
+                                                    <rect key="frame" x="12" y="416" width="330" height="4"/>
                                                     <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </progressView>
-                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qpg-jf-dnw">
-                                                    <rect key="frame" x="12" y="465" width="330" height="391"/>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                    <sections/>
+                                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cvK-To-F4P">
+                                                    <rect key="frame" x="15" y="425" width="324" height="431"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="cvK-To-F4P" secondAttribute="height" multiplier="294:391" id="VAi-Dm-jo0"/>
+                                                        <constraint firstAttribute="width" secondItem="cvK-To-F4P" secondAttribute="height" multiplier="294:391" id="yRP-uF-gIN"/>
+                                                    </constraints>
                                                 </tableView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="cvK-To-F4P" secondAttribute="bottom" id="1qT-qd-GKh"/>
+                                                <constraint firstAttribute="trailing" secondItem="cvK-To-F4P" secondAttribute="trailing" constant="15" id="3Df-SO-TQt"/>
+                                                <constraint firstAttribute="trailing" secondItem="cvK-To-F4P" secondAttribute="trailing" constant="15" id="Frg-b1-Tks"/>
                                                 <constraint firstItem="vfB-tm-z7I" firstAttribute="leading" secondItem="9nI-rx-CLW" secondAttribute="leading" constant="30" id="J6O-hr-8Kq"/>
+                                                <constraint firstItem="cvK-To-F4P" firstAttribute="leading" secondItem="9nI-rx-CLW" secondAttribute="leading" constant="15" id="enj-Zb-7Js"/>
+                                                <constraint firstItem="cvK-To-F4P" firstAttribute="top" secondItem="bPf-zc-Gqo" secondAttribute="bottom" constant="5" id="gqn-3E-GhU"/>
+                                                <constraint firstAttribute="bottom" secondItem="cvK-To-F4P" secondAttribute="bottom" id="mGn-dq-vlX"/>
+                                                <constraint firstItem="cvK-To-F4P" firstAttribute="leading" secondItem="9nI-rx-CLW" secondAttribute="leading" constant="15" id="oC1-Yf-y8v"/>
                                                 <constraint firstItem="bPf-zc-Gqo" firstAttribute="width" secondItem="foI-Tk-QUo" secondAttribute="width" multiplier="1.01538" id="zeX-hU-yfA"/>
                                             </constraints>
                                         </stackView>
@@ -484,12 +497,12 @@
                         <outlet property="nowPlayingArtist" destination="dGW-Xq-HLz" id="tXc-3d-cOX"/>
                         <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
                         <outlet property="nowPlayingTitle" destination="CTf-KG-p3i" id="aPw-Mi-J1E"/>
-                        <outlet property="queueTable" destination="qpg-jf-dnw" id="9zt-ec-Kzo"/>
+                        <outlet property="queueTable" destination="cvK-To-F4P" id="PV4-iM-wxk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="928" y="-212"/>
+            <point key="canvasLocation" x="927.536231884058" y="-212.27678571428569"/>
         </scene>
         <!--SearchVC-->
         <scene sceneID="80M-0x-eiM">
