@@ -497,12 +497,8 @@
                         <outlet property="nowPlayingArtist" destination="dGW-Xq-HLz" id="tXc-3d-cOX"/>
                         <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
                         <outlet property="nowPlayingTitle" destination="CTf-KG-p3i" id="aPw-Mi-J1E"/>
-<<<<<<< HEAD
                         <outlet property="queueTable" destination="cvK-To-F4P" id="PV4-iM-wxk"/>
-=======
-                        <outlet property="queueTable" destination="qpg-jf-dnw" id="9zt-ec-Kzo"/>
                         <segue destination="g6q-yV-2gd" kind="presentation" identifier="segueToSettings" destinationCreationSelector="segueToSettings:" modalPresentationStyle="fullScreen" id="Lgp-8R-7Zg"/>
->>>>>>> ecf0a4646eb9a34bb38edbdfcc8f8a81658c143e
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
