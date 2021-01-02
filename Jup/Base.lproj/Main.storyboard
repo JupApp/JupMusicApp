@@ -393,7 +393,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="vfB-tm-z7I">
-                                                    <rect key="frame" x="30" y="330" width="294" height="27"/>
+                                                    <rect key="frame" x="30" y="330" width="294" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTf-KG-p3i">
                                                             <rect key="frame" x="0.0" y="0.0" width="294" height="0.0"/>
@@ -402,7 +402,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGW-Xq-HLz">
-                                                            <rect key="frame" x="0.0" y="0.0" width="294" height="27"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="294" height="30"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                                                             <color key="textColor" red="0.83339554069999999" green="0.96477073430000004" blue="0.93704587220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -414,7 +414,7 @@
                                                     </constraints>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="90" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-7k-yma">
-                                                    <rect key="frame" x="21" y="362" width="312" height="49"/>
+                                                    <rect key="frame" x="21" y="365" width="312" height="49"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
                                                             <rect key="frame" x="0.0" y="0.0" width="44.666666666666664" height="49"/>
@@ -439,16 +439,13 @@
                                                     </subviews>
                                                 </stackView>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-zc-Gqo">
-                                                    <rect key="frame" x="12" y="416" width="330" height="4"/>
+                                                    <rect key="frame" x="12" y="419" width="330" height="4"/>
                                                     <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </progressView>
                                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cvK-To-F4P">
-                                                    <rect key="frame" x="15" y="425" width="324" height="431"/>
+                                                    <rect key="frame" x="15" y="428" width="324" height="428"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="cvK-To-F4P" secondAttribute="height" multiplier="294:391" id="yRP-uF-gIN"/>
-                                                    </constraints>
                                                 </tableView>
                                             </subviews>
                                             <constraints>

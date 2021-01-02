@@ -37,6 +37,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         state = .PLAYING
         songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
         updateAlbumArtwork()
+        updateDataSource()
     }
     
     //should not encounter these functions as a participant
@@ -80,6 +81,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
                 songItem.uri
             })
             self.songMap = Dictionary(uniqueKeysWithValues: songsInQueue.map{ ($0.uri, $0) })
+            
+            updateDataSource()
         }
         
         if self.state == .PLAYING {

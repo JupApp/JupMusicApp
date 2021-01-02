@@ -7,6 +7,10 @@
 import UIKit
 import StoreKit
 
+enum QueueType {
+    case VOTING
+    case STRICT
+}
 
 class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
@@ -21,6 +25,9 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     var platform: Platform = .APPLE_MUSIC
     var openedSpotify: Bool = false
+    var queueType: QueueType {
+        voteQueueSwitch.isOn ? .VOTING : .STRICT
+    }
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
@@ -43,6 +50,8 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         // Do any additional setup after loading the view.
         strictQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
         voteQueueSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged);
+        voteQueueSwitch.setOn(true, animated: false)
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
@@ -71,6 +80,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         let queueVC = QueueVC(coder: coder)
         queueVC?.isHost = true
         queueVC?.platform = platform
+        queueVC?.queueType = queueType
         return queueVC
     }
     
@@ -180,18 +190,20 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     }
         
     @objc func switchChanged(sender: UISwitch!) {
-    
-        if !sender.isOn {
-            return
-        }
-        if sender != strictQueueSwitch && strictQueueSwitch.isOn {
-            strictQueueSwitch.setOn(false, animated: true)
-                
-        }
-        if sender != voteQueueSwitch && voteQueueSwitch.isOn {
+        if strictQueueSwitch.isOn && voteQueueSwitch.isOn {
+            if sender == strictQueueSwitch {
                 voteQueueSwitch.setOn(false, animated: true)
-
+            } else {
+                strictQueueSwitch.setOn(false, animated: true)
+            }
+        } else if !strictQueueSwitch.isOn && !voteQueueSwitch.isOn {
+            if sender == strictQueueSwitch {
+                voteQueueSwitch.setOn(true, animated: true)
+            } else {
+                strictQueueSwitch.setOn(true, animated: true)
+            }
         }
+    
     }
     
 }

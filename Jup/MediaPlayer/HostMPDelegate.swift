@@ -127,6 +127,10 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
                 self.currentSong = nextSongItem
                 self.updateAlbumArtwork()
+                self.updateDataSource()
+                //
+                // ALERT VIA BTCommunication with new Snapshot
+                //
             }
         })
     }
@@ -135,12 +139,13 @@ class HostMPDelegate: MediaPlayerDelegate {
         //super simple implementation at the moment
         queue.append(songItem.uri)
         songMap[songItem.uri] = songItem
-        print("about to update data source")
         updateDataSource()
+        //
+        //alert via BT of the queue change
+        //
     }
     
     func likeSong(_ uri: String, _ liked: Bool) {
-        // super simple implementation at the moment
         guard let _ = songMap[uri] else {
             //
             //alert via BT that the song is no longer available in queue for liking
@@ -148,7 +153,25 @@ class HostMPDelegate: MediaPlayerDelegate {
             return
         }
         songMap[uri]!.likes += liked ? 1 : -1
+        if (parentVC.queueType == .VOTING) {
+            updateQueueOrder()
+        }
+        //
+        //alert via BT of the queue change
+        //
         updateDataSource()
+    }
+    
+    func updateQueueOrder() {
+        let enumerated: [(Int, String)] = Array(self.queue.enumerated())
+        let sortedEnumeration = enumerated.sorted(by: { (tup_0, tup_1) -> Bool in
+            let (i_0, uri_0) = tup_0
+            let (i_1, uri_1) = tup_1
+            let likes_0 = songMap[uri_0]!.likes
+            let likes_1 = songMap[uri_1]!.likes
+            return likes_0 > likes_1 || (likes_0 == likes_1 && i_0 < i_1)
+        })
+        self.queue = sortedEnumeration.map({ (tuple) -> String in tuple.1 })
     }
     
     func updateQueueWithSnapshot(_ snapshot: [String: Any]) {
