@@ -11,6 +11,9 @@ import UIKit
 class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDelegate, UITableViewDataSource{
 
     var participantTableView: UITableView = UITableView()
+    var parentVC: QueueVC?
+    
+    let exitAlert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,16 +29,30 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         participantTableView.separatorStyle = .none
         self.menuWidth = 200
         participantTableView.isScrollEnabled = true
-        participantTableView.frame = CGRect(x: 0, y: 10, width: view.frame.width, height: view.frame.height-58)
+        participantTableView.frame = CGRect(x: 0, y: 0, width: 200, height: view.frame.height)
         participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "Queue Background")!)
-        let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY, width: view.frame.width, height: 58))
+        let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY-58, width: 200, height: 58))
         exitQueueButton.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
+        exitQueueButton.setTitle("Exit Queue", for: .normal)
+        exitQueueButton.titleLabel?.textAlignment = .right
+        exitQueueButton.setTitleColor(UIColor.lightGray, for: .normal)
+        exitQueueButton.titleLabel?.font = .boldSystemFont(ofSize: 24)
+        self.view.addSubview(exitQueueButton)
+        exitQueueButton.addTarget(self, action: #selector(exitButtonPressed), for: .touchUpInside)
 //        let blurEffect = UIBlurEffect(style: .dark)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 //        blurEffectView.frame = view.bounds
 //        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        view.addSubview(blurEffectView)
 //    //Code for TableView SideMenu
+        exitAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .destructive, handler: {
+            (action) in
+            print("\n\n\n\n\n\n\n\n\n\nRows ssssss got called\n\n\n\n\n\n\n\n\n\n\n")
+            self.dismiss(animated: false, completion: {
+                self.parentVC?.returnToSettingsSegue(action)
+            })
+        }))
+        exitAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -90,6 +107,10 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
             cell = ParticipantMenuCell(style:.default, reuseIdentifier: "ParticipantMenuCell")
         }
         return cell!
+    }
+    
+    @objc func exitButtonPressed() {
+        self.present(exitAlert, animated: true)
     }
     
 }

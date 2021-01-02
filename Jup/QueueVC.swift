@@ -42,7 +42,7 @@ class QueueVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var participantMenu: SideMenuNavigationController?
+    var participantMenu: ParticipantMenuViewController?
     
 //    lazy var datasource =
 //            UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
@@ -56,6 +56,7 @@ class QueueVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 //        print("\n\n\n\n\n\(s.artist)\n\n\n\n\n\n")
 //        return cell
 //    }
+
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     override func viewDidLoad() {
@@ -100,6 +101,11 @@ class QueueVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
 
+        participantMenu?.menuWidth = 200
+        participantMenu?.parentVC = self
+        
+    
+        
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
 
@@ -188,9 +194,9 @@ class QueueVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func returnToSettingsSegue(_ act:UIAlertAction){
-        performSegue(withIdentifier: "segueToHome", sender: nil)
+        performSegue(withIdentifier: "segueToSettings", sender: nil)
     }
-        
+    
     @objc func didEnterBackground() {
         print("App entering background")
         mpDelegate.loadQueueIntoPlayer()

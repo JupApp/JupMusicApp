@@ -27,14 +27,6 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-       
-//        spotifyLibraryButton.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
-//        spotifyLibraryButton.layer.cornerRadius = 13
-//        appleMusicLibraryButton.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
-//        appleMusicLibraryButton.layer.cornerRadius = 13
-
-        //this is for the placeholder switching
         if Platform.self == AppleMusicMediaPlayer.self{
             musicSearchBar.placeholder = "search Apple Music"
             return
