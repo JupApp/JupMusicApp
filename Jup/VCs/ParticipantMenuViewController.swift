@@ -30,7 +30,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         self.menuWidth = 200
         participantTableView.isScrollEnabled = true
         participantTableView.frame = CGRect(x: 0, y: 0, width: 200, height: view.frame.height)
-        participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "Queue Background")!)
+        participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "BlurRectangle")!)
         let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY-58, width: 200, height: 58))
         exitQueueButton.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
         exitQueueButton.setTitle("Exit Queue", for: .normal)
@@ -53,6 +53,8 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
             })
         }))
         exitAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

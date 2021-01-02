@@ -18,12 +18,7 @@ class SearchVC: UIViewController {
     var searchDelegate: SearchDelegate!
     var platform: Platform = .APPLE_MUSIC
     var isHost: Bool = false
-    
-    
-    
-    
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,8 +35,10 @@ class SearchVC: UIViewController {
         musicSearchBar.becomeFirstResponder()
         searchDelegate = SearchDelegate()
         searchDelegate.searchAMLibrary()
+        
+        searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
     }
-        func indexChanged(sender: UISegmentedControl) {
+        @objc func platformTextfieldPlaceholder(sender:UISegmentedControl){
                 switch searchPlatformSegmentedControl.selectedSegmentIndex
                     {
                 case 0:
