@@ -447,17 +447,13 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="cvK-To-F4P" secondAttribute="height" multiplier="294:391" id="VAi-Dm-jo0"/>
                                                         <constraint firstAttribute="width" secondItem="cvK-To-F4P" secondAttribute="height" multiplier="294:391" id="yRP-uF-gIN"/>
                                                     </constraints>
                                                 </tableView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="cvK-To-F4P" secondAttribute="bottom" id="1qT-qd-GKh"/>
                                                 <constraint firstAttribute="trailing" secondItem="cvK-To-F4P" secondAttribute="trailing" constant="15" id="3Df-SO-TQt"/>
-                                                <constraint firstAttribute="trailing" secondItem="cvK-To-F4P" secondAttribute="trailing" constant="15" id="Frg-b1-Tks"/>
                                                 <constraint firstItem="vfB-tm-z7I" firstAttribute="leading" secondItem="9nI-rx-CLW" secondAttribute="leading" constant="30" id="J6O-hr-8Kq"/>
-                                                <constraint firstItem="cvK-To-F4P" firstAttribute="leading" secondItem="9nI-rx-CLW" secondAttribute="leading" constant="15" id="enj-Zb-7Js"/>
                                                 <constraint firstItem="cvK-To-F4P" firstAttribute="top" secondItem="bPf-zc-Gqo" secondAttribute="bottom" constant="5" id="gqn-3E-GhU"/>
                                                 <constraint firstAttribute="bottom" secondItem="cvK-To-F4P" secondAttribute="bottom" id="mGn-dq-vlX"/>
                                                 <constraint firstItem="cvK-To-F4P" firstAttribute="leading" secondItem="9nI-rx-CLW" secondAttribute="leading" constant="15" id="oC1-Yf-y8v"/>
