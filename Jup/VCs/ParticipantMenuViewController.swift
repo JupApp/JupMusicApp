@@ -31,6 +31,8 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         participantTableView.isScrollEnabled = true
         participantTableView.frame = CGRect(x: 0, y: 0, width: 200, height: view.frame.height)
         participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "BlurRectangle")!)
+        participantTableView.backgroundColor = UIColor.clear
+        
         let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY-58, width: 200, height: 58))
         exitQueueButton.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
         exitQueueButton.setTitle("Exit Queue", for: .normal)
@@ -45,7 +47,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
 //        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        view.addSubview(blurEffectView)
 //    //Code for TableView SideMenu
-        exitAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .destructive, handler: {
+        exitAlert.addAction(UIAlertAction(title: "Leave the Queue", style: .destructive, handler: {
             (action) in
             print("\n\n\n\n\n\n\n\n\n\nRows ssssss got called\n\n\n\n\n\n\n\n\n\n\n")
             self.dismiss(animated: false, completion: {
