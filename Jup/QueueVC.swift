@@ -55,12 +55,16 @@ class QueueVC: UIViewController, UITableViewDelegate {
         cell?.likeCountLabel.text = s.likes.description
         cell?.titleLabel.text = s.title
         return cell
+                
     }
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //self.nowPlayingArtist.transform = CGAffineTransform(rotationAngle: .pi / -2)
+        //self.nowPlayingTitle.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
@@ -164,7 +168,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     }
     
     @objc func didEnterBackground() {
-        print("App entering background")
+         print("App entering background")
         mpDelegate.loadQueueIntoPlayer()
     }
 }

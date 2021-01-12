@@ -6,12 +6,13 @@
       "size" : "20x20"
     },
     {
+      "filename" : "Jup 60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "Jup 58.png",
+      "filename" : "Jup 58-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
@@ -23,24 +24,25 @@
       "size" : "29x29"
     },
     {
-      "filename" : "Jup 80-1.png",
+      "filename" : "Jup 80.png",
       "idiom" : "iphone",
       "scale" : "2x",
-      "size" : "40x40"
-    },
-    {
-      "filename" : "Jup 120.png",
-      "idiom" : "iphone",
-      "scale" : "3x",
       "size" : "40x40"
     },
     {
       "filename" : "Jup 120-1.png",
       "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "40x40"
+    },
+    {
+      "filename" : "Jup 120.png",
+      "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "Jup 180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -56,12 +58,13 @@
       "size" : "20x20"
     },
     {
+      "filename" : "Jup 29.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
-      "filename" : "Jup 58-1.png",
+      "filename" : "Jup 58.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
@@ -72,22 +75,25 @@
       "size" : "40x40"
     },
     {
-      "filename" : "Jup 80.png",
+      "filename" : "Jup 80-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
+      "filename" : "Jup 76.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
+      "filename" : "Jup 152.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "Jup 167.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
