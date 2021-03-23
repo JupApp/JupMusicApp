@@ -16,36 +16,51 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
     let exitAlert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
 
     override func viewDidLoad() {
+        
+        let background = UIImage(named: "Queue Background")
+        var imageView : UIImageView!
+                imageView = UIImageView(frame: view.bounds)
+                imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.image = background
+                imageView.center = view.center
+                view.addSubview(imageView)
+        
+        
+        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        
+        
         super.viewDidLoad()
         self.presentationStyle = .viewSlideOutMenuPartialIn
         participantTableView.delegate = self
         participantTableView.dataSource = self
         participantTableView.register(ParticipantMenuCell.self, forCellReuseIdentifier: "ParticipantMenuCell")
         self.view.addSubview(participantTableView)
-        participantTableView.frame = self.view.bounds
+        //participantTableView.frame = self.view.bounds
         let cellNib = UINib(nibName: "ParticipantMenuCell", bundle: nil)
         participantTableView.register(cellNib, forCellReuseIdentifier: "ParticipantMenuCell")
         //participantTableView.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
-        participantTableView.separatorStyle = .none
+        participantTableView.separatorStyle = .singleLine
         self.menuWidth = 200
-        participantTableView.isScrollEnabled = true
-        participantTableView.frame = CGRect(x: 0, y: 0, width: 200, height: view.frame.height)
+        participantTableView.frame = CGRect(x: 0, y: 40, width: 200, height: view.frame.height-100)
         participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "BlurRectangle")!)
+        participantTableView.backgroundColor = UIColor.clear
+        
         let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY-58, width: 200, height: 58))
-        exitQueueButton.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
+        exitQueueButton.backgroundColor = UIColor.init(red: 233/255, green: 246/255, blue: 242/255, alpha: 0.10)
         exitQueueButton.setTitle("Exit Queue", for: .normal)
         exitQueueButton.titleLabel?.textAlignment = .right
         exitQueueButton.setTitleColor(UIColor.lightGray, for: .normal)
         exitQueueButton.titleLabel?.font = .boldSystemFont(ofSize: 24)
+        exitQueueButton.layer.cornerRadius = 10
         self.view.addSubview(exitQueueButton)
         exitQueueButton.addTarget(self, action: #selector(exitButtonPressed), for: .touchUpInside)
-//        let blurEffect = UIBlurEffect(style: .dark)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurEffectView.frame = view.bounds
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        view.addSubview(blurEffectView)
-//    //Code for TableView SideMenu
-        exitAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .destructive, handler: {
+    //Code for TableView SideMenu
+        exitAlert.addAction(UIAlertAction(title: "Leave the Queue", style: .destructive, handler: {
             (action) in
             print("\n\n\n\n\n\n\n\n\n\nRows ssssss got called\n\n\n\n\n\n\n\n\n\n\n")
             self.dismiss(animated: false, completion: {
@@ -72,7 +87,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
     return section
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
+        return 3
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeader = UILabel()

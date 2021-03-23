@@ -18,7 +18,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
 
     @IBOutlet weak var voteQueueSwitch: UISwitch!
     @IBOutlet weak var strictQueueSwitch: UISwitch!
-    @IBOutlet weak var allowRepeatsSwitch: UISwitch!
     @IBOutlet weak var passwordSwitch: UISwitch!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
