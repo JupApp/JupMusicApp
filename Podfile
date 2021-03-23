@@ -7,15 +7,9 @@ target 'Jup' do
 
   # Pods for Jup
 
-  target 'JupTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'JupUITests' do
-    # Pods for testing
-  end
-
 pod 'SideMenu'
+pod 'SwiftJWT'
+pod 'SwiftyJSON', '~> 4.0'
+
 
 end

@@ -44,6 +44,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     var platform: Platform = .APPLE_MUSIC
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
+    var searchVC: SearchVC?
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
@@ -78,6 +79,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
         queueTable.register(nib, forCellReuseIdentifier: "SongCell")
         queueTable.delegate = self
         queueTable.dataSource = datasource
+        queueTable.allowsSelection = false
     
 
         var snap = NSDiffableDataSourceSnapshot<String, SongTableItem>()
@@ -103,31 +105,38 @@ class QueueVC: UIViewController, UITableViewDelegate {
         
         nowPlayingProgress.setProgress(0, animated: false)
     }
-    var songs: [SongItem] = [AppleMusicSongItem(id: "0", artist: "pooper0", song: "Poop0", albumURL: "www", length: 100), AppleMusicSongItem(id: "1", artist: "pooper1", song: "Poop1", albumURL: "www", length: 110), AppleMusicSongItem(id: "2", artist: "pooper2", song: "Poop2", albumURL: "www", length: 120), AppleMusicSongItem(id: "3", artist: "pooper3", song: "Poop3", albumURL: "www", length: 130)]
+    var songs: [SongItem] = [AppleMusicSongItem(id: "p.RB1ApQGC02RGm7", artist: "pooper0", song: "Poop0", albumURL: "www", length: 100), AppleMusicSongItem(id: "1", artist: "pooper1", song: "Poop1", albumURL: "www", length: 110), AppleMusicSongItem(id: "2", artist: "pooper2", song: "Poop2", albumURL: "www", length: 120), AppleMusicSongItem(id: "3", artist: "pooper3", song: "Poop3", albumURL: "www", length: 130)]
     var counter: Int = 0
     
     @objc func play() {
-        if counter == 4 {
-            mpDelegate.likeSong(songs[2].uri, true)
-        } else if counter == 5 {
-            mpDelegate.likeSong(songs[3].uri, true)
-        } else {
-            mpDelegate.addSong(songs[counter])
-        }
-        counter += 1
+//        if counter == 4 {
+//            mpDelegate.likeSong(songs[2].uri, true)
+//        } else if counter == 5 {
+//            mpDelegate.likeSong(songs[3].uri, true)
+//        } else {
+//            mpDelegate.addSong(songs[counter])
+//        }
+//        counter += 1
+        mpDelegate.addSong(songs[0])
+        mpDelegate.mediaPlayer?.transitionNextSong(songs[0], completionHandler: { (e) in
+            if let _ = e {
+                print("ERROReoeoe")
+            }
+        })
 //        mpDelegate.play()
     }
-
-    @IBAction func participantMenuTapped(){
-        present(participantMenu!, animated: true)
     
-    }
-    
-    @IBSegueAction func segueToSearchVC(_ coder: NSCoder) -> SearchVC? {
-        let searchVC = SearchVC(coder: coder)
-        searchVC?.platform = platform
-        searchVC?.isHost = isHost
-        return searchVC
+    @IBAction func presentSearchVC(_ sender: Any) {
+        if searchVC == nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            searchVC = storyboard.instantiateViewController(identifier: "SearchVC")
+            searchVC?.platform = platform
+            searchVC?.isHost = isHost
+            searchVC?.parentVC = self
+            searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
+            searchVC?.searchDelegate?.parentVC = searchVC!
+        }
+        show(searchVC!, sender: self)
     }
     
     func failedSpotifyConnectionAlert(_ act:UIAlertAction){
@@ -167,6 +176,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
         print("App entering background")
         mpDelegate.loadQueueIntoPlayer()
     }
+
 }
 
     

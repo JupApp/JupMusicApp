@@ -8,9 +8,8 @@ import MediaPlayer
 
 class AppleMusicMediaPlayer: MediaPlayer {
     
-    let player: MPMusicPlayerApplicationController
+    var player = MPMusicPlayerController.systemMusicPlayer
     init() {
-        self.player = MPMusicPlayerController.applicationQueuePlayer
         if self.player.playbackState == .playing {
             self.player.pause()
         }
@@ -38,6 +37,7 @@ class AppleMusicMediaPlayer: MediaPlayer {
     func transitionNextSong(_ songItem: SongItem, completionHandler: @escaping (Error?) -> ()) {
         let upNext = MPMusicPlayerStoreQueueDescriptor(storeIDs: [songItem.uri])
         self.player.prepend(upNext)
+        
         skip()
         play()
         completionHandler(nil)

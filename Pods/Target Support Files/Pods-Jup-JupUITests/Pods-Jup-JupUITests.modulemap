@@ -1,6 +1,0 @@
-framework module Pods_Jup_JupUITests {
-  umbrella header "Pods-Jup-JupUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

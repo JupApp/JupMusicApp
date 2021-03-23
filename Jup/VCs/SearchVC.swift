@@ -4,10 +4,10 @@
 //
 //  Created by Zach Venanzi on 12/9/20.
 //
-
+import StoreKit
 import UIKit
 
-class SearchVC: UIViewController {
+class SearchVC: UIViewController, UISearchBarDelegate {
     
    // @IBOutlet weak var spotifyLibraryButton: UIButton!
     //@IBOutlet weak var appleMusicLibraryButton: UIButton!
@@ -15,44 +15,95 @@ class SearchVC: UIViewController {
     @IBOutlet weak var musicSearchBar: UISearchBar!
     @IBOutlet weak var searchPlatformSegmentedControl: UISegmentedControl!
     
-    var searchDelegate: SearchDelegate!
-    var platform: Platform = .APPLE_MUSIC
+    var searchDelegate: SearchDelegate?
+    var currentPlatform: Platform = .APPLE_MUSIC
     var isHost: Bool = false
+    var parentVC: QueueVC?
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if Platform.self == AppleMusicMediaPlayer.self{
-            musicSearchBar.placeholder = "search Apple Music"
-            return
-        }
-        if Platform.self == SpotifyMediaPlayer.self{
-            musicSearchBar.placeholder = "search Spotify"
-            return
-        }
-        
-        //This makes the keyboard show up immediately after seque
-        musicSearchBar.becomeFirstResponder()
-        searchDelegate = SearchDelegate()
-        searchDelegate.searchAMLibrary()
-        
+//        musicSearchBar.becomeFirstResponder()
+        musicSearchBar.delegate = self
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+                
         searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
+        
+        do{try searchDelegate?.setNewSignedJWTToken()}catch{}
     }
-        @objc func platformTextfieldPlaceholder(sender:UISegmentedControl){
-                switch searchPlatformSegmentedControl.selectedSegmentIndex
-                    {
-                case 0:
-                
-                    musicSearchBar.placeholder = "Apple music"
-                
-                    //show popular view
-                case 1:
-                    musicSearchBar.placeholder = "Spotify"
-                    //show history view
+    
+    @objc func platformTextfieldPlaceholder(sender: UISegmentedControl){
+        switch searchPlatformSegmentedControl.selectedSegmentIndex
+            {
+        case 0:
+            musicSearchBar.placeholder = "Apple Music"
+            currentPlatform = .APPLE_MUSIC
+            // update diffable data source with user apple music 
+            //show popular view
+            break;
+        case 1:
+            musicSearchBar.placeholder = "Spotify"
+            currentPlatform = .SPOTIFY
+            //show history view
+            break;
+        default:
+            musicSearchBar.placeholder = "Apple Music"
+            currentPlatform = .APPLE_MUSIC
+            break;
+        }
+    }
+    
+    @objc func dismissKeyboard() {
+        musicSearchBar.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        dismissKeyboard()
+        
+        guard let searchQuery = searchBar.text else {
+            return
+        }
+        if searchQuery.isEmpty {
+            return
+        }
+        
+        // if segmented control set to AM, perform AM catalogue request, else Spotify
+        if currentPlatform == .APPLE_MUSIC {
+            searchDelegate?.searchAMCatalogue(searchQuery)
+        } else {
+            searchDelegate?.searchSpotifyCatalogue(searchQuery)
+        }
+        
+    }
+    
+    func loadAppleMusicPersonalPlaylists() {
+        //check if user has correct authorization
+        if SKCloudServiceController.authorizationStatus() == .notDetermined {
+            SKCloudServiceController.requestAuthorization {(status:
+                SKCloudServiceAuthorizationStatus) in
+                switch status {
+                case .authorized:
+                    break
                 default:
-                    musicSearchBar.placeholder = "Apple music"
-
-                    break;
+                    //
+                    // alert user that they dont have Apple Music?
+                    //
+                    return
                 }
-}
+            }
+        } else if (SKCloudServiceController.authorizationStatus() != .authorized) {
+            //
+            // alert user that they dont have Apple Music?
+            //
+            return
+        }
+        print("Got here")
+        // authorized at this point:
+        searchDelegate?.searchAMLibrary()
+    }
+    
+    
+    
+    
 }
