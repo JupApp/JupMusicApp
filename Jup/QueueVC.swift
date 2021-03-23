@@ -134,7 +134,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
         if searchVC == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             searchVC = storyboard.instantiateViewController(identifier: "SearchVC")
-            searchVC?.platform = platform
+            searchVC?.currentPlatform = platform
             searchVC?.isHost = isHost
             searchVC?.parentVC = self
             searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
@@ -170,6 +170,10 @@ class QueueVC: UIViewController, UITableViewDelegate {
             // if song up next, connect and then play up next song
             print("TO DO")
         }
+    }
+    
+    @IBAction func participantMenuTapped() {
+        present(participantMenu!, animated: true)
     }
     
     func returnToSettingsSegue(_ act:UIAlertAction){
