@@ -30,7 +30,21 @@ class SearchVC: UIViewController, UISearchBarDelegate {
                 
         searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
         
-        do{try searchDelegate?.setNewSignedJWTToken()}catch{}
+        // initialize developer tokens for AM and Spotify
+        do{try searchDelegate?.setNewAMAccessToken(completionHandler: {})}catch{}
+        searchDelegate?.setNewSpotifyAccessToken(completionHandler: {})
+        
+        // load playlist of appropriate platform
+        if currentPlatform == .APPLE_MUSIC {
+            searchDelegate?.searchAMLibrary()
+        } else {
+            searchDelegate?.searchSpotifyLibrary()
+        }
+        
+        /*
+         DISPLAY THE CORRESPONDING PLAYLIST
+         */
+
     }
     
     @objc func platformTextfieldPlaceholder(sender: UISegmentedControl){
@@ -39,17 +53,29 @@ class SearchVC: UIViewController, UISearchBarDelegate {
         case 0:
             musicSearchBar.placeholder = "Apple Music"
             currentPlatform = .APPLE_MUSIC
+            
+            // load playlist of AM if hasn't been done already
+            searchDelegate?.searchAMLibrary()
+
             // update diffable data source with user apple music 
             //show popular view
             break;
         case 1:
             musicSearchBar.placeholder = "Spotify"
             currentPlatform = .SPOTIFY
+            
+            // load playlist of Spotify if hasn't been done already
+            searchDelegate?.searchSpotifyLibrary()
+            
             //show history view
             break;
         default:
             musicSearchBar.placeholder = "Apple Music"
             currentPlatform = .APPLE_MUSIC
+            
+            // load playlist of AM if hasn't been done already
+            searchDelegate?.searchAMLibrary()
+            
             break;
         }
     }
@@ -67,7 +93,6 @@ class SearchVC: UIViewController, UISearchBarDelegate {
         if searchQuery.isEmpty {
             return
         }
-        
         // if segmented control set to AM, perform AM catalogue request, else Spotify
         if currentPlatform == .APPLE_MUSIC {
             searchDelegate?.searchAMCatalogue(searchQuery)
@@ -98,7 +123,6 @@ class SearchVC: UIViewController, UISearchBarDelegate {
             //
             return
         }
-        print("Got here")
         // authorized at this point:
         searchDelegate?.searchAMLibrary()
     }
