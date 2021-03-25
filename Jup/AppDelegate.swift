@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
         print("error", error)
+        //maybe dont callback
         bringBackToVC?()
         bringBackToVC = nil
     }

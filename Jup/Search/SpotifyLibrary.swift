@@ -162,15 +162,22 @@ class SpotifyLibrary {
     func checkAuthorization(completionHandler: @escaping () -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
-        // first try to renew session if expired
-        guard let expirationDate = appDelegate.expirationDate as? Date else {
+        guard let expirationDate = appDelegate.expirationDate as? Date,
+              let refreshToken = appDelegate.refreshToken else {
             //must initiate session
             print("must initiate session apparently: \(appDelegate.expirationDate)")
             appDelegate.connectToSpotifyWebAPI {
+                // if failed to authenticate, fail silently
+                guard let expirationDate = appDelegate.expirationDate as? Date else { return }
+                if expirationDate < Date() { return }
+                
                 print("Returned from connect to spotufy web api")
                 print("ExpirationDate: \(appDelegate.expirationDate)")
                 print("NewToken: \(appDelegate.accessToken)")
                 print("RefreshToken: \(appDelegate.refreshToken)")
+                // call check authorization with new tokens, passing in same completionHandler
+                print("Trying checkAuthorization again...")
+                self.checkAuthorization(completionHandler: completionHandler)
             }
             return
         }
@@ -182,37 +189,40 @@ class SpotifyLibrary {
         }
         // session expired, renew
         print("token expired, attempt to use manual refresh method")
-        let headers = [
-            "Content-Type": "application/x-www-form-urlencoded"
-        ]
         
-        /*
-         let url = URL(string: "https://accounts.spotify.com/api/token")!
-         var request = URLRequest(url: url)
-         request.httpMethod = "POST"
-         
-         let body = "grant_type=client_credentials"
-         request.httpBody = body.data(using: String.Encoding.utf8)
-         
-         let clientID: String = "93de9a96fb6c4cb39844ac6e98427885"
-         let clientSecret: String = "bc693736cf6d40389102d369243384ff"
-         let encodedHeader: String = Data("\(clientID):\(clientSecret)".utf8).base64EncodedString()
-         request.setValue("Basic \(encodedHeader)", forHTTPHeaderField: "Authorization")
-         */
-
-        let postData = NSMutableData(data: "UserID=351".data(using: String.Encoding.utf8)!)
-        let request = URLRequest(url: URL(string: ))
+        let url = URL(string: "https://accounts.spotify.com/api/token")!
+        var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = postData as Data
-
+    
+        let parameters = ["grant_type": "refresh_token", "refresh_token": refreshToken]
+        
+        // encode parameters into post body
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to data object and set it as request body
+        } catch let error {
+            print("error converting parameters into body")
+            return
+        }
+        
+        // set header to encoded client info
+        let clientID: String = "93de9a96fb6c4cb39844ac6e98427885"
+        let clientSecret: String = "bc693736cf6d40389102d369243384ff"
+        let encodedHeader: String = Data("\(clientID):\(clientSecret)".utf8).base64EncodedString()
+        request.setValue("Basic \(encodedHeader)", forHTTPHeaderField: "Authorization")
+    
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+       
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             if (error != nil) {
-                print(error!)
+                print("Error in the session reponse of expired session")
+                // just renew using SPTSession
+                appDelegate.connectToSpotifyWebAPI {
+                    self.checkAuthorization(completionHandler: completionHandler)
+                }
             } else {
                 let httpResponse = response as? HTTPURLResponse
-                print(httpResponse!)
+                print("Renew request response: \n\(httpResponse!)")
 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
@@ -226,46 +236,11 @@ class SpotifyLibrary {
 
         dataTask.resume()
         
-        
-        appDelegate.connectToSpotifyWebAPI {
-            print("Access token: \(appDelegate.accessToken)")
-        }
+        // back up:
+//        appDelegate.connectToSpotifyWebAPI {
+//            print("Access token: \(appDelegate.accessToken)")
+//        }
         return
-        guard let _ = UserDefaults.standard.string(forKey: "personalAccessKey") else {
-            // no access token logged before, request token
-            
-            var components = URLComponents()
-            components.scheme = "https"
-            components.host   = "accounts.spotify.com"
-            components.path   = "/authorize"
-            components.queryItems = [
-                URLQueryItem(name: "client_id", value: appDelegate.SpotifyClientID),
-                URLQueryItem(name: "response_type", value: "code"),
-                URLQueryItem(name: "redirect_uri", value: appDelegate.SpotifyRedirectURL),
-                URLQueryItem(name: "scope", value: "user-top-read" + " " + "playlist-read-private" + " " + "playlist-read-collaborative"),
-            ]
-
-            let url = components.url!
-            
-            let request = URLRequest(url: url)
-            let session = URLSession.shared
-            let task = session.dataTask(with: request) { data, response, error in
-                guard let dataResponse = response as? HTTPURLResponse else {
-                    print("waht")
-                    return
-                }
-                if let e = error {
-                    print("Error: \(e)")
-                    return
-                }
-                
-            }
-            task.resume()
-//            UserDefaults.standard.set(accessToken, forKey: AppDelegate.kAccessTokenKey)
-            return
-        }
-        // have access token, need refresh token, maybe? check time interval
-        
     }
     
 }
