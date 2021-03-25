@@ -34,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func sessionManager(manager: SPTSessionManager, didInitiate session: SPTSession) {
         print("success", session)
+        self.accessToken = session.accessToken
+        self.refreshToken = session.refreshToken
+        self.expirationDate = session.expirationDate
         bringBackToVC?()
         bringBackToVC = nil
     }
@@ -46,17 +49,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func sessionManager(manager: SPTSessionManager, didRenew session: SPTSession) {
         print("renewed", session)
+        self.accessToken = session.accessToken
+        self.refreshToken = session.refreshToken
+        self.expirationDate = session.expirationDate
         bringBackToVC?()
         bringBackToVC = nil
     }
     
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("HOIOIOIOIOYAHHAHAAH\n\n\n\n\n\n\n\n")
+        print("application function")
         let parameters = appRemote.authorizationParameters(from: url);
         self.sessionManager.application(app, open: url, options: options)
         if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
-            print("\n\n\n\n\nWOAHHHHHHH\n\n\n\n")
             appRemote.connectionParameters.accessToken = access_token
             self.accessToken = access_token
         }
@@ -64,15 +69,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }
     
     let SpotifyClientID = "93de9a96fb6c4cb39844ac6e98427885"
-    let SpotifyRedirectURL = URL(string: "jup-spotify-login://spotify-login-callback")!
-    static private let kAccessTokenKey = "access-token-key"
+    let SpotifyRedirectURL = "jup-spotify-login://spotify-login-callback"
+    static let kAccessTokenKey = "access-token-key"
+    static let kRefreshTokenKey = "refresh-token-key"
+    static let kExpirationDate = "expiration-date"
     
     var bringBackToVC: (() -> ())?
     var triggerAlertInVC: (() -> ())?
 
     lazy var configuration = SPTConfiguration(
       clientID: SpotifyClientID,
-      redirectURL: SpotifyRedirectURL
+      redirectURL: URL(string: SpotifyRedirectURL)!
     )
     
     lazy var sessionManager: SPTSessionManager = {
@@ -87,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }()
     
     func connectToSpotify() {
-        let requestedScopes: SPTScope = [.appRemoteControl, .userReadRecentlyPlayed, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative, .userLibraryRead]
+        let requestedScopes: SPTScope = [.appRemoteControl, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative]
         guard let session = sessionManager.session else {
             sessionManager.initiateSession(with: requestedScopes, options: .default)
             return
@@ -98,7 +105,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         }
         bringBackToVC?()
         bringBackToVC = nil
-        
+    }
+    
+    func connectToSpotifyWebAPI(completionHandler: @escaping () -> ()) {
+        bringBackToVC = completionHandler
+        print("connectToSpotifyWebAPI called")
+        let requestedScopes: SPTScope = [.userTopRead, .playlistReadPrivate, .playlistReadCollaborative]
+        guard let session = sessionManager.session else {
+            print("initiating session")
+            sessionManager.initiateSession(with: requestedScopes, options: .default)
+            return
+        }
+        if session.isExpired == true {
+            print("session was expired, renewing now")
+            sessionManager.renewSession()
+            return
+        }
     }
     
     func connectToSpotify(completionHandler: @escaping () -> ()) {
@@ -111,6 +133,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         didSet {
             let defaults = UserDefaults.standard
             defaults.set(accessToken, forKey: AppDelegate.kAccessTokenKey)
+        }
+    }
+    var refreshToken = UserDefaults.standard.string(forKey: kRefreshTokenKey) {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(refreshToken, forKey: AppDelegate.kRefreshTokenKey)
+        }
+    }
+    var expirationDate = UserDefaults.standard.object(forKey: kExpirationDate) {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(expirationDate, forKey: AppDelegate.kExpirationDate)
         }
     }
     

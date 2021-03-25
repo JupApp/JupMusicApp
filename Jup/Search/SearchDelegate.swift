@@ -20,6 +20,7 @@ class SearchDelegate {
     var amDevToken: String?
     var amUserToken: String?
     
+    var spotifyLibrary: SpotifyLibrary = SpotifyLibrary()
     var spotifyCatalogue: SpotifyCatalogue = SpotifyCatalogue()
 
     var spotifyDevToken: String?
@@ -104,7 +105,7 @@ class SearchDelegate {
      Searches user's personal Spotify library playlists, and populates into tableview
      */
     func searchSpotifyLibrary() {
-        
+        spotifyLibrary.searchPlaylists("", "")
     }
     
     //MUST OVERRIDE

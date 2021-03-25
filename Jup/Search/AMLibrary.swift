@@ -40,9 +40,6 @@ class AMLibrary {
             let jsonData: JSON
             do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
             
-            // hard-code recently played items into playlist tableview
-            self.playlistNames["recent"] = "Recently Played"
-            
             for playlistDict in jsonData["data"].arrayValue {
                 let id = playlistDict["id"].stringValue
                 let name = playlistDict["attributes"]["name"].stringValue
@@ -64,11 +61,7 @@ class AMLibrary {
      Get Playlist Data given an id and tokens, default calls generic function with offset 0
      */
     func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String) {
-        if id == "recent" {
-            getRecentlyPlayedData(devToken, userToken)
-        } else {
-            getPlaylistData(id, devToken, userToken, "0")
-        }
+        getPlaylistData(id, devToken, userToken, "0")
     }
     
     /*
@@ -148,22 +141,5 @@ class AMLibrary {
         task.resume()
     }
     
-    /*
-     Specially retrieves recently placed songs
-     */
-    func getRecentlyPlayedData(_ devToken: String, _ userToken: String) {
-//        var components = URLComponents()
-//        components.scheme = "https"
-//        components.host   = "api.music.apple.com"
-//        components.path   = "/v1/me/recent/played"
-//        components.queryItems = [
-//            URLQueryItem(name: "offset", value: offset),
-//        ]
-//        let url = components.url!
-//
-//        var request = URLRequest(url: url)
-//        request.setValue("Bearer \(devToken)", forHTTPHeaderField: "Authorization")
-//        request.setValue(userToken, forHTTPHeaderField: "Music-User-Token")
-    }
 }
 

@@ -20,6 +20,26 @@ class SpotifyLibrary {
     var playlistContent: [String : [SongItem]] = [:]
     
     func searchPlaylists(_ devToken: String, _ userToken: String) {
+        checkAuthorization {
+            return
+        }
+        return
+        /*
+         Add playlist corresponding to user's top played songs (short-term)
+         */
+        
+        /*
+         Add playlist corresponding to user's top played songs (medium-term)
+         */
+        
+        /*
+         Add playlist corresponding to user's top played songs (long-term)
+         */
+        
+        /*
+         Get User's playlists
+         */
+        
         var components = URLComponents()
         components.scheme = "https"
         components.host   = "api.music.apple.com"
@@ -137,6 +157,115 @@ class SpotifyLibrary {
             self.getPlaylistData(id, devToken, userToken, offset)
         }
         task.resume()
+    }
+    
+    func checkAuthorization(completionHandler: @escaping () -> ()) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        // first try to renew session if expired
+        guard let expirationDate = appDelegate.expirationDate as? Date else {
+            //must initiate session
+            print("must initiate session apparently: \(appDelegate.expirationDate)")
+            appDelegate.connectToSpotifyWebAPI {
+                print("Returned from connect to spotufy web api")
+                print("ExpirationDate: \(appDelegate.expirationDate)")
+                print("NewToken: \(appDelegate.accessToken)")
+                print("RefreshToken: \(appDelegate.refreshToken)")
+            }
+            return
+        }
+        if expirationDate > Date() {
+            // in the clear, don't need to renew yet
+            print("in the clear, don't need to renew yet\nTime Remaining: \(Date().distance(to: expirationDate))")
+            completionHandler()
+            return
+        }
+        // session expired, renew
+        print("token expired, attempt to use manual refresh method")
+        let headers = [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        
+        /*
+         let url = URL(string: "https://accounts.spotify.com/api/token")!
+         var request = URLRequest(url: url)
+         request.httpMethod = "POST"
+         
+         let body = "grant_type=client_credentials"
+         request.httpBody = body.data(using: String.Encoding.utf8)
+         
+         let clientID: String = "93de9a96fb6c4cb39844ac6e98427885"
+         let clientSecret: String = "bc693736cf6d40389102d369243384ff"
+         let encodedHeader: String = Data("\(clientID):\(clientSecret)".utf8).base64EncodedString()
+         request.setValue("Basic \(encodedHeader)", forHTTPHeaderField: "Authorization")
+         */
+
+        let postData = NSMutableData(data: "UserID=351".data(using: String.Encoding.utf8)!)
+        let request = URLRequest(url: URL(string: ))
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = postData as Data
+
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            if (error != nil) {
+                print(error!)
+            } else {
+                let httpResponse = response as? HTTPURLResponse
+                print(httpResponse!)
+
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    print(json)
+                } catch {
+                    print(error)
+                }
+
+            }
+        })
+
+        dataTask.resume()
+        
+        
+        appDelegate.connectToSpotifyWebAPI {
+            print("Access token: \(appDelegate.accessToken)")
+        }
+        return
+        guard let _ = UserDefaults.standard.string(forKey: "personalAccessKey") else {
+            // no access token logged before, request token
+            
+            var components = URLComponents()
+            components.scheme = "https"
+            components.host   = "accounts.spotify.com"
+            components.path   = "/authorize"
+            components.queryItems = [
+                URLQueryItem(name: "client_id", value: appDelegate.SpotifyClientID),
+                URLQueryItem(name: "response_type", value: "code"),
+                URLQueryItem(name: "redirect_uri", value: appDelegate.SpotifyRedirectURL),
+                URLQueryItem(name: "scope", value: "user-top-read" + " " + "playlist-read-private" + " " + "playlist-read-collaborative"),
+            ]
+
+            let url = components.url!
+            
+            let request = URLRequest(url: url)
+            let session = URLSession.shared
+            let task = session.dataTask(with: request) { data, response, error in
+                guard let dataResponse = response as? HTTPURLResponse else {
+                    print("waht")
+                    return
+                }
+                if let e = error {
+                    print("Error: \(e)")
+                    return
+                }
+                
+            }
+            task.resume()
+//            UserDefaults.standard.set(accessToken, forKey: AppDelegate.kAccessTokenKey)
+            return
+        }
+        // have access token, need refresh token, maybe? check time interval
+        
     }
     
 }
