@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-Jup/Pods-Jup-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/BlueCryptor/Cryptor.framework
 ${BUILT_PRODUCTS_DIR}/BlueECC/CryptorECC.framework
 ${BUILT_PRODUCTS_DIR}/BlueRSA/CryptorRSA.framework

@@ -7,6 +7,8 @@
 
 import SwiftyJSON
 import Foundation
+import Alamofire
+
 
 // Class stores information about user's personal playlists
 // Caches data on playlists, once playlist is opened, songs within are
@@ -161,57 +163,87 @@ class SpotifyLibrary {
     
     func checkAuthorization(completionHandler: @escaping () -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
+        // 1
+          AF.request("https://accounts.spotify.com/authorize",
+                            parameters: ["client_id": appDelegate.SpotifyClientID,
+                                         "redirect_uri": appDelegate.SpotifyRedirectURL,
+                                         "response_type": "code",
+                                         "scopes": "user-top-read playlist-read-private playlist-read-collaborative"])
+             // 2
+            .responseString { response in
+                print("RESULT:")
+                debugPrint(response)
+            }
+              
+//              // 3
+//              let tags = JSON(value)["results"][0]["tags"].array?.map { json in
+//                json["tag"].stringValue
+//              }
+//
+//              // 4
+//              completion(tags)
+//          }
+        return
+//
+//
         guard let expirationDate = appDelegate.expirationDate as? Date,
               let refreshToken = appDelegate.refreshToken else {
-            //must initiate session
-            print("must initiate session apparently: \(appDelegate.expirationDate)")
-            appDelegate.connectToSpotifyWebAPI {
-                // if failed to authenticate, fail silently
-                guard let expirationDate = appDelegate.expirationDate as? Date else { return }
-                if expirationDate < Date() { return }
-                
-                print("Returned from connect to spotufy web api")
-                print("ExpirationDate: \(appDelegate.expirationDate)")
-                print("NewToken: \(appDelegate.accessToken)")
-                print("RefreshToken: \(appDelegate.refreshToken)")
-                // call check authorization with new tokens, passing in same completionHandler
-                print("Trying checkAuthorization again...")
-                self.checkAuthorization(completionHandler: completionHandler)
-            }
+//            //must initiate session
+//            print("must initiate session apparently: \(appDelegate.expirationDate)")
+//            appDelegate.connectToSpotifyWebAPI {
+//                // if failed to authenticate, fail silently
+//                guard let expirationDate = appDelegate.expirationDate as? Date else { return }
+//                if expirationDate < Date() { return }
+//
+//                print("Returned from connect to spotufy web api")
+//                print("ExpirationDate: \(appDelegate.expirationDate)")
+//                print("NewToken: \(appDelegate.accessToken)")
+//                print("RefreshToken: \(appDelegate.refreshToken)")
+//                // call check authorization with new tokens, passing in same completionHandler
+//                print("Trying checkAuthorization again...")
+//                self.checkAuthorization(completionHandler: completionHandler)
+//            }
             return
         }
-        if expirationDate > Date() {
-            // in the clear, don't need to renew yet
-            print("in the clear, don't need to renew yet\nTime Remaining: \(Date().distance(to: expirationDate))")
-            completionHandler()
-            return
-        }
-        // session expired, renew
-        print("token expired, attempt to use manual refresh method")
-        
-        let url = URL(string: "https://accounts.spotify.com/api/token")!
+//        if expirationDate > Date() {
+//            // in the clear, don't need to renew yet
+//            print("in the clear, don't need to renew yet\nTime Remaining: \(Date().distance(to: expirationDate))")
+//            completionHandler()
+//            return
+//        }
+//        // session expired, renew
+//        print("token expired, attempt to use manual refresh method")
+//        appDelegate.bringBackToVC = {
+//            // if failed to authenticate, fail silently
+//            guard let expirationDate = appDelegate.expirationDate as? Date else { return }
+//            if expirationDate < Date() { return }
+//
+//            print("Returned from connect to spotify web api")
+//            print("ExpirationDate: \(appDelegate.expirationDate)")
+//            print("NewToken: \(appDelegate.accessToken)")
+//            print("RefreshToken: \(appDelegate.refreshToken)")
+//            // call check authorization with new tokens, passing in same completionHandler
+//            print("Trying checkAuthorization again...")
+//            self.checkAuthorization(completionHandler: completionHandler)
+//        }
+//        appDelegate.sessionManager.renewSession()
+        let url = URL(string: "https://jup-music-queue.herokuapp.com/api/token")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-    
-        let parameters = ["grant_type": "refresh_token", "refresh_token": refreshToken]
-        
+
+        let parameters = [("refresh_token", refreshToken)] //, ("grant_type", "refresh_token")
+
         // encode parameters into post body
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to data object and set it as request body
-        } catch let error {
-            print("error converting parameters into body")
-            return
-        }
-        
+        request.httpBody =  Data(SpotifyLibrary.urlEncoded(formDataSet: parameters).utf8)
+
         // set header to encoded client info
         let clientID: String = "93de9a96fb6c4cb39844ac6e98427885"
         let clientSecret: String = "bc693736cf6d40389102d369243384ff"
         let encodedHeader: String = Data("\(clientID):\(clientSecret)".utf8).base64EncodedString()
         request.setValue("Basic \(encodedHeader)", forHTTPHeaderField: "Authorization")
-    
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-       
+
+        request.setValue("application/x-www-form-urlencoded;", forHTTPHeaderField: "Content-Type")
+        print("\n\nURL:\n\(request.debugDescription)\n\n")
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             if (error != nil) {
@@ -235,12 +267,41 @@ class SpotifyLibrary {
         })
 
         dataTask.resume()
-        
-        // back up:
-//        appDelegate.connectToSpotifyWebAPI {
-//            print("Access token: \(appDelegate.accessToken)")
-//        }
-        return
+
+//////         back up:
+//////        appDelegate.connectToSpotifyWebAPI {
+//////            print("Access token: \(appDelegate.accessToken)")
+//////        }
+////        return
     }
     
+    static func urlEncoded(formDataSet: [(String, String)]) -> String {
+        return formDataSet.map { (key, value) in
+            return escape(key) + "=" + escape(value)
+        }.joined(separator: "&")
+    }
+    
+    private static func escape(_ str: String) -> String {
+        // Convert LF to CR LF, then
+        // Percent encoding anything that's not allow (this implies UTF-8), then
+        // Convert " " to "+".
+        //
+        // Note: We worry about `addingPercentEncoding(withAllowedCharacters:)` returning nil
+        // because that can only happen if the string is malformed (specifically, if it somehow
+        // managed to be UTF-16 encoded with surrogate problems) <rdar://problem/28470337>.
+        return str.replacingOccurrences(of: "\n", with: "\r\n")
+            .addingPercentEncoding(withAllowedCharacters: sAllowedCharacters)!
+            .replacingOccurrences(of: " ", with: "+")
+    }
+    
+    private static let sAllowedCharacters: CharacterSet = {
+        // Start with `CharacterSet.urlQueryAllowed` then add " " (it's converted to "+" later)
+        // and remove "+" (it has to be percent encoded to prevent a conflict with " ").
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.insert(" ")
+        allowed.remove("+")
+        allowed.remove("/")
+        allowed.remove("?")
+        return allowed
+    }()
 }
