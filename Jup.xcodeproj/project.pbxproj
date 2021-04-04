@@ -180,14 +180,14 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		15DBD86B258F99C70068FEB4 /* BlueToothCommunication */ = {
+		15DBD86B258F99C70068FEB4 /* BluetoothCommunication */ = {
 			isa = PBXGroup;
 			children = (
 				15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */,
 				15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */,
 				15DBD879258F9D990068FEB4 /* BTHostDelegate.swift */,
 			);
-			path = BlueToothCommunication;
+			path = BluetoothCommunication;
 			sourceTree = "<group>";
 		};
 		2126D95CEB70024BA76E4831 /* Pods */ = {
@@ -250,7 +250,7 @@
 				B67051FC2571F41C00E4077C /* Info.plist */,
 				B670523A2571F88F00E4077C /* VCs */,
 				863AB4C6259A843D004283D7 /* Cells */,
-				15DBD86B258F99C70068FEB4 /* BlueToothCommunication */,
+				15DBD86B258F99C70068FEB4 /* BluetoothCommunication */,
 				15DBD86A258F99B80068FEB4 /* Search */,
 				15DBD865258F99950068FEB4 /* MediaPlayer */,
 				15DBD8BB25951F8A0068FEB4 /* Platform.swift */,
