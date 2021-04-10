@@ -31,7 +31,7 @@ class SearchDelegate {
     init() {
         
     }
-    
+        
     /*
      Searches Apple Music global catalogue for songs related to search query
      */
