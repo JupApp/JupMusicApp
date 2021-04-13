@@ -71,10 +71,10 @@ extension MediaPlayerDelegate {
     }
     
     func updateDataSource() {
-        var snap = NSDiffableDataSourceSnapshot<String, SongTableItem>()
+        var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
-        snap.appendItems(queue.map({ (uri) -> SongTableItem in
-            songMap[uri]!.getSongTableItem()
+        snap.appendItems(queue.map({ (uri) -> QueueSongItem in
+            songMap[uri]!.getQueueSongItem()
         }))
         parentVC.datasource.apply(snap, animatingDifferences: true)
     }

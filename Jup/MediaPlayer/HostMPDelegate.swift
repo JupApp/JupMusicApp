@@ -19,9 +19,7 @@ class HostMPDelegate: MediaPlayerDelegate {
     
     var parentVC: QueueVC
     var mediaPlayer: MediaPlayer?
-    
-//    let uris: [String] = ["spotify:track:2EjXfH91m7f8HiJN1yQg97", "spotify:track:6HlqioVbMHWnPOmm5Wf7NN","spotify:track:4jWr4c9xp3D2QBd7I7xEqn", "spotify:track:609qKv3KPAbdtp0LQH2buA", "spotify:track:1TwLKNsCnhi1HxbIi4bAW0"]
-//    var uri_count = 0
+
     init(_ platform: Platform, _ queueVC: QueueVC) {
         self.parentVC = queueVC
         if platform == .APPLE_MUSIC {
@@ -31,9 +29,6 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.state = .NO_SONG_SET
-        appDelegate.triggerAlertInVC = {
-            self.parentVC.present(self.parentVC.failedSpotifyConnectionAlert, animated: true)
-        }
     }
     
     var songTimer: Timer?

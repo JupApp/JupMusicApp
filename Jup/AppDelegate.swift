@@ -10,7 +10,6 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
     
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
@@ -37,14 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         self.accessToken = session.accessToken
         self.refreshToken = session.refreshToken
         self.expirationDate = session.expirationDate
-        bringBackToVC?()
+        bringBackToVC?(nil)
         bringBackToVC = nil
     }
     
     func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
         print("error", error)
         //maybe dont callback
-        bringBackToVC?()
+        bringBackToVC?(error)
         bringBackToVC = nil
     }
     
@@ -53,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
         self.accessToken = session.accessToken
         self.refreshToken = session.refreshToken
         self.expirationDate = session.expirationDate
-        bringBackToVC?()
+        bringBackToVC?(nil)
         bringBackToVC = nil
     }
     
@@ -75,8 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     static let kRefreshTokenKey = "refresh-token-key"
     static let kExpirationDate = "expiration-date"
     
-    var bringBackToVC: (() -> ())?
-    var triggerAlertInVC: (() -> ())?
+    var bringBackToVC: ((Error?) -> ())?
 
     lazy var configuration = SPTConfiguration(
       clientID: SpotifyClientID,
@@ -96,35 +94,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func connectToSpotify() {
         let requestedScopes: SPTScope = [.appRemoteControl, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative]
-        guard let session = sessionManager.session else {
-            sessionManager.initiateSession(with: requestedScopes, options: .default)
-            return
-        }
-        if session.isExpired == true {
-            sessionManager.renewSession()
-            return
-        }
-        bringBackToVC?()
-        bringBackToVC = nil
+        sessionManager.initiateSession(with: requestedScopes, options: .default)
+        return
+
     }
     
-    func connectToSpotifyWebAPI(completionHandler: @escaping () -> ()) {
-        bringBackToVC = completionHandler
-        print("connectToSpotifyWebAPI called")
-        let requestedScopes: SPTScope = [.userTopRead, .playlistReadPrivate, .playlistReadCollaborative]
-        guard let session = sessionManager.session else {
-            print("initiating session")
-            sessionManager.initiateSession(with: requestedScopes, options: .default)
-            return
-        }
-        if session.isExpired == true {
-            print("session was expired, renewing now")
-            sessionManager.renewSession()
-            return
-        }
-    }
-    
-    func connectToSpotify(completionHandler: @escaping () -> ()) {
+    func connectToSpotify(completionHandler: @escaping (Error?) -> ()) {
         bringBackToVC = completionHandler
         connectToSpotify()
     }
@@ -160,41 +135,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         print("\n\nconnected to spotify app\n\n")
-        bringBackToVC?()
+        bringBackToVC?(nil)
         bringBackToVC = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
         print("\n\nfailed to connect to spotify app\n\n")
-        bringBackToVC?()
+        bringBackToVC?(error)
         bringBackToVC = nil
-        triggerAlertInVC?()
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         print("\n\ndisconnected from spotify app\n\n")
-//        connect("") {
-//            print("attempted to connect back to spotify app after disconnecting")
-//        }
-        triggerAlertInVC?()
+        /*
+         TO-DO deal with this
+         */
+        bringBackToVC?(error)
+        bringBackToVC = nil
     }
     
-    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-//        print("Player state changed")
-    }
-    
-    func connect(_ uri: String, completionHandler: @escaping () -> ()) {
+    func connect(_ uri: String, completionHandler: @escaping (Error?) -> ()) {
         connect(uri, 0, completionHandler: completionHandler)
     }
     
-    func connect(_ uri: String, _ playbackPosition: Int, completionHandler: @escaping () -> ()) {
+    func connect(_ uri: String, _ playbackPosition: Int, completionHandler: @escaping (Error?) -> ()) {
         if playbackPosition == 0 {
             bringBackToVC = completionHandler
         } else {
-            bringBackToVC = { self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
-                guard e == nil else {
-                    print("Was connected, but failed to play song...")
-                    return
+            bringBackToVC = { error in
+                self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
+                    guard e == nil else {
+                        print("Was connected, but failed to play song...")
+                        return
                 }
                 self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
             })}
@@ -240,6 +212,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
       }
     }
 
+    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+    }
     
 }
 

@@ -7,29 +7,72 @@
 import StoreKit
 import UIKit
 
-class SearchVC: UIViewController, UISearchBarDelegate {
+struct PlaylistItem: Hashable {
+    var playlistName: String
+    var playlistID: String
+    
+    init(_ name: String, _ id: String) {
+        self.playlistName = name
+        self.playlistID = id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(playlistID)
+    }
+    
+    static func ==(lhs: PlaylistItem, rhs: PlaylistItem) -> Bool {
+               return lhs.playlistID == rhs.playlistID
+    }
+}
+
+class SearchVC: UITableViewController, UISearchBarDelegate {
     
    // @IBOutlet weak var spotifyLibraryButton: UIButton!
     //@IBOutlet weak var appleMusicLibraryButton: UIButton!
-    @IBOutlet weak var searhTableView: UITableView!
     @IBOutlet weak var musicSearchBar: UISearchBar!
-    @IBOutlet weak var searchPlatformSegmentedControl: UISegmentedControl!
+//    @IBOutlet weak var searchPlatformSegmentedControl: UISegmentedControl!
+    var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
+
     
     var searchDelegate: SearchDelegate?
     var currentPlatform: Platform = .APPLE_MUSIC
     var isHost: Bool = false
     var parentVC: QueueVC?
+    
+    lazy var datasource =
+            UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
+        var cell =
+            tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip)
+                cell.textLabel?.text = s.playlistName
+        return cell
+                
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        musicSearchBar.becomeFirstResponder()
+        //start refreshing token if necessary
+        SpotifyUtilities.checkAuthorization {}
+        
+        searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
+        searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
+        searchPlatformSegmentedControl.selectedSegmentIndex = 0
+        searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
+
+        // Handle TableView set up
+        self.tableView.delegate = self
+        self.tableView.allowsSelection = true
+        self.tableView.dataSource = datasource
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
+        var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+        snap.appendSections(["Playlists"])
+        datasource.apply(snap, animatingDifferences: false)
+        
         musicSearchBar.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-                
-        searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
-        
+                        
         // initialize developer tokens for AM and Spotify
         do{try searchDelegate?.setNewAMAccessToken(completionHandler: {})}catch{}
         searchDelegate?.setNewSpotifyAccessToken(completionHandler: {})
@@ -40,10 +83,6 @@ class SearchVC: UIViewController, UISearchBarDelegate {
         } else {
             searchDelegate?.searchSpotifyLibrary()
         }
-        
-        /*
-         DISPLAY THE CORRESPONDING PLAYLIST
-         */
 
     }
     
@@ -125,6 +164,50 @@ class SearchVC: UIViewController, UISearchBarDelegate {
         }
         // authorized at this point:
         searchDelegate?.searchAMLibrary()
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // user selected playlist, push SongListVC on stack
+        let playlistID: String
+
+        if currentPlatform == .APPLE_MUSIC {
+            guard indexPath.row < searchDelegate!.amLibrary.playlistIDs.count else {
+                return
+            }
+            let songListVC = SongListVC<AppleMusicSongItem>()
+
+            playlistID = searchDelegate!.amLibrary.playlistIDs[indexPath.row]
+            searchDelegate?.amLibrary.getPlaylistData(playlistID, searchDelegate!.amDevToken!, searchDelegate!.amUserToken!) {
+                var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
+                snap.appendSections(["Songs"])
+                snap.appendItems(self.searchDelegate!.amLibrary.playlistContent[playlistID]!)
+                DispatchQueue.main.async {
+                    songListVC.datasource.apply(snap, animatingDifferences: false)
+                }
+            }
+            navigationController?.pushViewController(songListVC, animated: true)
+
+        } else {
+            guard indexPath.row < searchDelegate!.spotifyLibrary.playlistIDs.count else {
+                return
+            }
+            let songListVC = SongListVC<SpotifySongItem>()
+
+            playlistID = searchDelegate!.spotifyLibrary.playlistIDs[indexPath.row]
+            searchDelegate?.spotifyLibrary.getPlaylistData(playlistID, "", "") {
+                var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
+                snap.appendSections(["Songs"])
+                snap.appendItems(self.searchDelegate!.spotifyLibrary.playlistContent[playlistID]!)
+                DispatchQueue.main.async {
+                    songListVC.datasource.apply(snap, animatingDifferences: false)
+                }
+            }
+            navigationController?.pushViewController(songListVC, animated: true)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return searchPlatformSegmentedControl
     }
     
     

@@ -78,10 +78,15 @@ class SearchDelegate {
             }
             return
         }
-        if !amLibrary.playlistNames.isEmpty {
-            return
+        amLibrary.searchPlaylists(devToken, amUserToken!) {
+            // populates results into tableview
+            var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+            snap.appendSections(["Playlists"])
+            snap.appendItems(self.amLibrary.playlistIDs.map({ (id) -> PlaylistItem in
+                PlaylistItem(self.amLibrary.playlistNames[id]!, id)
+            }))
+            self.parentVC?.datasource.apply(snap, animatingDifferences: false)
         }
-        amLibrary.searchPlaylists(devToken, amUserToken!)
     }
     
     /*
@@ -105,7 +110,15 @@ class SearchDelegate {
      Searches user's personal Spotify library playlists, and populates into tableview
      */
     func searchSpotifyLibrary() {
-        spotifyLibrary.searchPlaylists("", "")
+        spotifyLibrary.searchPlaylists("", "") {
+            // populates results into tableview
+            var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+            snap.appendSections(["Playlists"])
+            snap.appendItems(self.spotifyLibrary.playlistIDs.map({ (id) -> PlaylistItem in
+                PlaylistItem(self.spotifyLibrary.playlistNames[id]!, id)
+            }))
+            self.parentVC?.datasource.apply(snap, animatingDifferences: false)
+        }
     }
     
     //MUST OVERRIDE
