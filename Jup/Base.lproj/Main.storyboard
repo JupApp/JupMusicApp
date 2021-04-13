@@ -332,7 +332,7 @@
                                                             <rect key="frame" x="289.66666666666669" y="0.0" width="47.666666666666686" height="68.333333333333329"/>
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
-                                                                <segue destination="vrv-jH-OAR" kind="popoverPresentation" popoverAnchorView="3Db-Q6-aVt" id="9O0-uR-QXb">
+                                                                <segue destination="vrv-jH-OAR" kind="popoverPresentation" identifier="searchVCsegue" popoverAnchorView="3Db-Q6-aVt" id="Lp2-RU-Vzg">
                                                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                                                 </segue>
                                                             </connections>
@@ -360,23 +360,10 @@
                                             <rect key="frame" x="42" y="62" width="330" height="330"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2LZ-YL-OKl">
-                                            <rect key="frame" x="37" y="426" width="361" height="44"/>
-                                            <items>
-                                                <navigationItem title="Title" id="DYv-pA-yRT">
-                                                    <barButtonItem key="leftBarButtonItem" title="Item" id="zse-y3-fy8">
-                                                        <connections>
-                                                            <action selector="presentSearchVC:" destination="TfO-Ke-MaO" id="ENt-Mm-KKi"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                </navigationItem>
-                                            </items>
-                                        </navigationBar>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="9nI-rx-CLW" firstAttribute="centerX" secondItem="37L-fE-kHa" secondAttribute="centerX" id="CRh-8p-cTE"/>
                                         <constraint firstAttribute="bottom" secondItem="9nI-rx-CLW" secondAttribute="bottom" id="OOR-zL-dv4"/>
-                                        <constraint firstItem="2LZ-YL-OKl" firstAttribute="centerX" secondItem="37L-fE-kHa" secondAttribute="centerX" id="WKc-1h-hBA"/>
                                         <constraint firstItem="9nI-rx-CLW" firstAttribute="top" secondItem="37L-fE-kHa" secondAttribute="firstBaseline" constant="400" id="dDu-jo-h3p"/>
                                     </constraints>
                                 </view>
@@ -411,51 +398,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1647.826086956522" y="-177.45535714285714"/>
-        </scene>
-        <!--Root View Controller-->
-        <scene sceneID="CaO-aQ-65f">
-            <objects>
-                <tableViewController id="20R-ER-hJg" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9jO-HW-6cO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="opy-CU-HfY">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="opy-CU-HfY" id="KBg-wA-OfM">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="20R-ER-hJg" id="6gn-1C-dzG"/>
-                            <outlet property="delegate" destination="20R-ER-hJg" id="6GI-PJ-gWp"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="1cd-Vm-7X0"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bS9-3v-nh0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2307" y="-911"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="bTv-B6-5Fm">
-            <objects>
-                <navigationController id="Lgc-bq-hWd" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="npr-f3-zTg">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="20R-ER-hJg" kind="relationship" relationship="rootViewController" id="dSG-0N-FcN"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zty-Bb-wPk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1416" y="-911"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="c0Y-8J-HkA">
