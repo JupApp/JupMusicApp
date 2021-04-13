@@ -417,32 +417,21 @@
                                 </segments>
                                 <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </segmentedControl>
-                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tqf-Qu-4Lt">
-                                <rect key="frame" x="30" y="161" width="354" height="701"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <sections/>
-                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8U9-TZ-H1G"/>
                         <color key="backgroundColor" red="0.91162312030000003" green="0.96084374189999999" blue="0.94886618850000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="tqf-Qu-4Lt" firstAttribute="top" secondItem="wA9-J3-E22" secondAttribute="bottom" constant="10" id="1t6-2b-QK0"/>
                             <constraint firstItem="rEM-u1-xpZ" firstAttribute="top" secondItem="8U9-TZ-H1G" secondAttribute="top" constant="20" id="Lhr-ah-FWg"/>
-                            <constraint firstItem="tqf-Qu-4Lt" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="30" id="PEt-jL-mtu"/>
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="rEM-u1-xpZ" secondAttribute="trailing" constant="20" id="XWF-SK-UvM"/>
                             <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="wA9-J3-E22" secondAttribute="trailing" constant="40" id="Zzx-XZ-DZ6"/>
-                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="bottom" secondItem="tqf-Qu-4Lt" secondAttribute="bottom" id="btD-Jb-U5L"/>
                             <constraint firstItem="wA9-J3-E22" firstAttribute="top" secondItem="rEM-u1-xpZ" secondAttribute="bottom" id="h4x-Sb-W9a"/>
                             <constraint firstItem="wA9-J3-E22" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="40" id="lCO-J3-nbR"/>
                             <constraint firstItem="rEM-u1-xpZ" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="20" id="ner-Lz-c1c"/>
-                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="tqf-Qu-4Lt" secondAttribute="trailing" constant="30" id="vP9-5M-XIN"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="musicSearchBar" destination="rEM-u1-xpZ" id="YBW-hH-YOG"/>
                         <outlet property="searchPlatformSegmentedControl" destination="wA9-J3-E22" id="BLE-cF-q0D"/>
-                        <outlet property="searhTableView" destination="tqf-Qu-4Lt" id="hS4-jh-EcG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rpa-I5-yHw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -546,7 +535,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mDx-d9-ECJ"/>
+        <segue reference="Ggz-E1-Q6M"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Group" width="39.666667938232422" height="45.666667938232422"/>
