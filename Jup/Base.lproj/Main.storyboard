@@ -287,20 +287,20 @@
                                             <rect key="frame" x="-313" y="400" width="1040" height="496"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-7k-yma">
-                                                    <rect key="frame" x="351.33333333333337" y="0.0" width="337.33333333333337" height="49"/>
+                                                    <rect key="frame" x="351.33333333333337" y="0.0" width="337.33333333333337" height="68.333333333333329"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
-                                                            <rect key="frame" x="0.0" y="0.0" width="39.666666666666664" height="49"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="39.666666666666664" height="68.333333333333329"/>
                                                             <state key="normal" image="Group"/>
                                                             <connections>
                                                                 <action selector="participantMenuTapped" destination="TfO-Ke-MaO" eventType="touchDown" id="6Yp-V8-y4L"/>
                                                             </connections>
                                                         </button>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="API-C8-R4L">
-                                                            <rect key="frame" x="39.666666666666657" y="0.0" width="249.99999999999997" height="49"/>
+                                                            <rect key="frame" x="39.666666666666657" y="0.0" width="249.99999999999997" height="68.333333333333329"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="19" translatesAutoresizingMaskIntoConstraints="NO" id="CTf-KG-p3i">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="4.666666666666667"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="250" id="c4o-zN-hRB"/>
                                                                     </constraints>
@@ -309,7 +309,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGW-Xq-HLz">
-                                                                    <rect key="frame" x="0.0" y="4.6666666666666856" width="250" height="24"/>
+                                                                    <rect key="frame" x="0.0" y="24" width="250" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="250" id="tOr-NG-bTo"/>
                                                                     </constraints>
@@ -318,7 +318,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contributor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pjV-28-RiJ">
-                                                                    <rect key="frame" x="0.0" y="28.666666666666686" width="250" height="20.333333333333329"/>
+                                                                    <rect key="frame" x="0.0" y="48" width="250" height="20.333333333333329"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="250" id="rOX-JI-Frk"/>
                                                                     </constraints>
@@ -329,10 +329,9 @@
                                                             </subviews>
                                                         </stackView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
-                                                            <rect key="frame" x="289.66666666666669" y="0.0" width="47.666666666666686" height="49"/>
+                                                            <rect key="frame" x="289.66666666666669" y="0.0" width="47.666666666666686" height="68.333333333333329"/>
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
-                                                                <action selector="presentSearchVC:" destination="TfO-Ke-MaO" eventType="touchUpInside" id="hVK-cw-FWB"/>
                                                                 <segue destination="vrv-jH-OAR" kind="popoverPresentation" popoverAnchorView="3Db-Q6-aVt" id="9O0-uR-QXb">
                                                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                                                 </segue>
@@ -341,11 +340,11 @@
                                                     </subviews>
                                                 </stackView>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-zc-Gqo">
-                                                    <rect key="frame" x="357.66666666666674" y="54" width="325" height="4"/>
+                                                    <rect key="frame" x="357.66666666666674" y="73.333333333333314" width="325" height="4"/>
                                                     <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </progressView>
                                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cvK-To-F4P">
-                                                    <rect key="frame" x="15" y="63" width="1010" height="433"/>
+                                                    <rect key="frame" x="15" y="82.333333333333286" width="1010" height="413.66666666666674"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </tableView>
@@ -361,10 +360,23 @@
                                             <rect key="frame" x="42" y="62" width="330" height="330"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2LZ-YL-OKl">
+                                            <rect key="frame" x="37" y="426" width="361" height="44"/>
+                                            <items>
+                                                <navigationItem title="Title" id="DYv-pA-yRT">
+                                                    <barButtonItem key="leftBarButtonItem" title="Item" id="zse-y3-fy8">
+                                                        <connections>
+                                                            <action selector="presentSearchVC:" destination="TfO-Ke-MaO" id="ENt-Mm-KKi"/>
+                                                        </connections>
+                                                    </barButtonItem>
+                                                </navigationItem>
+                                            </items>
+                                        </navigationBar>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="9nI-rx-CLW" firstAttribute="centerX" secondItem="37L-fE-kHa" secondAttribute="centerX" id="CRh-8p-cTE"/>
                                         <constraint firstAttribute="bottom" secondItem="9nI-rx-CLW" secondAttribute="bottom" id="OOR-zL-dv4"/>
+                                        <constraint firstItem="2LZ-YL-OKl" firstAttribute="centerX" secondItem="37L-fE-kHa" secondAttribute="centerX" id="WKc-1h-hBA"/>
                                         <constraint firstItem="9nI-rx-CLW" firstAttribute="top" secondItem="37L-fE-kHa" secondAttribute="firstBaseline" constant="400" id="dDu-jo-h3p"/>
                                     </constraints>
                                 </view>
@@ -398,7 +410,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1649" y="-177"/>
+            <point key="canvasLocation" x="1647.826086956522" y="-177.45535714285714"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="c0Y-8J-HkA">
@@ -581,7 +593,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ggz-E1-Q6M"/>
+        <segue reference="mDx-d9-ECJ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="CheckmarkImage" width="29" height="41.333332061767578"/>
