@@ -45,7 +45,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
     var searchVC: SearchVC?
-        
+    
     lazy var datasource =
             UITableViewDiffableDataSource<String, QueueSongItem>(tableView: queueTable) { tv, ip, s in
         var cell =
@@ -63,7 +63,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         //self.nowPlayingArtist.transform = CGAffineTransform(rotationAngle: .pi / -2)
         //self.nowPlayingTitle.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
@@ -142,8 +142,26 @@ class QueueVC: UIViewController, UITableViewDelegate {
             searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
             searchVC?.searchDelegate?.parentVC = searchVC!
         }
-        navigationController?.pushViewController(searchVC!, animated: true)
+//        show(searchVC!, sender: self)
+        performSegue(withIdentifier: "searchVCsegue", sender: nil)
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard segue.identifier == "searchVCsegue" else {
+//            return
+//        }
+//        print("\n\n\n\n\ngarbage\n\n\n")
+//
+//        if searchVC == nil {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            searchVC = storyboard.instantiateViewController(identifier: "SearchVC")
+//            searchVC?.currentPlatform = platform
+//            searchVC?.isHost = isHost
+//            searchVC?.parentVC = self
+//            searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
+//            searchVC?.searchDelegate?.parentVC = searchVC!
+//        }
+//    }
     
     func failedSpotifyConnectionAlert(_ act: UIAlertAction){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

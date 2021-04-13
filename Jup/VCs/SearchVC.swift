@@ -186,7 +186,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                 }
             }
             navigationController?.pushViewController(songListVC, animated: true)
-
         } else {
             guard indexPath.row < searchDelegate!.spotifyLibrary.playlistIDs.count else {
                 return
