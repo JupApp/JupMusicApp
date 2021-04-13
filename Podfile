@@ -10,6 +10,7 @@ target 'Jup' do
 pod 'SideMenu'
 pod 'SwiftJWT'
 pod 'SwiftyJSON', '~> 4.0'
+pod 'Alamofire'
 
 
 end

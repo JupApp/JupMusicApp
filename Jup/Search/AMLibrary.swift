@@ -11,27 +11,32 @@ import Foundation
 // Caches data on playlists, once playlist is opened, songs within are
 // stored and AM request is no longer needed for further calls
 class AMLibrary {
-    
+        
     // map ID to name
     var playlistNames: [String : String] = [:]
     
     // map ID to playlist content (songs and whatnot)
-    var playlistContent: [String : [SongItem]] = [:]
+    var playlistContent: [String : [AppleMusicSongItem]] = [:]
     
-    func searchPlaylists(_ devToken: String, _ userToken: String) {
-//        let searchTerm  = songTitle
-//        let countryCode = "us"
-
+    // list of ids in tableview order
+    var playlistIDs: [String] = []
+    
+    func searchPlaylists(_ devToken: String, _ userToken: String, completionHandler: @escaping () -> ()) {
+        
+        guard playlistIDs.isEmpty else {
+            // already searched, just handle completionHandler
+            completionHandler()
+            return
+        }
+        
         var components = URLComponents()
         components.scheme = "https"
         components.host   = "api.music.apple.com"
         components.path   = "/v1/me/library/playlists"
         components.queryItems = [
-//            URLQueryItem(name: "include", value: "tracks"),
-//            URLQueryItem(name: "term", value: ""),
-//            URLQueryItem(name: "limit", value: "10"),
-//            URLQueryItem(name: "types", value: "library-playlists"),
+            URLQueryItem(name: "limit", value: "100"),
         ]
+
         let url = components.url!
 
         var request = URLRequest(url: url)
@@ -49,15 +54,10 @@ class AMLibrary {
                 let id = playlistDict["id"].stringValue
                 let name = playlistDict["attributes"]["name"].stringValue
                 self.playlistNames[id] = name
-                
-                
-                // THIS IS TEMPORARY, IN FUTURE WE CALL THIS ON A
-                // GIVEN PLAYLIST WHEN SELECTED IN SEARCVC TABLEVIEW
-                self.getPlaylistData(id, devToken, userToken)
+                self.playlistIDs.append(id)
             }
-            /*
-             UPDATE THE TABLE VIEW ONCE THIS IS COMPLETE
-             */
+            
+            completionHandler()
         }
         task.resume()
     }
@@ -65,14 +65,14 @@ class AMLibrary {
     /*
      Get Playlist Data given an id and tokens, default calls generic function with offset 0
      */
-    func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String) {
-        getPlaylistData(id, devToken, userToken, "0")
+    func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ completionHandler: @escaping () -> ()) {
+        getPlaylistData(id, devToken, userToken, "0", completionHandler)
     }
     
     /*
      Get Playlist Data with offset
      */
-    func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ offset: String) {
+    func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ offset: String, _ completionHandler: @escaping () -> ()) {
         var components = URLComponents()
         components.scheme = "https"
         components.host   = "api.music.apple.com"
@@ -85,14 +85,14 @@ class AMLibrary {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(devToken)", forHTTPHeaderField: "Authorization")
         request.setValue(userToken, forHTTPHeaderField: "Music-User-Token")
-        helpGetPlaylistData(id, devToken, userToken, request)
+        helpGetPlaylistData(id, devToken, userToken, request, completionHandler)
     }
     
     /*
      Internal function to get playlist data recursively, 100 songs at a time, takes
      in a url request already made
      */
-    func helpGetPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ request: URLRequest) {
+    func helpGetPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ request: URLRequest, _ completionHandler: @escaping () -> ()) {
         
         if self.playlistContent[id] == nil {
             self.playlistContent[id] = []
@@ -129,19 +129,21 @@ class AMLibrary {
                 let songTitle: String = songDictionary["attributes"]["name"].stringValue
                 let artistName: String = songDictionary["attributes"]["artistName"].stringValue
                 let songLength: UInt = songDictionary["attributes"]["durationInMillis"].uIntValue
-                let songItem: SongItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength)
+                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength)
                 self.playlistContent[id]!.append(songItem)
             }
             if !jsonData["next"].exists() {
+                completionHandler()
                 return
             }
             let path: String = jsonData["next"].stringValue
-            guard let index = path.index(of: "?") else {
+            guard let index = path.firstIndex(of: "?") else {
+                completionHandler()
                 return
             }
             let offsetSubstring = path[path.index(index, offsetBy: 8)...]
             let offset = String(offsetSubstring)
-            self.getPlaylistData(id, devToken, userToken, offset)
+            self.getPlaylistData(id, devToken, userToken, offset, completionHandler)
         }
         task.resume()
     }

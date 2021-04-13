@@ -70,7 +70,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         if openedSpotify {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
-            appDelegate.bringBackToVC?()
+            appDelegate.bringBackToVC?(nil)
             openedSpotify = false 
         }
     }
@@ -138,7 +138,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
             openedSpotify = true
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
-            appDelegate.connectToSpotify {
+            appDelegate.connectToSpotify { _ in
                 print("Callback initiated")
                 guard let expired = appDelegate.sessionManager.session?.isExpired else {
                     print("No session")

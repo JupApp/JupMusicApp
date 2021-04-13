@@ -333,6 +333,9 @@
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
                                                                 <action selector="presentSearchVC:" destination="TfO-Ke-MaO" eventType="touchUpInside" id="hVK-cw-FWB"/>
+                                                                <segue destination="KbW-YC-dz5" kind="popoverPresentation" popoverAnchorView="3Db-Q6-aVt" id="blQ-So-4Dt">
+                                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                                </segue>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -395,48 +398,77 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="927.536231884058" y="-212.27678571428569"/>
+            <point key="canvasLocation" x="1649" y="-177"/>
         </scene>
-        <!--SearchVC-->
-        <scene sceneID="80M-0x-eiM">
+        <!--View Controller-->
+        <scene sceneID="lFA-mx-s9i">
             <objects>
-                <viewController storyboardIdentifier="SearchVC" id="DUb-Gg-gF2" customClass="SearchVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qda-sB-21p">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                <viewController id="KbW-YC-dz5" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dSI-f0-294">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Apple Music" translatesAutoresizingMaskIntoConstraints="NO" id="rEM-u1-xpZ">
-                                <rect key="frame" x="20" y="64" width="374" height="56"/>
-                                <textInputTraits key="textInputTraits" keyboardAppearance="light"/>
-                            </searchBar>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wA9-J3-E22">
-                                <rect key="frame" x="40" y="120" width="334" height="32"/>
-                                <segments>
-                                    <segment title="Apple Music"/>
-                                    <segment title="Spotify"/>
-                                </segments>
-                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </segmentedControl>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hKS-Uz-Qej">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <connections>
+                                    <segue destination="I0m-Rq-SoV" kind="popoverPresentation" popoverAnchorView="hKS-Uz-Qej" id="wCw-vU-xfF">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </containerView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="8U9-TZ-H1G"/>
-                        <color key="backgroundColor" red="0.91162312030000003" green="0.96084374189999999" blue="0.94886618850000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="EJz-ma-d3l"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="rEM-u1-xpZ" firstAttribute="top" secondItem="8U9-TZ-H1G" secondAttribute="top" constant="20" id="Lhr-ah-FWg"/>
-                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="rEM-u1-xpZ" secondAttribute="trailing" constant="20" id="XWF-SK-UvM"/>
-                            <constraint firstItem="8U9-TZ-H1G" firstAttribute="trailing" secondItem="wA9-J3-E22" secondAttribute="trailing" constant="40" id="Zzx-XZ-DZ6"/>
-                            <constraint firstItem="wA9-J3-E22" firstAttribute="top" secondItem="rEM-u1-xpZ" secondAttribute="bottom" id="h4x-Sb-W9a"/>
-                            <constraint firstItem="wA9-J3-E22" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="40" id="lCO-J3-nbR"/>
-                            <constraint firstItem="rEM-u1-xpZ" firstAttribute="leading" secondItem="8U9-TZ-H1G" secondAttribute="leading" constant="20" id="ner-Lz-c1c"/>
+                            <constraint firstAttribute="bottom" secondItem="hKS-Uz-Qej" secondAttribute="bottom" id="Kce-XB-Fze"/>
+                            <constraint firstItem="hKS-Uz-Qej" firstAttribute="leading" secondItem="EJz-ma-d3l" secondAttribute="leading" id="mRh-vA-8bR"/>
+                            <constraint firstItem="EJz-ma-d3l" firstAttribute="trailing" secondItem="hKS-Uz-Qej" secondAttribute="trailing" id="ukQ-C6-z8V"/>
+                            <constraint firstItem="hKS-Uz-Qej" firstAttribute="top" secondItem="EJz-ma-d3l" secondAttribute="top" id="ytW-ka-zxS"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="musicSearchBar" destination="rEM-u1-xpZ" id="YBW-hH-YOG"/>
-                        <outlet property="searchPlatformSegmentedControl" destination="wA9-J3-E22" id="BLE-cF-q0D"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rpa-I5-yHw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yuk-My-zVH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1712" y="-212"/>
+            <point key="canvasLocation" x="2498" y="-176"/>
+        </scene>
+        <!--SearchVC-->
+        <scene sceneID="MKk-AK-lzB">
+            <objects>
+                <tableViewController storyboardIdentifier="SearchVC" id="I0m-Rq-SoV" customClass="SearchVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="eJf-os-rRq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="Cah-Tq-j20">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="rwT-xd-QVQ">
+                                <rect key="frame" x="0.0" y="72" width="414" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rwT-xd-QVQ" id="8Fu-HQ-g5W">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="I0m-Rq-SoV" id="3yE-ku-hIf"/>
+                            <outlet property="delegate" destination="I0m-Rq-SoV" id="BDw-aN-8Mb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="oiC-gX-kIJ">
+                        <nil key="title"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="musicSearchBar" destination="Cah-Tq-j20" id="bBO-fI-c4z"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BSV-mc-0nM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3480" y="-176"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5S0-hG-8Q2">

@@ -7,7 +7,15 @@
 
 
 
-class AppleMusicSongItem: SongItem {
+class AppleMusicSongItem: SongItem, Hashable {
+
+    static func == (lhs: AppleMusicSongItem, rhs: AppleMusicSongItem) -> Bool {
+        return lhs.uri == rhs.uri
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uri)
+    }
 
     var uri: String
     var artistName: String
@@ -15,7 +23,8 @@ class AppleMusicSongItem: SongItem {
     var albumURL: String
     var songLength: UInt
     var likes: Int = 0
-    
+    var added: Bool = false
+
     var albumArtwork: UIImage?
     
     init(id: String, artist: String, song: String, albumURL: String, length: UInt) {

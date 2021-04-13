@@ -9,7 +9,7 @@ import UIKit
 
 class SpotifyAppRemoteError: Error {}
 
-struct SongTableItem: Hashable {
+struct QueueSongItem: Hashable {
     var title: String
     var artist: String
     var uri: String
@@ -21,7 +21,7 @@ struct SongTableItem: Hashable {
         hasher.combine(uri)
     }
     
-    static func ==(lhs: SongTableItem, rhs: SongTableItem) -> Bool {
+    static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
                return lhs.uri == rhs.uri
     }
 }
@@ -45,9 +45,9 @@ class QueueVC: UIViewController, UITableViewDelegate {
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
     var searchVC: SearchVC?
-    
+        
     lazy var datasource =
-            UITableViewDiffableDataSource<String, SongTableItem>(tableView: queueTable) { tv, ip, s in
+            UITableViewDiffableDataSource<String, QueueSongItem>(tableView: queueTable) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
                 cell?.albumArtwork.image = s.albumArtwork
@@ -63,7 +63,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         //self.nowPlayingArtist.transform = CGAffineTransform(rotationAngle: .pi / -2)
         //self.nowPlayingTitle.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
@@ -86,13 +86,15 @@ class QueueVC: UIViewController, UITableViewDelegate {
         queueTable.allowsSelection = false
     
 
-        var snap = NSDiffableDataSourceSnapshot<String, SongTableItem>()
+        var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         datasource.apply(snap, animatingDifferences: false)
         
         self.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
+        tap.cancelsTouchesInView = false
         self.nowPlayingAlbum.addGestureRecognizer(tap)
+        
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
 
@@ -140,11 +142,10 @@ class QueueVC: UIViewController, UITableViewDelegate {
             searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
             searchVC?.searchDelegate?.parentVC = searchVC!
         }
-        show(searchVC!, sender: self)
+        navigationController?.pushViewController(searchVC!, animated: true)
     }
     
-    func failedSpotifyConnectionAlert(_ act:UIAlertAction){
-        //Code for beep boop bopping
+    func failedSpotifyConnectionAlert(_ act: UIAlertAction){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         switch (mpDelegate.state) {
         case .NO_SONG_SET:
@@ -162,7 +163,8 @@ class QueueVC: UIViewController, UITableViewDelegate {
                     uri = (state as! SPTAppRemotePlayerState).track.uri
                     position = (state as! SPTAppRemotePlayerState).playbackPosition
                 }
-                appDelegate.connect(uri, position) {}
+                appDelegate.connect(uri, position) { _ in 
+                }
             })
             break
         case .TRANSITIONING:

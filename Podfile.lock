@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.4.1)
   - BlueCryptor (1.0.32)
   - BlueECC (1.2.5)
   - BlueRSA (1.0.34)
@@ -17,12 +18,14 @@ PODS:
   - SwiftyJSON (4.3.0)
 
 DEPENDENCIES:
+  - Alamofire
   - SideMenu
   - SwiftJWT
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - BlueCryptor
     - BlueECC
     - BlueRSA
@@ -34,6 +37,7 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   BlueCryptor: b0aee3d9b8f367b49b30de11cda90e1735571c24
   BlueECC: 0d18e93347d3ec6d41416de21c1ffa4d4cd3c2cc
   BlueRSA: 6f9776d62d9773502415a7db3bcbb2bbb3f71fc3
@@ -44,6 +48,6 @@ SPEC CHECKSUMS:
   SwiftJWT: 88c412708f58c169d431d344c87bc79a87c830ae
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: dc1172b720e414acd21e8ce5149b8a34e80bd139
+PODFILE CHECKSUM: 05e1f93a070e164397f20c61af8f44d203b13554
 
 COCOAPODS: 1.10.0

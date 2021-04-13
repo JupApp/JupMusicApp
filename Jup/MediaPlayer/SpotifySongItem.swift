@@ -13,6 +13,11 @@ class AlbumURLString: NSObject, SPTAppRemoteImageRepresentable {
 }
 
 class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
+    
+    static func == (lhs: SpotifySongItem, rhs: SpotifySongItem) -> Bool {
+        return lhs.uri == rhs.uri
+    }
+    
     var title: String?
     var subtitle: String?
     var identifier: String { return uri }
@@ -30,6 +35,7 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var songLength: UInt
     var albumArtwork: UIImage?
     var likes: Int = 0
+    var added: Bool = false
     
     init(uri: String, artist: String, song: String, albumURL: String, length: UInt) {
         self.uri = uri
@@ -80,7 +86,6 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
         }
         task.resume()
     }
-    
     
     
 }
