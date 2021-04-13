@@ -333,9 +333,6 @@
                                                             <state key="normal" image="SearchButton"/>
                                                             <connections>
                                                                 <action selector="presentSearchVC:" destination="TfO-Ke-MaO" eventType="touchUpInside" id="hVK-cw-FWB"/>
-                                                                <segue destination="KbW-YC-dz5" kind="popoverPresentation" popoverAnchorView="3Db-Q6-aVt" id="blQ-So-4Dt">
-                                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                                </segue>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -405,11 +402,11 @@
             <objects>
                 <viewController id="KbW-YC-dz5" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dSI-f0-294">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hKS-Uz-Qej">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <connections>
                                     <segue destination="I0m-Rq-SoV" kind="popoverPresentation" popoverAnchorView="hKS-Uz-Qej" id="wCw-vU-xfF">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>

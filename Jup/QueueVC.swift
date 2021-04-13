@@ -45,7 +45,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
     var searchVC: SearchVC?
-        
+    
     lazy var datasource =
             UITableViewDiffableDataSource<String, QueueSongItem>(tableView: queueTable) { tv, ip, s in
         var cell =
@@ -63,7 +63,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         //self.nowPlayingArtist.transform = CGAffineTransform(rotationAngle: .pi / -2)
         //self.nowPlayingTitle.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
@@ -142,7 +142,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
             searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
             searchVC?.searchDelegate?.parentVC = searchVC!
         }
-        navigationController?.pushViewController(searchVC!, animated: true)
+        show(searchVC!, sender: self)
     }
     
     func failedSpotifyConnectionAlert(_ act: UIAlertAction){
