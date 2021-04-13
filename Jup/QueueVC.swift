@@ -142,8 +142,26 @@ class QueueVC: UIViewController, UITableViewDelegate {
             searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
             searchVC?.searchDelegate?.parentVC = searchVC!
         }
-        show(searchVC!, sender: self)
+//        show(searchVC!, sender: self)
+        performSegue(withIdentifier: "searchVCsegue", sender: nil)
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard segue.identifier == "searchVCsegue" else {
+//            return
+//        }
+//        print("\n\n\n\n\ngarbage\n\n\n")
+//
+//        if searchVC == nil {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            searchVC = storyboard.instantiateViewController(identifier: "SearchVC")
+//            searchVC?.currentPlatform = platform
+//            searchVC?.isHost = isHost
+//            searchVC?.parentVC = self
+//            searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
+//            searchVC?.searchDelegate?.parentVC = searchVC!
+//        }
+//    }
     
     func failedSpotifyConnectionAlert(_ act: UIAlertAction){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
