@@ -26,18 +26,15 @@ struct QueueSongItem: Hashable {
     }
 }
 
-class QueueVC: UIViewController, UITableViewDelegate {
+class QueueVC: UITableViewController {
     
-    
-    
-    @IBOutlet weak var albumBackground: UIImageView!
+
     @IBOutlet weak var nowPlayingAlbum: UIImageView!
     @IBOutlet weak var nowPlayingTitle: UILabel!
     @IBOutlet weak var nowPlayingArtist: UILabel!
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
-    @IBOutlet weak var queueTable: UITableView!
-    @IBOutlet weak var leaveQueueButton: UIButton!
-
+    @IBOutlet weak var leaveQueueButton: UIBarButtonItem!
+    @IBOutlet weak var nowPlayingContributor: UILabel!
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
@@ -48,7 +45,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     var searchVC: SearchVC?
     
     lazy var datasource =
-            UITableViewDiffableDataSource<String, QueueSongItem>(tableView: queueTable) { tv, ip, s in
+        UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
                 cell?.albumArtwork.image = s.albumArtwork
@@ -82,10 +79,10 @@ class QueueVC: UIViewController, UITableViewDelegate {
         
         let nib = UINib(nibName: "SongCell", bundle: nil)
 
-        queueTable.register(nib, forCellReuseIdentifier: "SongCell")
-        queueTable.delegate = self
-        queueTable.dataSource = datasource
-        queueTable.allowsSelection = false
+        tableView.register(nib, forCellReuseIdentifier: "SongCell")
+        tableView.delegate = self
+        tableView.dataSource = datasource
+        tableView.allowsSelection = false
     
 
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
@@ -145,7 +142,12 @@ class QueueVC: UIViewController, UITableViewDelegate {
             searchVC?.searchDelegate?.parentVC = searchVC!
             
         }
-        present(searchVC!, animated: true)
+        print("SHit")
+        if navigationController == nil {
+            print("Damnit")
+        }
+        self.navigationController?.pushViewController(searchVC!, animated: true)
+//        present(searchVC!, animated: true)
     }
     
     func failedSpotifyConnectionAlert(_ act: UIAlertAction){

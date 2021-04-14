@@ -134,9 +134,29 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         }
         // if segmented control set to AM, perform AM catalogue request, else Spotify
         if currentPlatform == .APPLE_MUSIC {
-            searchDelegate?.searchAMCatalogue(searchQuery)
+            let songListVC = SongListVC<AppleMusicSongItem>()
+
+            searchDelegate?.searchAMCatalogue(searchQuery) {
+                var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
+                snap.appendSections(["Songs"])
+                snap.appendItems(self.searchDelegate!.amCatalogue.searchResults)
+                DispatchQueue.main.async {
+                    songListVC.datasource.apply(snap, animatingDifferences: false)
+                }
+            }
+            navigationController?.pushViewController(songListVC, animated: true)
         } else {
-            searchDelegate?.searchSpotifyCatalogue(searchQuery)
+            let songListVC = SongListVC<SpotifySongItem>()
+
+            searchDelegate?.searchSpotifyCatalogue(searchQuery) {
+                var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
+                snap.appendSections(["Songs"])
+                snap.appendItems(self.searchDelegate!.spotifyCatalogue.searchResults)
+                DispatchQueue.main.async {
+                    songListVC.datasource.apply(snap, animatingDifferences: false)
+                }
+            }
+            navigationController?.pushViewController(songListVC, animated: true)
         }
         
     }
@@ -185,7 +205,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     songListVC.datasource.apply(snap, animatingDifferences: false)
                 }
             }
-            present(songListVC, animated: true)
+            navigationController?.pushViewController(songListVC, animated: true)
+//            present(songListVC, animated: true)
         } else {
             guard indexPath.row < searchDelegate!.spotifyLibrary.playlistIDs.count else {
                 return
@@ -201,7 +222,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     songListVC.datasource.apply(snap, animatingDifferences: false)
                 }
             }
-            present(songListVC, animated: true)
+            navigationController?.pushViewController(songListVC, animated: true)
+//            present(songListVC, animated: true)
         }
     }
     

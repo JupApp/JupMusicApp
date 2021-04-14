@@ -11,9 +11,9 @@ import Alamofire
 
 class SpotifyCatalogue {
     
-    var searchResults: [SongItem] = []
+    var searchResults: [SpotifySongItem] = []
     
-    func searchCatalogue(_ searchQuery: String, _ devToken: String) {
+    func searchCatalogue(_ searchQuery: String, _ devToken: String, _ completionHandler: @escaping () -> ()) {
         let limit = 25
         AF.request("https://api.spotify.com/v1/search", method: .get, parameters: ["q": searchQuery, "type": "track", "limit": limit], headers: ["Authorization": "Bearer" + " " + devToken]).responseJSON { (data) in
             let response: HTTPURLResponse = data.response!
@@ -34,6 +34,7 @@ class SpotifyCatalogue {
                         self.searchResults.append(songItem)
                     }
                 }
+                completionHandler()
             case .failure(_):
                 /*
                 Trigger alert that song request could not be retrieved

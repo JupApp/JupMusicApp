@@ -66,6 +66,10 @@ class AMLibrary {
      Get Playlist Data given an id and tokens, default calls generic function with offset 0
      */
     func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ completionHandler: @escaping () -> ()) {
+        if playlistContent[id]?.isEmpty == false {
+            completionHandler()
+            return
+        }
         getPlaylistData(id, devToken, userToken, "0", completionHandler)
     }
     

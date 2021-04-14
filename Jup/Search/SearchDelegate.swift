@@ -35,18 +35,18 @@ class SearchDelegate {
     /*
      Searches Apple Music global catalogue for songs related to search query
      */
-    func searchAMCatalogue(_ searchQuery: String) {
+    func searchAMCatalogue(_ searchQuery: String, _ completionHandler: @escaping () -> ()) {
         guard let devToken = amDevToken else {
             // Original Token most likely expired, get new one
             do {try setNewAMAccessToken {
-                self.searchAMCatalogue(searchQuery)
+                self.searchAMCatalogue(searchQuery, completionHandler)
             }} catch {}
             return
         }
         // reset search results to empty
         amCatalogue.searchResults = []
         //perform search call
-        amCatalogue.searchCatalogue(searchQuery, devToken)
+        amCatalogue.searchCatalogue(searchQuery, devToken, completionHandler)
     }
     
     /*
@@ -92,18 +92,18 @@ class SearchDelegate {
     /*
      Searches Spotify global catalogue for songs related to search query
      */
-    func searchSpotifyCatalogue(_ searchQuery: String) {
+    func searchSpotifyCatalogue(_ searchQuery: String, _ completionHandler: @escaping () -> ()) {
         guard let devToken = spotifyDevToken else {
             // original development access token probably expired, get new one
             setNewSpotifyAccessToken {
-                self.searchSpotifyCatalogue(searchQuery)
+                self.searchSpotifyCatalogue(searchQuery, completionHandler)
             }
             return
         }
         // reset search results to empty
         spotifyCatalogue.searchResults = []
         //perform search call
-        spotifyCatalogue.searchCatalogue(searchQuery, devToken)
+        spotifyCatalogue.searchCatalogue(searchQuery, devToken, completionHandler)
     }
     
     /*

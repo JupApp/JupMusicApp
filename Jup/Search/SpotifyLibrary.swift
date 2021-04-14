@@ -129,6 +129,7 @@ class SpotifyLibrary {
     func getPlaylistData(_ id: String, _ devToken: String, _ userToken: String, _ completionHandler: @escaping () -> ()) {
         guard self.playlistContent[id] == nil else {
             // songs already loaded for given playlist, return
+            completionHandler()
             return
         }
         // set playlist to empty list
@@ -189,6 +190,7 @@ class SpotifyLibrary {
                     self.helperGetPlaylistData(id, offset + limit, completionHandler)
                     return
                 }
+                print("\n\n\n\n\nhoohoh\n\n\n\n")
                 completionHandler()
                 return
             case .failure(_):
@@ -210,7 +212,7 @@ class SpotifyLibrary {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         AF.request("https://api.spotify.com/v1/me/top/songs", method: .get, parameters: ["time_range": scale.toString(), "limit": limit, "offset": offset], headers: ["Authorization": "Bearer" + " " + appDelegate.accessToken!]).responseJSON { (data) in
             let response: HTTPURLResponse = data.response!
-            print(data.result)
+            print(data.response?.statusCode)
 
             // if status 4xx
             if "\(response.statusCode)".prefix(1) == "4" {

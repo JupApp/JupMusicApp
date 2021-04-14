@@ -35,10 +35,14 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
         self.tableView.delegate = self
         self.tableView.dataSource = datasource
         self.tableView.register(UINib(nibName: "SearchCell", bundle: nil), forCellReuseIdentifier: "SearchSongCell")
+        self.tableView.rowHeight = UITableView.automaticDimension;
+
         var snap = NSDiffableDataSourceSnapshot<String, T>()
         snap.appendSections(["Songs"])
         datasource.apply(snap, animatingDifferences: false)
-                        
-        
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }

@@ -227,7 +227,6 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="verifyAndSegueToQueue:" destination="d8E-AH-NBx" eventType="touchUpInside" id="23V-hW-EIB"/>
-                                                        <segue destination="TfO-Ke-MaO" kind="presentation" identifier="segueToQueue" modalPresentationStyle="fullScreen" id="Yfz-Bo-qAk"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -260,16 +259,17 @@
                         <outlet property="strictQueueSwitch" destination="i7g-8n-xmT" id="PnE-mX-roe"/>
                         <outlet property="usernameTextField" destination="JEs-NW-cJ5" id="lm7-Ly-Tn2"/>
                         <outlet property="voteQueueSwitch" destination="EQE-md-Otg" id="KAN-nN-MKq"/>
+                        <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueue" modalPresentationStyle="fullScreen" id="Vba-Js-efL"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gSP-v3-L50" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="216" y="-293"/>
+            <point key="canvasLocation" x="264" y="-198"/>
         </scene>
         <!--Item-->
         <scene sceneID="Se4-Hc-GY0">
             <objects>
-                <viewController storyboardIdentifier="QueueVC" id="TfO-Ke-MaO" customClass="QueueVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QueueVC_old" id="TfO-Ke-MaO" customClass="QueueVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ahj-aB-ASh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -292,9 +292,6 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-rY-4F5">
                                                             <rect key="frame" x="0.0" y="0.0" width="39.666666666666664" height="68.333333333333329"/>
                                                             <state key="normal" image="Group"/>
-                                                            <connections>
-                                                                <action selector="participantMenuTapped" destination="TfO-Ke-MaO" eventType="touchDown" id="6Yp-V8-y4L"/>
-                                                            </connections>
                                                         </button>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="API-C8-R4L">
                                                             <rect key="frame" x="39.666666666666657" y="0.0" width="249.99999999999997" height="68.333333333333329"/>
@@ -331,9 +328,6 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Db-Q6-aVt">
                                                             <rect key="frame" x="289.66666666666669" y="0.0" width="47.666666666666686" height="68.333333333333329"/>
                                                             <state key="normal" image="SearchButton"/>
-                                                            <connections>
-                                                                <action selector="presentSearchVC:" destination="TfO-Ke-MaO" eventType="touchUpInside" id="bbl-NW-StC"/>
-                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                 </stackView>
@@ -383,20 +377,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" badgeValue="Queue" id="WYh-3H-VQh" userLabel="Queue"/>
                     <navigationItem key="navigationItem" id="vMW-J8-VZa"/>
-                    <connections>
-                        <outlet property="albumBackground" destination="ZGk-Oz-p3n" id="L7l-0W-YdW"/>
-                        <outlet property="leaveQueueButton" destination="fJ2-rY-4F5" id="kHX-jZ-H5e"/>
-                        <outlet property="nowPlayingAlbum" destination="foI-Tk-QUo" id="UFi-Su-75L"/>
-                        <outlet property="nowPlayingArtist" destination="dGW-Xq-HLz" id="tXc-3d-cOX"/>
-                        <outlet property="nowPlayingProgress" destination="bPf-zc-Gqo" id="6Jw-0r-0qc"/>
-                        <outlet property="nowPlayingTitle" destination="CTf-KG-p3i" id="aPw-Mi-J1E"/>
-                        <outlet property="queueTable" destination="cvK-To-F4P" id="PV4-iM-wxk"/>
-                        <segue destination="g6q-yV-2gd" kind="presentation" identifier="segueToSettings" destinationCreationSelector="segueToSettings:" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Lgp-8R-7Zg"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZR-Fy-xBk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1287" y="175"/>
+            <point key="canvasLocation" x="1490" y="-293"/>
         </scene>
         <!--Item-->
         <scene sceneID="MKk-AK-lzB">
@@ -436,12 +420,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BSV-mc-0nM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2190" y="175"/>
+            <point key="canvasLocation" x="2375" y="-293"/>
         </scene>
         <!--Queue-->
         <scene sceneID="RxM-Vp-8pM">
             <objects>
-                <tableViewController id="HoO-Qc-tuw" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="QueueVC" id="HoO-Qc-tuw" customClass="QueueVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NqE-ee-xdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -450,14 +434,6 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="434"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wZ7-kb-FvA">
-                                    <rect key="frame" x="42" y="20" width="330" height="330"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" secondItem="wZ7-kb-FvA" secondAttribute="height" multiplier="1:1" id="26U-Wt-Zh4"/>
-                                        <constraint firstAttribute="height" constant="330" id="7TJ-sb-5Ub"/>
-                                        <constraint firstAttribute="width" constant="330" id="FCo-Q2-s0L"/>
-                                    </constraints>
-                                </imageView>
                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KoN-rP-fCa">
                                     <rect key="frame" x="59" y="421.33333333333331" width="325" height="4"/>
                                     <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -494,13 +470,21 @@
                                         </label>
                                     </subviews>
                                 </stackView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="8LE-dt-7ox">
+                                    <rect key="frame" x="42" y="24" width="330" height="330"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="8LE-dt-7ox" secondAttribute="height" multiplier="1:1" id="6Xn-Nv-LFG"/>
+                                        <constraint firstAttribute="height" constant="330" id="GwL-vx-bOg"/>
+                                        <constraint firstAttribute="width" constant="330" id="VNN-SR-WuP"/>
+                                    </constraints>
+                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="KoN-rP-fCa" firstAttribute="top" secondItem="8LE-dt-7ox" secondAttribute="bottom" constant="67.333333333333314" id="5t1-CF-nrk"/>
+                                <constraint firstItem="8LE-dt-7ox" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" constant="24" id="CzY-U7-hKS"/>
                                 <constraint firstItem="cu4-2T-jqI" firstAttribute="centerX" secondItem="HOA-ch-QaR" secondAttribute="centerX" id="N4a-WO-5fZ"/>
-                                <constraint firstItem="cu4-2T-jqI" firstAttribute="top" secondItem="wZ7-kb-FvA" secondAttribute="bottom" constant="3" id="cQ5-VF-ffd"/>
-                                <constraint firstItem="wZ7-kb-FvA" firstAttribute="centerX" secondItem="HOA-ch-QaR" secondAttribute="centerX" id="iPI-cd-Uzy"/>
-                                <constraint firstItem="wZ7-kb-FvA" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" constant="20" symbolic="YES" id="ifK-dL-hbm"/>
+                                <constraint firstItem="8LE-dt-7ox" firstAttribute="centerX" secondItem="cu4-2T-jqI" secondAttribute="centerX" id="gUv-59-AGo"/>
                                 <constraint firstItem="KoN-rP-fCa" firstAttribute="top" secondItem="cu4-2T-jqI" secondAttribute="bottom" id="obV-vS-HC7"/>
                             </constraints>
                         </view>
@@ -526,16 +510,30 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="Group"/>
                             </button>
+                            <connections>
+                                <action selector="participantMenuTapped" destination="HoO-Qc-tuw" id="JwO-NO-Tjk"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Search" image="Return" style="plain" id="aZi-nT-8pe">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5ja-Fa-J7I">
                                 <rect key="frame" x="292" y="0.0" width="102" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="SearchButton"/>
+                                <connections>
+                                    <action selector="presentSearchVC:" destination="HoO-Qc-tuw" eventType="touchUpInside" id="0td-KZ-BY9"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <connections>
+                        <outlet property="leaveQueueButton" destination="Jn5-D6-PAS" id="X2Q-lS-Sme"/>
+                        <outlet property="nowPlayingAlbum" destination="8LE-dt-7ox" id="PTl-Ed-MDa"/>
+                        <outlet property="nowPlayingArtist" destination="dch-rT-kLY" id="Wpu-Hj-F6A"/>
+                        <outlet property="nowPlayingContributor" destination="YNp-ya-Qvm" id="M1Q-rh-zRv"/>
+                        <outlet property="nowPlayingProgress" destination="KoN-rP-fCa" id="D2a-a6-0ao"/>
+                        <outlet property="nowPlayingTitle" destination="WF2-aU-qez" id="h7n-ze-Ruo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B8N-Kp-GXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

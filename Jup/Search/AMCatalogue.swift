@@ -11,9 +11,9 @@ import SwiftyJSON
  */
 class AMCatalogue {
     
-    var searchResults: [SongItem] = []
+    var searchResults: [AppleMusicSongItem] = []
     
-    func searchCatalogue(_ searchQuery: String, _ devToken: String) {
+    func searchCatalogue(_ searchQuery: String, _ devToken: String, _ completionHandler: @escaping () -> ()) {
         let countryCode = "us"
 
         var components = URLComponents()
@@ -49,14 +49,15 @@ class AMCatalogue {
                 let songLength: UInt = songDict["attributes"]["durationInMillis"].uIntValue
                 
                 let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: artworkURL, length: songLength)
-                songItem.retrieveArtwork { (_) in
-                    // add song item to table once artwork is retrieved
+//                songItem.retrieveArtwork { (_) in
+//                    // add song item to table once artwork is retrieved
                     self.searchResults.append(songItem)
                     //
                     //DO ANY NECESSARY CALL TO UPDATE TABLE
                     //
-                }
+//                }
             }
+            completionHandler()
         }
         task.resume()
     }
