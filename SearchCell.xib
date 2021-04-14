@@ -10,10 +10,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SearchCell" customModule="Jup" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TestAlbum" translatesAutoresizingMaskIntoConstraints="NO" id="i3t-eY-4MF">
@@ -21,6 +21,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="Klj-si-dNT"/>
+                            <constraint firstAttribute="height" constant="50" id="nlF-c2-Naz"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snY-l4-kBo">
@@ -36,10 +37,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CheckmarkImage" translatesAutoresizingMaskIntoConstraints="NO" id="OI3-KK-9iz" userLabel="Add Song image">
-                        <rect key="frame" x="281" y="10" width="29" height="31"/>
+                        <rect key="frame" x="315" y="10" width="29" height="31"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmp-vD-ZZG">
-                        <rect key="frame" x="277" y="8" width="35" height="34"/>
+                        <rect key="frame" x="311" y="8" width="35" height="34"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Nmp-vD-ZZG" secondAttribute="height" multiplier="35:34" id="EL4-IW-dGl"/>
                         </constraints>
@@ -72,7 +73,7 @@
                 <outlet property="SCSongTitle" destination="snY-l4-kBo" id="eyk-Cy-VJf"/>
                 <outlet property="addSongButton" destination="Nmp-vD-ZZG" id="ZS2-jD-1FG"/>
             </connections>
-            <point key="canvasLocation" x="-213.04347826086959" y="108.48214285714285"/>
+            <point key="canvasLocation" x="-188.40579710144928" y="108.48214285714285"/>
         </tableViewCell>
     </objects>
     <resources>
