@@ -100,11 +100,14 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                                 self.present(self.usernameAlert, animated: true)
                                 return
                             }
+//                            self.present(self.navigationController!, animated: true)
                             self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                             return
                         }
                         let currentUserName = self.usernameTextField.text!
                         UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
+//                        self.present(self.navigationController!, animated: true)
+
                         self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                         return
                     default: break
@@ -122,7 +125,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                         self.present(self.usernameAlert, animated: true)
                         return
                     }
-
                     performSegue(withIdentifier: "segueToQueue", sender: nil)
                     return
                 }

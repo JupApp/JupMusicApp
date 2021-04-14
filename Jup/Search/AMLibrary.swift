@@ -124,7 +124,7 @@ class AMLibrary {
                 //
                 // ########### CURRENTLY HARDCODED TO 1200x1200 !!!!!!!!!
                 //
-                let newURL = artworkURL.replacingOccurrences(of: "{w}x{h}", with: "\(Int(1200))x\(Int(1200))")
+                let newURL = artworkURL.replacingOccurrences(of: "{w}x{h}", with: "\(Int(200))x\(Int(200))")
                 
                 let songTitle: String = songDictionary["attributes"]["name"].stringValue
                 let artistName: String = songDictionary["attributes"]["artistName"].stringValue

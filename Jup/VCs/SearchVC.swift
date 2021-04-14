@@ -185,7 +185,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     songListVC.datasource.apply(snap, animatingDifferences: false)
                 }
             }
-            navigationController?.pushViewController(songListVC, animated: true)
+            present(songListVC, animated: true)
         } else {
             guard indexPath.row < searchDelegate!.spotifyLibrary.playlistIDs.count else {
                 return
@@ -201,7 +201,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
                     songListVC.datasource.apply(snap, animatingDifferences: false)
                 }
             }
-            navigationController?.pushViewController(songListVC, animated: true)
+            present(songListVC, animated: true)
         }
     }
     

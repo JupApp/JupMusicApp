@@ -37,6 +37,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
     @IBOutlet weak var queueTable: UITableView!
     @IBOutlet weak var leaveQueueButton: UIButton!
+
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
@@ -60,6 +61,7 @@ class QueueVC: UIViewController, UITableViewDelegate {
     }
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,34 +136,16 @@ class QueueVC: UIViewController, UITableViewDelegate {
     
     @IBAction func presentSearchVC(_ sender: Any) {
         if searchVC == nil {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            searchVC = storyboard.instantiateViewController(identifier: "SearchVC")
+            searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
+//            searchVC = SearchVC()
             searchVC?.currentPlatform = platform
             searchVC?.isHost = isHost
             searchVC?.parentVC = self
             searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
             searchVC?.searchDelegate?.parentVC = searchVC!
+            
         }
-//        navigationController?.pushViewController(searchVC!, animated: true)
-//        show(searchVC!, sender: self)
-        performSegue(withIdentifier: "searchVCsegue", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "searchVCsegue" else {
-            return
-        }
-        print("\n\n\n\n\ngarbage\n\n\n")
-        segue.destination as! 
-        if searchVC == nil {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            searchVC = storyboard.instantiateViewController(identifier: "SearchVC")
-            searchVC?.currentPlatform = platform
-            searchVC?.isHost = isHost
-            searchVC?.parentVC = self
-            searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
-            searchVC?.searchDelegate?.parentVC = searchVC!
-        }
+        present(searchVC!, animated: true)
     }
     
     func failedSpotifyConnectionAlert(_ act: UIAlertAction){

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1505B3F52624CF4900A4B46E /* SongListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505B3F42624CF4900A4B46E /* SongListVC.swift */; };
+		1505B3FA262636BC00A4B46E /* QueueTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505B3F9262636BC00A4B46E /* QueueTabBarController.swift */; };
 		15141D18260A200B00516C06 /* AMLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141D17260A200B00516C06 /* AMLibrary.swift */; };
 		15141D1D260A949000516C06 /* AMCatalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141D1C260A949000516C06 /* AMCatalogue.swift */; };
 		1549FB5C260ABCAB007AC3E5 /* SpotifyCatalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1549FB5B260ABCAB007AC3E5 /* SpotifyCatalogue.swift */; };
@@ -73,6 +74,7 @@
 
 /* Begin PBXFileReference section */
 		1505B3F42624CF4900A4B46E /* SongListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListVC.swift; sourceTree = "<group>"; };
+		1505B3F9262636BC00A4B46E /* QueueTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTabBarController.swift; sourceTree = "<group>"; };
 		15141D17260A200B00516C06 /* AMLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMLibrary.swift; sourceTree = "<group>"; };
 		15141D1C260A949000516C06 /* AMCatalogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMCatalogue.swift; sourceTree = "<group>"; };
 		1549FB5B260ABCAB007AC3E5 /* SpotifyCatalogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyCatalogue.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				B670523B2571F8C500E4077C /* ParticipantSettingsVC.swift */,
 				863AB4BB259A4AC7004283D7 /* ParticipantMenuViewController.swift */,
 				1505B3F42624CF4900A4B46E /* SongListVC.swift */,
+				1505B3F9262636BC00A4B46E /* QueueTabBarController.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				15DBD893258FA49C0068FEB4 /* ParticipantMPDelegate.swift in Sources */,
 				15141D18260A200B00516C06 /* AMLibrary.swift in Sources */,
 				863AB4BC259A4AC7004283D7 /* ParticipantMenuViewController.swift in Sources */,
+				1505B3FA262636BC00A4B46E /* QueueTabBarController.swift in Sources */,
 				868F02ED259CE944005F8E3E /* ParticipantMenuCell.swift in Sources */,
 				B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */,
 				15141D1D260A949000516C06 /* AMCatalogue.swift in Sources */,
