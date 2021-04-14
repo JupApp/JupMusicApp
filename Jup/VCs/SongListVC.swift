@@ -11,13 +11,14 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
             UITableViewDiffableDataSource<String, T>(tableView: tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "SearchSongCell", for: ip) as! SearchCell
+                // temporarily set album artwork to default image
+                cell.SCSongAlbumArt.image = UIImage(named: "DefaultArtwork")
                 s.retrieveArtwork(completionHandler: { (artwork) in
                     cell.SCSongAlbumArt.image = artwork
                 })
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
         return cell
-                
     }
     
     init() {
