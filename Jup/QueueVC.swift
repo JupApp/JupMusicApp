@@ -101,8 +101,6 @@ class QueueVC: UITableViewController {
         participantMenu = ParticipantMenuViewController(rootViewController: UIViewController())
         participantMenu?.leftSide = true
         SideMenuManager.default.leftMenuNavigationController = participantMenu
-        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
-
         participantMenu?.menuWidth = 200
         participantMenu?.parentVC = self
         
@@ -111,31 +109,14 @@ class QueueVC: UITableViewController {
         
         nowPlayingProgress.setProgress(0, animated: false)
     }
-    var songs: [SongItem] = [AppleMusicSongItem(id: "p.RB1ApQGC02RGm7", artist: "pooper0", song: "Poop0", albumURL: "www", length: 100), AppleMusicSongItem(id: "1", artist: "pooper1", song: "Poop1", albumURL: "www", length: 110), AppleMusicSongItem(id: "2", artist: "pooper2", song: "Poop2", albumURL: "www", length: 120), AppleMusicSongItem(id: "3", artist: "pooper3", song: "Poop3", albumURL: "www", length: 130)]
-    var counter: Int = 0
     
     @objc func play() {
-//        if counter == 4 {
-//            mpDelegate.likeSong(songs[2].uri, true)
-//        } else if counter == 5 {
-//            mpDelegate.likeSong(songs[3].uri, true)
-//        } else {
-//            mpDelegate.addSong(songs[counter])
-//        }
-//        counter += 1
-        mpDelegate.addSong(songs[0])
-        mpDelegate.mediaPlayer?.transitionNextSong(songs[0], completionHandler: { (e) in
-            if let _ = e {
-                print("ERROReoeoe")
-            }
-        })
-//        mpDelegate.play()
+        mpDelegate.play()
     }
     
     @IBAction func presentSearchVC(_ sender: Any) {
         if searchVC == nil {
             searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-//            searchVC = SearchVC()
             searchVC?.currentPlatform = platform
             searchVC?.isHost = isHost
             searchVC?.parentVC = self
@@ -143,12 +124,7 @@ class QueueVC: UITableViewController {
             searchVC?.searchDelegate?.parentVC = searchVC!
             
         }
-        print("SHit")
-        if navigationController == nil {
-            print("Damnit")
-        }
         self.navigationController?.pushViewController(searchVC!, animated: true)
-//        present(searchVC!, animated: true)
     }
     
     func failedSpotifyConnectionAlert(_ act: UIAlertAction){

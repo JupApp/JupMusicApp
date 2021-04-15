@@ -35,8 +35,9 @@ class AppleMusicMediaPlayer: MediaPlayer {
     }
     
     func transitionNextSong(_ songItem: SongItem, completionHandler: @escaping (Error?) -> ()) {
-        let upNext = MPMusicPlayerStoreQueueDescriptor(storeIDs: [songItem.uri])
-        self.player.prepend(upNext)
+        player.setQueue(with: [songItem.uri])
+        player.prepareToPlay()
+        player.repeatMode = .none
         
         skip()
         play()

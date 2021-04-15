@@ -18,8 +18,6 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
                 })
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
-                cell.addSongButton.isHidden = s.added
-                cell.songAddedImage.isHidden = !s.added
                 cell.songItem = s
                 cell.completionHandler = { songItem in self.songAdded(songItem as! T) }
         return cell
@@ -41,6 +39,7 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
         self.tableView.dataSource = datasource
         self.tableView.register(UINib(nibName: "SearchCell", bundle: nil), forCellReuseIdentifier: "SearchSongCell")
         self.tableView.rowHeight = UITableView.automaticDimension;
+        self.tableView.allowsSelection = false
 
         var snap = NSDiffableDataSourceSnapshot<String, T>()
         snap.appendSections(["Songs"])
@@ -52,18 +51,14 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
     }
     
     func songAdded(_ songItem: T) {
-        var updatedSongItem: T = songItem
-        updatedSongItem.added = true
         
         // update tableview
         var snap = self.datasource.snapshot()
-        
-//        snap.insertItems([updatedSongItem], afterItem: songItem)
-//        snap.deleteItems([songItem])
-//        self.datasource.apply(snap, animatingDifferences: true)
+        snap.deleteItems([songItem])
+        self.datasource.apply(snap, animatingDifferences: true)
         
         // add song to queue
         let queueVC: QueueVC = navigationController?.viewControllers[0] as! QueueVC
-        queueVC.mpDelegate.addSong(updatedSongItem)
+        queueVC.mpDelegate.addSong(songItem)
     }
 }

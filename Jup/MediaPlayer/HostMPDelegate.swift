@@ -27,7 +27,6 @@ class HostMPDelegate: MediaPlayerDelegate {
         } else if platform == .SPOTIFY {
             mediaPlayer = SpotifyMediaPlayer()
         }
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.state = .NO_SONG_SET
     }
     
@@ -112,7 +111,6 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         let nextSongURI: String = queue.remove(at: 0)
         let nextSongItem: SongItem = songMap.removeValue(forKey: nextSongURI)!
-        
         mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
             if let _ = error {
                 // assert alert here?
@@ -185,11 +183,14 @@ class HostMPDelegate: MediaPlayerDelegate {
     @objc func timerFired() {
         mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
             UIView.animate(withDuration: 1.0) {
+                print("Time left: \(timeLeft)")
+                print("Song Duration: \(songDuration)")
                 let progress = Float(1.0 - (timeLeft/songDuration))
                 self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
                 self.parentVC.nowPlayingProgress.setNeedsDisplay()
+                self.parentVC.tableView.setNeedsDisplay()
             }
-            if timeLeft < 1100 {
+            if timeLeft < 1.1 {
                 self.mediaPlayer?.pause()
                 self.songTimer = nil
                 if self.queue.isEmpty {
