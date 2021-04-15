@@ -35,6 +35,7 @@ class QueueVC: UITableViewController {
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
     @IBOutlet weak var leaveQueueButton: UIBarButtonItem!
     @IBOutlet weak var nowPlayingContributor: UILabel!
+        
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
@@ -67,6 +68,7 @@ class QueueVC: UITableViewController {
         //self.nowPlayingTitle.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         if isHost {
             mpDelegate = HostMPDelegate(platform, self)
@@ -108,6 +110,7 @@ class QueueVC: UITableViewController {
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
         
         nowPlayingProgress.setProgress(0, animated: false)
+//        nowPlayingProgress.observedProgress = mpDelegate.songProgress
     }
     
     @objc func play() {
@@ -166,9 +169,13 @@ class QueueVC: UITableViewController {
     
     @objc func didEnterBackground() {
          print("App entering background")
+        mpDelegate.songTimer?.invalidate()
         mpDelegate.loadQueueIntoPlayer()
     }
-
+    
+    @objc func didEnterForeground() {
+        print("Entered foreground. Time is nil: \(mpDelegate.songTimer == nil)")
+        mpDelegate.setTimer()
+    }
 }
-
     

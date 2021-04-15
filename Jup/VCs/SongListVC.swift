@@ -19,6 +19,7 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
                 cell.songItem = s
+                cell.addSongButton.isHidden = s.added
                 cell.completionHandler = { songItem in self.songAdded(songItem as! T) }
         return cell
     }
@@ -54,11 +55,21 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
         
         // update tableview
         var snap = self.datasource.snapshot()
-        snap.deleteItems([songItem])
+        var updatedItem = songItem
+        updatedItem.added = true
+        snap.reloadItems([updatedItem])
         self.datasource.apply(snap, animatingDifferences: true)
-        
+
         // add song to queue
         let queueVC: QueueVC = navigationController?.viewControllers[0] as! QueueVC
-        queueVC.mpDelegate.addSong(songItem)
+        queueVC.mpDelegate.addSong(songItem) {
+            /*
+             Alert that song has already been added to queue
+             */
+            let songAlreadyAddedAlert: UIAlertController = UIAlertController(title: "Song Already in Queue", message: "'\(songItem.songTitle)' is already in the song queue. Wait for it to be played in order to add it back to the queue.", preferredStyle: .alert)
+            songAlreadyAddedAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+
+            self.present(songAlreadyAddedAlert, animated: true)
+        }
     }
 }

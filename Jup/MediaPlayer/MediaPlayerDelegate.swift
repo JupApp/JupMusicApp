@@ -15,9 +15,11 @@ enum State: Int {
 
 protocol MediaPlayerDelegate {
     var parentVC: QueueVC { get }
-    var songTimer: Timer? { get }
+    var songTimer: Timer? { get set }
     var mediaPlayer: MediaPlayer? { get }
     var state: State { get set }
+    var songProgress: Progress { get set }
+
         
     var queue: [String] { get }
     var songMap: [String: SongItem] { get }
@@ -31,7 +33,7 @@ protocol MediaPlayerDelegate {
     
     func transitionToNextSong()
     
-    func addSong(_ songItem: SongItem)
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ())
     
     func likeSong(_ uri: String, _ liked: Bool)
     
@@ -44,6 +46,8 @@ protocol MediaPlayerDelegate {
     func updateAlbumArtwork()
     
     func updateDataSource()
+    
+    func setTimer()
 
 }
 

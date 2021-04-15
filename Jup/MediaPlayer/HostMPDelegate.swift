@@ -10,6 +10,8 @@ import StoreKit
 
 
 class HostMPDelegate: MediaPlayerDelegate {
+
+    var songProgress: Progress = Progress()
     
     var state: State
     
@@ -30,13 +32,17 @@ class HostMPDelegate: MediaPlayerDelegate {
         self.state = .NO_SONG_SET
     }
     
-    var songTimer: Timer?
+    var songTimer: Timer? {
+        willSet {
+            songTimer?.invalidate()
+        }
+    }
     
     func play() {
         switch (state) {
         case .NO_SONG_SET:
             if !queue.isEmpty {
-                songTimer = nil
+                songTimer?.invalidate()
                 state = .TRANSITIONING
                 transitionToNextSong()
             }
@@ -46,6 +52,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         case .PLAYING:
             break
         case .PAUSED:
+            songTimer?.invalidate()
             songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
             mediaPlayer?.play()
             state = .PLAYING
@@ -61,7 +68,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         case .TRANSITIONING:
             break
         case .PLAYING:
-            songTimer = nil
+            songTimer?.invalidate()
             mediaPlayer?.pause()
             state = .PAUSED
             // ALERT VIA BTCommunication with new Snapshot
@@ -75,7 +82,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         switch (state) {
         case .NO_SONG_SET:
             if !queue.isEmpty {
-                songTimer = nil
+                songTimer?.invalidate()
                 state = .TRANSITIONING
                 transitionToNextSong()
             }
@@ -84,7 +91,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             break
         case .PLAYING:
             if !queue.isEmpty {
-                songTimer = nil
+                songTimer?.invalidate()
                 mediaPlayer?.pause()
                 state = .TRANSITIONING
                 transitionToNextSong()
@@ -92,7 +99,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             break
         case .PAUSED:
             if !queue.isEmpty {
-                songTimer = nil
+                songTimer?.invalidate()
                 state = .TRANSITIONING
                 transitionToNextSong()
             }
@@ -116,7 +123,12 @@ class HostMPDelegate: MediaPlayerDelegate {
                 // assert alert here?
                 fatalError("Failed to transition to Next Song")
             } else {
+                self.songProgress.totalUnitCount = Int64(nextSongItem.songLength)
+                print("")
+                print("Song Playing: \(nextSongItem.songTitle)")
+                print("Song Length: \(self.songProgress.totalUnitCount)")
                 self.state = .PLAYING
+                self.songTimer?.invalidate()
                 self.songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
                 self.currentSong = nextSongItem
                 self.updateAlbumArtwork()
@@ -128,7 +140,13 @@ class HostMPDelegate: MediaPlayerDelegate {
         })
     }
     
-    func addSong(_ songItem: SongItem) {
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+        // check if song is already in queue
+        guard songMap[songItem.uri] == nil else {
+            completionHandler()
+            return
+        }
+        
         //super simple implementation at the moment
         queue.append(songItem.uri)
         songMap[songItem.uri] = songItem
@@ -175,6 +193,14 @@ class HostMPDelegate: MediaPlayerDelegate {
         let songItemArray = queue.map { (uri) -> SongItem in self.songMap[uri]! }
         self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in })
     }
+    
+    /*
+     Sets timer at 1 sec interval
+     */
+    func setTimer() {
+        self.songTimer?.invalidate()
+        self.songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+    }
 
     /*
      -if at end up of song, stops timer and calls transitionToNextSong()
@@ -182,17 +208,23 @@ class HostMPDelegate: MediaPlayerDelegate {
      */
     @objc func timerFired() {
         mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
-            UIView.animate(withDuration: 1.0) {
-                print("Time left: \(timeLeft)")
-                print("Song Duration: \(songDuration)")
-                let progress = Float(1.0 - (timeLeft/songDuration))
-                self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
-                self.parentVC.nowPlayingProgress.setNeedsDisplay()
-                self.parentVC.tableView.setNeedsDisplay()
-            }
+//            DispatchQueue.main.async {
+                UIView.animate(withDuration: 1.0) {
+//                    print("Time left: \(timeLeft)")
+//                    print("Song Duration: \(songDuration)")
+                    let progress = Float(1.0 - (timeLeft/songDuration))
+//                    self.songProgress.completedUnitCount = self.songProgress.totalUnitCount - Int64(timeLeft)
+//                    print(self.songProgress.completedUnitCount)
+//                    print(self.songProgress.fractionCompleted)
+                    self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
+//                    self.parentVC.nowPlayingProgress.setNeedsDisplay()
+//                    self.parentVC.tableView.setNeedsDisplay()
+                }
+//            }
+
             if timeLeft < 1.1 {
                 self.mediaPlayer?.pause()
-                self.songTimer = nil
+                self.songTimer?.invalidate()
                 if self.queue.isEmpty {
                     self.state = .NO_SONG_SET
                 } else {
