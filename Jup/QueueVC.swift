@@ -48,11 +48,13 @@ class QueueVC: UITableViewController {
         UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
-                cell?.albumArtwork.image = s.albumArtwork
-        cell?.artistLabel.text = s.artist
-        cell?.contributorLabel.text = s.contributor
-        cell?.likeCountLabel.text = s.likes.description
-        cell?.titleLabel.text = s.title
+            cell?.albumArtwork.image = s.albumArtwork
+            cell?.artistLabel.text = s.artist
+            cell?.contributorLabel.text = s.contributor
+            cell?.likeCountLabel.text = s.likes.description
+            cell?.titleLabel.text = s.title
+            cell?.albumArtwork.layer.cornerRadius = 8
+            
         return cell
                 
     }
