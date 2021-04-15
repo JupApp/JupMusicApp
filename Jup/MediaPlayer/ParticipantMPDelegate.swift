@@ -7,6 +7,7 @@
 import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
+    var songProgress: Progress = Progress()
     
     var currentSong: SongItem?
     var queue: [String] = []
@@ -41,7 +42,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     //should not encounter these functions as a participant
-    func addSong(_ songItem: SongItem) { fatalError() }
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) { fatalError() }
     func likeSong(_ uri: String, _ liked: Bool) { fatalError() }
     
     func updateQueueWithSnapshot(_ snapshot: [String: Any]) {
@@ -92,6 +93,14 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     func loadQueueIntoPlayer() {}
+    
+    /*
+     Sets timer at 1 sec interval
+     */
+    func setTimer() {
+        self.songTimer?.invalidate()
+        self.songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+    }
     
     @objc func timerFired() {
         let songLength: Float = Float(currentSong!.songLength)

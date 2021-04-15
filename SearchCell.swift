@@ -30,7 +30,7 @@ class SearchCell: UITableViewCell {
     }
     
     @IBAction func songAdded(_ sender: Any) {
-        
+        addSongButton.isHidden = true
         // attempt to add song to queue, update tableview
         completionHandler?(songItem!)
         completionHandler = nil
