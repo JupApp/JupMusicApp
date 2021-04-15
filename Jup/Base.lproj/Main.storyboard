@@ -426,20 +426,27 @@
         <scene sceneID="RxM-Vp-8pM">
             <objects>
                 <tableViewController storyboardIdentifier="QueueVC" id="HoO-Qc-tuw" customClass="QueueVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="NqE-ee-xdC">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="NqE-ee-xdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="HOA-ch-QaR">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="434"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="445"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KoN-rP-fCa">
-                                    <rect key="frame" x="0.0" y="421.33333333333331" width="414" height="4"/>
+                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KoN-rP-fCa">
+                                    <rect key="frame" x="59" y="427.33333333333331" width="325" height="4"/>
                                     <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </progressView>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cu4-2T-jqI">
-                                    <rect key="frame" x="82" y="353" width="250" height="68.333333333333314"/>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="8LE-dt-7ox">
+                                    <rect key="frame" x="42" y="24" width="330" height="330"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="8LE-dt-7ox" secondAttribute="height" multiplier="1:1" id="6Xn-Nv-LFG"/>
+                                        <constraint firstAttribute="height" constant="330" id="GwL-vx-bOg"/>
+                                        <constraint firstAttribute="width" constant="330" id="VNN-SR-WuP"/>
+                                    </constraints>
+                                </imageView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="cu4-2T-jqI">
+                                    <rect key="frame" x="82" y="359" width="250" height="68.333333333333314"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="19" translatesAutoresizingMaskIntoConstraints="NO" id="WF2-aU-qez">
                                             <rect key="frame" x="0.0" y="0.0" width="250" height="24"/>
@@ -470,19 +477,11 @@
                                         </label>
                                     </subviews>
                                 </stackView>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="8LE-dt-7ox">
-                                    <rect key="frame" x="42" y="24" width="330" height="330"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" secondItem="8LE-dt-7ox" secondAttribute="height" multiplier="1:1" id="6Xn-Nv-LFG"/>
-                                        <constraint firstAttribute="height" constant="330" id="GwL-vx-bOg"/>
-                                        <constraint firstAttribute="width" constant="330" id="VNN-SR-WuP"/>
-                                    </constraints>
-                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="KoN-rP-fCa" secondAttribute="trailing" id="1Vh-SE-SI9"/>
-                                <constraint firstItem="KoN-rP-fCa" firstAttribute="top" secondItem="8LE-dt-7ox" secondAttribute="bottom" constant="67.333333333333314" id="5t1-CF-nrk"/>
+                                <constraint firstItem="cu4-2T-jqI" firstAttribute="top" secondItem="8LE-dt-7ox" secondAttribute="bottom" constant="5" id="9YR-yu-x0c"/>
+
                                 <constraint firstItem="8LE-dt-7ox" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" constant="24" id="CzY-U7-hKS"/>
                                 <constraint firstItem="KoN-rP-fCa" firstAttribute="leading" secondItem="HOA-ch-QaR" secondAttribute="leading" id="M2I-bU-Tci"/>
                                 <constraint firstItem="cu4-2T-jqI" firstAttribute="centerX" secondItem="HOA-ch-QaR" secondAttribute="centerX" id="N4a-WO-5fZ"/>
@@ -492,10 +491,10 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5VF-Ia-U6A">
-                                <rect key="frame" x="0.0" y="462" width="414" height="43.666667938232422"/>
+                                <rect key="frame" x="20" y="500.33333206176758" width="374" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5VF-Ia-U6A" id="lkk-Xw-KoV">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>

@@ -18,6 +18,7 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
                 })
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
+                cell.SCSongAlbumArt.layer.cornerRadius = 10
                 cell.songItem = s
                 cell.addSongButton.isHidden = s.added
                 cell.completionHandler = { songItem in self.songAdded(songItem as! T) }
@@ -41,6 +42,7 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
         self.tableView.register(UINib(nibName: "SearchCell", bundle: nil), forCellReuseIdentifier: "SearchSongCell")
         self.tableView.rowHeight = UITableView.automaticDimension;
         self.tableView.allowsSelection = false
+        
 
         var snap = NSDiffableDataSourceSnapshot<String, T>()
         snap.appendSections(["Songs"])
