@@ -8,6 +8,7 @@
 
 
 class AppleMusicSongItem: SongItem, Hashable {
+    
 
     static func == (lhs: AppleMusicSongItem, rhs: AppleMusicSongItem) -> Bool {
         return lhs.uri == rhs.uri

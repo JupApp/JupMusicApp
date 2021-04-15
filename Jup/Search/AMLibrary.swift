@@ -147,6 +147,12 @@ class AMLibrary {
             }
             let offsetSubstring = path[path.index(index, offsetBy: 8)...]
             let offset = String(offsetSubstring)
+            
+            /*
+             TEST updating with each call
+             */
+            completionHandler()
+
             self.getPlaylistData(id, devToken, userToken, offset, completionHandler)
         }
         task.resume()

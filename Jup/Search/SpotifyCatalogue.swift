@@ -15,32 +15,35 @@ class SpotifyCatalogue {
     
     func searchCatalogue(_ searchQuery: String, _ devToken: String, _ completionHandler: @escaping () -> ()) {
         let limit = 25
-        AF.request("https://api.spotify.com/v1/search", method: .get, parameters: ["q": searchQuery, "type": "track", "limit": limit], headers: ["Authorization": "Bearer" + " " + devToken]).responseJSON { (data) in
-            let response: HTTPURLResponse = data.response!
-            print(data.result)
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/search"
+        components.queryItems = [
+            URLQueryItem(name: "q", value: searchQuery),
+            URLQueryItem(name: "type", value: "track"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+        ]
+        let url = components.url!
 
-            // if status 4xx
-            if "\(response.statusCode)".prefix(1) == "4" {
-                /*
-                 Trigger alert that song request could not be retrieved
-                 */
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(devToken)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
                 return
             }
-            switch data.result {
-            case .success(let result):
-                let songData = ((result as! [String: Any])["tracks"] as! [String: Any])["items"] as! [[String: Any]]
-                for songDict in songData {
-                    SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
-                        self.searchResults.append(songItem)
-                    }
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let songData = jsonData["tracks"]["items"].arrayValue
+            for songDict in songData {
+                SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
+                    self.searchResults.append(songItem)
                 }
-                completionHandler()
-            case .failure(_):
-                /*
-                Trigger alert that song request could not be retrieved
-                */
-                return
             }
+            completionHandler()
         }
+        task.resume()
     }
 }

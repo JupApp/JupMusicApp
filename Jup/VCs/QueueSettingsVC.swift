@@ -85,6 +85,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
+        
         if platform == .APPLE_MUSIC {
             if SKCloudServiceController.authorizationStatus() == .notDetermined {
                 SKCloudServiceController.requestAuthorization {(status:
@@ -100,14 +101,11 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                                 self.present(self.usernameAlert, animated: true)
                                 return
                             }
-//                            self.present(self.navigationController!, animated: true)
                             self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                             return
                         }
                         let currentUserName = self.usernameTextField.text!
                         UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
-//                        self.present(self.navigationController!, animated: true)
-
                         self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                         return
                     default: break
@@ -205,6 +203,16 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
             }
         }
     
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "segueToQueue" else {
+            return
+        }
+        
+        let navController = segue.destination as! UINavigationController
+        let queueVC = navController.viewControllers[0] as! QueueVC
+        queueVC.isHost = true
     }
     
 }

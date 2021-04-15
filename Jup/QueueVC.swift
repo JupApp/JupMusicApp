@@ -83,6 +83,7 @@ class QueueVC: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = datasource
         tableView.allowsSelection = false
+        tableView.isScrollEnabled = true
     
 
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()

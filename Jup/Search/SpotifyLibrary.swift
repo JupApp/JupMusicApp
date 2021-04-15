@@ -70,10 +70,6 @@ class SpotifyLibrary {
         self.getUsersPlaylists(0) {
             completionHandler()
         }
-        
-        /*
-         Update table view once these proceses finish
-         */
     }
     
     /*
@@ -82,45 +78,41 @@ class SpotifyLibrary {
     private func getUsersPlaylists(_ offset: Int, _ completionHandler: @escaping () -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let limit: Int = 50
-        AF.request("https://api.spotify.com/v1/me/playlists", method: .get, parameters: ["limit": limit, "offset": offset], headers: ["Authorization": "Bearer" + " " + appDelegate.accessToken!]).responseJSON {
-            (data) in
-                let response: HTTPURLResponse = data.response!
-                print(data.result)
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/me/playlists"
+        components.queryItems = [
+            URLQueryItem(name: "offset", value: "\(offset)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+        ]
+        let url = components.url!
 
-                // if status 4xx
-                if "\(response.statusCode)".prefix(1) == "4" {
-                    /*
-                     Trigger alert that user playlists could not be retrieved
-                     */
-                    return
-                }
-                switch data.result {
-                case .success(let result):
-                    guard let playlistData = (result as! [String: Any])["items"] as? [[String: Any]] else {
-                        //Returned bad result fail silently
-                        return
-                    }
-                    for playlist in playlistData {
-                        let playlistID: String = playlist["id"] as! String
-                        let playlistName: String = playlist["name"] as! String
-                        self.playlistNames[playlistID] = playlistName
-                        self.playlistIDs.append(playlistID)
-
-                    }
-                    let totalPlaylists: Int = (result as! [String: Any])["total"] as! Int
-                    if (totalPlaylists > offset + limit) {
-                        self.getUsersPlaylists(offset + limit, completionHandler)
-                        return
-                    }
-                    completionHandler()
-                    return
-                case .failure(_):
-                    /*
-                     Trigger alert that user playlists could not be retrieved
-                     */
-                    return
-                }
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let playlistData = jsonData["items"].arrayValue
+            for playlist in playlistData {
+                let playlistID: String = playlist["id"].stringValue
+                let playlistName: String = playlist["name"].stringValue
+                self.playlistNames[playlistID] = playlistName
+                self.playlistIDs.append(playlistID)
+            }
+            let totalPlaylists: Int = jsonData["total"].intValue
+            if (totalPlaylists > offset + limit) {
+                self.getUsersPlaylists(offset + limit, completionHandler)
+            }
+            completionHandler()
+            return
         }
+        task.resume()
     }
     
     /*
@@ -157,50 +149,45 @@ class SpotifyLibrary {
         let limit = 50
         // get songs for actual playlist in user's profile
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        AF.request("https://api.spotify.com/v1/playlists/\(id)/tracks", method: .get, parameters: ["limit": limit, "offset": offset], headers: ["Authorization": "Bearer" + " " + appDelegate.accessToken!]).responseJSON { (data) in
-            let response: HTTPURLResponse = data.response!
-            print(data.result)
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/playlists/\(id)/tracks"
+        components.queryItems = [
+            URLQueryItem(name: "offset", value: "\(offset)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+        ]
+        let url = components.url!
 
-            // if status 4xx
-            if "\(response.statusCode)".prefix(1) == "4" {
-                /*
-                 Trigger alert that playlist songs could not be retrieved
-                 */
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
                 return
             }
-            switch data.result {
-            case .success(let result):
-                guard let songData = (result as! [String: Any])["items"] as? [[String: Any]] else {
-                    //Returned bad result fail silently
-                    return
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let songData = jsonData["items"].arrayValue
+            for songDict in songData {
+                SpotifyUtilities.convertJSONToSongItem(songDict["track"]) {songItem in
+                    self.playlistContent[id]!.append(songItem)
                 }
-                
-                for itemDict in songData {
-                    guard let songDict = itemDict["track"] as? [String: Any] else {
-                        continue
-                    }
-                    SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
-                        self.playlistContent[id]!.append(songItem)
-                    }
-                }
-                
-                // check if another call must be made
-                let totalSongs: Int = (result as! [String: Any])["total"] as! Int
-                if (totalSongs > offset + limit) {
-                    self.helperGetPlaylistData(id, offset + limit, completionHandler)
-                    return
-                }
-                print("\n\n\n\n\nhoohoh\n\n\n\n")
-                completionHandler()
-                return
-            case .failure(_):
-                /*
-                 Trigger alert that user playlists could not be retrieved
-                 */
-                return
             }
-
+            /*
+             Test update view with each paging
+             */
+            completionHandler()
+            
+            // check if another call must be made
+            let totalSongs: Int = jsonData["total"].intValue
+            if (totalSongs > offset + limit) {
+                self.helperGetPlaylistData(id, offset + limit, completionHandler)
+            }
+            return
         }
+        task.resume()
     }
     
     
@@ -210,46 +197,46 @@ class SpotifyLibrary {
     private func getUsersTopPlayedSongs(_ scale: TimeScale, _ offset: Int, _ completionHandler: @escaping () -> ()) {
         let limit = 50
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        AF.request("https://api.spotify.com/v1/me/top/songs", method: .get, parameters: ["time_range": scale.toString(), "limit": limit, "offset": offset], headers: ["Authorization": "Bearer" + " " + appDelegate.accessToken!]).responseJSON { (data) in
-            let response: HTTPURLResponse = data.response!
-            print(data.response?.statusCode)
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/me/top/tracks"
+        components.queryItems = [
+            URLQueryItem(name: "offset", value: "\(offset)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+            URLQueryItem(name: "time_range", value: scale.toString()),
+        ]
+        let url = components.url!
 
-            // if status 4xx
-            if "\(response.statusCode)".prefix(1) == "4" {
-                /*
-                 Trigger alert that user top played songs could not be retrieved
-                 */
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
                 return
             }
-            switch data.result {
-            case .success(let result):
-                guard let songData = (result as! [String: Any])["items"] as? [[String: Any]] else {
-                    //Returned bad result fail silently
-                    return
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let songData = jsonData["items"].arrayValue
+            for songDict in songData {
+                SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
+                    self.playlistContent[scale.toString()]!.append(songItem)
                 }
-                
-                for songDict in songData {
-                    SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
-                        self.playlistContent[scale.toString()]!.append(songItem)
-                    }
-                }
-                
-                // check if another call must be made
-                let totalSongs: Int = (result as! [String: Any])["total"] as! Int
-                if (totalSongs > offset + limit) {
-                    self.getUsersTopPlayedSongs(scale, offset + limit, completionHandler)
-                    return
-                }
-                completionHandler()
-                return
-            case .failure(_):
-                /*
-                 Trigger alert that user playlists could not be retrieved
-                 */
-                return
             }
-
+            /*
+             Test update view with each paging
+             */
+            completionHandler()
+            
+            // check if another call must be made
+            let totalSongs: Int = jsonData["total"].intValue
+            if (totalSongs > offset + limit) {
+                self.getUsersTopPlayedSongs(scale, offset + limit, completionHandler)
+            }
+            return
         }
+        task.resume()
     }
 
 }

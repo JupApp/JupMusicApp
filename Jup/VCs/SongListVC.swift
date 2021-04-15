@@ -18,6 +18,10 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
                 })
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
+                cell.addSongButton.isHidden = s.added
+                cell.songAddedImage.isHidden = !s.added
+                cell.songItem = s
+                cell.completionHandler = { songItem in self.songAdded(songItem as! T) }
         return cell
     }
     
@@ -45,5 +49,21 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func songAdded(_ songItem: T) {
+        var updatedSongItem: T = songItem
+        updatedSongItem.added = true
+        
+        // update tableview
+        var snap = self.datasource.snapshot()
+        
+//        snap.insertItems([updatedSongItem], afterItem: songItem)
+//        snap.deleteItems([songItem])
+//        self.datasource.apply(snap, animatingDifferences: true)
+        
+        // add song to queue
+        let queueVC: QueueVC = navigationController?.viewControllers[0] as! QueueVC
+        queueVC.mpDelegate.addSong(updatedSongItem)
     }
 }

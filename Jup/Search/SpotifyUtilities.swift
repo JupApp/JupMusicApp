@@ -7,22 +7,23 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class SpotifyUtilities {
     
     /*
-     Helper function to take in HTTPURLResponse JSON item and parse into SongItem
+     Helper function to take in SwiftyJSON item and parse into SongItem
      */
-    static func convertJSONToSongItem(_ songDict: [String: Any], completionHandler: @escaping (SpotifySongItem) -> ()) {
-        let songID: String = songDict["uri"] as! String
-        let songTitle: String = songDict["name"] as! String
+    static func convertJSONToSongItem(_ songDict: JSON, completionHandler: @escaping (SpotifySongItem) -> ()) {
+        let songID: String = songDict["uri"].stringValue
+        let songTitle: String = songDict["name"].stringValue
 
         /*
         get artists into string form
         */
         var artists: [String] = []
-        for artistDict in songDict["artists"] as! [[String: Any]] {
-            artists.append(artistDict["name"] as! String)
+        for artistDict in songDict["artists"].arrayValue {
+            artists.append(artistDict["name"].stringValue)
         }
         var artistName: String = ""
         if artists.count == 1 {
@@ -36,17 +37,16 @@ class SpotifyUtilities {
             artistName += "and " + artists[artists.count-1]
         }
 
-        let songLength: UInt = songDict["duration_ms"] as! UInt
+        let songLength: UInt = songDict["duration_ms"].uIntValue
 
         /*
          Retrieves 640x640 image for album. Index 1 is 300x300, Index 2 is 64x64
          */
-        let albumURL: String = ((songDict["album"] as! [String: Any])["images"] as! [[String: Any]])[0]["url"] as! String
+        let albumURL: String = songDict["album"]["images"].arrayValue[0]["url"].stringValue
 
         let songItem = SpotifySongItem(uri: songID, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)
-        songItem.retrieveArtwork { (_) in
-            completionHandler(songItem)
-        }
+//        songItem.retrieveArtwork { (_) in }
+        completionHandler(songItem)
     }
     
     /*

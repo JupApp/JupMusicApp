@@ -45,6 +45,9 @@
                             <constraint firstAttribute="width" secondItem="Nmp-vD-ZZG" secondAttribute="height" multiplier="35:34" id="EL4-IW-dGl"/>
                         </constraints>
                         <state key="normal" image="PlusImage"/>
+                        <connections>
+                            <action selector="songAdded:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="bLM-N5-VFv"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -68,10 +71,11 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="SCSongAlbumArt" destination="i3t-eY-4MF" id="61u-GG-jg7"/>
+                <outlet property="SCSongAlbumArt" destination="i3t-eY-4MF" id="69Q-B9-qep"/>
                 <outlet property="SCSongArtist" destination="m0s-is-NK7" id="8SX-0B-c5t"/>
-                <outlet property="SCSongTitle" destination="snY-l4-kBo" id="eyk-Cy-VJf"/>
+                <outlet property="SCSongTitle" destination="snY-l4-kBo" id="nLw-cw-vo3"/>
                 <outlet property="addSongButton" destination="Nmp-vD-ZZG" id="ZS2-jD-1FG"/>
+                <outlet property="songAddedImage" destination="OI3-KK-9iz" id="r51-YW-1IX"/>
             </connections>
             <point key="canvasLocation" x="-188.40579710144928" y="108.48214285714285"/>
         </tableViewCell>
