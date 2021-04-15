@@ -111,6 +111,9 @@ class QueueVC: UITableViewController {
         
         nowPlayingProgress.setProgress(0, animated: false)
 //        nowPlayingProgress.observedProgress = mpDelegate.songProgress
+        
+        //start refreshing token if necessary
+        SpotifyUtilities.checkAuthorization { _ in }
     }
     
     @objc func play() {

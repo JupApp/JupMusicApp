@@ -64,6 +64,7 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
         guard let spotifySongItem = songItem as? SpotifySongItem else {
             fatalError("Passed in Apple Music Song Item into Spotify Media Player")
         }
+        print("Transitioning to spotify song: \(songItem.songTitle)")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if player == nil || !appDelegate.appRemote.isConnected {
             appDelegate.connect(songItem.uri) { error in

@@ -51,9 +51,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //start refreshing token if necessary
-        SpotifyUtilities.checkAuthorization {}
-        
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
