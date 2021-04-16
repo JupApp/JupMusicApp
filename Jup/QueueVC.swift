@@ -43,7 +43,7 @@ class QueueVC: UITableViewController {
     var platform: Platform = .APPLE_MUSIC
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
-    var searchVC: SearchVC?
+    var searchVC: SearchVC!
     
     lazy var datasource =
         UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
@@ -65,9 +65,6 @@ class QueueVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //self.nowPlayingArtist.transform = CGAffineTransform(rotationAngle: .pi / -2)
-        //self.nowPlayingTitle.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -79,6 +76,12 @@ class QueueVC: UITableViewController {
             mpDelegate = ParticipantMPDelegate(self)
             btDelegate = BTParticipantDelegate()
         }
+        searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
+        searchVC.currentPlatform = platform
+        searchVC.isHost = isHost
+        searchVC.parentVC = self
+        searchVC.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
+        searchVC.searchDelegate?.parentVC = searchVC!
         
         
         let nib = UINib(nibName: "SongCell", bundle: nil)
@@ -123,15 +126,6 @@ class QueueVC: UITableViewController {
     }
     
     @IBAction func presentSearchVC(_ sender: Any) {
-        if searchVC == nil {
-            searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-            searchVC?.currentPlatform = platform
-            searchVC?.isHost = isHost
-            searchVC?.parentVC = self
-            searchVC?.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
-            searchVC?.searchDelegate?.parentVC = searchVC!
-            
-        }
         self.navigationController?.pushViewController(searchVC!, animated: true)
     }
     

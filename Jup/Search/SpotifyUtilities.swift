@@ -12,6 +12,55 @@ import SwiftyJSON
 class SpotifyUtilities {
     
     /*
+     Performs search request on spotify's catalogue for the given searchQuery string
+     */
+    static func searchCatalogue(_ searchQuery: String, _ devToken: String, _ completionHandler: @escaping ([SpotifySongItem]) -> ()) {
+        let limit = 25
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/search"
+        components.queryItems = [
+            URLQueryItem(name: "q", value: searchQuery),
+            URLQueryItem(name: "type", value: "track"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+        ]
+        let url = components.url!
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(devToken)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
+                return
+            }
+            var searchResults: [SpotifySongItem] = []
+            
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let songData = jsonData["tracks"]["items"].arrayValue
+            for songDict in songData {
+                SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
+                    searchResults.append(songItem)
+                }
+            }
+            completionHandler(searchResults)
+        }
+        task.resume()
+    }
+    
+    /*
+     Attempts to convert AM song to Spotify song
+     */
+    static func convertAppleMusicToSpotify(_ songItem: SongItem, _ completionHandler: @escaping (SpotifySongItem?) -> ()) {
+        /*
+         To - Do
+         */
+        fatalError("Have not implemented conversion function yet.")
+    }
+    
+    /*
      Helper function to take in SwiftyJSON item and parse into SongItem
      */
     static func convertJSONToSongItem(_ songDict: JSON, completionHandler: @escaping (SpotifySongItem) -> ()) {

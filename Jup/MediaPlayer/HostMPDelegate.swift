@@ -141,6 +141,43 @@ class HostMPDelegate: MediaPlayerDelegate {
     }
     
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+        
+        // check if song is different platform than host
+        guard parentVC.platform == songItem.platform else {
+            if songItem.platform == .APPLE_MUSIC {
+                SpotifyUtilities.convertAppleMusicToSpotify(songItem) { (match) in
+                    guard let matchingSongItem = match else {
+                        //Match failed, return completionHandler with error
+                        /*
+                         Make completionHandler accept Errors
+                         */
+                        completionHandler()
+                        return
+                    }
+                    self.addSong(matchingSongItem) {
+                        completionHandler()
+                    }
+                    return
+                }
+                return
+            } else {
+                AppleMusicUtilities.convertSpotifyToAppleMusic(songItem) { (match) in
+                    guard let matchingSongItem = match else {
+                        //Match failed, return completionHandler with error
+                        /*
+                         Make completionHandler accept Errors
+                         */
+                        completionHandler()
+                        return
+                    }
+                    self.addSong(matchingSongItem) {
+                        completionHandler()
+                    }
+                    return
+                }
+                return
+            }
+        }
         // check if song is already in queue
         guard songMap[songItem.uri] == nil else {
             completionHandler()

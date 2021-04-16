@@ -25,6 +25,7 @@ class AppleMusicSongItem: SongItem, Hashable {
     var songLength: UInt
     var likes: Int = 0
     var added: Bool = false
+    var platform: Platform = .APPLE_MUSIC
 
     var albumArtwork: UIImage?
     
