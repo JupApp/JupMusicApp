@@ -51,9 +51,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //start refreshing token if necessary
-        SpotifyUtilities.checkAuthorization {}
-        
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
@@ -74,7 +71,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         view.addGestureRecognizer(tap)
                         
         // initialize developer tokens for AM and Spotify
-        do{try searchDelegate?.setNewAMAccessToken(completionHandler: {})}catch{}
+        do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}
         searchDelegate?.setNewSpotifyAccessToken(completionHandler: {})
         
         // load playlist of appropriate platform
@@ -136,10 +133,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         if currentPlatform == .APPLE_MUSIC {
             let songListVC = SongListVC<AppleMusicSongItem>()
 
-            searchDelegate?.searchAMCatalogue(searchQuery) {
+            searchDelegate?.searchAMCatalogue(searchQuery) { songItems in
                 var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
                 snap.appendSections(["Songs"])
-                snap.appendItems(self.searchDelegate!.amCatalogue.searchResults)
+                snap.appendItems(songItems)
                 DispatchQueue.main.async {
                     songListVC.datasource.apply(snap, animatingDifferences: false)
                 }
@@ -148,10 +145,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         } else {
             let songListVC = SongListVC<SpotifySongItem>()
 
-            searchDelegate?.searchSpotifyCatalogue(searchQuery) {
+            searchDelegate?.searchSpotifyCatalogue(searchQuery) { songItems in
                 var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
                 snap.appendSections(["Songs"])
-                snap.appendItems(self.searchDelegate!.spotifyCatalogue.searchResults)
+                snap.appendItems(songItems)
                 DispatchQueue.main.async {
                     songListVC.datasource.apply(snap, animatingDifferences: false)
                 }

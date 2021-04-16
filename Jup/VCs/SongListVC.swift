@@ -6,6 +6,8 @@
 //
 
 class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
+    
+    var platform: Platform!
         
     lazy var datasource =
             UITableViewDiffableDataSource<String, T>(tableView: tableView) { tv, ip, s in

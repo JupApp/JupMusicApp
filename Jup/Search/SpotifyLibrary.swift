@@ -27,7 +27,13 @@ class SpotifyLibrary {
     var playlistIDs: [String] = []
     
     func searchPlaylists(_ devToken: String, _ userToken: String, completionHandler: @escaping () -> ()) {
-        SpotifyUtilities.checkAuthorization {
+        SpotifyUtilities.checkAuthorization { (authorized) in
+            guard authorized else {
+                /*
+                 Alert user failed to authenticate
+                 */
+                return
+            }
             SpotifyUtilities.retrieveUserID {(id) in
                 self.userID = id
                 self.searchUsersPlaylists {

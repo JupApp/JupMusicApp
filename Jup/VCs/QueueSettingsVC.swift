@@ -23,7 +23,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var usernameTextField: UITextField!
     
     var platform: Platform = .APPLE_MUSIC
-    var openedSpotify: Bool = false
     var queueType: QueueType {
         voteQueueSwitch.isOn ? .VOTING : .STRICT
     }
@@ -63,24 +62,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
 
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        if openedSpotify {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            
-            appDelegate.bringBackToVC?(nil)
-            openedSpotify = false 
-        }
-    }
-    
-    @IBSegueAction func segueToQueue(_ coder: NSCoder) -> QueueVC? {
-        let queueVC = QueueVC(coder: coder)
-        queueVC?.isHost = true
-        queueVC?.platform = platform
-        queueVC?.queueType = queueType
-        return queueVC
     }
     
     
@@ -135,19 +116,16 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
             //no access, raise alert
             self.present(musicServicAert, animated: true)
         } else if platform == .SPOTIFY {
-            openedSpotify = true
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            
-            appDelegate.connectToSpotify { _ in
-                print("Callback initiated")
-                guard let expired = appDelegate.sessionManager.session?.isExpired else {
-                    print("No session")
-                    self.present(self.musicServicAert, animated: true)
-                    return
-                }
-                if expired {
-                    print("Session expired")
-                    self.present(self.musicServicAert, animated: true)
+                
+            // check if user has premium in order to proceed
+            SpotifyUtilities.doesHavePremium { (hasPremium) in
+                guard hasPremium else {
+                    /*
+                     Alert User doesn't have Spotify Premium
+                     */
+                    DispatchQueue.main.async {
+                        self.present(self.musicServicAert, animated: true)
+                    }
                     return
                 }
                 DispatchQueue.main.async {
@@ -167,7 +145,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                     UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
                     self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                 }
-                
             }
         }
         
@@ -213,6 +190,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         let navController = segue.destination as! UINavigationController
         let queueVC = navController.viewControllers[0] as! QueueVC
         queueVC.isHost = true
+        queueVC.platform = platform
     }
     
 }

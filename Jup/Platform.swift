@@ -17,6 +17,23 @@ enum Platform {
         }
     }
     
+    func rawValue() -> Int {
+        if self == .APPLE_MUSIC {
+            return 0
+        } else {
+            return 1
+        }
+    }
+    
+    static func rawValueToPlatform(_ num: Int) -> Platform {
+        if num == 0 {
+            return .APPLE_MUSIC
+        } else if num == 1 {
+            return .SPOTIFY
+        }
+        fatalError("Invalid argument: \(num)")
+    }
+    
     func printPlatform() {
         if self == .APPLE_MUSIC {
             print("Current platform: Apple Music")

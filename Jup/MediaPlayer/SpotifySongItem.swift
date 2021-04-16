@@ -36,6 +36,7 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var albumArtwork: UIImage?
     var likes: Int = 0
     var added: Bool = false
+    var platform: Platform = .SPOTIFY
     
     init(uri: String, artist: String, song: String, albumURL: String, length: UInt) {
         self.uri = uri
