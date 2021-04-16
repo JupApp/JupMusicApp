@@ -25,13 +25,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snY-l4-kBo">
-                        <rect key="frame" x="68" y="8" width="248" height="31.5"/>
+                        <rect key="frame" x="68" y="8" width="240" height="31.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0s-is-NK7">
-                        <rect key="frame" x="68" y="25" width="248" height="26.5"/>
+                        <rect key="frame" x="68" y="25" width="240" height="26.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -40,19 +40,19 @@
                         <rect key="frame" x="315" y="10" width="29" height="41.5"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmp-vD-ZZG">
-                        <rect key="frame" x="322" y="15" width="20" height="20"/>
+                        <rect key="frame" x="314" y="15" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="OIc-sa-FrB"/>
                             <constraint firstAttribute="width" constant="20" id="dFN-3r-bLQ"/>
                             <constraint firstAttribute="width" secondItem="Nmp-vD-ZZG" secondAttribute="height" multiplier="1:1" id="zyI-ib-J6G"/>
                         </constraints>
-                        <state key="normal" image="PlusImage"/>
+                        <state key="normal" image="Up-4"/>
                         <connections>
                             <action selector="songAdded:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="bLM-N5-VFv"/>
                         </connections>
                     </button>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="OI3-KK-9iz" secondAttribute="trailing" constant="10" id="4xc-Sz-eiz"/>
                     <constraint firstAttribute="bottom" secondItem="m0s-is-NK7" secondAttribute="bottom" constant="9" id="9Sl-Sg-0PM"/>
@@ -60,14 +60,13 @@
                     <constraint firstItem="m0s-is-NK7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="FOU-fs-MiW"/>
                     <constraint firstItem="m0s-is-NK7" firstAttribute="leading" secondItem="i3t-eY-4MF" secondAttribute="trailing" constant="8" symbolic="YES" id="Kd8-N5-lm6"/>
                     <constraint firstItem="Nmp-vD-ZZG" firstAttribute="leading" secondItem="snY-l4-kBo" secondAttribute="trailing" constant="6" id="Oom-Of-DUM"/>
-                    <constraint firstAttribute="trailing" secondItem="Nmp-vD-ZZG" secondAttribute="trailing" constant="12" id="Re6-Vb-jcm"/>
                     <constraint firstItem="Nmp-vD-ZZG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="TEz-Yn-cKV"/>
                     <constraint firstItem="snY-l4-kBo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="ZMU-8w-Ach"/>
                     <constraint firstItem="i3t-eY-4MF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="eKN-Nz-Fr7"/>
                     <constraint firstItem="Nmp-vD-ZZG" firstAttribute="leading" secondItem="m0s-is-NK7" secondAttribute="trailing" constant="6" id="h2s-dZ-UWr"/>
                     <constraint firstItem="OI3-KK-9iz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="iae-Kd-f9I"/>
                     <constraint firstItem="i3t-eY-4MF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="lET-Up-Zv1"/>
-                    <constraint firstAttribute="trailing" secondItem="Nmp-vD-ZZG" secondAttribute="trailing" constant="12" id="leq-CY-Erh"/>
+                    <constraint firstAttribute="trailing" secondItem="Nmp-vD-ZZG" secondAttribute="trailing" constant="20" id="leq-CY-Erh"/>
                     <constraint firstAttribute="bottom" secondItem="Nmp-vD-ZZG" secondAttribute="bottom" constant="15" id="oS6-Bb-ikC"/>
                     <constraint firstAttribute="bottom" secondItem="i3t-eY-4MF" secondAttribute="bottom" constant="5" id="pMS-aW-nju"/>
                     <constraint firstAttribute="bottom" secondItem="OI3-KK-9iz" secondAttribute="bottom" constant="9" id="tWt-By-Thx"/>
@@ -88,7 +87,7 @@
     </objects>
     <resources>
         <image name="CheckmarkImage" width="29" height="41.5"/>
-        <image name="PlusImage" width="41" height="41"/>
         <image name="TestAlbum" width="325" height="325"/>
+        <image name="Up-4" width="23" height="23"/>
     </resources>
 </document>
