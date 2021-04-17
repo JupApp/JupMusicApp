@@ -64,10 +64,14 @@ extension MediaPlayerDelegate {
     }
     
     func updateAlbumArtwork() {
+        print("updateAlbumArtwork called")
         guard let songItem = self.currentSong else {
             return
         }
+        print("Song to be displayed: \(songItem.songTitle)")
+
         songItem.retrieveArtwork { (image) in
+            print("Artwork successfully retrieved")
             self.parentVC.nowPlayingAlbum.image = image
             self.parentVC.nowPlayingArtist.text = songItem.artistName
             self.parentVC.nowPlayingTitle.text = songItem.songTitle
@@ -75,11 +79,14 @@ extension MediaPlayerDelegate {
     }
     
     func updateDataSource() {
+        print("updateDataSource called")
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         snap.appendItems(queue.map({ (uri) -> QueueSongItem in
             songMap[uri]!.getQueueSongItem()
         }))
-        parentVC.datasource.apply(snap, animatingDifferences: true)
+        DispatchQueue.main.async {
+            parentVC.datasource.apply(snap, animatingDifferences: true)
+        }
     }
 }

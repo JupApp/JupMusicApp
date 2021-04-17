@@ -18,7 +18,10 @@ class AppleMusicUtilities {
         
     static func searchCatalogue(_ searchQuery: String, _ completionHandler: @escaping ([AppleMusicSongItem]) -> ()) {
         if amToken == nil {
-            do {try setNewAMAccessToken { (_) in} } catch { return }
+            do {try setNewAMAccessToken { (token) in
+                guard let _ = token else { return }
+                searchCatalogue(searchQuery, completionHandler)
+            } } catch { return }
         }
         
         let countryCode = "us"
@@ -69,39 +72,13 @@ class AppleMusicUtilities {
      Attempts to convert song from Spotify Catalogue to Apple Music Catalogue
      */
     static func convertSpotifyToAppleMusic(_ songItem: SongItem, _ completionHandler: @escaping (AppleMusicSongItem?) -> ()) {
-        let artists: [String] = songItem.artistName.split(separator: ",").map { (piece) -> String in
-            String(piece.replacingOccurrences(of: "and", with: ""))
-        }
-        print("Artists:\n\(artists)")
-        let searchQuery: String = songItem.songTitle + " " + artists.joined()
-        let reducedSearchQuery: String = songItem.songTitle + " " + artists[0]
+        let searchQuery: String = SpotifyUtilities.searchQueryFromSong(songItem)
         AppleMusicUtilities.searchCatalogue(searchQuery) { (possibleMatches) in
             /*
              For now, take first match
              */
             guard possibleMatches.count > 0 else {
-                AppleMusicUtilities.searchCatalogue(reducedSearchQuery) { (possibleMatches) in
-                    /*
-                     For now, take first match
-                     */
-                    guard possibleMatches.count > 0 else {
-                        AppleMusicUtilities.searchCatalogue(songItem.songTitle) { (possibleMatches) in
-                            guard possibleMatches.count > 0 else {
-                                completionHandler(nil)
-                                return
-                            }
-                            let songItem: AppleMusicSongItem = possibleMatches[0]
-                            songItem.retrieveArtwork { (_) in
-                                completionHandler(songItem)
-                            }
-                        }
-                        return
-                    }
-                    let songItem: AppleMusicSongItem = possibleMatches[0]
-                    songItem.retrieveArtwork { (_) in
-                        completionHandler(songItem)
-                    }
-                }
+                completionHandler(nil)
                 return
             }
             let songItem: AppleMusicSongItem = possibleMatches[0]
@@ -156,6 +133,10 @@ class AppleMusicUtilities {
         catch {
             return nil
         }
+    }
+    
+    static func checkAuthorization(_ completionHandler: @escaping () -> ()) {
+        
     }
     
 }

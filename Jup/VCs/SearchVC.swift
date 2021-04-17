@@ -27,10 +27,7 @@ struct PlaylistItem: Hashable {
 
 class SearchVC: UITableViewController, UISearchBarDelegate {
     
-   // @IBOutlet weak var spotifyLibraryButton: UIButton!
-    //@IBOutlet weak var appleMusicLibraryButton: UIButton!
     @IBOutlet weak var musicSearchBar: UISearchBar!
-//    @IBOutlet weak var searchPlatformSegmentedControl: UISegmentedControl!
     var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
 
     
@@ -55,31 +52,27 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
         searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
-
-        // Handle TableView set up
-        self.tableView.delegate = self
-        self.tableView.allowsSelection = true
-        self.tableView.dataSource = datasource
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
-        var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
-        snap.appendSections(["Playlists"])
-        datasource.apply(snap, animatingDifferences: false)
         
         musicSearchBar.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-                        
-        // initialize developer tokens for AM and Spotify
-        do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}
-        searchDelegate?.setNewSpotifyAccessToken(completionHandler: {})
         
+        // Handle TableView set up
+        self.tableView.delegate = self
+        self.tableView.allowsSelection = true
+        self.tableView.dataSource = datasource
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
+//        var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+//        snap.appendSections(["Playlists"])
+//        datasource.apply(snap, animatingDifferences: false)
+
         // load playlist of appropriate platform
-        if currentPlatform == .APPLE_MUSIC {
-            searchDelegate?.searchAMLibrary()
-        } else {
-            searchDelegate?.searchSpotifyLibrary()
-        }
+//        if currentPlatform == .APPLE_MUSIC {
+        searchDelegate?.searchAMLibrary()
+//        } else {
+//            searchDelegate?.searchSpotifyLibrary()
+//        }
 
     }
     
@@ -158,39 +151,41 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         
     }
     
-    func loadAppleMusicPersonalPlaylists() {
-        //check if user has correct authorization
-        if SKCloudServiceController.authorizationStatus() == .notDetermined {
-            SKCloudServiceController.requestAuthorization {(status:
-                SKCloudServiceAuthorizationStatus) in
-                switch status {
-                case .authorized:
-                    break
-                default:
-                    //
-                    // alert user that they dont have Apple Music?
-                    //
-                    return
-                }
-            }
-        } else if (SKCloudServiceController.authorizationStatus() != .authorized) {
-            //
-            // alert user that they dont have Apple Music?
-            //
-            return
-        }
-        // authorized at this point:
-        searchDelegate?.searchAMLibrary()
-    }
+//    func loadAppleMusicPersonalPlaylists() {
+//        //check if user has correct authorization
+//        if SKCloudServiceController.authorizationStatus() == .notDetermined {
+//            SKCloudServiceController.requestAuthorization {(status:
+//                SKCloudServiceAuthorizationStatus) in
+//                switch status {
+//                case .authorized:
+//                    break
+//                default:
+//                    //
+//                    // alert user that they dont have Apple Music?
+//                    //
+//                    return
+//                }
+//            }
+//        } else if (SKCloudServiceController.authorizationStatus() != .authorized) {
+//            //
+//            // alert user that they dont have Apple Music?
+//            //
+//            return
+//        }
+//        // authorized at this point:
+//        searchDelegate?.searchAMLibrary()
+//    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // user selected playlist, push SongListVC on stack
         let playlistID: String
-
         if currentPlatform == .APPLE_MUSIC {
             guard indexPath.row < searchDelegate!.amLibrary.playlistIDs.count else {
+                print("Row Returned: \(indexPath.row), \(searchDelegate!.amLibrary.playlistIDs.count)")
+
                 return
             }
+
             let songListVC = SongListVC<AppleMusicSongItem>()
 
             playlistID = searchDelegate!.amLibrary.playlistIDs[indexPath.row]

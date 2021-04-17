@@ -77,7 +77,6 @@ class QueueVC: UITableViewController {
             btDelegate = BTParticipantDelegate()
         }
         searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-        searchVC.currentPlatform = platform
         searchVC.isHost = isHost
         searchVC.parentVC = self
         searchVC.searchDelegate = isHost ? HostSearchDelegate() : ParticipantSearchDelegate()
@@ -119,6 +118,10 @@ class QueueVC: UITableViewController {
         
         //start refreshing token if necessary
         SpotifyUtilities.checkAuthorization { _ in }
+        
+        // initialize developer tokens for AM and Spotify
+        do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}
+        SpotifyUtilities.setNewSpotifyAccessToken(completionHandler: {_ in })
     }
     
     @objc func play() {

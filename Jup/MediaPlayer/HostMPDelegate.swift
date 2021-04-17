@@ -141,42 +141,10 @@ class HostMPDelegate: MediaPlayerDelegate {
     }
     
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
-        
+        print("MPDelegate add Song called, type: \(songItem.platform)")
         // check if song is different platform than host
         guard parentVC.platform == songItem.platform else {
-            if songItem.platform == .APPLE_MUSIC {
-                SpotifyUtilities.convertAppleMusicToSpotify(songItem) { (match) in
-                    guard let matchingSongItem = match else {
-                        //Match failed, return completionHandler with error
-                        /*
-                         Make completionHandler accept Errors
-                         */
-                        completionHandler()
-                        return
-                    }
-                    self.addSong(matchingSongItem) {
-                        completionHandler()
-                    }
-                    return
-                }
-                return
-            } else {
-                AppleMusicUtilities.convertSpotifyToAppleMusic(songItem) { (match) in
-                    guard let matchingSongItem = match else {
-                        //Match failed, return completionHandler with error
-                        /*
-                         Make completionHandler accept Errors
-                         */
-                        completionHandler()
-                        return
-                    }
-                    self.addSong(matchingSongItem) {
-                        completionHandler()
-                    }
-                    return
-                }
-                return
-            }
+            fatalError("SongItem of the wrong platform was added")
         }
         // check if song is already in queue
         guard songMap[songItem.uri] == nil else {
@@ -244,22 +212,14 @@ class HostMPDelegate: MediaPlayerDelegate {
      -updates progress bar
      */
     @objc func timerFired() {
+        print("Timer Fired")
         mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
-//            DispatchQueue.main.async {
-                UIView.animate(withDuration: 1.0) {
-//                    print("Time left: \(timeLeft)")
-//                    print("Song Duration: \(songDuration)")
-                    let progress = Float(1.0 - (timeLeft/songDuration))
-//                    self.songProgress.completedUnitCount = self.songProgress.totalUnitCount - Int64(timeLeft)
-//                    print(self.songProgress.completedUnitCount)
-//                    print(self.songProgress.fractionCompleted)
-                    self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
-//                    self.parentVC.nowPlayingProgress.setNeedsDisplay()
-//                    self.parentVC.tableView.setNeedsDisplay()
-                }
-//            }
-
-            if timeLeft < 1.1 {
+            UIView.animate(withDuration: 1.0) {
+                let progress = Float(1.0 - (timeLeft/songDuration))
+                self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
+            }
+            print("Time Left: \(timeLeft)")
+            if timeLeft < 2.0 {
                 self.mediaPlayer?.pause()
                 self.songTimer?.invalidate()
                 if self.queue.isEmpty {

@@ -3,42 +3,7 @@
 //  Jup
 //
 //  Created by Nick Venanzi on 12/20/20.
-//
-//class SpotifySongItemArray: NSObject, SPTAppRemoteContentItem {
-//    var title: String?
-//    var subtitle: String?
-//    var identifier: String  {
-//        if (children != nil) {
-//            print("Tried to access identifier")
-//        }
-//        return ""
-//    }
-//    var uri: String {
-//        if (children != nil) {
-//            print("Tried to access uri")
-//        }
-//        return ""
-//    }
-//    var isAvailableOffline: Bool = true
-//    var isPlayable: Bool = false
-//    var isContainer: Bool = true
-//    var subChildren: [SPTAppRemoteContentItem]?
-//    var children: [SPTAppRemoteContentItem]? {
-//        print("Accessing children")
-//        return subChildren
-//    }
-//    var imageIdentifier: String {
-//        if (children != nil) {
-//            print("Tried to access imageIdentifier")
-//        }
-//        return ""
-//    }
-//    
-//    init(_ songItems: [SpotifySongItem]) {
-//        subChildren = songItems
-//    }
-//    
-//}
+
 
 class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelegate*/ {
 //    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
@@ -212,8 +177,8 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
                 fatalError("failed get player state rip")
             } else {
                 let playerState: SPTAppRemotePlayerState = state as! SPTAppRemotePlayerState
-                let songDuration: Double = Double(playerState.track.duration)
-                let timeLeft: Double = songDuration - Double(playerState.playbackPosition)
+                let songDuration: Double = Double(playerState.track.duration) / 1000.0
+                let timeLeft: Double = songDuration - (Double(playerState.playbackPosition) / 1000.0)
                 completionHandler(timeLeft, songDuration)
             }
         })

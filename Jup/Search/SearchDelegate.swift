@@ -85,15 +85,7 @@ class SearchDelegate {
      Searches Spotify global catalogue for songs related to search query
      */
     func searchSpotifyCatalogue(_ searchQuery: String, _ completionHandler: @escaping ([SpotifySongItem]) -> ()) {
-        guard let devToken = spotifyDevToken else {
-            // original development access token probably expired, get new one
-            setNewSpotifyAccessToken {
-                self.searchSpotifyCatalogue(searchQuery, completionHandler)
-            }
-            return
-        }
-        //perform search call
-        SpotifyUtilities.searchCatalogue(searchQuery, devToken, completionHandler)
+        SpotifyUtilities.searchCatalogue(searchQuery, completionHandler)
     }
     
     /*
@@ -114,39 +106,6 @@ class SearchDelegate {
     //MUST OVERRIDE
     func requestSong() {
         fatalError()
-    }
-    
-    /*
-     Requests new Authorization token
-     */
-    func setNewSpotifyAccessToken(completionHandler: @escaping () -> ()) {
-        let url = URL(string: "https://accounts.spotify.com/api/token")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let body = "grant_type=client_credentials"
-        request.httpBody = body.data(using: String.Encoding.utf8)
-        
-        let clientID: String = "93de9a96fb6c4cb39844ac6e98427885"
-        let clientSecret: String = "bc693736cf6d40389102d369243384ff"
-        let encodedHeader: String = Data("\(clientID):\(clientSecret)".utf8).base64EncodedString()
-        request.setValue("Basic \(encodedHeader)", forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
-                
-            // Check for Error
-            if let error = error {
-                print("Error took place \(error)")
-                return
-            }
-     
-            // Convert HTTP Response Data to a String
-            let jsonData: JSON
-            do {try jsonData = JSON(data: data!)} catch{ print("bad data"); return}
-            self.spotifyDevToken = jsonData["access_token"].stringValue
-            completionHandler()
-        }
-        task.resume()
     }
     
     

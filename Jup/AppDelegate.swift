@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }()
     
     func connectToSpotify() {
-        let requestedScopes: SPTScope = [.appRemoteControl, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative]
+        let requestedScopes: SPTScope = [.appRemoteControl, .userTopRead, .playlistReadPrivate, .playlistReadCollaborative, .userReadPrivate]
         sessionManager.initiateSession(with: requestedScopes, options: .default)
         return
 
