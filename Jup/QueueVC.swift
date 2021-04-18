@@ -43,7 +43,7 @@ class QueueVC: UITableViewController {
     var platform: Platform = .APPLE_MUSIC
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
-    var searchVC: SearchVC?
+//    var searchVC: SearchVC?
     
     lazy var datasource =
         UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
@@ -76,10 +76,7 @@ class QueueVC: UITableViewController {
             mpDelegate = ParticipantMPDelegate(self)
             btDelegate = BTParticipantDelegate()
         }
-        searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-        searchVC?.isHost = isHost
-        searchVC?.parentVC = self
-        
+//        searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
         
         let nib = UINib(nibName: "SongCell", bundle: nil)
 
@@ -127,6 +124,7 @@ class QueueVC: UITableViewController {
     }
     
     @IBAction func presentSearchVC(_ sender: Any) {
+        let searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
         self.navigationController?.pushViewController(searchVC!, animated: true)
     }
     
