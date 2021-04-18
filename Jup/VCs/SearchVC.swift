@@ -25,16 +25,17 @@ struct PlaylistItem: Hashable {
     }
 }
 
-class SearchVC: UITableViewController, UISearchBarDelegate {
+class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
     
+
     @IBOutlet weak var musicSearchBar: UISearchBar!
     var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
 
+    var isHost: Bool?
+    var parentVC: QueueVC?
     
     var searchDelegate: SearchDelegate?
     var currentPlatform: Platform = .APPLE_MUSIC
-    var isHost: Bool = false
-    var parentVC: QueueVC?
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
@@ -47,7 +48,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("WiewDidLoad Called")
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
@@ -63,17 +64,9 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         self.tableView.allowsSelection = true
         self.tableView.dataSource = datasource
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
-//        var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
-//        snap.appendSections(["Playlists"])
-//        datasource.apply(snap, animatingDifferences: false)
 
-        // load playlist of appropriate platform
-//        if currentPlatform == .APPLE_MUSIC {
         searchDelegate?.searchAMLibrary()
-//        } else {
-//            searchDelegate?.searchSpotifyLibrary()
-//        }
-
+        
     }
     
     @objc func platformTextfieldPlaceholder(sender: UISegmentedControl){
@@ -85,9 +78,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             
             // load playlist of AM if hasn't been done already
             searchDelegate?.searchAMLibrary()
-
-            // update diffable data source with user apple music 
-            //show popular view
             break;
         case 1:
             musicSearchBar.placeholder = "Spotify"
@@ -95,8 +85,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             
             // load playlist of Spotify if hasn't been done already
             searchDelegate?.searchSpotifyLibrary()
-            
-            //show history view
             break;
         default:
             musicSearchBar.placeholder = "Apple Music"
@@ -104,7 +92,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             
             // load playlist of AM if hasn't been done already
             searchDelegate?.searchAMLibrary()
-            
             break;
         }
     }
@@ -126,96 +113,40 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         if currentPlatform == .APPLE_MUSIC {
             let songListVC = SongListVC<AppleMusicSongItem>()
 
-            searchDelegate?.searchAMCatalogue(searchQuery) { songItems in
-                var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
-                snap.appendSections(["Songs"])
-                snap.appendItems(songItems)
-                DispatchQueue.main.async {
-                    songListVC.datasource.apply(snap, animatingDifferences: false)
-                }
-            }
+            searchAMCatalogue(searchQuery, songListVC)
             navigationController?.pushViewController(songListVC, animated: true)
         } else {
             let songListVC = SongListVC<SpotifySongItem>()
 
-            searchDelegate?.searchSpotifyCatalogue(searchQuery) { songItems in
-                var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
-                snap.appendSections(["Songs"])
-                snap.appendItems(songItems)
-                DispatchQueue.main.async {
-                    songListVC.datasource.apply(snap, animatingDifferences: false)
-                }
-            }
+            searchSpotifyCatalogue(searchQuery, songListVC)
             navigationController?.pushViewController(songListVC, animated: true)
         }
         
     }
-    
-//    func loadAppleMusicPersonalPlaylists() {
-//        //check if user has correct authorization
-//        if SKCloudServiceController.authorizationStatus() == .notDetermined {
-//            SKCloudServiceController.requestAuthorization {(status:
-//                SKCloudServiceAuthorizationStatus) in
-//                switch status {
-//                case .authorized:
-//                    break
-//                default:
-//                    //
-//                    // alert user that they dont have Apple Music?
-//                    //
-//                    return
-//                }
-//            }
-//        } else if (SKCloudServiceController.authorizationStatus() != .authorized) {
-//            //
-//            // alert user that they dont have Apple Music?
-//            //
-//            return
-//        }
-//        // authorized at this point:
-//        searchDelegate?.searchAMLibrary()
-//    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // user selected playlist, push SongListVC on stack
         let playlistID: String
         if currentPlatform == .APPLE_MUSIC {
-            guard indexPath.row < searchDelegate!.amLibrary.playlistIDs.count else {
-                print("Row Returned: \(indexPath.row), \(searchDelegate!.amLibrary.playlistIDs.count)")
-
+            guard indexPath.row < AppleMusicUtilities.playlistIDs.count else {
                 return
             }
 
             let songListVC = SongListVC<AppleMusicSongItem>()
 
-            playlistID = searchDelegate!.amLibrary.playlistIDs[indexPath.row]
-            searchDelegate?.amLibrary.getPlaylistData(playlistID, searchDelegate!.amDevToken!, searchDelegate!.amUserToken!) {
-                var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
-                snap.appendSections(["Songs"])
-                snap.appendItems(self.searchDelegate!.amLibrary.playlistContent[playlistID]!)
-                DispatchQueue.main.async {
-                    songListVC.datasource.apply(snap, animatingDifferences: false)
-                }
-            }
+            playlistID = AppleMusicUtilities.playlistIDs[indexPath.row]
+            searchAMPlaylist(playlistID, songListVC)
+
             navigationController?.pushViewController(songListVC, animated: true)
-//            present(songListVC, animated: true)
         } else {
-            guard indexPath.row < searchDelegate!.spotifyLibrary.playlistIDs.count else {
+            guard indexPath.row < SpotifyUtilities.playlistIDs.count else {
                 return
             }
             let songListVC = SongListVC<SpotifySongItem>()
 
-            playlistID = searchDelegate!.spotifyLibrary.playlistIDs[indexPath.row]
-            searchDelegate?.spotifyLibrary.getPlaylistData(playlistID, "", "") {
-                var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
-                snap.appendSections(["Songs"])
-                snap.appendItems(self.searchDelegate!.spotifyLibrary.playlistContent[playlistID]!)
-                DispatchQueue.main.async {
-                    songListVC.datasource.apply(snap, animatingDifferences: false)
-                }
-            }
+            playlistID = SpotifyUtilities.playlistIDs[indexPath.row]
+            searchSpotifyPlaylist(playlistID, songListVC)
             navigationController?.pushViewController(songListVC, animated: true)
-//            present(songListVC, animated: true)
         }
     }
     
@@ -223,6 +154,83 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         return searchPlatformSegmentedControl
     }
     
+    /*
+     ###########################################################################################
+     ########                                                                           ########
+     ########                   SEARCH DELEGATE FUNCTIONS BELOW                         ########
+     ########                                                                           ########
+     ###########################################################################################
+     */
+    
+    func searchAMCatalogue(_ searchQuery: String, _ songListVC: SongListVC<AppleMusicSongItem>) {
+        AppleMusicUtilities.searchCatalogue(searchQuery) { songItems in
+            var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
+            snap.appendSections(["Songs"])
+            snap.appendItems(songItems)
+            DispatchQueue.main.async {
+                songListVC.datasource.apply(snap, animatingDifferences: false)
+            }
+        }
+    }
+    
+    func searchAMLibrary() {
+        AppleMusicUtilities.searchPlaylists() {
+            // populates results into tableview
+            var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+            snap.appendSections(["Playlists"])
+            snap.appendItems(AppleMusicUtilities.playlistIDs.map({ (id) -> PlaylistItem in
+                PlaylistItem(AppleMusicUtilities.playlistNames[id]!, id)
+            }))
+            self.datasource.apply(snap, animatingDifferences: false)
+        }
+    }
+    
+    func searchSpotifyCatalogue(_ searchQuery: String, _ songListVC: SongListVC<SpotifySongItem>) {
+        SpotifyUtilities.searchCatalogue(searchQuery) { songItems in
+            var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
+            snap.appendSections(["Songs"])
+            snap.appendItems(songItems)
+            DispatchQueue.main.async {
+                songListVC.datasource.apply(snap, animatingDifferences: false)
+            }
+        }
+    }
+    
+    func searchSpotifyLibrary() {
+        SpotifyUtilities.searchPlaylists {
+            // populates results into tableview
+            var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+            snap.appendSections(["Playlists"])
+            snap.appendItems(SpotifyUtilities.playlistIDs.map({ (id) -> PlaylistItem in
+                PlaylistItem(SpotifyUtilities.playlistNames[id]!, id)
+            }))
+            self.datasource.apply(snap, animatingDifferences: false)
+        }
+    }
+    
+    func searchSpotifyPlaylist(_ playlistID: String, _ songListVC: SongListVC<SpotifySongItem>) {
+        SpotifyUtilities.getPlaylistData(playlistID) {
+            var snap = NSDiffableDataSourceSnapshot<String, SpotifySongItem>()
+            snap.appendSections(["Songs"])
+            snap.appendItems(SpotifyUtilities.playlistContent[playlistID]!)
+            DispatchQueue.main.async {
+                songListVC.datasource.apply(snap, animatingDifferences: false)
+            }
+        }
+    }
+    
+    func searchAMPlaylist(_ playlistID: String, _ songListVC: SongListVC<AppleMusicSongItem>) {
+        AppleMusicUtilities.getPlaylistData(playlistID) {
+            var snap = NSDiffableDataSourceSnapshot<String, AppleMusicSongItem>()
+            snap.appendSections(["Songs"])
+            snap.appendItems(AppleMusicUtilities.playlistContent[playlistID]!)
+            DispatchQueue.main.async {
+                songListVC.datasource.apply(snap, animatingDifferences: false)
+            }
+        }
+    }
+
+
     
     
     

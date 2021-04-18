@@ -4,7 +4,259 @@ import SwiftyJSON
 
 class SpotifyUtilities {
     
-    static var spotifyToken: String?
+    static var spotifyDevToken: String?
+    static var expirationDate: Date?
+    
+    static var userID: String?
+    
+    // map ID to name
+    static var playlistNames: [String : String] = [:]
+    
+    // map ID to playlist content (songs and whatnot)
+    static var playlistContent: [String : [SpotifySongItem]] = [:]
+    
+    // list of playlistIDs in order of tableview
+    static var playlistIDs: [String] = []
+    
+    /*
+     ###########################################################################################
+     ########                                                                           ########
+     ########                   LIBRARY FUNCTIONS BELOW                                 ########
+     ########                                                                           ########
+     ###########################################################################################
+     */
+    
+    /*
+     Searches user's personal playlists
+     */
+    static func searchPlaylists(_ completionHandler: @escaping () -> ()) {
+        SpotifyUtilities.checkAuthorization { (authorized) in
+            guard authorized else {
+                /*
+                 Alert user failed to authenticate
+                 */
+                return
+            }
+            SpotifyUtilities.retrieveUserID {(id) in
+                self.userID = id
+                self.searchUsersPlaylists {
+                    completionHandler()
+                }
+            }
+        }
+        return
+    }
+    
+    /*
+     Helper function to retrieve all the different types of personal
+     User playlists in spotify
+     */
+    private static func searchUsersPlaylists(completionHandler: @escaping () -> ()) {
+        
+        guard playlistIDs.isEmpty else {
+            completionHandler()
+            return
+        }
+        
+        /*
+         Add playlist corresponding to user's top played songs (short-term)
+         */
+        self.playlistNames[TimeScale.SHORT.toString()] = "Top Played Songs (Month)"
+        self.playlistIDs.append(TimeScale.SHORT.toString())
+        
+        /*
+         Add playlist corresponding to user's top played songs (medium-term)
+         */
+        self.playlistNames[TimeScale.MEDIUM.toString()] = "Top Played Songs (Year)"
+        self.playlistIDs.append(TimeScale.MEDIUM.toString())
+
+        /*
+         Add playlist corresponding to user's top played songs (long-term)
+         */
+        self.playlistNames[TimeScale.LONG.toString()] = "Top Played Songs (All-Time)"
+        self.playlistIDs.append(TimeScale.LONG.toString())
+
+        /*
+         Get User's playlists
+         */
+        self.getUsersPlaylists(0) {
+            completionHandler()
+        }
+    }
+    
+    /*
+     Retrieves Users personal playlists
+     */
+    private static func getUsersPlaylists(_ offset: Int, _ completionHandler: @escaping () -> ()) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let limit: Int = 50
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/me/playlists"
+        components.queryItems = [
+            URLQueryItem(name: "offset", value: "\(offset)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+        ]
+        let url = components.url!
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let playlistData = jsonData["items"].arrayValue
+            for playlist in playlistData {
+                let playlistID: String = playlist["id"].stringValue
+                let playlistName: String = playlist["name"].stringValue
+                self.playlistNames[playlistID] = playlistName
+                self.playlistIDs.append(playlistID)
+            }
+            let totalPlaylists: Int = jsonData["total"].intValue
+            if (totalPlaylists > offset + limit) {
+                self.getUsersPlaylists(offset + limit, completionHandler)
+            }
+            completionHandler()
+            return
+        }
+        task.resume()
+    }
+    
+    /*
+     Retrieves Songs from particular playlist
+     */
+    static func getPlaylistData(_ id: String, _ completionHandler: @escaping () -> ()) {
+        guard playlistContent[id] == nil else {
+            // songs already loaded for given playlist, return
+            completionHandler()
+            return
+        }
+        // set playlist to empty list
+        playlistContent[id] = []
+        
+        if id == TimeScale.SHORT.toString() {
+            // get song info for short term top played songs
+            getUsersTopPlayedSongs(.SHORT, 0, completionHandler)
+        } else if id == TimeScale.MEDIUM.toString() {
+            // get song info for medium term top played songs
+            getUsersTopPlayedSongs(.MEDIUM, 0, completionHandler)
+        } else if id == TimeScale.LONG.toString() {
+            // get song info for short term top played songs
+            getUsersTopPlayedSongs(.LONG, 0, completionHandler)
+        } else {
+            // get song info for input playlist
+            helperGetPlaylistData(id, 0, completionHandler)
+        }
+    }
+    
+    /*
+     Helper to retrieve playlist songs recursively
+     */
+    private static func helperGetPlaylistData(_ id: String, _ offset: Int, _ completionHandler: @escaping () -> ()) {
+        let limit = 50
+        // get songs for actual playlist in user's profile
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/playlists/\(id)/tracks"
+        components.queryItems = [
+            URLQueryItem(name: "offset", value: "\(offset)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+        ]
+        let url = components.url!
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let songData = jsonData["items"].arrayValue
+            for songDict in songData {
+                SpotifyUtilities.convertJSONToSongItem(songDict["track"]) {songItem in
+                    playlistContent[id]!.append(songItem)
+                }
+            }
+            /*
+             Test update view with each paging
+             */
+            completionHandler()
+            
+            // check if another call must be made
+            let totalSongs: Int = jsonData["total"].intValue
+            if (totalSongs > offset + limit) {
+                helperGetPlaylistData(id, offset + limit, completionHandler)
+            }
+            return
+        }
+        task.resume()
+    }
+    
+    /*
+     Retrieves users top played songs on scale timescale
+     */
+    private static func getUsersTopPlayedSongs(_ scale: TimeScale, _ offset: Int, _ completionHandler: @escaping () -> ()) {
+        let limit = 50
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host   = "api.spotify.com"
+        components.path   = "/v1/me/top/tracks"
+        components.queryItems = [
+            URLQueryItem(name: "offset", value: "\(offset)"),
+            URLQueryItem(name: "limit", value: "\(limit)"),
+            URLQueryItem(name: "time_range", value: scale.toString()),
+        ]
+        let url = components.url!
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonData: JSON
+            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            let songData = jsonData["items"].arrayValue
+            for songDict in songData {
+                SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
+                    self.playlistContent[scale.toString()]!.append(songItem)
+                }
+            }
+            /*
+             Test update view with each paging
+             */
+            completionHandler()
+            
+            // check if another call must be made
+            let totalSongs: Int = jsonData["total"].intValue
+            if (totalSongs > offset + limit) {
+                self.getUsersTopPlayedSongs(scale, offset + limit, completionHandler)
+            }
+            return
+        }
+        task.resume()
+    }
+    
+    /*
+     ###########################################################################################
+     ########                                                                           ########
+     ########                   CATALOGUE FUNCTIONS BELOW                               ########
+     ########                                                                           ########
+     ###########################################################################################
+     */
     
     /*
      Performs search request on spotify's catalogue for the given searchQuery string
@@ -15,7 +267,16 @@ class SpotifyUtilities {
     
     private static func searchCatalogue(_ searchQuery: String, _ limit: Int, _ completionHandler: @escaping ([SpotifySongItem]) -> ()) {
 
-        guard let _ = spotifyToken else {
+        guard let _ = spotifyDevToken else {
+            setNewSpotifyAccessToken { (token) in
+                guard let _ = token else { return }
+                searchCatalogue(searchQuery, completionHandler)
+            }
+            return
+        }
+        
+        guard Date(timeIntervalSinceNow: 5) < expirationDate! else {
+            // past expiration, renew
             setNewSpotifyAccessToken { (token) in
                 guard let _ = token else { return }
                 searchCatalogue(searchQuery, completionHandler)
@@ -35,7 +296,7 @@ class SpotifyUtilities {
         let url = components.url!
 
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(spotifyToken!)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(spotifyDevToken!)", forHTTPHeaderField: "Authorization")
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             guard let dataResponse = data else {
@@ -82,6 +343,31 @@ class SpotifyUtilities {
     }
     
     /*
+     Converts song item into a hierarchy of possible searches to query
+     */
+    static func searchQueryFromSong(_ songItem: SongItem) -> String {
+        let artists: String = songItem.artistName
+            .replacingOccurrences(of: ",", with: "")
+            .replacingOccurrences(of: "& ", with: "")
+            .replacingOccurrences(of: "and ", with: "")
+        let title: String = songItem.songTitle
+            .replacingOccurrences(of: "[", with: "")
+            .replacingOccurrences(of: "]", with: "")
+            .replacingOccurrences(of: "- ", with: "")
+            .replacingOccurrences(of: "feat. ", with: "")
+            .replacingOccurrences(of: ")", with: "")
+            .replacingOccurrences(of: "(", with: "")
+            .replacingOccurrences(of: "& ", with: "")
+            .replacingOccurrences(of: ",", with: "")
+            .replacingOccurrences(of: "with ", with: "")
+            .replacingOccurrences(of: " x ", with: " ")
+
+        print("Song Title: \n\(title)")
+        print("Artists:\n\(artists)")
+        return title + " " + artists
+    }
+    
+    /*
      Helper function to take in SwiftyJSON item and parse into SongItem
      */
     static func convertJSONToSongItem(_ songDict: JSON, completionHandler: @escaping (SpotifySongItem) -> ()) {
@@ -123,7 +409,6 @@ class SpotifyUtilities {
         let albumURL: String = songDict["album"]["images"].arrayValue[0]["url"].stringValue
 
         let songItem = SpotifySongItem(uri: songID, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)
-//        songItem.retrieveArtwork { (_) in }
         completionHandler(songItem)
     }
     
@@ -290,7 +575,7 @@ class SpotifyUtilities {
         let clientSecret: String = "bc693736cf6d40389102d369243384ff"
         let encodedHeader: String = Data("\(clientID):\(clientSecret)".utf8).base64EncodedString()
         request.setValue("Basic \(encodedHeader)", forHTTPHeaderField: "Authorization")
-
+        
         let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
 
             // Check for Error
@@ -303,34 +588,24 @@ class SpotifyUtilities {
             // Convert HTTP Response Data to a String
             let jsonData: JSON
             do {try jsonData = JSON(data: data!)} catch{ print("bad data"); return}
-            spotifyToken = jsonData["access_token"].stringValue
-            completionHandler(spotifyToken)
+            spotifyDevToken = jsonData["access_token"].stringValue
+            expirationDate = Date(timeIntervalSinceNow: 3600)
+            completionHandler(spotifyDevToken)
         }
         task.resume()
     }
-    
-    /*
-     Converts song item into a hierarchy of possible searches to query
-     */
-    static func searchQueryFromSong(_ songItem: SongItem) -> String {
-        let artists: String = songItem.artistName
-            .replacingOccurrences(of: ",", with: "")
-            .replacingOccurrences(of: "& ", with: "")
-            .replacingOccurrences(of: "and ", with: "")
-        let title: String = songItem.songTitle
-            .replacingOccurrences(of: "[", with: "")
-            .replacingOccurrences(of: "]", with: "")
-            .replacingOccurrences(of: "- ", with: "")
-            .replacingOccurrences(of: "feat. ", with: "")
-            .replacingOccurrences(of: ")", with: "")
-            .replacingOccurrences(of: "(", with: "")
-            .replacingOccurrences(of: "& ", with: "")
-            .replacingOccurrences(of: ",", with: "")
-            .replacingOccurrences(of: "with ", with: "")
-            .replacingOccurrences(of: " x ", with: " ")
+}
 
-        print("Song Title: \n\(title)")
-        print("Artists:\n\(artists)")
-        return title + " " + artists
+enum TimeScale {
+    case SHORT
+    case MEDIUM
+    case LONG
+    
+    func toString() -> String {
+        switch (self) {
+        case .SHORT: return "short_term"
+        case .MEDIUM: return "medium_term"
+        case .LONG: return "long_term"
+        }
     }
 }
