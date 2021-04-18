@@ -30,9 +30,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
 
     @IBOutlet weak var musicSearchBar: UISearchBar!
     var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
-
-    var isHost: Bool?
-    var parentVC: QueueVC?
     
     var searchDelegate: SearchDelegate?
     var currentPlatform: Platform = .APPLE_MUSIC
@@ -48,7 +45,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("WiewDidLoad Called")
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
@@ -65,7 +61,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
         self.tableView.dataSource = datasource
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
 
-        searchDelegate?.searchAMLibrary()
+        searchAMLibrary()
         
     }
     
@@ -77,21 +73,21 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
-            searchDelegate?.searchAMLibrary()
+            searchAMLibrary()
             break;
         case 1:
             musicSearchBar.placeholder = "Spotify"
             currentPlatform = .SPOTIFY
             
             // load playlist of Spotify if hasn't been done already
-            searchDelegate?.searchSpotifyLibrary()
+            searchSpotifyLibrary()
             break;
         default:
             musicSearchBar.placeholder = "Apple Music"
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
-            searchDelegate?.searchAMLibrary()
+            searchAMLibrary()
             break;
         }
     }
