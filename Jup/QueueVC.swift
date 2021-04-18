@@ -162,11 +162,11 @@ class QueueVC: UITableViewController {
     }
     
     func returnToSettingsSegue(_ act:UIAlertAction){
-        performSegue(withIdentifier: "segueToSettings", sender: nil)
+        performSegue(withIdentifier: "exitQueue", sender: nil)
     }
     
     @objc func didEnterBackground() {
-         print("App entering background")
+        print("App entering background")
         mpDelegate.songTimer?.invalidate()
         mpDelegate.loadQueueIntoPlayer()
     }

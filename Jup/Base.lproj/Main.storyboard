@@ -414,11 +414,12 @@
                         <outlet property="nowPlayingContributor" destination="YNp-ya-Qvm" id="M1Q-rh-zRv"/>
                         <outlet property="nowPlayingProgress" destination="KoN-rP-fCa" id="AL0-oR-6ra"/>
                         <outlet property="nowPlayingTitle" destination="WF2-aU-qez" id="h7n-ze-Ruo"/>
+                        <segue destination="d8E-AH-NBx" kind="presentation" identifier="exitQueue" modalPresentationStyle="fullScreen" id="kOy-Zz-BYL"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B8N-Kp-GXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1298.5507246376812" y="881.91964285714278"/>
+            <point key="canvasLocation" x="1414" y="587"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JmT-Of-NGB">
@@ -529,6 +530,10 @@
             <point key="canvasLocation" x="264" y="631"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="HLa-Wp-Igv"/>
+        <segue reference="kOy-Zz-BYL"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Group" width="39.666667938232422" height="45.666667938232422"/>
         <image name="Return" width="44.666667938232422" height="50"/>
