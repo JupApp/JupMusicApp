@@ -33,7 +33,6 @@ class QueueVC: UITableViewController {
     @IBOutlet weak var nowPlayingTitle: UILabel!
     @IBOutlet weak var nowPlayingArtist: UILabel!
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
-    @IBOutlet weak var leaveQueueButton: UIBarButtonItem!
     @IBOutlet weak var nowPlayingContributor: UILabel!
         
     
@@ -162,6 +161,10 @@ class QueueVC: UITableViewController {
     }
     
     func returnToSettingsSegue(_ act:UIAlertAction){
+        //clear playlist cache
+        SpotifyUtilities.clearCache()
+        AppleMusicUtilities.clearCache()
+        
         performSegue(withIdentifier: "exitQueue", sender: nil)
     }
     
@@ -173,7 +176,10 @@ class QueueVC: UITableViewController {
     
     @objc func didEnterForeground() {
         print("Entered foreground. Time is nil: \(mpDelegate.songTimer == nil)")
-        mpDelegate.setTimer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            print("Async after 0.1 seconds")
+            self.mpDelegate.returnedToApp()
+        }
     }
 }
     

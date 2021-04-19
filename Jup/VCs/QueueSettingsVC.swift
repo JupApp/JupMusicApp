@@ -66,55 +66,51 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
-        
         if platform == .APPLE_MUSIC {
             if SKCloudServiceController.authorizationStatus() == .notDetermined {
                 SKCloudServiceController.requestAuthorization {(status:
                     SKCloudServiceAuthorizationStatus) in
                     switch status {
                     case .authorized:
-                        if self.usernameTextField.text == nil || self.usernameTextField.text == "" {
-                            guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
-                                self.present(self.usernameAlert, animated: true)
-                                return
-                            }
-                            guard stored_val != "" else {
-                                self.present(self.usernameAlert, animated: true)
-                                return
-                            }
-                            self.performSegue(withIdentifier: "segueToQueue", sender: nil)
-                            return
-                        }
-                        let currentUserName = self.usernameTextField.text!
-                        UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
-                        self.performSegue(withIdentifier: "segueToQueue", sender: nil)
+                        self.verifyAndSegueToQueue(sender)
+                        break
+                    default:
+                        /*
+                         User failed to authorize, show alert
+                         */
+                        self.present(self.musicServicAert, animated: true)
                         return
-                    default: break
                     }
                 }
             } else if (SKCloudServiceController.authorizationStatus() == .authorized) {
-                if usernameTextField.text == nil || usernameTextField.text == "" {
-                    guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
-
-                        self.present(usernameAlert, animated: true)
+                SKCloudServiceController().requestCapabilities { capabilities, error in
+                    guard capabilities.contains(.musicCatalogPlayback) else {
+                        // Does not have apple music
+                        self.present(self.musicServicAert, animated: true)
                         return
                     }
-                    guard stored_val != "" else {
-
-                        self.present(self.usernameAlert, animated: true)
+                    // user has apple music
+                    if self.usernameTextField.text == nil || self.usernameTextField.text == "" {
+                        guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
+                            self.present(self.usernameAlert, animated: true)
+                            return
+                        }
+                        guard stored_val != "" else {
+                            self.present(self.usernameAlert, animated: true)
+                            return
+                        }
+                        self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                         return
                     }
-                    performSegue(withIdentifier: "segueToQueue", sender: nil)
+                    let currentUserName = self.usernameTextField.text!
+                    UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
+                    self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                     return
                 }
-                let currentUserName = usernameTextField.text!
-                UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
-                performSegue(withIdentifier: "segueToQueue", sender: nil)
-                return
+            } else {
+                //no access, raise alert
+                self.present(musicServicAert, animated: true)
             }
-
-            //no access, raise alert
-            self.present(musicServicAert, animated: true)
         } else if platform == .SPOTIFY {
                 
             // check if user has premium in order to proceed

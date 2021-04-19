@@ -317,17 +317,17 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="422"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-x8-Q76">
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-x8-Q76">
                                     <rect key="frame" x="30" y="0.0" width="354" height="412.33333333333331"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderImage" translatesAutoresizingMaskIntoConstraints="NO" id="8LE-dt-7ox">
                                             <rect key="frame" x="0.0" y="0.0" width="354" height="330"/>
                                         </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="cu4-2T-jqI">
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="cu4-2T-jqI">
                                             <rect key="frame" x="0.0" y="335" width="354" height="68.333333333333314"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="19" translatesAutoresizingMaskIntoConstraints="NO" id="WF2-aU-qez">
-                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="24"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="250" id="Z56-EI-eVb"/>
                                                     </constraints>
@@ -336,7 +336,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dch-rT-kLY">
-                                                    <rect key="frame" x="0.0" y="24" width="354" height="24"/>
+                                                    <rect key="frame" x="0.0" y="22" width="354" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="250" id="mfO-fh-c6c"/>
                                                     </constraints>
@@ -364,9 +364,13 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstAttribute="bottom" secondItem="KdO-x8-Q76" secondAttribute="bottom" constant="9.6699999999999999" id="8sI-6c-jHr"/>
                                 <constraint firstItem="KdO-x8-Q76" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" id="SEp-zP-f7D"/>
+                                <constraint firstItem="KdO-x8-Q76" firstAttribute="leading" secondItem="HOA-ch-QaR" secondAttribute="leading" constant="30" id="Tbw-t2-qZH"/>
+                                <constraint firstAttribute="trailing" secondItem="KdO-x8-Q76" secondAttribute="trailing" constant="30" id="V4j-SL-Mzz"/>
                                 <constraint firstItem="KdO-x8-Q76" firstAttribute="leading" secondItem="HOA-ch-QaR" secondAttribute="leading" constant="30" id="XvE-IE-pIa"/>
                                 <constraint firstAttribute="trailing" secondItem="KdO-x8-Q76" secondAttribute="trailing" constant="30" id="m7h-ss-fjn"/>
+                                <constraint firstItem="KdO-x8-Q76" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" id="s30-gM-mkT"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -408,13 +412,12 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
-                        <outlet property="leaveQueueButton" destination="Jn5-D6-PAS" id="X2Q-lS-Sme"/>
                         <outlet property="nowPlayingAlbum" destination="8LE-dt-7ox" id="PTl-Ed-MDa"/>
                         <outlet property="nowPlayingArtist" destination="dch-rT-kLY" id="Wpu-Hj-F6A"/>
                         <outlet property="nowPlayingContributor" destination="YNp-ya-Qvm" id="M1Q-rh-zRv"/>
                         <outlet property="nowPlayingProgress" destination="KoN-rP-fCa" id="AL0-oR-6ra"/>
                         <outlet property="nowPlayingTitle" destination="WF2-aU-qez" id="h7n-ze-Ruo"/>
-                        <segue destination="d8E-AH-NBx" kind="presentation" identifier="exitQueue" modalPresentationStyle="fullScreen" id="kOy-Zz-BYL"/>
+                        <segue destination="d8E-AH-NBx" kind="presentation" identifier="exitQueue" modalPresentationStyle="fullScreen" id="jE0-gE-6Zt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B8N-Kp-GXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -531,8 +534,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HLa-Wp-Igv"/>
-        <segue reference="kOy-Zz-BYL"/>
+        <segue reference="jE0-gE-6Zt"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Group" width="39.666667938232422" height="45.666667938232422"/>

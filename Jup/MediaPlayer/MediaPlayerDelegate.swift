@@ -18,8 +18,6 @@ protocol MediaPlayerDelegate {
     var songTimer: Timer? { get set }
     var mediaPlayer: MediaPlayer? { get }
     var state: State { get set }
-    var songProgress: Progress { get set }
-
         
     var queue: [String] { get }
     var songMap: [String: SongItem] { get }
@@ -48,6 +46,8 @@ protocol MediaPlayerDelegate {
     func updateDataSource()
     
     func setTimer()
+    
+    func returnedToApp()
 
 }
 
@@ -66,6 +66,13 @@ extension MediaPlayerDelegate {
     func updateAlbumArtwork() {
         print("updateAlbumArtwork called")
         guard let songItem = self.currentSong else {
+            /*
+             Fill in album background with blank image
+             */
+            self.parentVC.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
+            self.parentVC.nowPlayingArtist.text = "Artist"
+            self.parentVC.nowPlayingTitle.text = "Song Title"
+            self.parentVC.nowPlayingContributor.text = "Contributor"
             return
         }
         print("Song to be displayed: \(songItem.songTitle)")
@@ -85,6 +92,9 @@ extension MediaPlayerDelegate {
         snap.appendItems(queue.map({ (uri) -> QueueSongItem in
             songMap[uri]!.getQueueSongItem()
         }))
+        if queue.count > 0 {
+            print("Next Song in queue: \(songMap[queue[0]]?.songTitle)")
+        }
         DispatchQueue.main.async {
             parentVC.datasource.apply(snap, animatingDifferences: true)
         }

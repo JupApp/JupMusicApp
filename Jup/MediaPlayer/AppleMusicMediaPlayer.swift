@@ -38,7 +38,6 @@ class AppleMusicMediaPlayer: MediaPlayer {
         player.setQueue(with: [songItem.uri])
         player.prepareToPlay()
         player.repeatMode = .none
-        
         skip()
         play()
         completionHandler(nil)
@@ -49,6 +48,7 @@ class AppleMusicMediaPlayer: MediaPlayer {
             songItem.uri
         }))
         self.player.prepend(upNext)
+        self.player.repeatMode = .none
     }
     
     func getTimeInfo(completionHandler: @escaping (Double, Double) -> ()) {
@@ -56,7 +56,14 @@ class AppleMusicMediaPlayer: MediaPlayer {
         let timeLeft: Double = songDuration - self.player.currentPlaybackTime.magnitude
         completionHandler(timeLeft, songDuration)
     }
-
     
+    func nowPlayingInfo(_ completionHandler: @escaping (String?) -> ()) {
+        if self.player.playbackState != .playing {
+            completionHandler(nil)
+            return
+        }
+        print(self.player.playbackState.rawValue)
+        completionHandler(self.player.nowPlayingItem?.playbackStoreID)
+    }
     
 }
