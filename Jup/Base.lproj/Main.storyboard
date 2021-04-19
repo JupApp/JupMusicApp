@@ -531,7 +531,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HLa-Wp-Igv"/>
         <segue reference="kOy-Zz-BYL"/>
     </inferredMetricsTieBreakers>
     <resources>
