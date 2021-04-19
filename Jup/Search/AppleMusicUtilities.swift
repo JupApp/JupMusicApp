@@ -369,4 +369,9 @@ class AppleMusicUtilities {
         } catch { completionHandler(nil); return }
     }
     
+    static func clearCache() {
+        playlistNames = [:]
+        playlistContent = [:]
+        playlistIDs = []
+    }
 }

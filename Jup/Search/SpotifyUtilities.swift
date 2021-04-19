@@ -436,7 +436,7 @@ class SpotifyUtilities {
         }
 
         // check if expiration date is already passed
-        if expirationDate > Date() {
+        if expirationDate > Date(timeIntervalSinceNow: 5) {
             // in the clear, don't need to renew yet
             completionHandler(true)
             return
@@ -506,6 +506,12 @@ class SpotifyUtilities {
                 switch data.result {
                 case .success(let result):
                     let userID = (result as! [String: Any])["id"] as? String
+                    guard let _ = userID else {
+                        /*
+                         Trigger alert that user ID could not be retrieved
+                         */
+                        return
+                    }
                     completionHandler(userID!)
                     return
                 case .failure(_):
@@ -593,6 +599,12 @@ class SpotifyUtilities {
             completionHandler(spotifyDevToken)
         }
         task.resume()
+    }
+    
+    static func clearCache() {
+        playlistNames = [:]
+        playlistContent = [:]
+        playlistIDs = []
     }
 }
 

@@ -10,8 +10,6 @@ import StoreKit
 
 
 class HostMPDelegate: MediaPlayerDelegate {
-
-    var songProgress: Progress = Progress()
     
     var state: State
     
@@ -123,13 +121,8 @@ class HostMPDelegate: MediaPlayerDelegate {
                 // assert alert here?
                 fatalError("Failed to transition to Next Song")
             } else {
-                self.songProgress.totalUnitCount = Int64(nextSongItem.songLength)
-                print("")
-                print("Song Playing: \(nextSongItem.songTitle)")
-                print("Song Length: \(self.songProgress.totalUnitCount)")
                 self.state = .PLAYING
-                self.songTimer?.invalidate()
-                self.songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerFired), userInfo: nil, repeats: true)
+                self.setTimer()
                 self.currentSong = nextSongItem
                 self.updateAlbumArtwork()
                 self.updateDataSource()
@@ -212,13 +205,11 @@ class HostMPDelegate: MediaPlayerDelegate {
      -updates progress bar
      */
     @objc func timerFired() {
-        print("Timer Fired")
         mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
             UIView.animate(withDuration: 1.0) {
                 let progress = Float(1.0 - (timeLeft/songDuration))
                 self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
             }
-            print("Time Left: \(timeLeft)")
             if timeLeft < 2.0 {
                 self.mediaPlayer?.pause()
                 self.songTimer?.invalidate()
@@ -230,6 +221,88 @@ class HostMPDelegate: MediaPlayerDelegate {
                 }
             }
         })
+    }
+    
+    /*
+     Function addresses any delay in the current queue with songs that
+     transitioned during absence.
+     */
+    func returnedToApp() {
+        // check the last known state when left
+        switch (state) {
+            case .NO_SONG_SET: print("NO SONG SET");return
+            case .PAUSED:
+                print("PAUSED")
+                /*
+                 Two cases:
+                    1. app is playing, in which we need to manually pause
+                        (user tapped play in Music/Spotiyf app like an idiot)
+                    2.
+                 */
+                return
+            case .TRANSITIONING: print("Should not ever be at this state"); return
+            case .PLAYING: break
+        }
+        
+        // song was playing when left the app last
+        iterateThroughQueue {
+            /*
+             Broadcast out new snapshot to participants
+             */
+        }
+    }
+    
+    private func iterateThroughQueue(_ completionHandler: @escaping () -> ()) {
+        mediaPlayer!.nowPlayingInfo { (songID) in
+            guard let _ = songID else {
+                // no song playing
+                print("SongID is nil")
+                /*
+                 Clear the queue, empty album artork and progressview and stackview
+                 */
+                self.currentSong = nil
+                self.state = .NO_SONG_SET
+                self.mediaPlayer?.pause()
+                self.updateDataSource()
+                self.updateAlbumArtwork()
+                self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
+                completionHandler()
+                return
+            }
+            print("Song ID: \(songID)")
+            print("CurrentSong ID: \(self.currentSong?.uri)")
+            /*
+             if a match, great success, update
+             album artwork and set timer
+            */
+            if songID == self.currentSong?.uri {
+                print("Matched with \(self.currentSong?.songTitle)")
+                self.state = .PLAYING
+                self.updateAlbumArtwork()
+                self.updateDataSource()
+                self.setTimer()
+                completionHandler()
+                return
+            }
+            
+            /*
+             If no match, move on to next song in queue
+             */
+            if self.queue.isEmpty {
+                print("Queue is empty")
+                self.currentSong = nil
+                self.state = .NO_SONG_SET
+                self.mediaPlayer?.pause()
+                self.updateDataSource()
+                self.updateAlbumArtwork()
+                self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
+                return
+            }
+            
+            let nextSongURI: String = self.queue.remove(at: 0)
+            self.currentSong = self.songMap.removeValue(forKey: nextSongURI)!
+            self.iterateThroughQueue(completionHandler)
+        }
     }
     
     

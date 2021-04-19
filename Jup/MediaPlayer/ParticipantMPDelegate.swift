@@ -7,7 +7,6 @@
 import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
-    var songProgress: Progress = Progress()
     
     var currentSong: SongItem?
     var queue: [String] = []
@@ -121,6 +120,11 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         }
     }
     
+    func returnedToApp() {
+        /*
+         Request snapshot via bluetooth
+         */
+    }
 }
 
 
