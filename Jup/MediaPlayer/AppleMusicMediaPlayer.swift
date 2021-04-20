@@ -57,13 +57,10 @@ class AppleMusicMediaPlayer: MediaPlayer {
         completionHandler(timeLeft, songDuration)
     }
     
-    func nowPlayingInfo(_ completionHandler: @escaping (String?) -> ()) {
-        if self.player.playbackState != .playing {
-            completionHandler(nil)
-            return
-        }
-        print(self.player.playbackState.rawValue)
-        completionHandler(self.player.nowPlayingItem?.playbackStoreID)
+    func nowPlayingInfo(_ completionHandler: @escaping (String?, Bool) -> ()) {
+        let playing: Bool = self.player.playbackState == .playing
+        print("Playing: \(playing)")
+        completionHandler(self.player.nowPlayingItem?.playbackStoreID, playing)
     }
     
 }

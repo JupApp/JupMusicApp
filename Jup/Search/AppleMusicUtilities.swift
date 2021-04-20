@@ -104,7 +104,7 @@ class AppleMusicUtilities {
                 completionHandler(nil)
                 return
             }
-            let songItem: AppleMusicSongItem = possibleMatches[0]
+            let songItem: AppleMusicSongItem = SpotifyUtilities.matchQuery(songItem, possibleMatches)
             songItem.retrieveArtwork { (_) in
                 completionHandler(songItem)
             }

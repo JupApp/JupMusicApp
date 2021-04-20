@@ -230,16 +230,20 @@ class HostMPDelegate: MediaPlayerDelegate {
     func returnedToApp() {
         // check the last known state when left
         switch (state) {
-            case .NO_SONG_SET: print("NO SONG SET");return
+            case .NO_SONG_SET:
+                print("NO SONG SET");
+                // pause in case a song is playing
+                self.mediaPlayer?.pause()
+                return
             case .PAUSED:
                 print("PAUSED")
                 /*
-                 Two cases:
+                 One case:
                     1. app is playing, in which we need to manually pause
                         (user tapped play in Music/Spotiyf app like an idiot)
-                    2.
                  */
-                return
+//                self.mediaPlayer?.pause()
+                break
             case .TRANSITIONING: print("Should not ever be at this state"); return
             case .PLAYING: break
         }
@@ -253,7 +257,7 @@ class HostMPDelegate: MediaPlayerDelegate {
     }
     
     private func iterateThroughQueue(_ completionHandler: @escaping () -> ()) {
-        mediaPlayer!.nowPlayingInfo { (songID) in
+        mediaPlayer!.nowPlayingInfo { (songID, isPlaying) in
             guard let _ = songID else {
                 // no song playing
                 print("SongID is nil")
@@ -269,18 +273,35 @@ class HostMPDelegate: MediaPlayerDelegate {
                 completionHandler()
                 return
             }
-            print("Song ID: \(songID)")
-            print("CurrentSong ID: \(self.currentSong?.uri)")
+            print("Song ID: \(songID!)")
+            print("CurrentSong ID: \(self.currentSong?.uri ?? "")")
             /*
              if a match, great success, update
              album artwork and set timer
             */
             if songID == self.currentSong?.uri {
-                print("Matched with \(self.currentSong?.songTitle)")
-                self.state = .PLAYING
                 self.updateAlbumArtwork()
                 self.updateDataSource()
-                self.setTimer()
+                /*
+                 Two cases:
+                    1. app is playing a song, we continue this trend, so state == .PLAYING
+                    2. app is paused, we continue the pause state, state == .PAUSED
+                 */
+                if isPlaying {
+                    self.state = .PLAYING
+                    self.setTimer()
+                } else {
+                    self.state = .PAUSED
+                    self.songTimer?.invalidate()
+                    // manually set progress view while paused
+                    self.mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
+                        UIView.animate(withDuration: 1.0) {
+                            let progress = Float(1.0 - (timeLeft/songDuration))
+                            self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
+                        }
+                    })
+                }
+                print("Matched with \(self.currentSong?.songTitle ?? "")")
                 completionHandler()
                 return
             }

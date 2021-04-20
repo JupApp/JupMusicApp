@@ -19,5 +19,5 @@ protocol MediaPlayer {
     
     func getTimeInfo(completionHandler: @escaping (Double, Double) -> ())
     
-    func nowPlayingInfo(_ completionHandler: @escaping (String?) -> ())
+    func nowPlayingInfo(_ completionHandler: @escaping (String?, Bool) -> ())
 }

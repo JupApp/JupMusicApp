@@ -30,6 +30,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
     let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
+    let authorizeAlert = UIAlertController(title: "Failed to authorize", message: nil, preferredStyle: .alert)
     let usernameAlert = UIAlertController(title: "Please enter a username", message: nil, preferredStyle: .alert)
     
     override func viewDidLoad() {
@@ -61,7 +62,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
-
+        authorizeAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
     }
     
     
@@ -78,7 +79,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                         /*
                          User failed to authorize, show alert
                          */
-                        self.present(self.musicServicAert, animated: true)
+                        self.present(self.authorizeAlert, animated: true)
                         return
                     }
                 }
@@ -109,7 +110,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                 }
             } else {
                 //no access, raise alert
-                self.present(musicServicAert, animated: true)
+                self.present(authorizeAlert, animated: true)
             }
         } else if platform == .SPOTIFY {
                 

@@ -334,7 +334,7 @@ class SpotifyUtilities {
                 completionHandler(nil)
                 return
             }
-            let songItem: SpotifySongItem = possibleMatches[0]
+            let songItem: SpotifySongItem = matchQuery(songItem, possibleMatches)
             songItem.retrieveArtwork { (_) in
                 completionHandler(songItem)
             }
@@ -354,17 +354,36 @@ class SpotifyUtilities {
             .replacingOccurrences(of: "[", with: "")
             .replacingOccurrences(of: "]", with: "")
             .replacingOccurrences(of: "- ", with: "")
-            .replacingOccurrences(of: "feat. ", with: "")
+            .replacingOccurrences(of: "(feat. ", with: "")
+            .replacingOccurrences(of: "(with ", with: "")
             .replacingOccurrences(of: ")", with: "")
             .replacingOccurrences(of: "(", with: "")
             .replacingOccurrences(of: "& ", with: "")
             .replacingOccurrences(of: ",", with: "")
-            .replacingOccurrences(of: "with ", with: "")
             .replacingOccurrences(of: " x ", with: " ")
 
         print("Song Title: \n\(title)")
         print("Artists:\n\(artists)")
         return title + " " + artists
+    }
+    
+    /*
+     Attempts to find result that matches query words exactly, otherwise returns first result
+     */
+    static func matchQuery<T: SongItem>(_ songItemToMatch: SongItem, _ resultSongItems: [T]) -> T {
+        let matchGoal: [String] = searchQueryFromSong(songItemToMatch).split(separator: " ").map { (substring) -> String in
+            String(substring)
+        }
+        
+        let matchGoalSet: Set<String> = Set(matchGoal)
+        
+        for possibleMatch in resultSongItems {
+            let itemsInPossibleMatch: [String] = searchQueryFromSong(possibleMatch).split(separator: " ").map { String($0) }
+            if matchGoalSet.isSubset(of: itemsInPossibleMatch) && matchGoalSet.isSuperset(of: itemsInPossibleMatch) {
+                return possibleMatch
+            }
+        }
+        return resultSongItems[0]
     }
     
     /*

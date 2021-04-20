@@ -108,7 +108,6 @@ class QueueVC: UITableViewController {
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
         
         nowPlayingProgress.setProgress(0, animated: false)
-//        nowPlayingProgress.observedProgress = mpDelegate.songProgress
         
         //start refreshing token if necessary
         SpotifyUtilities.checkAuthorization { _ in }
@@ -119,7 +118,11 @@ class QueueVC: UITableViewController {
     }
     
     @objc func play() {
-        mpDelegate.play()
+        if mpDelegate.state == .PLAYING {
+            mpDelegate.pause()
+        } else {
+            mpDelegate.play()
+        }
     }
     
     @IBAction func presentSearchVC(_ sender: Any) {

@@ -184,14 +184,14 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
         })
     }
     
-    func nowPlayingInfo(_ completionHandler: @escaping (String?) -> ()) {
+    func nowPlayingInfo(_ completionHandler: @escaping (String?, Bool) -> ()) {
         self.player?.getPlayerState { (state, error) in
             if let _ = error {
                 print("failed to retrieve state information, cannot clear queue")
-                completionHandler(nil)
+                completionHandler(nil, false)
             }
-            let currentState = state as! SPTAppRemotePlayerState
-            completionHandler(currentState.track.uri)
+            let currentState = state as? SPTAppRemotePlayerState
+            completionHandler(currentState?.track.uri, !(currentState?.isPaused ?? true))
         }
     }
     
