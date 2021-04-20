@@ -317,7 +317,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="454"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-x8-Q76">
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-x8-Q76">
                                     <rect key="frame" x="30" y="0.0" width="354" height="444.33333333333331"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noSongPlayingImage" translatesAutoresizingMaskIntoConstraints="NO" id="8LE-dt-7ox">
@@ -328,7 +328,7 @@
                                             </constraints>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="cu4-2T-jqI">
-                                            <rect key="frame" x="0.0" y="335" width="354" height="77.333333333333314"/>
+                                            <rect key="frame" x="0.0" y="349" width="354" height="72.333333333333314"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="19" translatesAutoresizingMaskIntoConstraints="NO" id="WF2-aU-qez">
                                                     <rect key="frame" x="0.0" y="0.0" width="354" height="24"/>
@@ -340,7 +340,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dch-rT-kLY">
-                                                    <rect key="frame" x="0.0" y="28.333333333333314" width="354" height="24"/>
+                                                    <rect key="frame" x="0.0" y="26" width="354" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="250" id="mfO-fh-c6c"/>
                                                     </constraints>
@@ -349,7 +349,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contributor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNp-ya-Qvm">
-                                                    <rect key="frame" x="0.0" y="57.000000000000007" width="354" height="20.333333333333336"/>
+                                                    <rect key="frame" x="0.0" y="52" width="354" height="20.333333333333329"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="250" id="fxk-fg-VgQ"/>
                                                     </constraints>
@@ -360,7 +360,7 @@
                                             </subviews>
                                         </stackView>
                                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KoN-rP-fCa">
-                                            <rect key="frame" x="0.0" y="417.33333333333331" width="354" height="27"/>
+                                            <rect key="frame" x="0.0" y="440.33333333333331" width="354" height="4"/>
                                             <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </progressView>
                                     </subviews>
