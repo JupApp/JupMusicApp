@@ -34,16 +34,21 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var albumURL: String
     var songLength: UInt
     var albumArtwork: UIImage?
-    var likes: Int = 0
+    var likes: Int
     var added: Bool = false
     var platform: Platform = .SPOTIFY
     
-    required init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
+    convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
+        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0)
+    }
+    
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int) {
         self.uri = id
         self.artistName = artist
         self.songTitle = song
         self.albumURL = albumURL
         self.songLength = length
+        self.likes = likes
     }
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {

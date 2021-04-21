@@ -7,7 +7,7 @@
 
 import CoreBluetooth
 
-class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {
+class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {    
 
     var queueUUID: CBUUID = CBUUID(string: "E54A93B5-D853-4944-A891-DC63A203379F")
     var snapshotUUID: CBUUID = CBUUID(string: "89957741-008E-4D9D-A6A6-6E95274D05E7")
@@ -20,6 +20,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var queueVC: QueueVC?
     var participantSettingsVC: ParticipantSettingsVC?
     
+    var participantsList: ParticipantList = ParticipantList(hostUsername: "", participants: [])
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
     
@@ -117,17 +118,23 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                  Add name to participants list
                  */
                 let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
-                let participant = Participant(username: username)
+                let participant = ParticipantList(hostUsername: username, participants: [])
                 let data = try! encoder.encode(participant)
                 peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
+            } else if characteristic.uuid == snapshotUUID {
+                /*
+                 Get Updated queue
+                 */
+                peripheral.readValue(for: characteristic)
             }
         }
     }
-    
+        
+    /*
+     Read in updated queue/participants list data
+     */
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         /*
-         TO-DO
-         
          1. If characteristic is queue, update queue
          2. If characteristic is participant list, update that
          */
@@ -147,16 +154,28 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             queueVC?.mpDelegate.updateQueueWithSnapshot(queueSnapshot)
             return
         case participantListUUID:
+            guard let data = characteristic.value else {
+                return
+            }
             print("Participant list updated")
+            participantsList = try! decoder.decode(ParticipantList.self, from: data)
+            /*
+             Update participants list
+            */
         default:
             print("unknown characteristic")
         }
         
     }
+    
+    func updateQueueSnapshot() {
+        fatalError("Participant should not be trying to update queue snapshot")
+    }
 }
 
-struct Participant: Codable {
-    var username: String
+struct ParticipantList: Codable {
+    var hostUsername: String
+    var participants: [String]
 }
 
 struct QueueSnapshot: Codable {
@@ -172,12 +191,13 @@ struct CodableSong: Codable {
     var albumURL: String
     var songLength: UInt
     var platform: Int
+    var likes: Int
     
     func decodeSong() -> SongItem {
         if Platform(rawValue: platform)! == .APPLE_MUSIC {
-            return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)
+            return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes)
         } else {
-            return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)
+            return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes)
         }
     }
 }

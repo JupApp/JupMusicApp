@@ -17,7 +17,7 @@ protocol SongItem {
     var added: Bool { get set }
     var platform: Platform { get set }
 
-    init(id: String, artist: String, song: String, albumURL: String, length: UInt)
+    init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int)
 
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ())
     
@@ -26,7 +26,7 @@ protocol SongItem {
 extension SongItem {
     
     func encodeSong() -> CodableSong {
-        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue)
+        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue, likes: likes)
     }
 
     func getQueueSongItem() -> QueueSongItem {

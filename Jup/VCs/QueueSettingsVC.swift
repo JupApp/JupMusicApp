@@ -67,6 +67,22 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
+        let username: String
+        if self.usernameTextField.text == nil || self.usernameTextField.text == "" {
+            guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
+                self.present(self.usernameAlert, animated: true)
+                return
+            }
+            guard stored_val != "" else {
+                self.present(self.usernameAlert, animated: true)
+                return
+            }
+            username = stored_val
+        } else {
+            username = self.usernameTextField.text!
+            UserDefaults.standard.set(username, forKey: QueueSettingsVC.usernameKey)
+        }
+        
         if platform == .APPLE_MUSIC {
             if SKCloudServiceController.authorizationStatus() == .notDetermined {
                 SKCloudServiceController.requestAuthorization {(status:
@@ -91,20 +107,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                         return
                     }
                     // user has apple music
-                    if self.usernameTextField.text == nil || self.usernameTextField.text == "" {
-                        guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
-                            self.present(self.usernameAlert, animated: true)
-                            return
-                        }
-                        guard stored_val != "" else {
-                            self.present(self.usernameAlert, animated: true)
-                            return
-                        }
-                        self.performSegue(withIdentifier: "segueToQueue", sender: nil)
-                        return
-                    }
-                    let currentUserName = self.usernameTextField.text!
-                    UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
                     self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                     return
                 }
@@ -126,20 +128,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                     return
                 }
                 DispatchQueue.main.async {
-                    if self.usernameTextField.text == nil || self.usernameTextField.text == "" {
-                        guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
-                            self.present(self.usernameAlert, animated: true)
-                            return
-                        }
-                        guard stored_val != "" else {
-                            self.present(self.usernameAlert, animated: true)
-                            return
-                        }
-                        self.performSegue(withIdentifier: "segueToQueue", sender: nil)
-                        return
-                    }
-                    let currentUserName = self.usernameTextField.text!
-                    UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
                     self.performSegue(withIdentifier: "segueToQueue", sender: nil)
                 }
             }

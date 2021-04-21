@@ -42,9 +42,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     
     //should not encounter these functions as a participant
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) { fatalError() }
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ()) { fatalError() }
 
-    func likeSong(_ uri: String, _ liked: Bool) { fatalError() }
-    
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
         self.songTimer?.invalidate()
         self.state = State.init(rawValue: snapshot.state)!

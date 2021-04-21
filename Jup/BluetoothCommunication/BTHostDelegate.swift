@@ -18,7 +18,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     
     var peripheralManager: CBPeripheralManager!
     var queueVC: QueueVC
-    var connectedParticipants: [UUID] = []
+    var connectedParticipants: [UUID: String] = [:]
+    var participantsList: ParticipantList
     
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
@@ -30,6 +31,9 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         let service: CBMutableService = CBMutableService(type: queueUUID, primary: true)
         service.characteristics = [snapshotCharacteristic, participantListCharacteristic]
 
+        let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+        participantsList = ParticipantList(hostUsername: username, participants: [])
+        
         super.init()
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil, options: nil)
@@ -53,10 +57,9 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             
             snapshotCharacteristic.value = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
             
-            let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
-            participantListCharacteristic.value = try! encoder.encode(Participant(username: username))
+            participantListCharacteristic.value = try! encoder.encode(participantsList)
             
-            peripheral.startAdvertising(["Host": username, "Platform": queueVC.platform.rawValue])
+            peripheral.startAdvertising(["Participants": participantsList, "Platform": queueVC.platform.rawValue])
         @unknown default:
             print("unknown state")
         }
@@ -81,29 +84,108 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         guard characteristic == participantListCharacteristic else {
             return
         }
-        if !connectedParticipants.contains(central.identifier) {
-            connectedParticipants.append(central.identifier)
-            print("Central: \(central.identifier) joined the queue!")
-        }
+        print("Central: \(central.identifier) joined the queue!")
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
         guard characteristic == participantListCharacteristic else {
             return
         }
-        guard let index = connectedParticipants.firstIndex(of: central.identifier) else {
+        let userLeft: String = connectedParticipants[central.identifier]!
+        connectedParticipants.removeValue(forKey: central.identifier)
+        print("User: \(userLeft) has left the queue!")
+        
+        guard let index = participantsList.participants.firstIndex(of: userLeft) else {
             return
         }
-        print("Central: \(central.identifier) has left the queue!")
-        connectedParticipants.remove(at: index)
+        participantsList.participants.remove(at: index)
+        /*
+         Update participants list accordingly
+         */
+        participantListCharacteristic.value = try! encoder.encode(participantsList)
     }
     
+    /*
+     Respond to read request
+     */
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
-        
+        switch (request.characteristic.uuid) {
+        case snapshotUUID:
+            print("Snapshot read request")
+            let snapshotLength: Int = snapshotCharacteristic.value?.count ?? 0
+            if (request.offset > snapshotLength) {
+                peripheral.respond(to: request, withResult: .invalidOffset)
+                return
+            }
+            let range: Range<Int> = request.offset..<snapshotLength
+            request.value = snapshotCharacteristic.value?.subdata(in: range)
+            return
+        case participantListUUID:
+            print("Participant list read request")
+            let participantLength: Int = participantListCharacteristic.value?.count ?? 0
+            if (request.offset > participantLength) {
+                peripheral.respond(to: request, withResult: .invalidOffset)
+                return
+            }
+            let range: Range<Int> = request.offset..<participantLength
+            request.value = participantListCharacteristic.value?.subdata(in: range)
+            return
+        default:
+            print("unknown characteristic")
+        }
     }
     
+    /*
+     Respond to write request
+     */
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        
+        for request in requests {
+            switch (request.characteristic.uuid) {
+            case snapshotUUID:
+                print("Snapshot write request")
+                let songToAddOrLike: CodableSong? = try? decoder.decode(CodableSong.self, from: request.value ?? Data())
+                guard let song = songToAddOrLike else {
+                    peripheral.respond(to: request, withResult: .attributeNotFound)
+                    return
+                }
+                let songItem: SongItem = song.decodeSong()
+                if songItem.likes == 0 {
+                    // request add song to queue
+                    queueVC.mpDelegate.addSong(songItem) {
+                        // completion handler called implies error
+                        peripheral.respond(to: request, withResult: .attributeNotFound)
+                    }
+                } else {
+                    queueVC.mpDelegate.likeSong(songItem.uri, songItem.likes) {
+                        // completion handler called implies error
+                        peripheral.respond(to: request, withResult: .attributeNotFound)
+                    }
+                }
+                return
+            case participantListUUID:
+                print("Participant list write request")
+                let newParticipant: ParticipantList? = try? decoder.decode(ParticipantList.self, from: request.value ?? Data())
+                guard let list = newParticipant else {
+                    peripheral.respond(to: request, withResult: .attributeNotFound)
+                    return
+                }
+                let newUser: String = list.hostUsername
+                connectedParticipants[request.central.identifier] = newUser
+                participantsList.participants.append(newUser)
+                participantListCharacteristic.value = try! encoder.encode(participantsList)
+                /*
+                 Update tableview
+                 */
+                return
+            default:
+                print("unknown characteristic")
+            }
+        }
+    }
+    
+    func updateQueueSnapshot() {
+        print("Updated queue snapshot")
+        snapshotCharacteristic.value = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
     }
     
     

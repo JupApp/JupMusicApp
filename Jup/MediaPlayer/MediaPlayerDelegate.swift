@@ -33,8 +33,8 @@ protocol MediaPlayerDelegate {
     
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ())
     
-    func likeSong(_ uri: String, _ liked: Bool)
-    
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ())
+
     func loadQueueIntoPlayer()
 
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot)
