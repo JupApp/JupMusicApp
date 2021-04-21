@@ -9,8 +9,8 @@ import UIKit
 
 class SearchCell: UITableViewCell {
     
-    var completionHandler: ((SongItem) -> ())?
-    var songItem: SongItem?
+    //var completionHandler: ((SongItem) -> ())?
+    //var songItem: SongItem?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,11 +29,11 @@ class SearchCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func songAdded(_ sender: Any) {
-        addSongButton.isHidden = true
+    //@IBAction func songAdded(_ sender: Any) {
+        //addSongButton.isHidden = true
         // attempt to add song to queue, update tableview
-        completionHandler?(songItem!)
-        completionHandler = nil
-    }
-    
+        //completionHandler?(songItem!)
+       // completionHandler = nil
 }
+    
+

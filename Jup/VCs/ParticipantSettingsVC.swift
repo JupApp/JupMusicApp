@@ -7,20 +7,17 @@
 
 import UIKit
 
-class ParticipantSettingsVC: UIViewController, UITextFieldDelegate {
+class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var joinQueueButton: UIButton!
-    @IBOutlet weak var joinableQueuesTable: UITableView!
     @IBOutlet weak var displayNameTextField: UITextField!
-    
-    
+        
     let usernameAlert = UIAlertController(title: "Please enter a username", message: nil, preferredStyle: .alert)
         
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        joinQueueButton.layer.cornerRadius = 8
+        //joinQueueButton.layer.cornerRadius = 8
         displayNameTextField.layer.cornerRadius = 5
         var placeHolderText: String = "username"
         if let lastUsedUsername = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) {
@@ -31,7 +28,7 @@ class ParticipantSettingsVC: UIViewController, UITextFieldDelegate {
         displayNameTextField.delegate = self
         displayNameTextField.attributedPlaceholder = NSAttributedString(string: placeHolderText,
                                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        joinQueueButton.addTarget(self, action: #selector(joinButtonPressed), for: .touchUpInside)
+        //joinQueueButton.addTarget(self, action: #selector(joinButtonPressed), for: .touchUpInside)
     
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         
