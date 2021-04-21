@@ -183,11 +183,18 @@ class HostMPDelegate: MediaPlayerDelegate {
         self.queue = sortedEnumeration.map({ (tuple) -> String in tuple.1 })
     }
     
-    func updateQueueWithSnapshot(_ snapshot: [String: Any]) {
+    func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
         fatalError()
     }
     
+    func getQueueSnapshot() -> QueueSnapshot {
+        let codableSongs: [CodableSong] = queue.map({ self.songMap[$0]!.encodeSong() })
+        let timeLeft: Int = Int(self.parentVC.nowPlayingProgress.progress * Float(self.currentSong?.songLength ?? 0))
+        return QueueSnapshot(songs: codableSongs, timeRemaining: timeLeft, state: state.rawValue)
+    }
+    
     func loadQueueIntoPlayer() {
+        songTimer?.invalidate()
         let songItemArray = queue.map { (uri) -> SongItem in self.songMap[uri]! }
         self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in })
     }

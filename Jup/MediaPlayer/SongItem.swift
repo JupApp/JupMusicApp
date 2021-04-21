@@ -17,16 +17,16 @@ protocol SongItem {
     var added: Bool { get set }
     var platform: Platform { get set }
 
-    
+    init(id: String, artist: String, song: String, albumURL: String, length: UInt)
+
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ())
     
 }
 
 extension SongItem {
     
-    func getSongMap() -> [String: Any] {
-        return ["uri": uri, "artistName": artistName, "songTitle": songTitle,
-                "albumURL": albumURL, "songLength": songLength, "progress": 0.0, "likes": likes, "platform": platform]
+    func encodeSong() -> CodableSong {
+        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue())
     }
     
     func getQueueSongItem() -> QueueSongItem {

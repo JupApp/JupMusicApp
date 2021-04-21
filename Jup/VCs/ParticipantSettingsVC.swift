@@ -7,13 +7,13 @@
 
 import UIKit
 
-class ParticipantSettingsVC: UIViewController, UITextFieldDelegate {
+class ParticipantSettingsVC: UIViewController, UITextFieldDelegate, UITableViewDelegate {
     
     @IBOutlet weak var joinQueueButton: UIButton!
     @IBOutlet weak var joinableQueuesTable: UITableView!
     @IBOutlet weak var displayNameTextField: UITextField!
     
-    
+    let btDelegate: BTParticipantDelegate = BTParticipantDelegate()
     let usernameAlert = UIAlertController(title: "Please enter a username", message: nil, preferredStyle: .alert)
         
    
@@ -37,7 +37,11 @@ class ParticipantSettingsVC: UIViewController, UITextFieldDelegate {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
-    }
+        
+        joinableQueuesTable.register(UINib(nibName: "JoinableQueueCell", bundle: nil), forCellReuseIdentifier: "QueueCell")
+        joinableQueuesTable.delegate = self
+        joinableQueuesTable.allowsSelection = false
+        joinableQueuesTable.isScrollEnabled = true    }
     
     @objc func joinButtonPressed() {
         //
@@ -77,6 +81,17 @@ class ParticipantSettingsVC: UIViewController, UITextFieldDelegate {
     
     @objc func dismissKeyboard() {
         view.endEditing(false)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "segueToParticipantQueue" else {
+            return
+        }
+        
+        let navController = segue.destination as! UINavigationController
+        let queueVC = navController.viewControllers[0] as! QueueVC
+        queueVC.isHost = false
+        queueVC.platform = Platform.rawValueToPlatform(btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!["platform"] as! Int)
     }
     
 }

@@ -37,9 +37,9 @@ protocol MediaPlayerDelegate {
     
     func loadQueueIntoPlayer()
 
-    func updateQueueWithSnapshot(_ snapshot: [String: Any])
+    func updateQueueWithSnapshot(_ snapshot: QueueSnapshot)
     
-    func getQueueSnapshot() -> [String: Any]
+    func getQueueSnapshot() -> QueueSnapshot
     
     func updateAlbumArtwork()
     
@@ -52,16 +52,6 @@ protocol MediaPlayerDelegate {
 }
 
 extension MediaPlayerDelegate {
-    
-    func getQueueSnapshot() -> [String: Any] {
-        var snapshot: [String: Any] = [:]
-        snapshot["state"] = state.rawValue
-        snapshot["currentSong"] = currentSong?.getSongMap() ?? "null"
-        snapshot["queue"] = queue.map({ (uri) -> [String: Any] in
-            songMap[uri]!.getSongMap()
-        })
-        return snapshot
-    }
     
     func updateAlbumArtwork() {
         print("updateAlbumArtwork called")

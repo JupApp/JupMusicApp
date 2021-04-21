@@ -304,7 +304,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BSV-mc-0nM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2283" y="882"/>
+            <point key="canvasLocation" x="3419" y="289"/>
         </scene>
         <!--Queue-->
         <scene sceneID="RxM-Vp-8pM">
@@ -424,7 +424,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B8N-Kp-GXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1413.0434782608697" y="586.60714285714278"/>
+            <point key="canvasLocation" x="2422" y="289"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JmT-Of-NGB">
@@ -440,7 +440,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KfA-hz-kjn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1299" y="1549"/>
+            <point key="canvasLocation" x="1330" y="289"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5S0-hG-8Q2">
@@ -528,14 +528,16 @@
                         <outlet property="displayNameTextField" destination="PPB-tJ-lZ8" id="QGc-1v-cM9"/>
                         <outlet property="joinQueueButton" destination="zEz-f2-gpf" id="eaR-z2-vli"/>
                         <outlet property="joinableQueuesTable" destination="x6Q-aG-5UH" id="adk-Nw-k7l"/>
+                        <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToParticipantQueue" modalPresentationStyle="fullScreen" id="z5L-mz-J51"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2lx-0t-7XK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="264" y="631"/>
+            <point key="canvasLocation" x="264" y="627"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="z5L-mz-J51"/>
         <segue reference="jE0-gE-6Zt"/>
     </inferredMetricsTieBreakers>
     <resources>

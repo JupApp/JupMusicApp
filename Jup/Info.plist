@@ -35,6 +35,8 @@
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Jup requires accessing personal Music App in order to play Apple Music songs as a Queue Host</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Jup would like to use Bluetooth on this device to connect to communicate across a music Queue</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

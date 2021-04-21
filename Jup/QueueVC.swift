@@ -173,12 +173,10 @@ class QueueVC: UITableViewController {
     
     @objc func didEnterBackground() {
         print("App entering background")
-        mpDelegate.songTimer?.invalidate()
         mpDelegate.loadQueueIntoPlayer()
     }
     
     @objc func didEnterForeground() {
-        print("Entered foreground. Time is nil: \(mpDelegate.songTimer == nil)")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             print("Async after 0.1 seconds")
             self.mpDelegate.returnedToApp()

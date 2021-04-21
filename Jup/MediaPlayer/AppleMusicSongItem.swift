@@ -29,23 +29,13 @@ class AppleMusicSongItem: SongItem, Hashable {
 
     var albumArtwork: UIImage?
     
-    init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
         uri = id
         artistName = artist
         songTitle = song
         self.albumURL = albumURL
         songLength = length
     }
-    
-    init(_ songMap: [String: Any]) {
-        self.uri = songMap["uri"] as! String
-        self.artistName = songMap["artistName"] as! String
-        self.songTitle = songMap["songTitle"] as! String
-        self.albumURL = songMap["albumURL"] as! String
-        self.songLength = UInt(songMap["songLength"] as! Int)
-        self.likes = songMap["likes"] as! Int
-    }
-    
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
         if let artwork = albumArtwork {
