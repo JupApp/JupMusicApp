@@ -61,22 +61,20 @@ class QueueVC: UITableViewController {
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
+
         if isHost {
             mpDelegate = HostMPDelegate(platform, self)
-            btDelegate = BTHostDelegate()
+            btDelegate = BTHostDelegate(self)
         } else {
             mpDelegate = ParticipantMPDelegate(self)
-            btDelegate = BTParticipantDelegate()
         }
 //        searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-        
+
         let nib = UINib(nibName: "SongCell", bundle: nil)
 
         tableView.register(nib, forCellReuseIdentifier: "SongCell")
@@ -84,17 +82,17 @@ class QueueVC: UITableViewController {
         tableView.dataSource = datasource
         tableView.allowsSelection = false
         tableView.isScrollEnabled = true
-    
+
 
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         datasource.apply(snap, animatingDifferences: false)
-        
+
         self.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
         tap.cancelsTouchesInView = false
         self.nowPlayingAlbum.addGestureRecognizer(tap)
-        
+
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
 
@@ -103,15 +101,15 @@ class QueueVC: UITableViewController {
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         participantMenu?.menuWidth = 200
         participantMenu?.parentVC = self
-        
+
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
-        
+
         nowPlayingProgress.setProgress(0, animated: false)
-        
+
         //start refreshing token if necessary
         SpotifyUtilities.checkAuthorization { _ in }
-        
+
         // initialize developer tokens for AM and Spotify
         do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}
         SpotifyUtilities.setNewSpotifyAccessToken(completionHandler: {_ in })

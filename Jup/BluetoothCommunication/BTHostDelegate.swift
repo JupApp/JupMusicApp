@@ -17,13 +17,14 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     var participantListCharacteristic: CBMutableCharacteristic
     
     var peripheralManager: CBPeripheralManager!
-    var queueVC: QueueVC?
+    var queueVC: QueueVC
     var connectedParticipants: [UUID] = []
     
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
     
-    override init() {
+    init(_ parentVC: QueueVC) {
+        queueVC = parentVC
         snapshotCharacteristic = CBMutableCharacteristic(type: snapshotUUID, properties: .notify, value: nil, permissions: .writeable)
         participantListCharacteristic = CBMutableCharacteristic(type: participantListUUID, properties: .notify, value: nil, permissions: .writeable)
         let service: CBMutableService = CBMutableService(type: queueUUID, primary: true)
@@ -50,12 +51,12 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
           case .poweredOn:
             print("central.state is .poweredOn")
             
-            snapshotCharacteristic.value = try! encoder.encode(queueVC!.mpDelegate.getQueueSnapshot())
+            snapshotCharacteristic.value = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
             
             let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
             participantListCharacteristic.value = try! encoder.encode(Participant(username: username))
             
-            peripheral.startAdvertising(["Host": username, "Platform": queueVC!.platform.rawValue])
+            peripheral.startAdvertising(["Host": username, "Platform": queueVC.platform.rawValue])
         @unknown default:
             print("unknown state")
         }

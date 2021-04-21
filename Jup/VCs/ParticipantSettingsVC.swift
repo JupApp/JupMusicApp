@@ -20,6 +20,8 @@ class ParticipantSettingsVC: UIViewController, UITextFieldDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        btDelegate.participantSettingsVC = self
+        
         joinQueueButton.layer.cornerRadius = 8
         displayNameTextField.layer.cornerRadius = 5
         var placeHolderText: String = "username"
@@ -91,7 +93,9 @@ class ParticipantSettingsVC: UIViewController, UITextFieldDelegate, UITableViewD
         let navController = segue.destination as! UINavigationController
         let queueVC = navController.viewControllers[0] as! QueueVC
         queueVC.isHost = false
-        queueVC.platform = Platform.rawValueToPlatform(btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!["platform"] as! Int)
+        queueVC.platform = Platform(rawValue: btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!["platform"] as! Int)!
+        btDelegate.queueVC = queueVC
+        queueVC.btDelegate = btDelegate
     }
     
 }

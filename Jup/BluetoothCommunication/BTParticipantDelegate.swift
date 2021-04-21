@@ -18,6 +18,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var discoveredQueues: [CBPeripheral] = []
     var discoveredQueueInfo: [CBPeripheral: [String: Any]] = [:]
     var queueVC: QueueVC?
+    var participantSettingsVC: ParticipantSettingsVC?
     
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
@@ -92,6 +93,10 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         discoveredQueues.append(peripheral)
         discoveredQueueInfo[peripheral] = advertisementData
+        /*
+         Update tableview
+         */
+        participantSettingsVC?.joinableQueuesTable.reloadData()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -169,7 +174,7 @@ struct CodableSong: Codable {
     var platform: Int
     
     func decodeSong() -> SongItem {
-        if Platform.rawValueToPlatform(platform) == .APPLE_MUSIC {
+        if Platform(rawValue: platform)! == .APPLE_MUSIC {
             return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)
         } else {
             return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)

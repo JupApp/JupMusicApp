@@ -26,9 +26,9 @@ protocol SongItem {
 extension SongItem {
     
     func encodeSong() -> CodableSong {
-        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue())
+        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue)
     }
-    
+
     func getQueueSongItem() -> QueueSongItem {
         return QueueSongItem(title: songTitle, artist: artistName, uri: uri, albumArtwork: albumArtwork ?? UIImage(), contributor: "", likes: likes)
     }

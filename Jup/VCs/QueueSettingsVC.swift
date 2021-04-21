@@ -150,7 +150,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     @objc func choiceControlSwitched(sender: UISegmentedControl) {
         platform.toggle()
-        platform.printPlatform()
     }
     
     @objc func dismissKeyboard() {
