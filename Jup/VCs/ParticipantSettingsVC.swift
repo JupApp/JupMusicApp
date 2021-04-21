@@ -25,6 +25,9 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
                 placeHolderText = lastUsedUsername
             }
         }
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "JoinHostCell")
+
         displayNameTextField.delegate = self
         displayNameTextField.attributedPlaceholder = NSAttributedString(string: placeHolderText,
                                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
@@ -75,7 +78,21 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
     @objc func dismissKeyboard() {
         view.endEditing(false)
     }
-    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell")
+        var cell = UITableViewCell(style: .subtitle, reuseIdentifier: "JoinHostCell")
+        cell.textLabel?.text = "Host Practice"
+        cell.detailTextLabel?.text = "More Practice"
+        cell.textLabel?.textColor = .darkGray
+        cell.detailTextLabel?.textColor = .darkGray
+        cell.backgroundColor = UIColor(red: 229/255, green: 246/255, blue: 242/255, alpha: 1)
+        
+        return cell
+        
+    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
 }
 
 
