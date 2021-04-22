@@ -55,6 +55,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             mediaPlayer?.play()
             state = .PLAYING
             // ALERT VIA BTCommunication with new Snapshot
+            parentVC.btDelegate.updateQueueSnapshot()
             break
         }
     }
@@ -70,6 +71,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             mediaPlayer?.pause()
             state = .PAUSED
             // ALERT VIA BTCommunication with new Snapshot
+            parentVC.btDelegate.updateQueueSnapshot()
             break
         case .PAUSED:
             break
@@ -112,6 +114,7 @@ class HostMPDelegate: MediaPlayerDelegate {
     func transitionToNextSong() {
         if queue.isEmpty {
             self.state = .NO_SONG_SET
+            parentVC.btDelegate.updateQueueSnapshot()
             return
         }
         let nextSongURI: String = queue.remove(at: 0)
@@ -126,9 +129,8 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.currentSong = nextSongItem
                 self.updateAlbumArtwork()
                 self.updateDataSource()
-                //
-                // ALERT VIA BTCommunication with new Snapshot
-                //
+                
+                self.parentVC.btDelegate.updateQueueSnapshot()
             }
         })
     }
@@ -149,26 +151,25 @@ class HostMPDelegate: MediaPlayerDelegate {
         queue.append(songItem.uri)
         songMap[songItem.uri] = songItem
         updateDataSource()
-        //
-        //alert via BT of the queue change
-        //
+        
+        parentVC.btDelegate.updateQueueSnapshot()
     }
     
-    func likeSong(_ uri: String, _ liked: Bool) {
+    /*
+     Request to like song
+     */
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ()) {
         guard let _ = songMap[uri] else {
-            //
-            //alert via BT that the song is no longer available in queue for liking
-            //
+            completionHandler()
             return
         }
-        songMap[uri]!.likes += liked ? 1 : -1
+        songMap[uri]!.likes = likes
         if (parentVC.queueType == .VOTING) {
             updateQueueOrder()
         }
-        //
-        //alert via BT of the queue change
-        //
         updateDataSource()
+        
+        parentVC.btDelegate.updateQueueSnapshot()
     }
     
     func updateQueueOrder() {
@@ -183,11 +184,18 @@ class HostMPDelegate: MediaPlayerDelegate {
         self.queue = sortedEnumeration.map({ (tuple) -> String in tuple.1 })
     }
     
-    func updateQueueWithSnapshot(_ snapshot: [String: Any]) {
+    func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
         fatalError()
     }
     
+    func getQueueSnapshot() -> QueueSnapshot {
+        let codableSongs: [CodableSong] = queue.map({ self.songMap[$0]!.encodeSong() })
+        let timeLeft: Int = Int(self.parentVC.nowPlayingProgress.progress * Float(self.currentSong?.songLength ?? 0))
+        return QueueSnapshot(songs: codableSongs, timeRemaining: timeLeft, state: state.rawValue)
+    }
+    
     func loadQueueIntoPlayer() {
+        songTimer?.invalidate()
         let songItemArray = queue.map { (uri) -> SongItem in self.songMap[uri]! }
         self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in })
     }
@@ -239,10 +247,9 @@ class HostMPDelegate: MediaPlayerDelegate {
                 print("PAUSED")
                 /*
                  One case:
-                    1. app is playing, in which we need to manually pause
+                    1. app is playing, in which we will let them play
                         (user tapped play in Music/Spotiyf app like an idiot)
                  */
-//                self.mediaPlayer?.pause()
                 break
             case .TRANSITIONING: print("Should not ever be at this state"); return
             case .PLAYING: break
@@ -253,6 +260,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             /*
              Broadcast out new snapshot to participants
              */
+            self.parentVC.btDelegate.updateQueueSnapshot()
         }
     }
     

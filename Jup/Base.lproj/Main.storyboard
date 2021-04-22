@@ -289,7 +289,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BSV-mc-0nM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2283" y="882"/>
+            <point key="canvasLocation" x="3419" y="289"/>
         </scene>
         <!--Queue-->
         <scene sceneID="RxM-Vp-8pM">
@@ -404,12 +404,12 @@
                         <outlet property="nowPlayingContributor" destination="YNp-ya-Qvm" id="M1Q-rh-zRv"/>
                         <outlet property="nowPlayingProgress" destination="KoN-rP-fCa" id="AL0-oR-6ra"/>
                         <outlet property="nowPlayingTitle" destination="WF2-aU-qez" id="h7n-ze-Ruo"/>
-                        <segue destination="d8E-AH-NBx" kind="presentation" identifier="exitQueue" modalPresentationStyle="fullScreen" id="jE0-gE-6Zt"/>
+                        <segue destination="g6q-yV-2gd" kind="presentation" identifier="exitQueue" modalPresentationStyle="fullScreen" id="Y2d-2q-OKf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B8N-Kp-GXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1413.0434782608697" y="586.60714285714278"/>
+            <point key="canvasLocation" x="2351" y="289"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JmT-Of-NGB">
@@ -425,7 +425,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KfA-hz-kjn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1299" y="1549"/>
+            <point key="canvasLocation" x="1330" y="289"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5S0-hG-8Q2">
@@ -482,6 +482,7 @@
                     <tabBarItem key="tabBarItem" title="" image="joinTab" selectedImage="joinTab" id="vVz-4O-GyG"/>
                     <connections>
                         <outlet property="displayNameTextField" destination="BNG-M4-k0F" id="D2O-j3-LLX"/>
+                        <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="joinQueue" modalPresentationStyle="fullScreen" id="wSa-lr-YfQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h9Q-65-SH6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -490,7 +491,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uVS-Gg-Kwn"/>
+        <segue reference="wSa-lr-YfQ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Group" width="39.666667938232422" height="45.666667938232422"/>

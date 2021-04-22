@@ -21,9 +21,9 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
                 cell.SCSongAlbumArt.layer.cornerRadius = 10
-                //cell.songItem = s
+                cell.songItem = s
                 cell.addSongButton.isHidden = s.added
-                //cell.completionHandler = { songItem in self.songAdded(songItem as! T) }
+                cell.completionHandler = { songItem in self.songAdded(songItem as! T) }
         return cell
     }
     
@@ -125,10 +125,17 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
             }
         } else {
             // request host to add song as participant
-            //queueVC.btDelegate.addSong()???
-            /*
-             TO - DO
-             */
+            queueVC.btDelegate.requestSong(songItem) {
+                /*
+                 Failed to add song
+                 */
+                let songFailedToAddAlert: UIAlertController = UIAlertController(title: "Request to Add Song Failed", message: "'\(songItem.songTitle)' might already be in the song queue. Wait for it to be played in order to add it back to the queue.", preferredStyle: .alert)
+                songFailedToAddAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                DispatchQueue.main.async {
+                    self.present(songFailedToAddAlert, animated: true)
+                }
+            }
+            
         }
     }
 }

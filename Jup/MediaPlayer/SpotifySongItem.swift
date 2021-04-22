@@ -34,38 +34,22 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var albumURL: String
     var songLength: UInt
     var albumArtwork: UIImage?
-    var likes: Int = 0
+    var likes: Int
     var added: Bool = false
     var platform: Platform = .SPOTIFY
     
-    init(uri: String, artist: String, song: String, albumURL: String, length: UInt) {
-        self.uri = uri
+    convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
+        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0)
+    }
+    
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int) {
+        self.uri = id
         self.artistName = artist
         self.songTitle = song
         self.albumURL = albumURL
         self.songLength = length
+        self.likes = likes
     }
-    
-    init(_ songMap: [String: Any]) {
-        self.uri = songMap["uri"] as! String
-        self.artistName = songMap["artistName"] as! String
-        self.songTitle = songMap["songTitle"] as! String
-        self.albumURL = songMap["albumURL"] as! String
-        self.songLength = UInt(songMap["songLength"] as! Int)
-        self.likes = songMap["likes"] as! Int
-    }
-    
-//    func retrieveArtwork(completionHandler: @escaping (UIImage) -> ()) {
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//
-//        appDelegate.appRemote.imageAPI?.fetchImage(forItem: AlbumURLString(albumURL), with: CGSize(width: 40, height: 40), callback: { (success, error) in
-//            if let image = success as? UIImage {
-//                completionHandler(image)
-//            } else {
-//                completionHandler(UIImage())
-//            }
-//        })
-//    }
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
         if let artwork = albumArtwork {

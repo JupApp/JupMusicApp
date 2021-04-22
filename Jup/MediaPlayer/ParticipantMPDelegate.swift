@@ -7,7 +7,7 @@
 import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
-    
+
     var currentSong: SongItem?
     var queue: [String] = []
     var songMap: [String : SongItem] = [:]
@@ -42,54 +42,42 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     
     //should not encounter these functions as a participant
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) { fatalError() }
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ()) { fatalError() }
 
-    func likeSong(_ uri: String, _ liked: Bool) { fatalError() }
-    
-    func updateQueueWithSnapshot(_ snapshot: [String: Any]) {
-        self.songTimer = nil
-        self.state = State.init(rawValue: snapshot["state"]! as! Int)!
-        if let songMap = snapshot["currentSong"] as? [String: Any] {
+    func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
+        self.songTimer?.invalidate()
+        self.state = State.init(rawValue: snapshot.state)!
+
+        var songItems: [SongItem] = snapshot.songs.map { $0.decodeSong() }
+        
+        if songItems.count > 0 {
+            currentSong = songItems.remove(at: 0)
+            
             //update progress bar
-            let progress = songMap["progress"] as! Float
+            let timeLeft = snapshot.timeRemaining
+            let progress = 1.0 - Float(timeLeft)/Float(currentSong!.songLength)
+
             self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
-            self.parentVC.nowPlayingProgress.setNeedsDisplay()
-            
-            if self.parentVC.platform == .APPLE_MUSIC {
-                self.currentSong = AppleMusicSongItem(songMap)
-            } else if self.parentVC.platform == .SPOTIFY {
-                self.currentSong = SpotifySongItem(songMap)
-            }
-            
             //update album artwork
             self.updateAlbumArtwork()
+            
+            queue = songItems.map({ $0.uri })
+            songMap = songItems.reduce(into: [String: SongItem]()) { $0[$1.uri] = $1 }
+        } else {
+            queue = []
+            songMap = [:]
         }
         
-        //load in queue
-        if let queueMaps = snapshot["queue"] as? [[String: Any]] {
-            let songsInQueue: [SongItem]
-            if self.parentVC.platform == .APPLE_MUSIC {
-                songsInQueue = queueMaps.map({ (songMap) -> SongItem in
-                    AppleMusicSongItem(songMap)
-                })
-            } else if self.parentVC.platform == .SPOTIFY {
-                songsInQueue = queueMaps.map({ (songMap) -> SongItem  in
-                    SpotifySongItem(songMap)
-                })
-            } else {
-                fatalError()
-            }
-            self.queue = songsInQueue.map({ (songItem) -> String in
-                songItem.uri
-            })
-            self.songMap = Dictionary(uniqueKeysWithValues: songsInQueue.map{ ($0.uri, $0) })
-            
-        }
         updateDataSource()
 
         if self.state == .PLAYING {
             songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
         }
         
+    }
+    
+    func getQueueSnapshot() -> QueueSnapshot {
+        fatalError("Should not be called as a participant")
     }
     
     func loadQueueIntoPlayer() {}
@@ -106,24 +94,23 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         let songLength: Float = Float(currentSong!.songLength)
         let previousPlaybackPosition: Float = parentVC.nowPlayingProgress.progress * songLength
         let newPlaybackPosition: Float = previousPlaybackPosition + 1.0
-        
-        if songLength - newPlaybackPosition > 1100 {
+        print("Song length: \(songLength)")
+        print("Current Position in Song: \(newPlaybackPosition)\n")
+        if songLength - newPlaybackPosition > 0 {
             parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)
             parentVC.nowPlayingProgress.setNeedsDisplay()
         } else if queue.isEmpty {
             state = .NO_SONG_SET
-            songTimer = nil
+            currentSong = nil
+            songTimer?.invalidate()
         } else {
-            songTimer = nil
+            songTimer?.invalidate()
             state = .TRANSITIONING
             transitionToNextSong()
         }
     }
     
     func returnedToApp() {
-        /*
-         Request snapshot via bluetooth
-         */
     }
 }
 
