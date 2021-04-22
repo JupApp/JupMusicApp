@@ -20,7 +20,8 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
                 })
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
-                cell.SCSongAlbumArt.layer.cornerRadius = 10
+                cell.SCSongAlbumArt.layer.cornerRadius = 6
+                cell.SCSongAlbumArt.layer.masksToBounds = true
                 cell.songItem = s
                 cell.addSongButton.isHidden = s.added
                 cell.completionHandler = { songItem in self.songAdded(songItem as! T) }

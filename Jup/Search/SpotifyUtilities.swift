@@ -482,8 +482,12 @@ class SpotifyUtilities {
             } else {
                 switch data.result {
                 case .success(let result):
-                    let access_token: String = (result as! [String: Any])["access_token"] as! String
-                    appDelegate.accessToken = access_token
+                    let access_token: String? = (result as? [String: Any])?["access_token"] as? String
+                    guard let token = access_token else {
+                        completionHandler(false)
+                        return
+                    }
+                    appDelegate.accessToken = token
                     completionHandler(true)
                     return
                 case .failure(_):
