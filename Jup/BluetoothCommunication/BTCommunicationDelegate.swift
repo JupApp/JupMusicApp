@@ -14,6 +14,11 @@ protocol BTCommunicationDelegate {
     
     var participantsList: ParticipantList { get set }
     
+    var encoder: JSONEncoder { get set }
+    var decoder: JSONDecoder { get set }
+    
     func updateQueueSnapshot()
+    
+    func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ())
 }
 

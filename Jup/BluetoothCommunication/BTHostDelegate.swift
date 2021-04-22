@@ -59,7 +59,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             
             participantListCharacteristic.value = try! encoder.encode(participantsList)
             
-            peripheral.startAdvertising(["Participants": participantsList, "Platform": queueVC.platform.rawValue])
+            let data = try! encoder.encode(participantsList)
+            peripheral.startAdvertising(["Participants": data, "Platform": queueVC.platform.rawValue])
         @unknown default:
             print("unknown state")
         }
@@ -103,6 +104,12 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
          Update participants list accordingly
          */
         participantListCharacteristic.value = try! encoder.encode(participantsList)
+        if peripheral.isAdvertising {
+            peripheral.stopAdvertising()
+            let data = try! encoder.encode(participantsList)
+            peripheral.startAdvertising(["Participants": data, "Platform": queueVC.platform.rawValue])
+            print("Still advertising: \(peripheral.isAdvertising)")
+        }
     }
     
     /*
@@ -176,6 +183,13 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                 /*
                  Update tableview
                  */
+                if peripheral.isAdvertising {
+                    peripheral.stopAdvertising()
+                    let data = try! encoder.encode(participantsList)
+                    peripheral.startAdvertising(["Participants": data, "Platform": queueVC.platform.rawValue])
+                    print("Still advertising: \(peripheral.isAdvertising)")
+
+                }
                 return
             default:
                 print("unknown characteristic")
@@ -187,6 +201,11 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         print("Updated queue snapshot")
         snapshotCharacteristic.value = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
     }
+    
+    func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+        
+    }
+
     
     
 }

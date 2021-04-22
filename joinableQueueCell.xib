@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="joinableQueueCell" customModule="Jup" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="JoinableQueueCell" id="KGk-i7-Jjw" customClass="joinableQueueCell" customModule="Jup" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -28,6 +28,9 @@
                             <constraint firstAttribute="width" secondItem="KPW-q4-Deo" secondAttribute="height" multiplier="3:2" id="lhT-qz-5dS"/>
                         </constraints>
                         <state key="normal" image="Group"/>
+                        <connections>
+                            <action selector="clickJoinQueue:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Qiu-Gg-F4h"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

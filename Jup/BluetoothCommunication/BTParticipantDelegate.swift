@@ -7,11 +7,13 @@
 
 import CoreBluetooth
 
-class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {    
+class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {
 
     var queueUUID: CBUUID = CBUUID(string: "E54A93B5-D853-4944-A891-DC63A203379F")
     var snapshotUUID: CBUUID = CBUUID(string: "89957741-008E-4D9D-A6A6-6E95274D05E7")
     var participantListUUID: CBUUID = CBUUID(string: "695A3001-B15A-4B1B-8846-349DC262746C")
+    
+    var snapshotCharacteristic: CBCharacteristic?
 
     var centralManager: CBCentralManager!
     var hostPeripheral: CBPeripheral?
@@ -23,6 +25,8 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var participantsList: ParticipantList = ParticipantList(hostUsername: "", participants: [])
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
+    
+    var completionHandler: (() -> ())?
     
     let disconnectedFromQueueAlert: UIAlertController = UIAlertController(title: "Error connecting to Queue", message: nil, preferredStyle: .alert)
     
@@ -97,7 +101,8 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Update tableview
          */
-        participantSettingsVC?.joinableQueuesTable.reloadData()
+        print("Found central...adding to tableview")
+        participantSettingsVC?.tableView.reloadData()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -122,12 +127,21 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                 let data = try! encoder.encode(participant)
                 peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
             } else if characteristic.uuid == snapshotUUID {
+                snapshotCharacteristic = characteristic
                 /*
                  Get Updated queue
                  */
                 peripheral.readValue(for: characteristic)
             }
         }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard let e = error else {
+            return
+        }
+        completionHandler?()
+        completionHandler = nil
     }
         
     /*
@@ -159,9 +173,11 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             }
             print("Participant list updated")
             participantsList = try! decoder.decode(ParticipantList.self, from: data)
+
+            participantSettingsVC?.tableView.reloadData()
             /*
-             Update participants list
-            */
+              Update Side menu list
+             */
         default:
             print("unknown characteristic")
         }
@@ -171,6 +187,16 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     func updateQueueSnapshot() {
         fatalError("Participant should not be trying to update queue snapshot")
     }
+    
+    /*
+     Request to add song
+     */
+    func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+        let data = try! encoder.encode(songItem.encodeSong())
+        hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
+        self.completionHandler = completionHandler
+    }
+
 }
 
 struct ParticipantList: Codable {

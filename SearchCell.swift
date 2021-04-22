@@ -21,7 +21,6 @@ class SearchCell: UITableViewCell {
     @IBOutlet weak var SCSongAlbumArt: UIImageView!
     @IBOutlet weak var SCSongArtist: UILabel!
     @IBOutlet weak var addSongButton: UIButton!
-    @IBOutlet weak var songAddedImage: UIImageView!
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -35,5 +34,6 @@ class SearchCell: UITableViewCell {
         completionHandler?(songItem!)
         completionHandler = nil
     }
-    
 }
+    
+
