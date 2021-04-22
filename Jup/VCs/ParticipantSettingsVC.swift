@@ -79,7 +79,7 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         view.endEditing(false)
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell")
+        
         var cell = UITableViewCell(style: .subtitle, reuseIdentifier: "JoinHostCell")
         cell.textLabel?.text = "Host Practice"
         cell.detailTextLabel?.text = "More Practice"

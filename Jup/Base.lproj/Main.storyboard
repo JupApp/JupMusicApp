@@ -449,7 +449,7 @@
             </objects>
             <point key="canvasLocation" x="-800" y="175"/>
         </scene>
-        <!--Item-->
+        <!--Participant SettingsVC-->
         <scene sceneID="XhH-Ku-Vbh">
             <objects>
                 <tableViewController id="79J-yJ-2dX" customClass="ParticipantSettingsVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
@@ -479,7 +479,7 @@
                             <outlet property="delegate" destination="79J-yJ-2dX" id="UdO-9R-I7U"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="vVz-4O-GyG"/>
+                    <tabBarItem key="tabBarItem" title="" image="joinTab" selectedImage="joinTab" id="vVz-4O-GyG"/>
                     <connections>
                         <outlet property="displayNameTextField" destination="BNG-M4-k0F" id="D2O-j3-LLX"/>
                     </connections>
@@ -497,6 +497,7 @@
         <image name="Return" width="44.666667938232422" height="50"/>
         <image name="SearchButton" width="47.666667938232422" height="49"/>
         <image name="hostTab" width="46" height="49"/>
+        <image name="joinTab" width="66" height="50"/>
         <image name="noSongPlayingImage" width="330" height="330"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
