@@ -68,6 +68,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             print("central.state is .poweredOn")
             //start scanning baby please
             central.scanForPeripherals(withServices: [queueUUID], options: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                print("Central is scanning: \(central.isScanning)")
+            }
         @unknown default:
             print("unknown state: \(central.state)")
         }
@@ -91,6 +94,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user failed to connect, prompt user to reconnect or go back to settings
          */
+        print(error)
         disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Try again or return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
@@ -101,13 +105,13 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Update tableview
          */
-        print("Found central...adding to tableview")
+        print("Found peripheral...adding to tableview")
         participantSettingsVC?.tableView.reloadData()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
-        
+        print("discovered services")
         for service in services {
             peripheral.discoverCharacteristics(nil, for: service)
         }
@@ -115,6 +119,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         for characteristic in service.characteristics! {
+            print("discovered characteristic!")
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
@@ -164,8 +169,10 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                  */
                 return
             }
-            let queueSnapshot: QueueSnapshot = try! decoder.decode(QueueSnapshot.self, from: data)
-            queueVC?.mpDelegate.updateQueueWithSnapshot(queueSnapshot)
+            peripheral.readValue(for: characteristic)
+//            let queueSnapshot: QueueSnapshot = try! decoder.decode(QueueSnapshot.self, from: data)
+//            print("With: \n\(queueSnapshot.songs)\n\(queueSnapshot.state)\n\(queueSnapshot.timeRemaining)")
+//            queueVC?.mpDelegate.updateQueueWithSnapshot(queueSnapshot)
             return
         case participantListUUID:
             guard let data = characteristic.value else {

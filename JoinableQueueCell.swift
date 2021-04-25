@@ -7,7 +7,7 @@
 
 import UIKit
 
-class joinableQueueCell: UITableViewCell {
+class JoinableQueueCell: UITableViewCell {
     
 
     override func awakeFromNib() {
@@ -15,9 +15,7 @@ class joinableQueueCell: UITableViewCell {
         // Initialization code
         
     }
-    @IBOutlet var queueNameLabel: UILabel!
-    @IBOutlet var joinQueueButton: UIButton!
-    
+    @IBOutlet weak var queueNameLabel: UILabel!
     var buttonClicked: (() -> ())?
 
     override func setSelected(_ selected: Bool, animated: Bool) {

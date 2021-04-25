@@ -31,10 +31,8 @@
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
 		868F02ED259CE944005F8E3E /* ParticipantMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F02EB259CE944005F8E3E /* ParticipantMenuCell.swift */; };
 		868F02EE259CE944005F8E3E /* ParticipantMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 868F02EC259CE944005F8E3E /* ParticipantMenuCell.xib */; };
-		868F037A259EA9F4005F8E3E /* noJoinableQueueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F0378259EA9F4005F8E3E /* noJoinableQueueCell.swift */; };
-		868F037B259EA9F4005F8E3E /* noJoinableQueueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 868F0379259EA9F4005F8E3E /* noJoinableQueueCell.xib */; };
-		8695CCCB25958FAE006021DA /* joinableQueueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8695CCC925958FAE006021DA /* joinableQueueCell.swift */; };
-		8695CCCC25958FAE006021DA /* joinableQueueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8695CCCA25958FAE006021DA /* joinableQueueCell.xib */; };
+		8695CCCB25958FAE006021DA /* JoinableQueueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8695CCC925958FAE006021DA /* JoinableQueueCell.swift */; };
+		8695CCCC25958FAE006021DA /* JoinableQueueCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8695CCCA25958FAE006021DA /* JoinableQueueCell.xib */; };
 		B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66EF180258AAEC600E21B4D /* SongCell.swift */; };
 		B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B66EF181258AAEC600E21B4D /* SongCell.xib */; };
 		B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67051EE2571F41900E4077C /* AppDelegate.swift */; };
@@ -93,10 +91,8 @@
 		866A92AE258EEFC5000BD69D /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
 		868F02EB259CE944005F8E3E /* ParticipantMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ParticipantMenuCell.swift; path = Jup/VCs/ParticipantMenuCell.swift; sourceTree = "<group>"; };
 		868F02EC259CE944005F8E3E /* ParticipantMenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ParticipantMenuCell.xib; path = Jup/VCs/ParticipantMenuCell.xib; sourceTree = "<group>"; };
-		868F0378259EA9F4005F8E3E /* noJoinableQueueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noJoinableQueueCell.swift; sourceTree = "<group>"; };
-		868F0379259EA9F4005F8E3E /* noJoinableQueueCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = noJoinableQueueCell.xib; sourceTree = "<group>"; };
-		8695CCC925958FAE006021DA /* joinableQueueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = joinableQueueCell.swift; sourceTree = "<group>"; };
-		8695CCCA25958FAE006021DA /* joinableQueueCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = joinableQueueCell.xib; sourceTree = "<group>"; };
+		8695CCC925958FAE006021DA /* JoinableQueueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinableQueueCell.swift; sourceTree = "<group>"; };
+		8695CCCA25958FAE006021DA /* JoinableQueueCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JoinableQueueCell.xib; sourceTree = "<group>"; };
 		B66EF180258AAEC600E21B4D /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
 		B66EF181258AAEC600E21B4D /* SongCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SongCell.xib; sourceTree = "<group>"; };
 		B67051EB2571F41900E4077C /* Jup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jup.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,14 +188,12 @@
 		863AB4C6259A843D004283D7 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				868F0378259EA9F4005F8E3E /* noJoinableQueueCell.swift */,
-				868F0379259EA9F4005F8E3E /* noJoinableQueueCell.xib */,
 				868F02EB259CE944005F8E3E /* ParticipantMenuCell.swift */,
 				868F02EC259CE944005F8E3E /* ParticipantMenuCell.xib */,
 				866A92AD258EEFC5000BD69D /* SearchCell.swift */,
 				866A92AE258EEFC5000BD69D /* SearchCell.xib */,
-				8695CCC925958FAE006021DA /* joinableQueueCell.swift */,
-				8695CCCA25958FAE006021DA /* joinableQueueCell.xib */,
+				8695CCC925958FAE006021DA /* JoinableQueueCell.swift */,
+				8695CCCA25958FAE006021DA /* JoinableQueueCell.xib */,
 				B66EF180258AAEC600E21B4D /* SongCell.swift */,
 				B66EF181258AAEC600E21B4D /* SongCell.xib */,
 			);
@@ -375,13 +369,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B67051FB2571F41C00E4077C /* LaunchScreen.storyboard in Resources */,
-				868F037B259EA9F4005F8E3E /* noJoinableQueueCell.xib in Resources */,
 				866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */,
 				B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */,
 				B67051F62571F41900E4077C /* Main.storyboard in Resources */,
 				868F02EE259CE944005F8E3E /* ParticipantMenuCell.xib in Resources */,
 				B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */,
-				8695CCCC25958FAE006021DA /* joinableQueueCell.xib in Resources */,
+				8695CCCC25958FAE006021DA /* JoinableQueueCell.xib in Resources */,
 				15DBD8C425957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,14 +459,13 @@
 				B67051EF2571F41900E4077C /* AppDelegate.swift in Sources */,
 				15DBD88E258FA48E0068FEB4 /* HostMPDelegate.swift in Sources */,
 				15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */,
-				8695CCCB25958FAE006021DA /* joinableQueueCell.swift in Sources */,
+				8695CCCB25958FAE006021DA /* JoinableQueueCell.swift in Sources */,
 				B67051F12571F41900E4077C /* SceneDelegate.swift in Sources */,
 				15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
 				866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */,
 				156699C22624ABC100A9E533 /* SpotifyUtilities.swift in Sources */,
 				B670523C2571F8C500E4077C /* ParticipantSettingsVC.swift in Sources */,
-				868F037A259EA9F4005F8E3E /* noJoinableQueueCell.swift in Sources */,
 				15DBD87A258F9D990068FEB4 /* BTHostDelegate.swift in Sources */,
 				15DBD8D125961C5B0068FEB4 /* AppleMusicSongItem.swift in Sources */,
 				15DBD86D258F9C460068FEB4 /* BTCommunicationDelegate.swift in Sources */,
@@ -588,6 +580,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -642,6 +635,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

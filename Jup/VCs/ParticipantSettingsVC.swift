@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import CoreBluetooth
 
 class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
     
@@ -47,11 +47,7 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         tableView.allowsSelection = false
         tableView.isScrollEnabled = true    }
     
-    @objc func joinButtonPressed() {
-        //
-        // if no queue selected to join
-        // add alert
-        //
+    func joinButtonPressed() {
         if displayNameTextField.text == nil || displayNameTextField.text == "" {
             guard let stored_val = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) else {
                 present(usernameAlert, animated: true)
@@ -61,12 +57,12 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
                 present(usernameAlert, animated: true)
                 return
             }
-            performSegue(withIdentifier: "participantToQueue", sender: nil)
+            performSegue(withIdentifier: "joinQueue", sender: nil)
             return
         }
         let currentUserName = displayNameTextField.text!
         UserDefaults.standard.set(currentUserName, forKey: QueueSettingsVC.usernameKey)
-        self.performSegue(withIdentifier: "participantToQueue", sender: nil)
+        self.performSegue(withIdentifier: "joinQueue", sender: nil)
         return
     }
     
@@ -88,34 +84,38 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "segueToParticipantQueue" else {
+        guard segue.identifier == "joinQueue" else {
             return
         }
         
         let navController = segue.destination as! UINavigationController
         let queueVC = navController.viewControllers[0] as! QueueVC
         queueVC.isHost = false
-        queueVC.platform = Platform(rawValue: btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!["platform"] as! Int)!
+        
+        let hostName = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]![CBAdvertisementDataLocalNameKey] as! String
+        var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
+        queueVC.platform = Platform(rawValue: try! Int(value:hostPieces.removeLast()))!
+        
         btDelegate.queueVC = queueVC
         queueVC.btDelegate = btDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell") as! joinableQueueCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell") as! JoinableQueueCell
 //        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "JoinHostCell")
         if indexPath.row < btDelegate.discoveredQueues.count {
             let peripheral = btDelegate.discoveredQueues[indexPath.row]
             let queueInfo = btDelegate.discoveredQueueInfo[peripheral]!
             
-            let participants = try! btDelegate.decoder.decode(ParticipantList.self, from: queueInfo["Participants"] as! Data)
-            
-            cell.queueNameLabel.text = participants.hostUsername
-            let _ = Platform(rawValue: queueInfo["Platform"] as! Int) == .APPLE_MUSIC ? "Apple Music" : "Spotify"
+            let hostName = queueInfo[CBAdvertisementDataLocalNameKey] as! String
+            var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
+            let _: Platform = Platform(rawValue: try! Int(value:hostPieces.removeLast()))!
+            cell.queueNameLabel.text = hostPieces.joined(separator: " ")
             cell.buttonClicked = {
                 self.btDelegate.connectToQueue(peripheral)
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "joinQueue", sender: nil)
+                    self.joinButtonPressed()
                 }
             }
         }

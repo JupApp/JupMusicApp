@@ -28,8 +28,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         queueVC = parentVC
         snapshotCharacteristic = CBMutableCharacteristic(type: snapshotUUID, properties: .notify, value: nil, permissions: .writeable)
         participantListCharacteristic = CBMutableCharacteristic(type: participantListUUID, properties: .notify, value: nil, permissions: .writeable)
-        let service: CBMutableService = CBMutableService(type: queueUUID, primary: true)
-        service.characteristics = [snapshotCharacteristic, participantListCharacteristic]
+//        let service: CBMutableService = CBMutableService(type: queueUUID, primary: true)
+//        service.characteristics = [snapshotCharacteristic, participantListCharacteristic]
 
         let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
         participantsList = ParticipantList(hostUsername: username, participants: [])
@@ -37,30 +37,37 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         super.init()
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil, options: nil)
-        peripheralManager.add(service)
+//        peripheralManager.add(service)
     }
 
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-        switch peripheral.state {
+        switch peripheralManager.state {
           case .unknown:
-            print("central.state is .unknown")
+            print("peripheral.state is .unknown")
           case .resetting:
-            print("central.state is .resetting")
+            print("peripheral.state is .resetting")
           case .unsupported:
-            print("central.state is .unsupported")
+            print("peripheral.state is .unsupported")
           case .unauthorized:
-            print("central.state is .unauthorized")
+            print("peripheral.state is .unauthorized")
           case .poweredOff:
-            print("central.state is .poweredOff")
+            print("peripheral.state is .poweredOff")
           case .poweredOn:
-            print("central.state is .poweredOn")
+            print("peripheral.state is .poweredOn")
             
-            snapshotCharacteristic.value = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
+            let service: CBMutableService = CBMutableService(type: queueUUID, primary: true)
+            service.characteristics = [snapshotCharacteristic, participantListCharacteristic]
+            peripheralManager.add(service)
+            snapshotCharacteristic.value = try? encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
+
+            participantListCharacteristic.value = try? encoder.encode(participantsList)
+
             
-            participantListCharacteristic.value = try! encoder.encode(participantsList)
-            
-            let data = try! encoder.encode(participantsList)
-            peripheral.startAdvertising(["Participants": data, "Platform": queueVC.platform.rawValue])
+            let queueAd: String = participantsList.hostUsername + " (\(participantsList.participants.count + 1)) \(queueVC.platform.rawValue)"
+            peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                print("Started advertising: \(peripheral.isAdvertising)")
+            }
         @unknown default:
             print("unknown state")
         }
@@ -179,7 +186,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                 let newUser: String = list.hostUsername
                 connectedParticipants[request.central.identifier] = newUser
                 participantsList.participants.append(newUser)
-                participantListCharacteristic.value = try! encoder.encode(participantsList)
+                peripheralManager.updateValue(try! encoder.encode(participantsList), for: participantListCharacteristic, onSubscribedCentrals: nil)
                 /*
                  Update tableview
                  */
@@ -199,7 +206,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     
     func updateQueueSnapshot() {
         print("Updated queue snapshot")
-        snapshotCharacteristic.value = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
+        peripheralManager.updateValue(try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot()), for: snapshotCharacteristic, onSubscribedCentrals: nil)
     }
     
     func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
