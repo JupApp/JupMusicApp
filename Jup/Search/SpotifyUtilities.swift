@@ -426,8 +426,8 @@ class SpotifyUtilities {
             return
         }
         let albumURL: String = songDict["album"]["images"].arrayValue[0]["url"].stringValue
-
-        let songItem = SpotifySongItem(id: songID, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength)
+        let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+        let songItem = SpotifySongItem(id: songID, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, contributor: username)
         completionHandler(songItem)
     }
     

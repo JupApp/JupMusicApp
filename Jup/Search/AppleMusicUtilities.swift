@@ -83,7 +83,8 @@ class AppleMusicUtilities {
                 let artworkURL: String = (songDict["attributes"]["artwork"]["url"].stringValue).replacingOccurrences(of: "{w}x{h}", with: "\(Int(300))x\(Int(300))")
                 let songLength: UInt = songDict["attributes"]["durationInMillis"].uIntValue
                 
-                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: artworkURL, length: songLength)
+                let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: artworkURL, length: songLength, contributor: username)
                 searchResults.append(songItem)
             }
             completionHandler(searchResults)
@@ -270,7 +271,9 @@ class AppleMusicUtilities {
                 let songTitle: String = songDictionary["attributes"]["name"].stringValue
                 let artistName: String = songDictionary["attributes"]["artistName"].stringValue
                 let songLength: UInt = songDictionary["attributes"]["durationInMillis"].uIntValue
-                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength)
+                
+                let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength, contributor: username)
                 self.playlistContent[id]!.append(songItem)
             }
             if !jsonData["next"].exists() {

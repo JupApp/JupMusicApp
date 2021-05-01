@@ -14,6 +14,7 @@ enum State: Int {
 }
 
 protocol MediaPlayerDelegate {
+    
     var parentVC: QueueVC { get }
     var songTimer: Timer? { get set }
     var mediaPlayer: MediaPlayer? { get }
@@ -31,9 +32,9 @@ protocol MediaPlayerDelegate {
     
     func transitionToNextSong()
     
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ())
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ())
     
-    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ())
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping (Error?) -> ())
 
     func loadQueueIntoPlayer()
 
@@ -72,6 +73,7 @@ extension MediaPlayerDelegate {
             self.parentVC.nowPlayingAlbum.image = image
             self.parentVC.nowPlayingArtist.text = songItem.artistName
             self.parentVC.nowPlayingTitle.text = songItem.songTitle
+            self.parentVC.nowPlayingContributor.text = songItem.contributor
         }
     }
     

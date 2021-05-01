@@ -175,6 +175,9 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         let queueVC = navController.viewControllers[0] as! QueueVC
         queueVC.isHost = true
         queueVC.platform = platform
+        
+        let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+        queueVC.host = username
     }
     
 }

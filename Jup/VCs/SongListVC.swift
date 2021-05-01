@@ -113,7 +113,13 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
 
         if queueVC.isHost {
             // add song to queue, if host:
-            queueVC.mpDelegate.addSong(songItem) {
+            queueVC.mpDelegate.addSong(songItem) { error in
+                guard let _ = error else {
+                    /*
+                     No error = success
+                     */
+                    return
+                }
                 /*
                  Alert that song has already been added to queue
                  */

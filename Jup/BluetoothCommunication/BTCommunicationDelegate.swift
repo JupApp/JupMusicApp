@@ -10,10 +10,7 @@ protocol BTCommunicationDelegate {
     
     var queueUUID: CBUUID { get }
     var snapshotUUID: CBUUID { get }
-    var participantListUUID: CBUUID { get }
-    
-    var participantsList: ParticipantList { get set }
-    
+        
     var encoder: JSONEncoder { get set }
     var decoder: JSONDecoder { get set }
     

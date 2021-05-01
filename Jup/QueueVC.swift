@@ -21,6 +21,15 @@ struct QueueSongItem: Hashable {
         hasher.combine(uri)
     }
     
+    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Int) {
+        self.title = title
+        self.artist = artist
+        self.uri = uri
+        self.albumArtwork = albumArtwork
+        self.contributor = contributor
+        self.likes = likes
+    }
+    
     static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
                return lhs.uri == rhs.uri
     }
@@ -44,11 +53,20 @@ class QueueVC: UITableViewController {
     var participantMenu: ParticipantMenuViewController?
 //    var searchVC: SearchVC?
     
+    var host: String = ""
+    var participants: [String] = []
+    
     lazy var datasource =
         UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
-            cell?.albumArtwork.image = s.albumArtwork
+            if ip.row < self.mpDelegate.queue.count {
+                let songURI: String = self.mpDelegate.queue[ip.row]
+                cell?.albumArtwork.image = self.mpDelegate.songMap[songURI]!.albumArtwork
+            } else {
+                cell?.albumArtwork.image = s.albumArtwork
+            }
+
             cell?.artistLabel.text = s.artist
             cell?.contributorLabel.text = s.contributor
             cell?.likeCountLabel.text = s.likes.description
@@ -106,9 +124,6 @@ class QueueVC: UITableViewController {
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
 
         nowPlayingProgress.setProgress(0, animated: false)
-
-        //start refreshing token if necessary
-        SpotifyUtilities.checkAuthorization { _ in }
 
         // initialize developer tokens for AM and Spotify
         do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}

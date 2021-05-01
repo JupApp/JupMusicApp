@@ -8,6 +8,8 @@ import UIKit
 import MediaPlayer
 import StoreKit
 
+class LikeError: Error {}
+class AddSongError: Error {}
 
 class HostMPDelegate: MediaPlayerDelegate {
     
@@ -117,6 +119,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             parentVC.btDelegate.updateQueueSnapshot()
             return
         }
+        parentVC.nowPlayingProgress.setProgress(0, animated: true)
         let nextSongURI: String = queue.remove(at: 0)
         let nextSongItem: SongItem = songMap.removeValue(forKey: nextSongURI)!
         mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
@@ -135,7 +138,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         })
     }
     
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
         print("MPDelegate add Song called, type: \(songItem.platform)")
         // check if song is different platform than host
         guard parentVC.platform == songItem.platform else {
@@ -143,13 +146,18 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         // check if song is already in queue
         guard songMap[songItem.uri] == nil else {
-            completionHandler()
+            completionHandler(AddSongError())
             return
         }
         
         //super simple implementation at the moment
         queue.append(songItem.uri)
         songMap[songItem.uri] = songItem
+        songItem.retrieveArtwork { (image) in
+            print("Artowrk retrieved, now update: \(image.imageRendererFormat.bounds)")
+            self.songMap[songItem.uri]!.albumArtwork = image
+            self.updateDataSource()
+        }
         updateDataSource()
         
         parentVC.btDelegate.updateQueueSnapshot()
@@ -158,9 +166,9 @@ class HostMPDelegate: MediaPlayerDelegate {
     /*
      Request to like song
      */
-    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ()) {
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping (Error?) -> ()) {
         guard let _ = songMap[uri] else {
-            completionHandler()
+            completionHandler(LikeError())
             return
         }
         songMap[uri]!.likes = likes
@@ -189,9 +197,17 @@ class HostMPDelegate: MediaPlayerDelegate {
     }
     
     func getQueueSnapshot() -> QueueSnapshot {
-        let codableSongs: [CodableSong] = queue.map({ self.songMap[$0]!.encodeSong() })
-        let timeLeft: Int = Int(self.parentVC.nowPlayingProgress.progress * Float(self.currentSong?.songLength ?? 0))
-        return QueueSnapshot(songs: codableSongs, timeRemaining: timeLeft, state: state.rawValue)
+        /*
+         Wake up timer thread and see if song Transition needs to occur
+         */
+        print("In Background state: \(UIApplication.shared.applicationState == .background)")
+        
+        var codableSongs: [CodableSong] = queue.map({ self.songMap[$0]!.encodeSong() })
+        if currentSong != nil {
+            codableSongs.insert(currentSong!.encodeSong(), at: 0)
+        }
+        let timeIn: Int = Int(self.parentVC.nowPlayingProgress.progress * Float(self.currentSong?.songLength ?? 0))
+        return QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: state.rawValue, /*participants: parentVC.participants, */host: parentVC.host)
     }
     
     func loadQueueIntoPlayer() {
@@ -221,12 +237,8 @@ class HostMPDelegate: MediaPlayerDelegate {
             if timeLeft < 2.0 {
                 self.mediaPlayer?.pause()
                 self.songTimer?.invalidate()
-                if self.queue.isEmpty {
-                    self.state = .NO_SONG_SET
-                } else {
-                    self.state = .TRANSITIONING
-                    self.transitionToNextSong()
-                }
+                self.state = .TRANSITIONING
+                self.transitionToNextSong()
             }
         })
     }
@@ -251,16 +263,18 @@ class HostMPDelegate: MediaPlayerDelegate {
                         (user tapped play in Music/Spotiyf app like an idiot)
                  */
                 break
-            case .TRANSITIONING: print("Should not ever be at this state"); return
+            case .TRANSITIONING: return
             case .PLAYING: break
         }
-        
+        self.state = .TRANSITIONING
         // song was playing when left the app last
         iterateThroughQueue {
             /*
              Broadcast out new snapshot to participants
              */
-            self.parentVC.btDelegate.updateQueueSnapshot()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.parentVC.btDelegate.updateQueueSnapshot()
+            }
         }
     }
     
@@ -302,15 +316,15 @@ class HostMPDelegate: MediaPlayerDelegate {
                     self.state = .PAUSED
                     self.songTimer?.invalidate()
                     // manually set progress view while paused
-                    self.mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
-                        UIView.animate(withDuration: 1.0) {
-                            let progress = Float(1.0 - (timeLeft/songDuration))
-                            self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
-                        }
-                    })
                 }
                 print("Matched with \(self.currentSong?.songTitle ?? "")")
-                completionHandler()
+                self.mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
+                    UIView.animate(withDuration: 0.3) {
+                        let progress = Float(1.0 - (timeLeft/songDuration))
+                        self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
+                    }
+                    completionHandler()
+                })
                 return
             }
             
@@ -325,6 +339,7 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.updateDataSource()
                 self.updateAlbumArtwork()
                 self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
+                completionHandler()
                 return
             }
             

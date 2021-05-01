@@ -11,7 +11,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
 
     var queueUUID: CBUUID = CBUUID(string: "E54A93B5-D853-4944-A891-DC63A203379F")
     var snapshotUUID: CBUUID = CBUUID(string: "89957741-008E-4D9D-A6A6-6E95274D05E7")
-    var participantListUUID: CBUUID = CBUUID(string: "695A3001-B15A-4B1B-8846-349DC262746C")
     
     var snapshotCharacteristic: CBCharacteristic?
 
@@ -22,7 +21,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var queueVC: QueueVC?
     var participantSettingsVC: ParticipantSettingsVC?
     
-    var participantsList: ParticipantList = ParticipantList(hostUsername: "", participants: [])
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
     
@@ -94,12 +92,20 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user failed to connect, prompt user to reconnect or go back to settings
          */
-        print(error)
+        print(error ?? "")
         disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Try again or return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        for discoveredQueue in discoveredQueues {
+            if peripheral.identifier == discoveredQueue.identifier {
+                discoveredQueueInfo[peripheral] = advertisementData
+                participantSettingsVC?.tableView.reloadData()
+                print("reloaded")
+                return
+            }
+        }
         discoveredQueues.append(peripheral)
         discoveredQueueInfo[peripheral] = advertisementData
         /*
@@ -123,15 +129,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
-            if characteristic.uuid == participantListUUID {
-                /*
-                 Add name to participants list
-                 */
-                let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
-                let participant = ParticipantList(hostUsername: username, participants: [])
-                let data = try! encoder.encode(participant)
-                peripheral.writeValue(data, for: characteristic, type: .withoutResponse)
-            } else if characteristic.uuid == snapshotUUID {
+            if characteristic.uuid == snapshotUUID {
                 snapshotCharacteristic = characteristic
                 /*
                  Get Updated queue
@@ -142,13 +140,15 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     }
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard let e = error else {
+        guard let _ = error else {
             return
         }
+        print("Error: \n\n\(error.debugDescription)")
         completionHandler?()
         completionHandler = nil
     }
-        
+      
+    var snapshot: Data = Data()
     /*
      Read in updated queue/participants list data
      */
@@ -160,31 +160,67 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         switch (characteristic.uuid) {
         case snapshotUUID:
             print("Snapshot updated")
-            guard let data = characteristic.value else {
-                /*
-                 Will use this to designate the host has left the queue
-                 */
-                /*
-                 ALERT USER
-                 */
-                return
-            }
-            peripheral.readValue(for: characteristic)
-//            let queueSnapshot: QueueSnapshot = try! decoder.decode(QueueSnapshot.self, from: data)
-//            print("With: \n\(queueSnapshot.songs)\n\(queueSnapshot.state)\n\(queueSnapshot.timeRemaining)")
-//            queueVC?.mpDelegate.updateQueueWithSnapshot(queueSnapshot)
-            return
-        case participantListUUID:
-            guard let data = characteristic.value else {
-                return
-            }
-            print("Participant list updated")
-            participantsList = try! decoder.decode(ParticipantList.self, from: data)
+            guard let characteristicData = characteristic.value else { return }
+            print("Received \(characteristicData.count) bytes")
 
-            participantSettingsVC?.tableView.reloadData()
-            /*
-              Update Side menu list
-             */
+            if let stringFromData = String(data: characteristicData, encoding: .utf8) {
+                // Have we received the end-of-message token?
+                if stringFromData == "EOM" {
+                    // End-of-message case: show the data.
+                    // Dispatch the text view update to the main queue for updating the UI, because
+                    // we don't know which thread this method will be called back on.
+                    
+                    let queueSnapshot: QueueSnapshot? = try? decoder.decode(QueueSnapshot.self, from: snapshot)
+                    guard let queue = queueSnapshot else {
+                        print("no snapshot")
+                        return
+                    }
+                    print("With: \n\(queue.songs)\n\(queue.state)\n\(queue.timeIn)")
+                    queueVC?.mpDelegate.updateQueueWithSnapshot(queue)
+                    snapshot = Data()
+                    return
+                }
+            }
+            print("Appending \(characteristicData.count) bytes to snapshot data")
+            // Otherwise, just append the data to what we have previously received.
+            snapshot.append(characteristicData)
+            print("Snapshot: \(String(data: snapshot, encoding: .utf8))")
+//            guard let data = characteristic.value, let stringFromData = String(data: characteristic.value!, encoding: .utf8) else {
+//                /*
+//                 Will use this to designate the host has left the queue
+//                 */
+//                /*
+//                 ALERT USER
+//                 */
+//                return
+//            }
+//
+//            // Have we received the end-of-message token?
+//            if stringFromData == "EOM" {
+//                // End-of-message case: show the data.
+//                // Dispatch the text view update to the main queue for updating the UI, because
+//                // we don't know which thread this method will be called back on.
+//                let queueSnapshot: QueueSnapshot? = try? decoder.decode(QueueSnapshot.self, from: snapshot)
+//                guard let queue = queueSnapshot else {
+//                    print("no snapshot")
+//                    return
+//                }
+//                print("With: \n\(queue.songs)\n\(queue.state)\n\(queue.timeRemaining)")
+//                queueVC?.mpDelegate.updateQueueWithSnapshot(queue)
+//                snapshot = Data()
+//            } else {
+//                // Otherwise, just append the data to what we have previously received.
+//                snapshot.append(data)
+//                print("Data now length: \(snapshot.count)")
+//            }
+//
+////            snapshot.append(data)
+////            print("Snapshot data is now length: \(snapshot.count)")
+////            peripheral.readValue(for: characteristic)
+////            let queueSnapshot: QueueSnapshot = try! decoder.decode(QueueSnapshot.self, from: data)
+////            print("With: \n\(queueSnapshot.songs)\n\(queueSnapshot.state)\n\(queueSnapshot.timeRemaining)")
+////            queueVC?.mpDelegate.updateQueueWithSnapshot(queueSnapshot)
+//            return
         default:
             print("unknown characteristic")
         }
@@ -192,7 +228,12 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     }
     
     func updateQueueSnapshot() {
-        fatalError("Participant should not be trying to update queue snapshot")
+        /*
+         Request to update song
+         */
+        hostPeripheral?.readValue(for: snapshotCharacteristic!)
+//        let updateRequest: Data? = try? encoder.encode("\n\nUPDATE\n\n")
+//        hostPeripheral?.writeValue(updateRequest ?? Data(), for: snapshotCharacteristic!, type: .withoutResponse)
     }
     
     /*
@@ -200,21 +241,19 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
      */
     func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
         let data = try! encoder.encode(songItem.encodeSong())
+        print("Attempting to request song")
         hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
         self.completionHandler = completionHandler
     }
 
 }
 
-struct ParticipantList: Codable {
-    var hostUsername: String
-    var participants: [String]
-}
-
 struct QueueSnapshot: Codable {
     var songs: [CodableSong]
-    var timeRemaining: Int
+    var timeIn: Int
     var state: Int
+//    var participants: [String]
+    var host: String
 }
 
 struct CodableSong: Codable {
@@ -225,12 +264,13 @@ struct CodableSong: Codable {
     var songLength: UInt
     var platform: Int
     var likes: Int
+    var contributor: String
     
     func decodeSong() -> SongItem {
         if Platform(rawValue: platform)! == .APPLE_MUSIC {
-            return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes)
+            return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor)
         } else {
-            return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes)
+            return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor)
         }
     }
 }

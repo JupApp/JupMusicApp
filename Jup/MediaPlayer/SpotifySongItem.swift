@@ -37,18 +37,20 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var likes: Int
     var added: Bool = false
     var platform: Platform = .SPOTIFY
+    var contributor: String
     
-    convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt) {
-        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0)
+    convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt, contributor: String) {
+        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0, contributor: contributor)
     }
     
-    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int) {
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int, contributor: String) {
         self.uri = id
         self.artistName = artist
         self.songTitle = song
         self.albumURL = albumURL
         self.songLength = length
         self.likes = likes
+        self.contributor = contributor
     }
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
@@ -70,6 +72,10 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
             }
         }
         task.resume()
+    }
+    
+    func copy() -> SongItem {
+        return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor)
     }
     
     

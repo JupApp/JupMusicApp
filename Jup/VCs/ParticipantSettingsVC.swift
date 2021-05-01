@@ -57,7 +57,7 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
                 present(usernameAlert, animated: true)
                 return
             }
-            performSegue(withIdentifier: "joinQueue", sender: nil)
+            self.performSegue(withIdentifier: "joinQueue", sender: nil)
             return
         }
         let currentUserName = displayNameTextField.text!
@@ -108,7 +108,10 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
             let peripheral = btDelegate.discoveredQueues[indexPath.row]
             let queueInfo = btDelegate.discoveredQueueInfo[peripheral]!
             
-            let hostName = queueInfo[CBAdvertisementDataLocalNameKey] as! String
+            guard let hostName = queueInfo[CBAdvertisementDataLocalNameKey] as? String else {
+                print("QueueInfo: \n\(queueInfo)")
+                return cell
+            }
             var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
             let _: Platform = Platform(rawValue: try! Int(value:hostPieces.removeLast()))!
             cell.queueNameLabel.text = hostPieces.joined(separator: " ")

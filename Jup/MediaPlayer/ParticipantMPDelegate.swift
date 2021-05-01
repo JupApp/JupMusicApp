@@ -41,8 +41,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     //should not encounter these functions as a participant
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) { fatalError() }
-    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping () -> ()) { fatalError() }
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) { fatalError() }
+    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping (Error?) -> ()) { fatalError() }
 
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
         self.songTimer?.invalidate()
@@ -51,15 +51,17 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         var songItems: [SongItem] = snapshot.songs.map { $0.decodeSong() }
         
         if songItems.count > 0 {
-            currentSong = songItems.remove(at: 0)
-            
-            //update progress bar
-            let timeLeft = snapshot.timeRemaining
-            let progress = 1.0 - Float(timeLeft)/Float(currentSong!.songLength)
+            if self.state != .NO_SONG_SET {
+                currentSong = songItems.remove(at: 0)
+                
+                //update progress bar
+                let timeIn = snapshot.timeIn
+                let progress = Float(timeIn)/Float(currentSong!.songLength)
 
-            self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
-            //update album artwork
-            self.updateAlbumArtwork()
+                self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
+                //update album artwork
+                self.updateAlbumArtwork()
+            }
             
             queue = songItems.map({ $0.uri })
             songMap = songItems.reduce(into: [String: SongItem]()) { $0[$1.uri] = $1 }
@@ -69,6 +71,18 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         }
         
         updateDataSource()
+        
+        for songItem in songItems {
+            var queueSongItem: QueueSongItem = songItem.getQueueSongItem()
+            songItem.retrieveArtwork { image in
+                self.parentVC.tableView.reloadData()
+//                var snap = self.parentVC.datasource.
+//                queueSongItem.albumArtwork = image
+//                snap.reloadItems([queueSongItem])
+//                print("Reloading song item: \(songItem.songTitle)")
+//                self.parentVC.datasource.apply(snap, animatingDifferences: true)
+            }
+        }
 
         if self.state == .PLAYING {
             songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
@@ -80,7 +94,9 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         fatalError("Should not be called as a participant")
     }
     
-    func loadQueueIntoPlayer() {}
+    func loadQueueIntoPlayer() {
+        songTimer?.invalidate()
+    }
     
     /*
      Sets timer at 1 sec interval
@@ -91,26 +107,38 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     @objc func timerFired() {
-        let songLength: Float = Float(currentSong!.songLength)
+        let songLength: Float = Float(currentSong!.songLength)/1000.0
         let previousPlaybackPosition: Float = parentVC.nowPlayingProgress.progress * songLength
         let newPlaybackPosition: Float = previousPlaybackPosition + 1.0
         print("Song length: \(songLength)")
         print("Current Position in Song: \(newPlaybackPosition)\n")
         if songLength - newPlaybackPosition > 0 {
-            parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)
-            parentVC.nowPlayingProgress.setNeedsDisplay()
-        } else if queue.isEmpty {
-            state = .NO_SONG_SET
-            currentSong = nil
-            songTimer?.invalidate()
+            UIView.animate(withDuration: 1.0) {
+                self.parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)
+            }
         } else {
-            songTimer?.invalidate()
-            state = .TRANSITIONING
-            transitionToNextSong()
+            self.songTimer?.invalidate()
+            /*
+             Write to host to transition songs
+             */
+            parentVC.btDelegate.updateQueueSnapshot()
         }
+//        } else if queue.isEmpty {
+//            state = .NO_SONG_SET
+//            currentSong = nil
+//            songTimer?.invalidate()
+//        } else {
+//            songTimer?.invalidate()
+//            state = .TRANSITIONING
+//            transitionToNextSong()
+//        }
     }
     
     func returnedToApp() {
+        /*
+         Need updated queue
+         */
+        self.parentVC.btDelegate.updateQueueSnapshot()
     }
 }
 
