@@ -73,14 +73,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         updateDataSource()
         
         for songItem in songItems {
-            var queueSongItem: QueueSongItem = songItem.getQueueSongItem()
-            songItem.retrieveArtwork { image in
+            songItem.retrieveArtwork { _ in
                 self.parentVC.tableView.reloadData()
-//                var snap = self.parentVC.datasource.
-//                queueSongItem.albumArtwork = image
-//                snap.reloadItems([queueSongItem])
-//                print("Reloading song item: \(songItem.songTitle)")
-//                self.parentVC.datasource.apply(snap, animatingDifferences: true)
             }
         }
 
@@ -88,6 +82,13 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
             songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
         }
         
+        /*
+         Update participant menu
+         */
+        parentVC.host = snapshot.host
+        parentVC.participants = snapshot.participants
+        print("Host: \(parentVC.host)\nParticipants: \(parentVC.participants)")
+        parentVC.participantMenu?.participantTableView.reloadData()
     }
     
     func getQueueSnapshot() -> QueueSnapshot {

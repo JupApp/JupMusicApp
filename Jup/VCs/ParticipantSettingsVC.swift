@@ -100,6 +100,29 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         queueVC.btDelegate = btDelegate
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        guard identifier == "joinQueue" else {
+            return true
+        }
+        let hostName = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]![CBAdvertisementDataLocalNameKey] as? String
+        guard let host = hostName else {
+            /*
+             SEND ALERT THAT HOST's bluetooth connection is throttled down and host
+             may need to return to app for you to join
+             */
+            return false
+        }
+        var hostPieces: [String] = host.split(separator: " ").map { String($0) }
+        guard let _ = Platform(rawValue: (try? Int(value:hostPieces.removeLast())) ?? -1) else {
+            /*
+             SEND ALERT THAT HOST's bluetooth connection is throttled down and host
+             may need to return to app for you to join
+             */
+            return false
+        }
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell") as! JoinableQueueCell

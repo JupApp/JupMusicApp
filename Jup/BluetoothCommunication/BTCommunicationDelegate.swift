@@ -17,5 +17,7 @@ protocol BTCommunicationDelegate {
     func updateQueueSnapshot()
     
     func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ())
+    
+    func breakConnections()
 }
 

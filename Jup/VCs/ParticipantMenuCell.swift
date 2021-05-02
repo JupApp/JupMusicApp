@@ -16,7 +16,7 @@ class ParticipantMenuCell: UITableViewCell {
         // Initialization code
     }
     
-    @IBOutlet var participantNameLabel:UILabel!
+    @IBOutlet var participantNameLabel: UILabel!
     
 
     override func setSelected(_ selected: Bool, animated: Bool) {

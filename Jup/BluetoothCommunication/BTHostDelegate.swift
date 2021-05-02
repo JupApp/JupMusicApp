@@ -65,7 +65,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             /*
              FIX LATER, GET TOTAL NUMBER OF PARTICIPANTS
              */
-            let queueAd: String = username + " (1) \(queueVC.platform.rawValue)"
+            let queueAd: String = username + " (\(queueVC.participants.count + 1)) \(queueVC.platform.rawValue)"
             peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         @unknown default:
             print("unknown state")
@@ -82,7 +82,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             }
         }
         connectedCentrals[central] = "Joining..."
-        sendSnapshot()
+        updateQueueSnapshot()
+        queueVC.participantMenu?.participantTableView.reloadData()
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
@@ -91,7 +92,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
          */
         let participant: String? = connectedCentrals.removeValue(forKey: central)
         print("Participant \(participant ?? "unknown") has left the queue")
-        
+        queueVC.participantMenu?.participantTableView.reloadData()
+        updateQueueSnapshot()
     }
     
     /*
@@ -101,8 +103,11 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         print("Received read request")
         switch (request.characteristic.uuid) {
         case snapshotUUID:
+            if BTHostDelegate.refreshingQueue {
+                return
+            }
+            BTHostDelegate.refreshingQueue = true
             self.queueVC.mpDelegate.returnedToApp()
-//            updateQueueSnapshot()
             return
         default:
             print("unknown characteristic")
@@ -141,6 +146,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                     queueVC.participants.append(newParticipant)
                     connectedCentrals[request.central] = newParticipant
                     peripheral.respond(to: request, withResult: .success)
+                    updateQueueSnapshot()
+                    queueVC.participantMenu?.participantTableView.reloadData()
                     return
                 }
                 let songItem: SongItem = song.decodeSong()
@@ -254,6 +261,13 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     }
     
     func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+    }
+    
+    func breakConnections() {
+        peripheralManager?.stopAdvertising()
+        peripheralManager?.removeAllServices()
+        peripheralManager = nil
+        connectedCentrals = [:]
     }
     
 }

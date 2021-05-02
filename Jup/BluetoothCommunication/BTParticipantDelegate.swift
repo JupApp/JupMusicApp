@@ -84,6 +84,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user disconnected, prompt user to reconnect or go back to settings
          */
+        print("Disconnected")
         disconnectedFromQueueAlert.message = "App disconnected Bluetooth connection to Queue. Reconnect or return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
@@ -92,11 +93,11 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user failed to connect, prompt user to reconnect or go back to settings
          */
-        print(error ?? "")
+        print("Failed to connect")
         disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Try again or return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
-    
+        
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         for discoveredQueue in discoveredQueues {
             if peripheral.identifier == discoveredQueue.identifier {
@@ -132,9 +133,11 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             if characteristic.uuid == snapshotUUID {
                 snapshotCharacteristic = characteristic
                 /*
-                 Get Updated queue
+                 Get Updated queue and update queue with name
                  */
-                peripheral.readValue(for: characteristic)
+                let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)
+                let usernameData: Data? = try? encoder.encode(username)
+                peripheral.writeValue(usernameData ?? Data(), for: snapshotCharacteristic!, type: .withoutResponse)
             }
         }
     }
@@ -184,43 +187,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             print("Appending \(characteristicData.count) bytes to snapshot data")
             // Otherwise, just append the data to what we have previously received.
             snapshot.append(characteristicData)
-            print("Snapshot: \(String(data: snapshot, encoding: .utf8))")
-//            guard let data = characteristic.value, let stringFromData = String(data: characteristic.value!, encoding: .utf8) else {
-//                /*
-//                 Will use this to designate the host has left the queue
-//                 */
-//                /*
-//                 ALERT USER
-//                 */
-//                return
-//            }
-//
-//            // Have we received the end-of-message token?
-//            if stringFromData == "EOM" {
-//                // End-of-message case: show the data.
-//                // Dispatch the text view update to the main queue for updating the UI, because
-//                // we don't know which thread this method will be called back on.
-//                let queueSnapshot: QueueSnapshot? = try? decoder.decode(QueueSnapshot.self, from: snapshot)
-//                guard let queue = queueSnapshot else {
-//                    print("no snapshot")
-//                    return
-//                }
-//                print("With: \n\(queue.songs)\n\(queue.state)\n\(queue.timeRemaining)")
-//                queueVC?.mpDelegate.updateQueueWithSnapshot(queue)
-//                snapshot = Data()
-//            } else {
-//                // Otherwise, just append the data to what we have previously received.
-//                snapshot.append(data)
-//                print("Data now length: \(snapshot.count)")
-//            }
-//
-////            snapshot.append(data)
-////            print("Snapshot data is now length: \(snapshot.count)")
-////            peripheral.readValue(for: characteristic)
-////            let queueSnapshot: QueueSnapshot = try! decoder.decode(QueueSnapshot.self, from: data)
-////            print("With: \n\(queueSnapshot.songs)\n\(queueSnapshot.state)\n\(queueSnapshot.timeRemaining)")
-////            queueVC?.mpDelegate.updateQueueWithSnapshot(queueSnapshot)
-//            return
+            print("Snapshot: \(String(data: snapshot, encoding: .utf8) ?? "Error decoding data")")
         default:
             print("unknown characteristic")
         }
@@ -245,6 +212,14 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
         self.completionHandler = completionHandler
     }
+    
+    func breakConnections() {
+        centralManager!.cancelPeripheralConnection(hostPeripheral!)
+        centralManager = nil
+        hostPeripheral = nil
+        discoveredQueues = []
+        discoveredQueueInfo = [:]
+    }
 
 }
 
@@ -252,7 +227,7 @@ struct QueueSnapshot: Codable {
     var songs: [CodableSong]
     var timeIn: Int
     var state: Int
-//    var participants: [String]
+    var participants: [String]
     var host: String
 }
 

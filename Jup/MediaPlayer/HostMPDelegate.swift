@@ -153,14 +153,14 @@ class HostMPDelegate: MediaPlayerDelegate {
         //super simple implementation at the moment
         queue.append(songItem.uri)
         songMap[songItem.uri] = songItem
-        songItem.retrieveArtwork { (image) in
-            print("Artowrk retrieved, now update: \(image.imageRendererFormat.bounds)")
-            self.songMap[songItem.uri]!.albumArtwork = image
-            self.updateDataSource()
+        songItem.retrieveArtwork { _ in
+            print("Artowrk retrieved, now update")
+            self.parentVC.tableView.reloadData()
         }
         updateDataSource()
         
         parentVC.btDelegate.updateQueueSnapshot()
+        completionHandler(nil)
     }
     
     /*
@@ -178,6 +178,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         updateDataSource()
         
         parentVC.btDelegate.updateQueueSnapshot()
+        completionHandler(nil)
     }
     
     func updateQueueOrder() {
@@ -207,7 +208,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             codableSongs.insert(currentSong!.encodeSong(), at: 0)
         }
         let timeIn: Int = Int(self.parentVC.nowPlayingProgress.progress * Float(self.currentSong?.songLength ?? 0))
-        return QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: state.rawValue, /*participants: parentVC.participants, */host: parentVC.host)
+        return QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: state.rawValue, participants: parentVC.participants, host: parentVC.host)
     }
     
     func loadQueueIntoPlayer() {
