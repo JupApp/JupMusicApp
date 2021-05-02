@@ -148,9 +148,19 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
         guard let spotifyItemList = songItems as? [SpotifySongItem] else {
             fatalError("Cannot Downcast SongItem array to SpotifySongItemArray")
         }
-//        clearQueue {
-            self.enqueueSongList(spotifyItemList, 0, completionHandler: completionHandler)
+//        for i in 0..<songItems.count {
+//            let nextItem: SongItem = songItems[songItems.count - 1 - i]
+//            print("Current Index: \(songItems.count - 1 - i)\nSong: \(nextItem.songTitle)")
+//
+//            self.player?.enqueueTrackUri(nextItem.uri, callback: { (_, e) in
+//                if let _ = e {
+//                    print("Failed to enqueue track with URI: \(nextItem.songTitle)")
+//                } else {
+//                    print("Successfully enqueued track: \(nextItem.songTitle)")
+//                }
+//            })
 //        }
+        self.enqueueSongList(spotifyItemList, 0, completionHandler: completionHandler)
     }
     
     func enqueueSongList(_ songItems: [SpotifySongItem], _ currentIndex: Int, completionHandler: @escaping (Error?) -> ()) {
@@ -158,13 +168,14 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
             completionHandler(nil)
             return
         }
-        print("Current Index: \(currentIndex)\nSongList Last Index: \(songItems.endIndex)")
-        let nextItem: SpotifySongItem = songItems[songItems.endIndex - currentIndex - 1]
+        let nextItem: SpotifySongItem = songItems[songItems.count - 1 - currentIndex]
+        print("Current Index: \(songItems.count - 1 - currentIndex)\nSong: \(nextItem.songTitle)")
+
         self.player?.enqueueTrackUri(nextItem.uri, callback: { (_, e) in
             if let _ = e {
-                print("Failed to enqueue track with URI: \(nextItem.uri)")
+                print("Failed to enqueue track with URI: \(nextItem.songTitle)")
             } else {
-                print("Successfully enqueued track with URI: \(nextItem.uri)")
+                print("Successfully enqueued track: \(nextItem.songTitle)")
             }
             self.enqueueSongList(songItems, currentIndex + 1, completionHandler: completionHandler)
         })

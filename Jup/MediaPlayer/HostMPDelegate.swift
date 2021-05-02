@@ -214,7 +214,12 @@ class HostMPDelegate: MediaPlayerDelegate {
     func loadQueueIntoPlayer() {
         songTimer?.invalidate()
         let songItemArray = queue.map { (uri) -> SongItem in self.songMap[uri]! }
-        self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in })
+        let bgTask = UIApplication.shared.beginBackgroundTask(withName: "Test 123") {
+             print("Couldn't finish loading songs into queue")
+        }
+        self.mediaPlayer?.loadEntireQueue(songItemArray, completionHandler: { (e) in
+            UIApplication.shared.endBackgroundTask(bgTask)
+        })
     }
     
     /*

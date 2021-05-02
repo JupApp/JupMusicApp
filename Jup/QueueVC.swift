@@ -187,7 +187,9 @@ class QueueVC: UITableViewController {
     
     @objc func didEnterBackground() {
         print("App entering background")
-        mpDelegate.loadQueueIntoPlayer()
+        if mpDelegate.state == .PLAYING {
+            mpDelegate.loadQueueIntoPlayer()
+        }
     }
     
     @objc func didEnterForeground() {
