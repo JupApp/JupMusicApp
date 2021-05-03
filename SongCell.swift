@@ -15,9 +15,9 @@ class SongCell: UITableViewCell {
     @IBOutlet weak var likeCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var contributorLabel: UILabel!
-
     
-
+    var completionHandler: (() -> ())!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         likeCountLabel.adjustsFontSizeToFitWidth = true
@@ -31,4 +31,7 @@ class SongCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func songLiked(_ sender: Any) {
+        completionHandler()
+    }
 }

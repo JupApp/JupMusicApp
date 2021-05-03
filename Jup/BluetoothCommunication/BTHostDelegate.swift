@@ -124,8 +124,9 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             switch (request.characteristic.uuid) {
             case snapshotUUID:
                 print("Snapshot write request")
-                let songToAddOrLike: CodableSong? = try? decoder.decode(CodableSong.self, from: request.value ?? Data())
-                guard let song = songToAddOrLike else {
+                let songAdded: CodableSong? = try? decoder.decode(CodableSong.self, from: request.value ?? Data())
+                let likedSong: CodableLike? = try? decoder.decode(CodableLike.self, from: request.value ?? Data())
+                if likedSong == nil && songAdded == nil {
                     /*
                      Must be username added to participant list
                      */
@@ -140,9 +141,22 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                     updateQueueSnapshot()
                     queueVC.participantMenu?.participantTableView.reloadData()
                     return
-                }
-                let songItem: SongItem = song.decodeSong()
-                if songItem.likes == 0 {
+                } else if likedSong != nil {
+                    /*
+                     Song Like Request
+                     */
+                    print("\n\n\n\nReceived Like Request\n\n\n\n")
+                    queueVC.mpDelegate.likeSong(likedSong!.uri, likedSong!.liked) { error in
+                        guard let _ = error else {
+                            peripheral.respond(to: request, withResult: .success)
+                            return
+                        }
+                        // completion handler called implies error
+                        peripheral.respond(to: request, withResult: .attributeNotFound)
+                    }
+                    return
+                } else {
+                    let songItem: SongItem = songAdded!.decodeSong()
                     // request add song to queue
                     queueVC.mpDelegate.addSong(songItem) { error in
                         guard let _ = error else {
@@ -152,17 +166,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                         // completion handler called implies error
                         peripheral.respond(to: request, withResult: .attributeNotFound)
                     }
-                } else {
-                    queueVC.mpDelegate.likeSong(songItem.uri, songItem.likes) { error in
-                        guard let _ = error else {
-                            peripheral.respond(to: request, withResult: .success)
-                            return
-                        }
-                        // completion handler called implies error
-                        peripheral.respond(to: request, withResult: .attributeNotFound)
-                    }
+                    return
                 }
-                return
             default:
                 print("unknown characteristic")
             }
@@ -270,8 +275,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
 
     }
     
-    func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
-    }
+    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {}
+    func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {}
     
     func breakConnections() {
         peripheralManager?.stopAdvertising()

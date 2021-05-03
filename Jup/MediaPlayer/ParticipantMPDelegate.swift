@@ -11,6 +11,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     var currentSong: SongItem?
     var queue: [String] = []
     var songMap: [String : SongItem] = [:]
+    var likedSongs: Set<String> = Set<String>()
     
     var mediaPlayer: MediaPlayer?
     var parentVC: QueueVC
@@ -40,9 +41,13 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         updateDataSource()
     }
     
-    //should not encounter these functions as a participant
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) { fatalError() }
-    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping (Error?) -> ()) { fatalError() }
+    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
+        self.parentVC.btDelegate.addSongRequest(songItem, completionHandler)
+    }
+    
+    func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
+        self.parentVC.btDelegate.likeSongRequest(uri, liked, completionHandler)
+    }
 
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
         self.songTimer?.invalidate()

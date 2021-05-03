@@ -24,7 +24,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
     
-    var completionHandler: (() -> ())?
+    var completionHandler: ((Error?) -> ())?
     
     let disconnectedFromQueueAlert: UIAlertController = UIAlertController(title: "Error connecting to Queue", message: nil, preferredStyle: .alert)
     
@@ -144,10 +144,12 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let _ = error else {
+            print("Successfully sent add/like song request")
+            completionHandler?(nil)
             return
         }
         print("Error: \n\n\(error.debugDescription)")
-        completionHandler?()
+        completionHandler?(AddSongError())
         completionHandler = nil
     }
       
@@ -212,9 +214,20 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     /*
      Request to add song
      */
-    func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {
+    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
         let data = try! encoder.encode(songItem.encodeSong())
-        print("Attempting to request song")
+        print("Attempting to request add song")
+        hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
+        self.completionHandler = completionHandler
+    }
+    
+    /*
+     Request to like Song
+     */
+    func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
+        let codableLike: CodableLike = CodableLike(uri: songURI, liked: liked)
+        let data = try! encoder.encode(codableLike)
+        print("Attempting to request like song")
         hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
         self.completionHandler = completionHandler
     }
@@ -234,6 +247,11 @@ struct QueueSnapshot: Codable {
     var state: Int
     var participants: [String]
     var host: String
+}
+
+struct CodableLike: Codable {
+    var uri: String
+    var liked: Bool
 }
 
 struct CodableSong: Codable {

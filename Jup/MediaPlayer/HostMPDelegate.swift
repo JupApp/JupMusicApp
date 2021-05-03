@@ -17,6 +17,7 @@ class HostMPDelegate: MediaPlayerDelegate {
     
     var queue: [String] = []
     var songMap: [String: SongItem] = [:]
+    var likedSongs: Set<String> = Set<String>()
     var currentSong: SongItem?
     
     var parentVC: QueueVC
@@ -121,6 +122,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         parentVC.nowPlayingProgress.setProgress(0, animated: true)
         let nextSongURI: String = queue.remove(at: 0)
+        likedSongs.remove(nextSongURI)
         let nextSongItem: SongItem = songMap.removeValue(forKey: nextSongURI)!
         mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
             if let _ = error {
@@ -174,19 +176,21 @@ class HostMPDelegate: MediaPlayerDelegate {
     /*
      Request to like song
      */
-    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping (Error?) -> ()) {
+    func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
         guard let _ = songMap[uri] else {
             completionHandler(LikeError())
             return
         }
-        songMap[uri]!.likes = likes
+        songMap[uri]!.likes += (liked ? 1 : -1)
+        
         if (parentVC.queueType == .VOTING) {
             updateQueueOrder()
         }
+        completionHandler(nil)
+
         updateDataSource()
         
         parentVC.btDelegate.updateQueueSnapshot()
-        completionHandler(nil)
         
         if UIApplication.shared.applicationState == .background {
             /*
@@ -369,6 +373,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             }
             
             let nextSongURI: String = self.queue.remove(at: 0)
+            self.likedSongs.remove(nextSongURI)
             self.currentSong = self.songMap.removeValue(forKey: nextSongURI)!
             self.iterateThroughQueue(completionHandler)
         }

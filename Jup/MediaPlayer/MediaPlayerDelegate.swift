@@ -22,6 +22,7 @@ protocol MediaPlayerDelegate {
         
     var queue: [String] { get }
     var songMap: [String: SongItem] { get }
+    var likedSongs: Set<String> { get set }
     var currentSong: SongItem? { get }
     
     func play()
@@ -34,7 +35,7 @@ protocol MediaPlayerDelegate {
     
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ())
     
-    func likeSong(_ uri: String, _ likes: Int, _ completionHandler: @escaping (Error?) -> ())
+    func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ())
 
     func loadQueueIntoPlayer()
 

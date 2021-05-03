@@ -63,13 +63,50 @@ class QueueVC: UITableViewController {
             if ip.row < self.mpDelegate.queue.count {
                 let songURI: String = self.mpDelegate.queue[ip.row]
                 cell?.albumArtwork.image = self.mpDelegate.songMap[songURI]!.albumArtwork
+                cell?.likeCountLabel.text = "\(self.mpDelegate.songMap[songURI]!.likes)"
+
             } else {
                 cell?.albumArtwork.image = s.albumArtwork
+                cell?.likeCountLabel.text = "\(s.likes)"
             }
+
+            let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
 
             cell?.artistLabel.text = s.artist
             cell?.contributorLabel.text = s.contributor
-            cell?.likeCountLabel.text = s.likes.description
+            
+            if self.mpDelegate.likedSongs.contains(s.uri) {
+                cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            } else {
+                cell?.likeButton.imageView?.transform = .identity
+            }
+            
+            if s.contributor == username {
+                cell?.likeButton.isEnabled = false
+                cell?.likeButton.alpha = 0.5
+            }
+            cell?.completionHandler = {
+                let addlike: Bool = !self.mpDelegate.likedSongs.contains(s.uri)
+                print("Like Song: \(addlike)")
+                self.mpDelegate.likeSong(s.uri, addlike) { e in
+                    guard let error = e else {
+                        // success!
+                        print("\n\n\nSuccessfully liked song\n\n\n")
+                        if addlike {
+                            self.mpDelegate.likedSongs.insert(s.uri)
+                        } else {
+                            self.mpDelegate.likedSongs.remove(s.uri)
+                        }
+                        return
+                    }
+                    /*
+                     Show alert of error!
+                     */
+                    self.songLikeFailedAlert.message = "'\(s.title)' could not be liked"
+                    self.present(self.songLikeFailedAlert, animated: true)
+                    return
+                }
+            }
             cell?.titleLabel.text = s.title
             cell?.albumArtwork.layer.cornerRadius = 8
             
@@ -78,6 +115,7 @@ class QueueVC: UITableViewController {
     }
     
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
+    let songLikeFailedAlert = UIAlertController(title: "Failed to like Song", message: nil, preferredStyle: .alert)
     
     override func viewDidLoad() {
         print("View Did Load called")
@@ -124,6 +162,8 @@ class QueueVC: UITableViewController {
 
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
         failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
+        
+        songLikeFailedAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
 
         nowPlayingProgress.setProgress(0, animated: false)
 

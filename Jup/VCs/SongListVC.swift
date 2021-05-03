@@ -111,38 +111,22 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
     func addConvertedSong(_ songItem: SongItem) {
         let queueVC: QueueVC = navigationController?.viewControllers[0] as! QueueVC
 
-        if queueVC.isHost {
-            // add song to queue, if host:
-            queueVC.mpDelegate.addSong(songItem) { error in
-                guard let _ = error else {
-                    /*
-                     No error = success
-                     */
-                    return
-                }
+        queueVC.mpDelegate.addSong(songItem) { error in
+            guard let _ = error else {
                 /*
-                 Alert that song has already been added to queue
+                 No error = success
                  */
-                print("Returned from mpDelegate.addSong")
-                let songAlreadyAddedAlert: UIAlertController = UIAlertController(title: "Song Already in Queue", message: "'\(songItem.songTitle)' is already in the song queue. Wait for it to be played in order to add it back to the queue.", preferredStyle: .alert)
-                songAlreadyAddedAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                DispatchQueue.main.async {
-                    self.present(songAlreadyAddedAlert, animated: true)
-                }
+                return
             }
-        } else {
-            // request host to add song as participant
-            queueVC.btDelegate.requestSong(songItem) {
-                /*
-                 Failed to add song
-                 */
-                let songFailedToAddAlert: UIAlertController = UIAlertController(title: "Request to Add Song Failed", message: "'\(songItem.songTitle)' might already be in the song queue. Wait for it to be played in order to add it back to the queue.", preferredStyle: .alert)
-                songFailedToAddAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-                DispatchQueue.main.async {
-                    self.present(songFailedToAddAlert, animated: true)
-                }
+            /*
+             Failed to add song
+             */
+            let songFailedToAddAlert: UIAlertController = UIAlertController(title: "Request to Add Song Failed", message: "'\(songItem.songTitle)' might already be in the song queue. Wait for it to be played in order to add it back to the queue.", preferredStyle: .alert)
+            songFailedToAddAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            DispatchQueue.main.async {
+                self.present(songFailedToAddAlert, animated: true)
             }
-            
         }
+            
     }
 }
