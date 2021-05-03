@@ -161,6 +161,14 @@ class HostMPDelegate: MediaPlayerDelegate {
         
         parentVC.btDelegate.updateQueueSnapshot()
         completionHandler(nil)
+        
+        if UIApplication.shared.applicationState == .background {
+            /*
+             load into queue updated version of song queue
+             */
+            print("about to load queue")
+            self.loadQueueIntoPlayer()
+        }
     }
     
     /*
@@ -179,6 +187,14 @@ class HostMPDelegate: MediaPlayerDelegate {
         
         parentVC.btDelegate.updateQueueSnapshot()
         completionHandler(nil)
+        
+        if UIApplication.shared.applicationState == .background {
+            /*
+             load into queue updated version of song queue
+             */
+            print("about to load queue")
+            self.loadQueueIntoPlayer()
+        }
     }
     
     func updateQueueOrder() {
@@ -248,18 +264,23 @@ class HostMPDelegate: MediaPlayerDelegate {
             }
         })
     }
-    
+    static var returningApp: Bool = false
     /*
      Function addresses any delay in the current queue with songs that
      transitioned during absence.
      */
     func returnedToApp() {
+        if HostMPDelegate.returningApp {
+            return
+        }
+        HostMPDelegate.returningApp = true
         // check the last known state when left
         switch (state) {
             case .NO_SONG_SET:
                 print("NO SONG SET");
                 // pause in case a song is playing
                 self.mediaPlayer?.pause()
+                HostMPDelegate.returningApp = false
                 return
             case .PAUSED:
                 print("PAUSED")
@@ -269,7 +290,7 @@ class HostMPDelegate: MediaPlayerDelegate {
                         (user tapped play in Music/Spotiyf app like an idiot)
                  */
                 break
-            case .TRANSITIONING: return
+            case .TRANSITIONING: HostMPDelegate.returningApp = false; return
             case .PLAYING: break
         }
         self.state = .TRANSITIONING
@@ -278,8 +299,11 @@ class HostMPDelegate: MediaPlayerDelegate {
             /*
              Broadcast out new snapshot to participants
              */
+            print("about to enter delay block")
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                print("loading queue soon")
                 self.parentVC.btDelegate.updateQueueSnapshot()
+                HostMPDelegate.returningApp = false
             }
         }
     }
@@ -324,13 +348,8 @@ class HostMPDelegate: MediaPlayerDelegate {
                     // manually set progress view while paused
                 }
                 print("Matched with \(self.currentSong?.songTitle ?? "")")
-                self.mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
-                    UIView.animate(withDuration: 0.3) {
-                        let progress = Float(1.0 - (timeLeft/songDuration))
-                        self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
-                    }
-                    completionHandler()
-                })
+                self.timerFired()
+                completionHandler()
                 return
             }
             

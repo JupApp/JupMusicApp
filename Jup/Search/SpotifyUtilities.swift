@@ -31,10 +31,11 @@ class SpotifyUtilities {
      */
     static func searchPlaylists(_ completionHandler: @escaping () -> ()) {
         SpotifyUtilities.checkAuthorization { (authorized) in
-            guard authorized else {
+            if !authorized {
                 /*
                  Alert user failed to authenticate
                  */
+                print("Not authorized")
                 return
             }
             SpotifyUtilities.retrieveUserID {(id) in
@@ -445,9 +446,11 @@ class SpotifyUtilities {
             //must initiate session for first time
             appDelegate.connectToSpotify {e in
 
-                if let _ = e {
+                guard e == nil else {
                     completionHandler(false)
+                    return
                 }
+                print("1")
                 // otherwise, successfully connected to spotify, and ready to go!
                 completionHandler(true)
             }
@@ -457,6 +460,7 @@ class SpotifyUtilities {
         // check if expiration date is already passed
         if expirationDate > Date(timeIntervalSinceNow: 5) {
             // in the clear, don't need to renew yet
+            print("2")
             completionHandler(true)
             return
         }
@@ -469,11 +473,11 @@ class SpotifyUtilities {
             if "\(response.statusCode)".prefix(1) == "4" {
                 // just reinitiate session...
                 appDelegate.connectToSpotify {e in
-
                     if let _ = e {
                         completionHandler(false)
                         return
                     }
+                    print("5")
                     // otherwise, successfully connected to spotify, and ready to go!
                     completionHandler(true)
                 }
@@ -488,6 +492,7 @@ class SpotifyUtilities {
                         return
                     }
                     appDelegate.accessToken = token
+                    print("3")
                     completionHandler(true)
                     return
                 case .failure(_):
@@ -497,6 +502,7 @@ class SpotifyUtilities {
                             completionHandler(false)
                             return
                         }
+                        print("4")
                         // otherwise, successfully connected to spotify, and ready to go!
                         completionHandler(true)
                     }
@@ -552,7 +558,7 @@ class SpotifyUtilities {
     static func doesHavePremium(_ completionHandler: @escaping (Bool) -> ()) {
         checkAuthorization { (authorized) in
             print("Authorized: \(authorized)")
-            guard authorized else {
+            if !authorized {
                 completionHandler(false)
                 return
             }

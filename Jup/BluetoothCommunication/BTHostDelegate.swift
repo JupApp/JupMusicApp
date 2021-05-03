@@ -76,14 +76,15 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
      Participant joined queue
      */
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+        print("\(central.identifier) subscribed to the snapshot")
+        updateQueueSnapshot()
+        queueVC.participantMenu?.participantTableView.reloadData()
         for connectedCentral in connectedCentrals.keys {
             if central.identifier == connectedCentral.identifier {
                 return
             }
         }
         connectedCentrals[central] = "Joining..."
-        updateQueueSnapshot()
-        queueVC.participantMenu?.participantTableView.reloadData()
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
@@ -91,6 +92,10 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
          REMOVE PARTICIPANT FROM CONNECTED CENTRALS LIST AND FROM QUEUE SNAPSHOT
          */
         let participant: String? = connectedCentrals.removeValue(forKey: central)
+        let index = queueVC.participants.firstIndex(of: participant ?? "")
+        if let _ = index {
+            queueVC.participants.remove(at: index!)
+        }
         print("Participant \(participant ?? "unknown") has left the queue")
         queueVC.participantMenu?.participantTableView.reloadData()
         updateQueueSnapshot()
@@ -103,10 +108,6 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         print("Received read request")
         switch (request.characteristic.uuid) {
         case snapshotUUID:
-            if BTHostDelegate.refreshingQueue {
-                return
-            }
-            BTHostDelegate.refreshingQueue = true
             self.queueVC.mpDelegate.returnedToApp()
             return
         default:
@@ -129,16 +130,6 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                      Must be username added to participant list
                      */
                     let usernameOrUpdateRequest = try? decoder.decode(String.self, from: request.value ?? Data())
-//                    if usernameOrUpdateRequest == "\n\nUPDATE\n\n" {
-//                        /*
-//                         Update request
-//                         */
-//                        print("Successfully decoded update request")
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                            print("Async after 0.1 seconds")
-//                            self.queueVC.mpDelegate.returnedToApp()
-//                        }
-//                    }
                     guard let newParticipant = usernameOrUpdateRequest else {
                         peripheral.respond(to: request, withResult: .attributeNotFound)
                         return
@@ -182,17 +173,22 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         print("Updating queue snapshot")
         sentIndex = 0
         if BTHostDelegate.refreshingQueue {
+            print("Already refreshing apparently")
             return
         }
         BTHostDelegate.refreshingQueue = true
+        print("1. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
         print("Sending snapshot...")
+//        peripheralManager.updateValue("START".data(using: .utf8)!, for: snapshotCharacteristic, onSubscribedCentrals: nil)
+//        
         sendSnapshot()
-//        peripheralManager.updateValue(try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot()), for: snapshotCharacteristic, onSubscribedCentrals: nil)
     }
     
     static var inProgressEOM = false
     static var refreshingQueue = false
     private func sendSnapshot() {
+        print("Entered sendSnapshot")
         snapshotToSend = try! encoder.encode(queueVC.mpDelegate.getQueueSnapshot())
         /*
          check if EOM transmission in progress
@@ -204,14 +200,18 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                 print("Sent: EOM")
                 sentIndex = 0
                 BTHostDelegate.refreshingQueue = false
+                print("2. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
             }
             // EOM didn't send, wait for peripheralManagerIsReadyToUpdateSubscribers to call sendData again
+            print("3. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
             return
         }
         
         // anything left to send?
         if sentIndex >= snapshotToSend.count {
             BTHostDelegate.refreshingQueue = false
+            print("4. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
             return
         }
         
@@ -231,6 +231,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             
             // If it didn't work, drop out and wait for the callback
             if !didSend {
+                print("5. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
                 return
             }
             
@@ -248,16 +250,24 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                     // It sent; we're all done
                     BTHostDelegate.inProgressEOM = false
                     BTHostDelegate.refreshingQueue = false
+                    print("6. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
                     print("Sent: EOM")
                     sentIndex = 0
                 }
+                print("7. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
                 return
             }
+            print("8. BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
         }
     }
     
     func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
         sendSnapshot()
+        print("BTHostDelegate.refreshingQueue is \(BTHostDelegate.refreshingQueue)")
+
     }
     
     func requestSong(_ songItem: SongItem, _ completionHandler: @escaping () -> ()) {

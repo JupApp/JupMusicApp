@@ -65,6 +65,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
             
             queue = songItems.map({ $0.uri })
             songMap = songItems.reduce(into: [String: SongItem]()) { $0[$1.uri] = $1 }
+            print("Time In: \(snapshot.timeIn)")
+            print("Out of: \(snapshot.songs[0].songLength)")
         } else {
             queue = []
             songMap = [:]
@@ -113,6 +115,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         let newPlaybackPosition: Float = previousPlaybackPosition + 1.0
         print("Song length: \(songLength)")
         print("Current Position in Song: \(newPlaybackPosition)\n")
+        print("MediaPlayer delegate is nil? \(self == nil)")
+        parentVC.mpNil()
         if songLength - newPlaybackPosition > 0 {
             UIView.animate(withDuration: 1.0) {
                 self.parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)

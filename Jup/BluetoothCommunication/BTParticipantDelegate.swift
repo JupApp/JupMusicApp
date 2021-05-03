@@ -167,6 +167,11 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             print("Received \(characteristicData.count) bytes")
 
             if let stringFromData = String(data: characteristicData, encoding: .utf8) {
+                if stringFromData == "START" {
+                    print("Received START signal")
+                    snapshot = Data()
+                    return
+                }
                 // Have we received the end-of-message token?
                 if stringFromData == "EOM" {
                     // End-of-message case: show the data.
@@ -176,6 +181,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                     let queueSnapshot: QueueSnapshot? = try? decoder.decode(QueueSnapshot.self, from: snapshot)
                     guard let queue = queueSnapshot else {
                         print("no snapshot")
+                        snapshot = Data()
                         return
                     }
                     print("With: \n\(queue.songs)\n\(queue.state)\n\(queue.timeIn)")
@@ -215,7 +221,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     
     func breakConnections() {
         centralManager!.cancelPeripheralConnection(hostPeripheral!)
-        centralManager = nil
         hostPeripheral = nil
         discoveredQueues = []
         discoveredQueueInfo = [:]

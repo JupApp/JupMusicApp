@@ -44,11 +44,13 @@ class AppleMusicMediaPlayer: MediaPlayer {
     }
     
     func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ()) {
+        print("loading queue\n\n\n\n")
         let upNext = MPMusicPlayerStoreQueueDescriptor(storeIDs: songItems.map({ (songItem) -> String in
             songItem.uri
         }))
         self.player.prepend(upNext)
         self.player.repeatMode = .none
+        completionHandler(nil)
     }
     
     func getTimeInfo(completionHandler: @escaping (Double, Double) -> ()) {

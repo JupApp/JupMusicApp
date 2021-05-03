@@ -118,7 +118,7 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                 
             // check if user has premium in order to proceed
             SpotifyUtilities.doesHavePremium { (hasPremium) in
-                guard hasPremium else {
+                if !hasPremium {
                     /*
                      Alert User doesn't have Spotify Premium
                      */

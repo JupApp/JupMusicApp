@@ -80,6 +80,7 @@ class QueueVC: UITableViewController {
     let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     
     override func viewDidLoad() {
+        print("View Did Load called")
         super.viewDidLoad()
 
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -181,12 +182,24 @@ class QueueVC: UITableViewController {
         //clear playlist cache
         SpotifyUtilities.clearCache()
         AppleMusicUtilities.clearCache()
-        
+        mpDelegate.songTimer?.invalidate()
+//        mpDelegate = nil
+        print("segueing to settings")
         performSegue(withIdentifier: "exitQueue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "exitQueue" {
+            print("breaking connections")
+            btDelegate.breakConnections()
+//            btDelegate = nil
+        }
     }
     
     @objc func didEnterBackground() {
         print("App entering background")
+        print(btDelegate == nil)
+        print("MPDelegate is nil: \(mpDelegate == nil)")
         if mpDelegate.state == .PLAYING {
             mpDelegate.loadQueueIntoPlayer()
         }
@@ -200,7 +213,12 @@ class QueueVC: UITableViewController {
     }
     
     @objc func willTerminate() {
+        print("App will terminate")
         btDelegate.breakConnections()
+    }
+    
+    func mpNil() {
+        print("MP delegate nil... \(mpDelegate == nil)")
     }
 }
     

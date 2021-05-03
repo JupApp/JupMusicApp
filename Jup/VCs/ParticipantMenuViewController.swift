@@ -78,7 +78,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
             return 1
         }
         if section == 1{
-            return (parentVC?.participants.count ?? 1) - 1
+            return parentVC?.participants.count ?? 0
         }
         return 0
     }
@@ -116,11 +116,11 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         let name: String
         if indexPath.section == 0 {
             name = parentVC!.host
-            cell.participantNameLabel.text = name + name == userName ? " ⭑":""
+            cell.participantNameLabel.text = name + (name == userName ? " ⭑":"")
             print("Text on cell \(indexPath.row): \(cell.participantNameLabel.text)")
         } else {
             name = parentVC!.participants[indexPath.row]
-            cell.participantNameLabel.text = name + name == userName ? " ⭑":""
+            cell.participantNameLabel.text = name + (name == userName ? " ⭑":"")
             print("Text on cell \(indexPath.row): \(cell.participantNameLabel.text)")
 
         }
