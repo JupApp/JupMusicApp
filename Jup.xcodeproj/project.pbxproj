@@ -10,6 +10,7 @@
 		1505B3F52624CF4900A4B46E /* SongListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505B3F42624CF4900A4B46E /* SongListVC.swift */; };
 		15141D1D260A949000516C06 /* AppleMusicUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141D1C260A949000516C06 /* AppleMusicUtilities.swift */; };
 		156699C22624ABC100A9E533 /* SpotifyUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156699C12624ABC100A9E533 /* SpotifyUtilities.swift */; };
+		15A003992641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 15A003982641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 */; };
 		15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */; };
 		15DBD86D258F9C460068FEB4 /* BTCommunicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */; };
 		15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */; };
@@ -68,6 +69,7 @@
 		1505B3F42624CF4900A4B46E /* SongListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongListVC.swift; sourceTree = "<group>"; };
 		15141D1C260A949000516C06 /* AppleMusicUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicUtilities.swift; sourceTree = "<group>"; };
 		156699C12624ABC100A9E533 /* SpotifyUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyUtilities.swift; sourceTree = "<group>"; };
+		15A003982641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_K2576M4Z3P.p8; sourceTree = "<group>"; };
 		15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerDelegate.swift; sourceTree = "<group>"; };
 		15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCommunicationDelegate.swift; sourceTree = "<group>"; };
 		15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTParticipantDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		15DBD86A258F99B80068FEB4 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				15A003982641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 */,
 				15DBD8C325957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 */,
 				15DBD87E258F9DF40068FEB4 /* SearchDelegate.swift */,
 				15141D1C260A949000516C06 /* AppleMusicUtilities.swift */,
@@ -375,6 +378,7 @@
 				868F02EE259CE944005F8E3E /* ParticipantMenuCell.xib in Resources */,
 				B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */,
 				8695CCCC25958FAE006021DA /* JoinableQueueCell.xib in Resources */,
+				15A003992641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 in Resources */,
 				15DBD8C425957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,6 +636,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -647,6 +652,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LT3MWZH387;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -673,6 +679,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LT3MWZH387;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
