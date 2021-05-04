@@ -311,16 +311,22 @@ class AppleMusicUtilities {
             return
         }
         let keyData = privateKey.data(using: .utf8)!
-        let kid = "5CWA2J2HGK"
+//        let kid = "5CWA2J2HGK"
+        let kid = "K2576M4Z3P"
         let myHeader = Header(kid: kid)
         
         let iss = "LT3MWZH387"
         let now = Date(timeIntervalSinceNow: 0)
         devExpirationDate = Date(timeIntervalSinceNow: 3600)
+        print("ABout to issue claims thing")
         let myClaims = ClaimsStandardJWT(iss: iss, exp: devExpirationDate!, iat: now)
+        print(1)
         var myJWT = JWT(header: myHeader, claims: myClaims)
+        print(2)
         let myJWTSigner = JWTSigner.es256(privateKey: keyData)
+        print(3)
         amDevToken = try myJWT.sign(using: myJWTSigner)
+        print("Successfully generated developer token :)")
         completionHandler(amDevToken)
     }
     
@@ -329,7 +335,10 @@ class AppleMusicUtilities {
      */
     static func getAMAuthorizationKey() -> String? {
         do {
-            guard let path = Bundle.main.path(forResource: "AuthKey_5CWA2J2HGK", ofType: ".p8") else {
+            print("Starting to open resource to make Authorization key")
+//            guard let path = Bundle.main.path(forResource: "AuthKey_5CWA2J2HGK", ofType: ".p8") else {
+            guard let path = Bundle.main.path(forResource: "AuthKey_K2576M4Z3P", ofType: ".p8") else {
+
                 return nil
             }
             let fileURL = URL(fileURLWithPath: path);
@@ -337,6 +346,7 @@ class AppleMusicUtilities {
             guard let key = String(data: data, encoding: .utf8) else {
                 return nil
             }
+            print("Returning the key")
             return key
         }
         catch {
