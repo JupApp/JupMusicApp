@@ -62,7 +62,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
 
         searchAMLibrary()
-        
     }
     
     @objc func platformTextfieldPlaceholder(sender: UISegmentedControl){

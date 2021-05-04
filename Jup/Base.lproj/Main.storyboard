@@ -26,7 +26,7 @@
                                     <color key="backgroundColor" red="0.89803922179999995" green="0.96470588450000005" blue="0.94901961089999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartInsertDeleteType="no" smartQuotesType="no"/>
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" red="0.84516507387161255" green="0.95591849088668823" blue="0.94382423162460327" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -468,7 +468,7 @@
                                     <color key="backgroundColor" red="0.9098039269" green="0.96078431610000004" blue="0.94901961089999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" smartInsertDeleteType="no" smartQuotesType="no"/>
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" red="0.77914267778396606" green="0.94285500049591064" blue="0.93037945032119751" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

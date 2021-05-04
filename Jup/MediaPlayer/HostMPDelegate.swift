@@ -187,8 +187,13 @@ class HostMPDelegate: MediaPlayerDelegate {
             updateQueueOrder()
         }
         completionHandler(nil)
-
-        updateDataSource()
+        print("Updating datasource")
+        self.updateDataSource()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            self.parentVC.tableView.reloadData()
+        }
+//        self.parentVC.tableView.reloadData()
+//        updateDataSource()
         
         parentVC.btDelegate.updateQueueSnapshot()
         

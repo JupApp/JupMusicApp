@@ -30,6 +30,15 @@ struct QueueSongItem: Hashable {
         self.likes = likes
     }
     
+    init(_ songItem: SongItem) {
+        self.title = songItem.songTitle
+        self.artist = songItem.artistName
+        self.uri = songItem.uri
+        self.albumArtwork = songItem.albumArtwork ?? UIImage()
+        self.contributor = songItem.contributor
+        self.likes = songItem.likes
+    }
+    
     static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
                return lhs.uri == rhs.uri
     }
@@ -60,54 +69,52 @@ class QueueVC: UITableViewController {
         UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
+            var updatedS = s
             if ip.row < self.mpDelegate.queue.count {
                 let songURI: String = self.mpDelegate.queue[ip.row]
-                cell?.albumArtwork.image = self.mpDelegate.songMap[songURI]!.albumArtwork
-                cell?.likeCountLabel.text = "\(self.mpDelegate.songMap[songURI]!.likes)"
-
-            } else {
-                cell?.albumArtwork.image = s.albumArtwork
-                cell?.likeCountLabel.text = "\(s.likes)"
+                let songItem: SongItem = self.mpDelegate.songMap[songURI]!
+                updatedS = QueueSongItem(songItem)
             }
+            cell?.albumArtwork.image = updatedS.albumArtwork
+            cell?.likeCountLabel.text = "\(updatedS.likes)"
+            cell?.artistLabel.text = updatedS.artist
+            cell?.contributorLabel.text = updatedS.contributor
 
             let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
-
-            cell?.artistLabel.text = s.artist
-            cell?.contributorLabel.text = s.contributor
             
-            if self.mpDelegate.likedSongs.contains(s.uri) {
+            if self.mpDelegate.likedSongs.contains(updatedS.uri) {
                 cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             } else {
                 cell?.likeButton.imageView?.transform = .identity
             }
             
-            if s.contributor == username {
+            if updatedS.contributor == username {
                 cell?.likeButton.isEnabled = false
                 cell?.likeButton.alpha = 0.5
             }
             cell?.completionHandler = {
-                let addlike: Bool = !self.mpDelegate.likedSongs.contains(s.uri)
+                let addlike: Bool = !self.mpDelegate.likedSongs.contains(updatedS.uri)
                 print("Like Song: \(addlike)")
                 self.mpDelegate.likeSong(s.uri, addlike) { e in
                     guard let error = e else {
                         // success!
                         print("\n\n\nSuccessfully liked song\n\n\n")
                         if addlike {
-                            self.mpDelegate.likedSongs.insert(s.uri)
+                            self.mpDelegate.likedSongs.insert(updatedS.uri)
                         } else {
-                            self.mpDelegate.likedSongs.remove(s.uri)
+                            self.mpDelegate.likedSongs.remove(updatedS.uri)
                         }
                         return
                     }
                     /*
                      Show alert of error!
                      */
-                    self.songLikeFailedAlert.message = "'\(s.title)' could not be liked"
+                    self.songLikeFailedAlert.message = "'\(updatedS.title)' could not be liked"
                     self.present(self.songLikeFailedAlert, animated: true)
                     return
                 }
             }
-            cell?.titleLabel.text = s.title
+            cell?.titleLabel.text = updatedS.title
             cell?.albumArtwork.layer.cornerRadius = 8
             
         return cell
