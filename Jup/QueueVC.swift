@@ -79,6 +79,8 @@ class QueueVC: UITableViewController {
             cell?.likeCountLabel.text = "\(updatedS.likes)"
             cell?.artistLabel.text = updatedS.artist
             cell?.contributorLabel.text = updatedS.contributor
+            cell?.likeCountLabel.layer.masksToBounds = true
+            cell?.likeCountLabel.layer.cornerRadius = 8
 
             let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
             
