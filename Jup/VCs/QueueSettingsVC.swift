@@ -33,6 +33,8 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     let authorizeAlert = UIAlertController(title: "Failed to authorize", message: nil, preferredStyle: .alert)
     let usernameAlert = UIAlertController(title: "Please enter a username", message: nil, preferredStyle: .alert)
     
+    var backgroundImageView: UIImageView! = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +68,13 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         authorizeAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
+        
+//        self.tableView.backgroundView = backgroundImageView
+//        backgroundImageView.frame = self.tableView.bounds
+//        
+//        let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
+//        backgroundImageView.addSubview(backgroundBlurView)
+//        backgroundBlurView.frame = self.tableView.bounds
     }
     
     

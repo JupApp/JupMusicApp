@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.4.1)
+  - Alamofire (5.4.3)
   - BlueCryptor (1.0.32)
   - BlueECC (1.2.5)
   - BlueRSA (1.0.34)
@@ -37,7 +37,7 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   BlueCryptor: b0aee3d9b8f367b49b30de11cda90e1735571c24
   BlueECC: 0d18e93347d3ec6d41416de21c1ffa4d4cd3c2cc
   BlueRSA: 6f9776d62d9773502415a7db3bcbb2bbb3f71fc3
