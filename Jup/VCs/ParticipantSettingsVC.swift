@@ -19,6 +19,8 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .dark
+
         
         btDelegate.participantSettingsVC = self
         

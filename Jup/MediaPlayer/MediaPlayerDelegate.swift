@@ -56,7 +56,6 @@ protocol MediaPlayerDelegate {
 extension MediaPlayerDelegate {
     
     func updateAlbumArtwork() {
-        print("updateAlbumArtwork called")
         guard let songItem = self.currentSong else {
             /*
              Fill in album background with blank image
@@ -67,14 +66,14 @@ extension MediaPlayerDelegate {
             self.parentVC.nowPlayingContributor.text = "Contributor"
             return
         }
-        print("Song to be displayed: \(songItem.songTitle)")
 
         songItem.retrieveArtwork { (image) in
-            print("Artwork successfully retrieved")
             self.parentVC.nowPlayingAlbum.image = image
             self.parentVC.nowPlayingArtist.text = songItem.artistName
             self.parentVC.nowPlayingTitle.text = songItem.songTitle
             self.parentVC.nowPlayingContributor.text = songItem.contributor
+            self.parentVC.propagateImage()
+//            self.parentVC.backgroundImageView.image = image
         }
     }
     

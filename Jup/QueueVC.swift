@@ -44,7 +44,11 @@ struct QueueSongItem: Hashable {
     }
 }
 
-class QueueVC: UITableViewController {
+protocol BackgroundImagePropagator {
+    var backgroundImageView: UIImageView! { get set }
+}
+
+class QueueVC: UITableViewController, BackgroundImagePropagator {
     
 
     @IBOutlet weak var nowPlayingAlbum: UIImageView!
@@ -52,7 +56,9 @@ class QueueVC: UITableViewController {
     @IBOutlet weak var nowPlayingArtist: UILabel!
     @IBOutlet weak var nowPlayingProgress: UIProgressView!
     @IBOutlet weak var nowPlayingContributor: UILabel!
-        
+    
+    var backgroundImageView: UIImageView!
+    var searchVC: SearchVC?
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
@@ -77,10 +83,15 @@ class QueueVC: UITableViewController {
             }
             cell?.albumArtwork.image = updatedS.albumArtwork
             cell?.likeCountLabel.text = "\(updatedS.likes)"
+
             cell?.artistLabel.text = updatedS.artist
+            cell?.artistLabel.textColor = .none
             cell?.contributorLabel.text = updatedS.contributor
             cell?.likeCountLabel.layer.masksToBounds = true
             cell?.likeCountLabel.layer.cornerRadius = 8
+            if updatedS.likes == 0 {
+                cell?.likeCountLabel.isHidden = true
+            }
 
             let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
             
@@ -129,6 +140,9 @@ class QueueVC: UITableViewController {
     override func viewDidLoad() {
         print("View Did Load called")
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .dark
+
+        searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
 
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -162,6 +176,8 @@ class QueueVC: UITableViewController {
 
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
+        
+        
 
         participantMenu = ParticipantMenuViewController(rootViewController: UIViewController())
         participantMenu?.leftSide = true
@@ -179,6 +195,14 @@ class QueueVC: UITableViewController {
         // initialize developer tokens for AM and Spotify
         do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}
         SpotifyUtilities.setNewSpotifyAccessToken(completionHandler: {_ in })
+        
+        backgroundImageView = UIImageView()
+        self.tableView.backgroundView = backgroundImageView
+        backgroundImageView.frame = self.tableView.bounds
+        
+        let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
+        backgroundImageView.addSubview(backgroundBlurView)
+        backgroundBlurView.frame = self.tableView.bounds
     }
     
     @objc func play() {
@@ -190,7 +214,6 @@ class QueueVC: UITableViewController {
     }
     
     @IBAction func presentSearchVC(_ sender: Any) {
-        let searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
         self.navigationController?.pushViewController(searchVC!, animated: true)
     }
     
@@ -266,8 +289,20 @@ class QueueVC: UITableViewController {
         btDelegate.breakConnections()
     }
     
-    func mpNil() {
-        print("MP delegate nil... \(mpDelegate == nil)")
+    func propagateImage() {
+        let image = self.nowPlayingAlbum.image
+        guard let _ = self.mpDelegate.currentSong else {
+            return
+        }
+        for vc in navigationController?.viewControllers ?? [] {
+            guard let propagator = vc as? BackgroundImagePropagator else {
+                continue
+            }
+            print("Set image")
+            propagator.backgroundImageView.image = image
+        }
+//        self.backgroundImageView.image = image
+//        self.searchVC!.setAlbumImage(image)
     }
 }
     

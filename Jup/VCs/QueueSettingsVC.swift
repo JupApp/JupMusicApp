@@ -35,6 +35,9 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        overrideUserInterfaceStyle = .dark
+
         usernameTextField.delegate = self
         var placeHolderText: String = "username"
         

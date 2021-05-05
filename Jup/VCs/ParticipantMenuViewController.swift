@@ -16,7 +16,8 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
     let exitAlert = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .alert)
 
     override func viewDidLoad() {
-        
+        overrideUserInterfaceStyle = .dark
+
         let background = UIImage(named: "Queue Background")
         var imageView : UIImageView!
                 imageView = UIImageView(frame: view.bounds)

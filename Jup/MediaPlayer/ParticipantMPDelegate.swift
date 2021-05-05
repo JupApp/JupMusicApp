@@ -121,7 +121,6 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         print("Song length: \(songLength)")
         print("Current Position in Song: \(newPlaybackPosition)\n")
         print("MediaPlayer delegate is nil? \(self == nil)")
-        parentVC.mpNil()
         if songLength - newPlaybackPosition > 0 {
             UIView.animate(withDuration: 1.0) {
                 self.parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)

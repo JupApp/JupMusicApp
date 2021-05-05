@@ -5,7 +5,9 @@
 //  Created by Nick Venanzi on 4/12/21.
 //
 
-class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
+class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator where T: Hashable {
+    
+    var backgroundImageView: UIImageView! = UIImageView()
     
     var platform: Platform!
         
@@ -38,7 +40,8 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        overrideUserInterfaceStyle = .dark
+
         // Handle TableView set up
         self.tableView.delegate = self
         self.tableView.dataSource = datasource
@@ -50,6 +53,26 @@ class SongListVC<T: SongItem>: UITableViewController where T: Hashable {
         var snap = NSDiffableDataSourceSnapshot<String, T>()
         snap.appendSections(["Songs"])
         datasource.apply(snap, animatingDifferences: false)
+        
+        self.tableView.backgroundView = backgroundImageView
+        backgroundImageView.frame = self.tableView.bounds
+        
+        let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
+        backgroundImageView.addSubview(backgroundBlurView)
+        backgroundBlurView.frame = UIScreen.main.bounds
+        
+        tableView.backgroundColor = .clear
+        self.view.backgroundColor = .clear
+        self.view.tintColor = .clear
+        self.tableView.tintColor = .clear
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let queueVC = navigationController?.viewControllers[0] as? QueueVC else {
+            return
+        }
+        queueVC.propagateImage()
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

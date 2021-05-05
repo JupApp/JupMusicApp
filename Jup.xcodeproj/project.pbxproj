@@ -11,6 +11,7 @@
 		15141D1D260A949000516C06 /* AppleMusicUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15141D1C260A949000516C06 /* AppleMusicUtilities.swift */; };
 		156699C22624ABC100A9E533 /* SpotifyUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156699C12624ABC100A9E533 /* SpotifyUtilities.swift */; };
 		15A003992641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 in Resources */ = {isa = PBXBuildFile; fileRef = 15A003982641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 */; };
+		15A0039D26423C1700CC9B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15A0039C26423C1700CC9B2C /* Assets.xcassets */; };
 		15DBD861258F99800068FEB4 /* MediaPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */; };
 		15DBD86D258F9C460068FEB4 /* BTCommunicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */; };
 		15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */; };
@@ -44,7 +45,6 @@
 		B6787DAF258405B1004CA055 /* QueueSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */; };
 		B6A5243E257D9F440030F15B /* QueueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A5243D257D9F440030F15B /* QueueVC.swift */; };
 		B6BB3CE325811C6E0043CA04 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BB3CE225811C6E0043CA04 /* SearchVC.swift */; };
-		B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6C871DD257D3B36004BE0BF /* Assets.xcassets */; };
 		BCF69A2A37FB4632B65B2CB7 /* Pods_Jup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC39C7FF2E7D3E2C43D8AA1 /* Pods_Jup.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +70,7 @@
 		15141D1C260A949000516C06 /* AppleMusicUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicUtilities.swift; sourceTree = "<group>"; };
 		156699C12624ABC100A9E533 /* SpotifyUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyUtilities.swift; sourceTree = "<group>"; };
 		15A003982641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AuthKey_K2576M4Z3P.p8; sourceTree = "<group>"; };
+		15A0039C26423C1700CC9B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15DBD860258F99800068FEB4 /* MediaPlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerDelegate.swift; sourceTree = "<group>"; };
 		15DBD86C258F9C460068FEB4 /* BTCommunicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCommunicationDelegate.swift; sourceTree = "<group>"; };
 		15DBD874258F9D8B0068FEB4 /* BTParticipantDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTParticipantDelegate.swift; sourceTree = "<group>"; };
@@ -109,7 +110,6 @@
 		B6787DAE258405B1004CA055 /* QueueSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueSettingsVC.swift; sourceTree = "<group>"; };
 		B6A5243D257D9F440030F15B /* QueueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = QueueVC.swift; path = Jup/QueueVC.swift; sourceTree = SOURCE_ROOT; };
 		B6BB3CE225811C6E0043CA04 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
-		B6C871DD257D3B36004BE0BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		DAC39C7FF2E7D3E2C43D8AA1 /* Pods_Jup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Jup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9DEBCEEA57C8149137FBC4 /* Pods-Jup.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jup.release.xcconfig"; path = "Target Support Files/Pods-Jup/Pods-Jup.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -229,10 +229,10 @@
 		B67051ED2571F41900E4077C /* Jup */ = {
 			isa = PBXGroup;
 			children = (
+				15A0039C26423C1700CC9B2C /* Assets.xcassets */,
 				B67051EE2571F41900E4077C /* AppDelegate.swift */,
 				B67051F02571F41900E4077C /* SceneDelegate.swift */,
 				B67051F42571F41900E4077C /* Main.storyboard */,
-				B6C871DD257D3B36004BE0BF /* Assets.xcassets */,
 				B67051F92571F41C00E4077C /* LaunchScreen.storyboard */,
 				B67051FC2571F41C00E4077C /* Info.plist */,
 				B670523A2571F88F00E4077C /* VCs */,
@@ -376,9 +376,9 @@
 				B66EF183258AAEC600E21B4D /* SongCell.xib in Resources */,
 				B67051F62571F41900E4077C /* Main.storyboard in Resources */,
 				868F02EE259CE944005F8E3E /* ParticipantMenuCell.xib in Resources */,
-				B6C871DE257D3B36004BE0BF /* Assets.xcassets in Resources */,
 				8695CCCC25958FAE006021DA /* JoinableQueueCell.xib in Resources */,
 				15A003992641CB4B00CC9B2C /* AuthKey_K2576M4Z3P.p8 in Resources */,
+				15A0039D26423C1700CC9B2C /* Assets.xcassets in Resources */,
 				15DBD8C425957F250068FEB4 /* AuthKey_5CWA2J2HGK.p8 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,31 +25,36 @@ struct PlaylistItem: Hashable {
     }
 }
 
-class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
+class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, BackgroundImagePropagator{
     
 
     @IBOutlet weak var musicSearchBar: UISearchBar!
+//    var musicSearchBar: UISearchBar = UISearchBar()
     var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
     
-    var searchDelegate: SearchDelegate?
     var currentPlatform: Platform = .APPLE_MUSIC
+    var backgroundImageView: UIImageView! = UIImageView()
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip)
                 cell.textLabel?.text = s.playlistName
+                cell.backgroundColor = .clear
+                cell.selectionStyle = .none
+
         return cell
                 
     }
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .dark
+
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
         searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
-        
         musicSearchBar.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -62,7 +67,24 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
 
         searchAMLibrary()
+        
+        self.tableView.backgroundView = backgroundImageView
+        backgroundImageView.frame = self.tableView.bounds
+        
+        let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
+        backgroundImageView.addSubview(backgroundBlurView)
+        backgroundBlurView.frame = self.tableView.bounds
+        musicSearchBar.backgroundImage = UIImage()
+
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let queueVC = navigationController?.viewControllers[0] as? QueueVC else {
+            return
+        }
+        queueVC.propagateImage()
+    }
+
     
     @objc func platformTextfieldPlaceholder(sender: UISegmentedControl){
         switch searchPlatformSegmentedControl.selectedSegmentIndex
