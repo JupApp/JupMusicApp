@@ -7,10 +7,10 @@ target 'Jup' do
 
   # Pods for Jup
 
-pod 'SwiftJWT'
 pod 'SwiftyJSON', '~> 4.0'
 pod 'Alamofire'
 pod 'SideMenu'
+pod 'CupertinoJWT'
 
 
 end

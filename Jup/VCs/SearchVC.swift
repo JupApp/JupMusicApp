@@ -26,7 +26,7 @@ struct PlaylistItem: Hashable {
 }
 
 class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, BackgroundImagePropagator{
-    
+
 
     @IBOutlet weak var musicSearchBar: UISearchBar!
 //    var musicSearchBar: UISearchBar = UISearchBar()
@@ -75,6 +75,11 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         backgroundImageView.addSubview(backgroundBlurView)
         backgroundBlurView.frame = self.tableView.bounds
         musicSearchBar.backgroundImage = UIImage()
+        
+        var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+        snap.appendSections(["Playlists"])
+        snap.appendItems([])
+        self.datasource.apply(snap, animatingDifferences: false)
 
     }
     

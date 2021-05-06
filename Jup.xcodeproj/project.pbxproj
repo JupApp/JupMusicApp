@@ -284,6 +284,8 @@
 			dependencies = (
 			);
 			name = Jup;
+			packageProductDependencies = (
+			);
 			productName = Jup;
 			productReference = B67051EB2571F41900E4077C /* Jup.app */;
 			productType = "com.apple.product-type.application";
@@ -355,6 +357,8 @@
 				Base,
 			);
 			mainGroup = B67051E22571F41900E4077C;
+			packageReferences = (
+			);
 			productRefGroup = B67051EC2571F41900E4077C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -652,7 +656,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = LT3MWZH387;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -679,7 +683,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = LT3MWZH387;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

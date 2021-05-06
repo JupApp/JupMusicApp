@@ -9,32 +9,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>BlueCryptor.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>BlueECC.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>BlueRSA.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>KituraContracts.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>LoggerAPI.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Logging.xcscheme</key>
+		<key>CupertinoJWT.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -45,11 +20,6 @@
 			<false/>
 		</dict>
 		<key>SideMenu.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>SwiftJWT.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

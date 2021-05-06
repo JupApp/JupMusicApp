@@ -7,7 +7,8 @@
 import SwiftyJSON
 import Security
 import StoreKit
-import SwiftJWT
+import CupertinoJWT
+
 
 /*
  Class for containing search results information for Apple Music Catalogue queries
@@ -16,6 +17,8 @@ class AppleMusicUtilities {
     
     static var amDevToken: String?
     static var devExpirationDate: Date?
+    static let amDevTokenKey: String = "amDevTokenKey"
+    static let amDevTokenExpKey: String = "amDevTokenExpKey"
     
     static var amUserToken: String?
     
@@ -27,7 +30,9 @@ class AppleMusicUtilities {
     
     // list of ids in tableview order
     static var playlistIDs: [String] = []
-
+    
+    static let kid: String = "K2576M4Z3P"
+    static let teamID: String = "LT3MWZH387"
         
     static func searchCatalogue(_ searchQuery: String, _ completionHandler: @escaping ([AppleMusicSongItem]) -> ()) {
         guard amDevToken != nil else {
@@ -68,7 +73,11 @@ class AppleMusicUtilities {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: dataResponse)} catch{
+                print("bad data from catalogue request")
+                return
+                
+            }
             let songDataList: JSON = jsonData["results"]["songs"]["data"]
             
             var searchResults: [AppleMusicSongItem] = []
@@ -126,7 +135,8 @@ class AppleMusicUtilities {
             completionHandler()
             return
         }
-        
+        print("\nSearching Playlists\n")
+
         guard amDevToken != nil &&  Date(timeIntervalSinceNow: 5) < expiration! else {
             do {try AppleMusicUtilities.setNewAMAccessToken { (token) in
                 guard let _ = token else { return }
@@ -134,7 +144,8 @@ class AppleMusicUtilities {
             } } catch { return }
             return
         }
-        
+        print("\nSearching Playlists\n")
+
         guard amUserToken != nil else {
             AppleMusicUtilities.setNewUserToken { (token) in
                 guard let _ = token else {
@@ -144,7 +155,8 @@ class AppleMusicUtilities {
             }
             return
         }
-        
+        print("\nSearching Playlists\n")
+
         var components = URLComponents()
         components.scheme = "https"
         components.host   = "api.music.apple.com"
@@ -164,8 +176,15 @@ class AppleMusicUtilities {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
-            
+            do {try jsonData = JSON(data: dataResponse)} catch{
+                print(dataResponse)
+                print(response)
+                print(error)
+                print("poop")
+                return
+            }
+            print("\nRecieving Playlists\n")
+
             for playlistDict in jsonData["data"].arrayValue {
                 let id = playlistDict["id"].stringValue
                 let name = playlistDict["attributes"]["name"].stringValue
@@ -245,7 +264,9 @@ class AppleMusicUtilities {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: dataResponse)} catch{
+                return
+            }
             let songListData: JSON = jsonData["data"]
             
             // handle songs
@@ -302,29 +323,27 @@ class AppleMusicUtilities {
      Creates new Apple Music JWTToken and sets new userToken
      */
     static func setNewAMAccessToken(completionHandler: @escaping (String?) -> ()) throws {
+        amDevToken = UserDefaults.standard.string(forKey: amDevTokenKey)
+        devExpirationDate = UserDefaults.standard.object(forKey: amDevTokenExpKey) as? Date
+        
         guard amDevToken == nil || Date(timeIntervalSinceNow: 5) > devExpirationDate! else {
+            print("Remembered")
             completionHandler(amDevToken)
             return
         }
-        
-        guard let privateKey = getAMAuthorizationKey() else {
+        guard let secret = getAMAuthorizationKey() else {
             return
         }
-        let keyData = privateKey.data(using: .utf8)!
-//        let kid = "5CWA2J2HGK"
-        let kid = "K2576M4Z3P"
-        let myHeader = Header(kid: kid)
-        
-        let iss = "LT3MWZH387"
-        let now = Date(timeIntervalSinceNow: 0)
-        devExpirationDate = Date(timeIntervalSinceNow: 3600)
-        print("ABout to issue claims thing")
-        let myClaims = ClaimsStandardJWT(iss: iss, exp: devExpirationDate!, iat: now)
-        var myJWT = JWT(header: myHeader, claims: myClaims)
-        let myJWTSigner = JWTSigner.es256(privateKey: keyData)
-        amDevToken = try myJWT.sign(using: myJWTSigner)
-        print("Successfully generated developer token :)")
+        let duration: Double = 15777000
+        // Assign developer information and token expiration setting
+        let jwt = JWT(keyID: kid, teamID: teamID, issueDate: Date(), expireDuration: duration)
+        devExpirationDate = Date(timeIntervalSinceNow: duration)
+        amDevToken = try jwt.sign(with: secret)
+        UserDefaults.standard.setValue(amDevToken, forKey: amDevTokenKey)
+        UserDefaults.standard.setValue(devExpirationDate, forKey: amDevTokenExpKey)
         completionHandler(amDevToken)
+        return
+
     }
     
     /*
@@ -359,6 +378,7 @@ class AppleMusicUtilities {
         do { try setNewAMAccessToken { _ in
             SKCloudServiceController().requestUserToken(forDeveloperToken: amDevToken!) {data, error in
                 if let _ = error {
+                    print("Error getting user token: \n\(data ?? "")")
                     /*
                      Alert User that app was unable to get user token for AM
                      Probably because user has not authorized this app to use library or
@@ -384,4 +404,26 @@ class AppleMusicUtilities {
         playlistContent = [:]
         playlistIDs = []
     }
+}
+
+extension Data {
+    func urlSafeBase64EncodedString() -> String {
+        return base64EncodedString()
+            .replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "=", with: "")
+    }
+}
+
+struct AMJWTHeader: Encodable {
+    let typ = "JWT"
+    let alg = "ES256"
+    let kid = "K2576M4Z3P"
+}
+
+struct AMJWTPayload: Encodable {
+    let iss: String = "LT3MWZH387"
+    let iat: Date
+    let exp: Date
+
 }

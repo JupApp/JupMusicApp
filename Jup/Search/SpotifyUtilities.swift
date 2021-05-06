@@ -38,10 +38,12 @@ class SpotifyUtilities {
                 print("Not authorized")
                 return
             }
-            SpotifyUtilities.retrieveUserID {(id) in
-                self.userID = id
-                self.searchUsersPlaylists {
-                    completionHandler()
+            DispatchQueue.main.async {
+                SpotifyUtilities.retrieveUserID {(id) in
+                    self.userID = id
+                    self.searchUsersPlaylists {
+                        completionHandler()
+                    }
                 }
             }
         }

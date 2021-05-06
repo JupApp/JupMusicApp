@@ -55,18 +55,7 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
                     
                     self.player = appDelegate.appRemote.playerAPI
                     self.player?.setRepeatMode(.off)
-//                    self.player?.delegate = self
-//                    self.player?.subscribe { (success, error) in
-//                        if let _ = error {
-//                            completionHandler(SpotifyAppRemoteError())
-//                            return
-//                        }
-//                        self.state = success as? SPTAppRemotePlayerState
-//                    }
                     self.player?.play(spotifySongItem) { (_, e) in
-//                        if let _ = e {
-//                            print("error, its with trying to play song")
-//                        }
                         completionHandler(e)
                     }
                 })
@@ -165,6 +154,7 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
     
     func enqueueSongList(_ songItems: [SpotifySongItem], _ currentIndex: Int, completionHandler: @escaping (Error?) -> ()) {
         if currentIndex == songItems.count {
+            self.player?.setRepeatMode(.off)
             completionHandler(nil)
             return
         }
@@ -196,6 +186,26 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
     }
     
     func nowPlayingInfo(_ completionHandler: @escaping (String?, Bool) -> ()) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if !appDelegate.appRemote.isConnected {
+            print("App NOT connected to spotify")
+            appDelegate.appRemote.authorizeAndPlayURI("")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                print("Waited 1 second, hopefully connected")
+                self.player?.getPlayerState { (state, error) in
+                    if let _ = error {
+                        print("Not connected... :(")
+                        completionHandler(nil, false)
+                    }
+                    print("Connected!!!")
+                    let currentState = state as? SPTAppRemotePlayerState
+                    completionHandler(currentState?.track.uri, !(currentState?.isPaused ?? true))
+                }
+            }
+            return
+        }
+
         self.player?.getPlayerState { (state, error) in
             if let _ = error {
                 print("failed to retrieve state information, cannot clear queue")

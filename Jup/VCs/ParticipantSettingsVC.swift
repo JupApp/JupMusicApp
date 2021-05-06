@@ -96,7 +96,8 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         
         let hostName = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]![CBAdvertisementDataLocalNameKey] as! String
         var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
-        queueVC.platform = Platform(rawValue: try! Int(value:hostPieces.removeLast()))!
+        let platformRaw: Int? = Int(hostPieces.removeLast())
+        queueVC.platform = Platform(rawValue: platformRaw!)!
         
         btDelegate.queueVC = queueVC
         queueVC.btDelegate = btDelegate
@@ -115,7 +116,7 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
             return false
         }
         var hostPieces: [String] = host.split(separator: " ").map { String($0) }
-        guard let _ = Platform(rawValue: (try? Int(value:hostPieces.removeLast())) ?? -1) else {
+        guard let _ = Platform(rawValue: (try? Int(hostPieces.removeLast())) ?? -1) else {
             /*
              SEND ALERT THAT HOST's bluetooth connection is throttled down and host
              may need to return to app for you to join
@@ -138,7 +139,7 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
                 return cell
             }
             var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
-            let _: Platform = Platform(rawValue: try! Int(value:hostPieces.removeLast()))!
+            let _: Platform = Platform(rawValue: try! Int(hostPieces.removeLast())!)!
             cell.queueNameLabel.text = hostPieces.joined(separator: " ")
             cell.buttonClicked = {
                 self.btDelegate.connectToQueue(peripheral)

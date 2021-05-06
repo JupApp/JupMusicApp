@@ -66,7 +66,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     var platform: Platform = .APPLE_MUSIC
     var queueType: QueueType = .VOTING
     var participantMenu: ParticipantMenuViewController?
-//    var searchVC: SearchVC?
     
     var host: String = ""
     var participants: [String] = []
