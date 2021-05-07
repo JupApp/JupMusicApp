@@ -84,9 +84,6 @@ extension MediaPlayerDelegate {
         snap.appendItems(queue.map({ (uri) -> QueueSongItem in
             songMap[uri]!.getQueueSongItem()
         }))
-        if queue.count > 0 {
-            print("Next Song in queue: \(songMap[queue[0]]?.songTitle ?? "")")
-        }
         DispatchQueue.main.async {
             parentVC.datasource.apply(snap, animatingDifferences: true)
         }

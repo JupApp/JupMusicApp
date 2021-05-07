@@ -40,7 +40,7 @@ struct QueueSongItem: Hashable {
     }
     
     static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
-               return lhs.uri == rhs.uri
+        return lhs.uri == rhs.uri
     }
 }
 
@@ -90,6 +90,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             cell?.likeCountLabel.layer.cornerRadius = 8
             if updatedS.likes == 0 {
                 cell?.likeCountLabel.isHidden = true
+            } else {
+                cell?.likeCountLabel.isHidden = false
             }
 
             let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
@@ -172,6 +174,11 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
         tap.cancelsTouchesInView = false
         self.nowPlayingAlbum.addGestureRecognizer(tap)
+        
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(skip))
+        swipe.cancelsTouchesInView = false
+        swipe.direction = .right
+        self.nowPlayingAlbum.addGestureRecognizer(swipe)
 
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
@@ -210,6 +217,10 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         } else {
             mpDelegate.play()
         }
+    }
+    
+    @objc func skip() {
+        mpDelegate.skip()
     }
     
     @IBAction func presentSearchVC(_ sender: Any) {

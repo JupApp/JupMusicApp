@@ -134,7 +134,7 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.currentSong = nextSongItem
                 self.updateAlbumArtwork()
                 self.updateDataSource()
-                
+
                 self.parentVC.btDelegate.updateQueueSnapshot()
             }
         })
@@ -182,18 +182,27 @@ class HostMPDelegate: MediaPlayerDelegate {
             return
         }
         songMap[uri]!.likes += (liked ? 1 : -1)
-        
+        completionHandler(nil)
+        self.parentVC.tableView.reloadData()
+
         if (parentVC.queueType == .VOTING) {
             updateQueueOrder()
         }
-        completionHandler(nil)
         print("Updating datasource")
         self.updateDataSource()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            self.parentVC.tableView.reloadData()
-        }
-//        self.parentVC.tableView.reloadData()
-//        updateDataSource()
+//
+//        var snap = self.parentVC.datasource.snapshot()
+//        for item in snap.itemIdentifiers {
+//            if item.uri == uri {
+//                var newItem = item
+//                newItem.likes = songMap[uri]!.likes
+//                snap.reloadItems([newItem])
+//            }
+//        }
+//        DispatchQueue.main.async {
+//            self.parentVC.datasource.apply(snap, animatingDifferences: true)
+//        }
+
         
         parentVC.btDelegate.updateQueueSnapshot()
         

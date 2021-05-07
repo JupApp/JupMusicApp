@@ -132,15 +132,6 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
              */
             parentVC.btDelegate.updateQueueSnapshot()
         }
-//        } else if queue.isEmpty {
-//            state = .NO_SONG_SET
-//            currentSong = nil
-//            songTimer?.invalidate()
-//        } else {
-//            songTimer?.invalidate()
-//            state = .TRANSITIONING
-//            transitionToNextSong()
-//        }
     }
     
     func returnedToApp() {
@@ -149,6 +140,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
          */
         self.parentVC.btDelegate.updateQueueSnapshot()
     }
+    
+
 }
 
 
