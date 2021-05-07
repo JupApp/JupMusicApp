@@ -54,24 +54,14 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     }
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
-        if let artwork = albumArtwork {
+        if let artwork = self.albumArtwork {
             completionHandler(artwork)
             return
         }
-        guard let url: URL = URL(string: albumURL) else {
-            completionHandler(UIImage())
-            return
+        SpotifySongItem.retrieveArtwork(albumURL) { image in
+            self.albumArtwork = image
+            completionHandler(image)
         }
-        let request = URLRequest(url: url)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            guard let data = data else { completionHandler(UIImage()); return }
-            DispatchQueue.main.async {
-                self.albumArtwork = UIImage(data: data)
-                completionHandler(self.albumArtwork ?? UIImage())
-            }
-        }
-        task.resume()
     }
     
     func copy() -> SongItem {

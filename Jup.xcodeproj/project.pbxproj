@@ -28,6 +28,7 @@
 		15DBD8CC259617790068FEB4 /* SongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8CB259617790068FEB4 /* SongItem.swift */; };
 		15DBD8D125961C5B0068FEB4 /* AppleMusicSongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8D025961C5B0068FEB4 /* AppleMusicSongItem.swift */; };
 		15DBD8D6259623B00068FEB4 /* SpotifySongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DBD8D5259623B00068FEB4 /* SpotifySongItem.swift */; };
+		15DEB5852645B66700F87F97 /* PlaylistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DEB5842645B66700F87F97 /* PlaylistItem.swift */; };
 		863AB4BC259A4AC7004283D7 /* ParticipantMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863AB4BB259A4AC7004283D7 /* ParticipantMenuViewController.swift */; };
 		866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866A92AD258EEFC5000BD69D /* SearchCell.swift */; };
 		866A92B0258EEFC5000BD69D /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866A92AE258EEFC5000BD69D /* SearchCell.xib */; };
@@ -88,6 +89,7 @@
 		15DBD8CB259617790068FEB4 /* SongItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongItem.swift; sourceTree = "<group>"; };
 		15DBD8D025961C5B0068FEB4 /* AppleMusicSongItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicSongItem.swift; sourceTree = "<group>"; };
 		15DBD8D5259623B00068FEB4 /* SpotifySongItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongItem.swift; sourceTree = "<group>"; };
+		15DEB5842645B66700F87F97 /* PlaylistItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItem.swift; sourceTree = "<group>"; };
 		1A7A1DB9A9B70E756C143D28 /* Pods-Jup.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jup.debug.xcconfig"; path = "Target Support Files/Pods-Jup/Pods-Jup.debug.xcconfig"; sourceTree = "<group>"; };
 		863AB4BB259A4AC7004283D7 /* ParticipantMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantMenuViewController.swift; sourceTree = "<group>"; };
 		866A92AD258EEFC5000BD69D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				15DBD8CB259617790068FEB4 /* SongItem.swift */,
 				15DBD8D025961C5B0068FEB4 /* AppleMusicSongItem.swift */,
 				15DBD8D5259623B00068FEB4 /* SpotifySongItem.swift */,
+				15DEB5842645B66700F87F97 /* PlaylistItem.swift */,
 			);
 			path = MediaPlayer;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				15DBD875258F9D8B0068FEB4 /* BTParticipantDelegate.swift in Sources */,
 				B66EF182258AAEC600E21B4D /* SongCell.swift in Sources */,
 				866A92AF258EEFC5000BD69D /* SearchCell.swift in Sources */,
+				15DEB5852645B66700F87F97 /* PlaylistItem.swift in Sources */,
 				156699C22624ABC100A9E533 /* SpotifyUtilities.swift in Sources */,
 				B670523C2571F8C500E4077C /* ParticipantSettingsVC.swift in Sources */,
 				15DBD87A258F9D990068FEB4 /* BTHostDelegate.swift in Sources */,

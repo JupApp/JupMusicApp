@@ -34,5 +34,21 @@ extension SongItem {
     func getQueueSongItem() -> QueueSongItem {
         return QueueSongItem(title: songTitle, artist: artistName, uri: uri, albumArtwork: albumArtwork ?? UIImage(), contributor: contributor, likes: likes)
     }
+    
+    static func retrieveArtwork(_ imageURL: String, completionHandler: @escaping (_ image: UIImage) -> ()) {
+        guard let url: URL = URL(string: imageURL) else {
+            completionHandler(UIImage())
+            return
+        }
+        let request = URLRequest(url: url)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let data = data else { completionHandler(UIImage()); return }
+            DispatchQueue.main.async {
+                completionHandler(UIImage(data: data) ?? UIImage())
+            }
+        }
+        task.resume()
+    }
 }
 

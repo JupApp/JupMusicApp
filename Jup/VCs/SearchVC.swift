@@ -7,24 +7,6 @@
 import StoreKit
 import UIKit
 
-struct PlaylistItem: Hashable {
-    var playlistName: String
-    var playlistID: String
-    
-    init(_ name: String, _ id: String) {
-        self.playlistName = name
-        self.playlistID = id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(playlistID)
-    }
-    
-    static func ==(lhs: PlaylistItem, rhs: PlaylistItem) -> Bool {
-               return lhs.playlistID == rhs.playlistID
-    }
-}
-
 class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, BackgroundImagePropagator{
 
 
@@ -39,7 +21,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
         var cell =
             tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip)
-                cell.textLabel?.text = s.playlistName
+                cell.textLabel?.text = s.name
                 cell.backgroundColor = .clear
                 cell.selectionStyle = .none
 
@@ -201,7 +183,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
             snap.appendSections(["Playlists"])
             snap.appendItems(AppleMusicUtilities.playlistIDs.map({ (id) -> PlaylistItem in
-                PlaylistItem(AppleMusicUtilities.playlistNames[id]!, id)
+                AppleMusicUtilities.playlists[id]!
             }))
             self.datasource.apply(snap, animatingDifferences: false)
         }
@@ -224,7 +206,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
             snap.appendSections(["Playlists"])
             snap.appendItems(SpotifyUtilities.playlistIDs.map({ (id) -> PlaylistItem in
-                PlaylistItem(SpotifyUtilities.playlistNames[id]!, id)
+                SpotifyUtilities.playlists[id]!
             }))
             self.datasource.apply(snap, animatingDifferences: false)
         }

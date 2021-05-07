@@ -10,7 +10,7 @@ class SpotifyUtilities {
     static var userID: String?
     
     // map ID to name
-    static var playlistNames: [String : String] = [:]
+    static var playlists: [String : PlaylistItem] = [:]
     
     // map ID to playlist content (songs and whatnot)
     static var playlistContent: [String : [SpotifySongItem]] = [:]
@@ -64,19 +64,19 @@ class SpotifyUtilities {
         /*
          Add playlist corresponding to user's top played songs (short-term)
          */
-        self.playlistNames[TimeScale.SHORT.toString()] = "Top Played Songs (Month)"
+        self.playlists[TimeScale.SHORT.toString()] = PlaylistItem("Top Played Songs (Month)", TimeScale.SHORT.toString(), "")
         self.playlistIDs.append(TimeScale.SHORT.toString())
         
         /*
          Add playlist corresponding to user's top played songs (medium-term)
          */
-        self.playlistNames[TimeScale.MEDIUM.toString()] = "Top Played Songs (Year)"
+        self.playlists[TimeScale.MEDIUM.toString()] = PlaylistItem("Top Played Songs (Year)", TimeScale.MEDIUM.toString(), "")
         self.playlistIDs.append(TimeScale.MEDIUM.toString())
 
         /*
          Add playlist corresponding to user's top played songs (long-term)
          */
-        self.playlistNames[TimeScale.LONG.toString()] = "Top Played Songs (All-Time)"
+        self.playlists[TimeScale.LONG.toString()] = PlaylistItem("Top Played Songs (All-Time)", TimeScale.LONG.toString(), "")
         self.playlistIDs.append(TimeScale.LONG.toString())
 
         /*
@@ -117,8 +117,15 @@ class SpotifyUtilities {
             for playlist in playlistData {
                 let playlistID: String = playlist["id"].stringValue
                 let playlistName: String = playlist["name"].stringValue
-                self.playlistNames[playlistID] = playlistName
+                print(playlist)
+                // get url
+                var albumURL = ""
+                if playlist["images"].arrayValue.count > 0 {
+                    albumURL = playlist["images"].arrayValue[0]["url"].stringValue
+                }
                 self.playlistIDs.append(playlistID)
+                self.playlists[playlistID] = PlaylistItem(playlistName, playlistID, albumURL)
+
             }
             let totalPlaylists: Int = jsonData["total"].intValue
             if (totalPlaylists > offset + limit) {
@@ -633,7 +640,7 @@ class SpotifyUtilities {
     }
     
     static func clearCache() {
-        playlistNames = [:]
+        playlists = [:]
         playlistContent = [:]
         playlistIDs = []
     }
