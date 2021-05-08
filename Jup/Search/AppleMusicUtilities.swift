@@ -105,7 +105,7 @@ class AppleMusicUtilities {
      Attempts to convert song from Spotify Catalogue to Apple Music Catalogue
      */
     static func convertSpotifyToAppleMusic(_ songItem: SongItem, _ completionHandler: @escaping (AppleMusicSongItem?) -> ()) {
-        let searchQuery: String = SpotifyUtilities.searchQueryFromSong(songItem)
+        let searchQuery: String = Utilities.searchQueryFromSong(songItem)
         AppleMusicUtilities.searchCatalogue(searchQuery) { (possibleMatches) in
             /*
              For now, take first match
@@ -114,7 +114,7 @@ class AppleMusicUtilities {
                 completionHandler(nil)
                 return
             }
-            let songItem: AppleMusicSongItem = SpotifyUtilities.matchQuery(songItem, possibleMatches)
+            let songItem: AppleMusicSongItem = Utilities.matchQuery(songItem, possibleMatches)
             songItem.retrieveArtwork { (_) in
                 completionHandler(songItem)
             }
@@ -181,11 +181,10 @@ class AppleMusicUtilities {
                 let id = playlistDict["id"].stringValue
                 let name = playlistDict["attributes"]["name"].stringValue
                 self.playlistIDs.append(id)
-                
                 // get album artwork
                 let url = playlistDict["attributes"]["artwork"]["url"].stringValue
                 let albumURL = url.replacingOccurrences(of: "{w}x{h}", with: "\(Int(400))x\(Int(400))")
-                self.playlists[id] = PlaylistItem(name, id, albumURL)
+                self.playlists[id] = PlaylistItem(name, id, albumURL, .APPLE_MUSIC)
             }
             
             completionHandler()
@@ -264,7 +263,6 @@ class AppleMusicUtilities {
                 return
             }
             let songListData: JSON = jsonData["data"]
-            
             // handle songs
             for (_, songDictionary) in songListData {
                 
@@ -323,7 +321,6 @@ class AppleMusicUtilities {
         devExpirationDate = UserDefaults.standard.object(forKey: amDevTokenExpKey) as? Date
         
         guard amDevToken == nil || Date(timeIntervalSinceNow: 5) > devExpirationDate! else {
-            print("Remembered")
             completionHandler(amDevToken)
             return
         }
@@ -347,8 +344,6 @@ class AppleMusicUtilities {
      */
     static func getAMAuthorizationKey() -> String? {
         do {
-            print("Starting to open resource to make Authorization key")
-//            guard let path = Bundle.main.path(forResource: "AuthKey_5CWA2J2HGK", ofType: ".p8") else {
             guard let path = Bundle.main.path(forResource: "AuthKey_K2576M4Z3P", ofType: ".p8") else {
 
                 return nil
@@ -358,7 +353,6 @@ class AppleMusicUtilities {
             guard let key = String(data: data, encoding: .utf8) else {
                 return nil
             }
-            print("Returning the key")
             return key
         }
         catch {

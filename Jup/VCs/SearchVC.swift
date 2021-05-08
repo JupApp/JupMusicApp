@@ -19,11 +19,16 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
-        var cell =
-            tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip)
-                cell.textLabel?.text = s.name
-                cell.backgroundColor = .clear
-                cell.selectionStyle = .none
+        var cell = tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip) as! PlaylistCell
+        cell.playlistName.text = s.name
+        cell.playlistImage.image = UIImage(named: "DefaultArtwork")
+        s.retrieveArtwork { image in
+            DispatchQueue.main.async {
+                cell.playlistImage.image = image ?? UIImage(named: "DefaultArtwork")
+            }
+        }
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
 
         return cell
                 
@@ -46,7 +51,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         self.tableView.delegate = self
         self.tableView.allowsSelection = true
         self.tableView.dataSource = datasource
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
+        self.tableView.register(UINib(nibName: "PlaylistCell", bundle: nil), forCellReuseIdentifier: "PlaylistCell")
 
         searchAMLibrary()
         
