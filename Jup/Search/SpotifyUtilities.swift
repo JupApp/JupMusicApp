@@ -10,7 +10,7 @@ class SpotifyUtilities {
     static var userID: String?
     
     // map ID to name
-    static var playlistNames: [String : String] = [:]
+    static var playlists: [String : PlaylistItem] = [:]
     
     // map ID to playlist content (songs and whatnot)
     static var playlistContent: [String : [SpotifySongItem]] = [:]
@@ -64,19 +64,19 @@ class SpotifyUtilities {
         /*
          Add playlist corresponding to user's top played songs (short-term)
          */
-        self.playlistNames[TimeScale.SHORT.toString()] = "Top Played Songs (Month)"
+        self.playlists[TimeScale.SHORT.toString()] = PlaylistItem("Top Played Songs (Month)", TimeScale.SHORT.toString(), "", .SPOTIFY)
         self.playlistIDs.append(TimeScale.SHORT.toString())
         
         /*
          Add playlist corresponding to user's top played songs (medium-term)
          */
-        self.playlistNames[TimeScale.MEDIUM.toString()] = "Top Played Songs (Year)"
+        self.playlists[TimeScale.MEDIUM.toString()] = PlaylistItem("Top Played Songs (Year)", TimeScale.MEDIUM.toString(), "", .SPOTIFY)
         self.playlistIDs.append(TimeScale.MEDIUM.toString())
 
         /*
          Add playlist corresponding to user's top played songs (long-term)
          */
-        self.playlistNames[TimeScale.LONG.toString()] = "Top Played Songs (All-Time)"
+        self.playlists[TimeScale.LONG.toString()] = PlaylistItem("Top Played Songs (All-Time)", TimeScale.LONG.toString(), "", .SPOTIFY)
         self.playlistIDs.append(TimeScale.LONG.toString())
 
         /*
@@ -117,8 +117,15 @@ class SpotifyUtilities {
             for playlist in playlistData {
                 let playlistID: String = playlist["id"].stringValue
                 let playlistName: String = playlist["name"].stringValue
-                self.playlistNames[playlistID] = playlistName
+                print(playlist)
+                // get url
+                var albumURL = ""
+                if playlist["images"].arrayValue.count > 0 {
+                    albumURL = playlist["images"].arrayValue[0]["url"].stringValue
+                }
                 self.playlistIDs.append(playlistID)
+                self.playlists[playlistID] = PlaylistItem(playlistName, playlistID, albumURL, .SPOTIFY)
+
             }
             let totalPlaylists: Int = jsonData["total"].intValue
             if (totalPlaylists > offset + limit) {
@@ -324,7 +331,7 @@ class SpotifyUtilities {
      Attempts to convert AM song to Spotify song
      */
     static func convertAppleMusicToSpotify(_ songItem: SongItem, _ completionHandler: @escaping (SpotifySongItem?) -> ()) {
-        let searchQuery: String = SpotifyUtilities.searchQueryFromSong(songItem)
+        let searchQuery: String = Utilities.searchQueryFromSong(songItem)
         print("Search Query:\n\(searchQuery)")
         SpotifyUtilities.searchCatalogue(searchQuery) { (possibleMatches) in
             /*
@@ -337,56 +344,12 @@ class SpotifyUtilities {
                 completionHandler(nil)
                 return
             }
-            let songItem: SpotifySongItem = matchQuery(songItem, possibleMatches)
+            let songItem: SpotifySongItem = Utilities.matchQuery(songItem, possibleMatches)
             songItem.retrieveArtwork { (_) in
                 completionHandler(songItem)
             }
         }
         return
-    }
-    
-    /*
-     Converts song item into a hierarchy of possible searches to query
-     */
-    static func searchQueryFromSong(_ songItem: SongItem) -> String {
-        let artists: String = songItem.artistName
-            .replacingOccurrences(of: ",", with: "")
-            .replacingOccurrences(of: "& ", with: "")
-            .replacingOccurrences(of: "and ", with: "")
-        let title: String = songItem.songTitle
-            .replacingOccurrences(of: "[", with: "")
-            .replacingOccurrences(of: "]", with: "")
-            .replacingOccurrences(of: "- ", with: "")
-            .replacingOccurrences(of: "(feat. ", with: "")
-            .replacingOccurrences(of: "(with ", with: "")
-            .replacingOccurrences(of: ")", with: "")
-            .replacingOccurrences(of: "(", with: "")
-            .replacingOccurrences(of: "& ", with: "")
-            .replacingOccurrences(of: ",", with: "")
-            .replacingOccurrences(of: " x ", with: " ")
-
-        print("Song Title: \n\(title)")
-        print("Artists:\n\(artists)")
-        return title + " " + artists
-    }
-    
-    /*
-     Attempts to find result that matches query words exactly, otherwise returns first result
-     */
-    static func matchQuery<T: SongItem>(_ songItemToMatch: SongItem, _ resultSongItems: [T]) -> T {
-        let matchGoal: [String] = searchQueryFromSong(songItemToMatch).split(separator: " ").map { (substring) -> String in
-            String(substring)
-        }
-        
-        let matchGoalSet: Set<String> = Set(matchGoal)
-        
-        for possibleMatch in resultSongItems {
-            let itemsInPossibleMatch: [String] = searchQueryFromSong(possibleMatch).split(separator: " ").map { String($0) }
-            if matchGoalSet.isSubset(of: itemsInPossibleMatch) && matchGoalSet.isSuperset(of: itemsInPossibleMatch) {
-                return possibleMatch
-            }
-        }
-        return resultSongItems[0]
     }
     
     /*
@@ -633,7 +596,7 @@ class SpotifyUtilities {
     }
     
     static func clearCache() {
-        playlistNames = [:]
+        playlists = [:]
         playlistContent = [:]
         playlistIDs = []
     }

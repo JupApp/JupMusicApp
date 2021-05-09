@@ -7,24 +7,6 @@
 import StoreKit
 import UIKit
 
-struct PlaylistItem: Hashable {
-    var playlistName: String
-    var playlistID: String
-    
-    init(_ name: String, _ id: String) {
-        self.playlistName = name
-        self.playlistID = id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(playlistID)
-    }
-    
-    static func ==(lhs: PlaylistItem, rhs: PlaylistItem) -> Bool {
-               return lhs.playlistID == rhs.playlistID
-    }
-}
-
 class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, BackgroundImagePropagator{
 
 
@@ -37,11 +19,16 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
-        var cell =
-            tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip)
-                cell.textLabel?.text = s.playlistName
-                cell.backgroundColor = .clear
-                cell.selectionStyle = .none
+        var cell = tv.dequeueReusableCell(withIdentifier: "PlaylistCell", for: ip) as! PlaylistCell
+        cell.playlistName.text = s.name
+        cell.playlistImage.image = UIImage(named: "DefaultArtwork")
+        s.retrieveArtwork { image in
+            DispatchQueue.main.async {
+                cell.playlistImage.image = image ?? UIImage(named: "DefaultArtwork")
+            }
+        }
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
 
         return cell
                 
@@ -64,7 +51,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         self.tableView.delegate = self
         self.tableView.allowsSelection = true
         self.tableView.dataSource = datasource
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaylistCell")
+        self.tableView.register(UINib(nibName: "PlaylistCell", bundle: nil), forCellReuseIdentifier: "PlaylistCell")
 
         searchAMLibrary()
         
@@ -96,6 +83,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             {
         case 0:
             musicSearchBar.placeholder = "Apple Music"
+            musicSearchBar.tintColor = .lightGray
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
@@ -103,6 +91,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             break;
         case 1:
             musicSearchBar.placeholder = "Spotify"
+            musicSearchBar.tintColor = .lightGray
             currentPlatform = .SPOTIFY
             
             // load playlist of Spotify if hasn't been done already
@@ -110,6 +99,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             break;
         default:
             musicSearchBar.placeholder = "Apple Music"
+            musicSearchBar.tintColor = .lightGray
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
@@ -201,7 +191,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
             snap.appendSections(["Playlists"])
             snap.appendItems(AppleMusicUtilities.playlistIDs.map({ (id) -> PlaylistItem in
-                PlaylistItem(AppleMusicUtilities.playlistNames[id]!, id)
+                AppleMusicUtilities.playlists[id]!
             }))
             self.datasource.apply(snap, animatingDifferences: false)
         }
@@ -224,7 +214,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
             snap.appendSections(["Playlists"])
             snap.appendItems(SpotifyUtilities.playlistIDs.map({ (id) -> PlaylistItem in
-                PlaylistItem(SpotifyUtilities.playlistNames[id]!, id)
+                SpotifyUtilities.playlists[id]!
             }))
             self.datasource.apply(snap, animatingDifferences: false)
         }

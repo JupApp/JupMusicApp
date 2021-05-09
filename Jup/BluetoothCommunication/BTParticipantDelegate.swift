@@ -31,8 +31,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
-        disconnectedFromQueueAlert.addAction(UIAlertAction(title: "Reconnect", style: .default, handler: reconnectToQueue))
-        disconnectedFromQueueAlert.addAction(UIAlertAction(title: "Return to Settings", style: .cancel, handler: returnToSettings))
+        disconnectedFromQueueAlert.addAction(UIAlertAction(title: "Return to Settings", style: .default, handler: returnToSettings))
     }
     
     func reconnectToQueue(_ alert: UIAlertAction) {
@@ -40,7 +39,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     }
     
     func returnToSettings(_ alert: UIAlertAction) {
+        queueVC?.mpDelegate = nil
         queueVC?.performSegue(withIdentifier: "exitQueue", sender: nil)
+        queueVC = nil
     }
     
     func connectToQueue(_ queue: CBPeripheral) {
@@ -85,7 +86,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
          Alert user disconnected, prompt user to reconnect or go back to settings
          */
         print("Disconnected")
-        disconnectedFromQueueAlert.message = "App disconnected Bluetooth connection to Queue. Reconnect or return to Settings."
+        disconnectedFromQueueAlert.message = "App disconnected Bluetooth connection to Queue. Return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
     
@@ -94,7 +95,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
          Alert user failed to connect, prompt user to reconnect or go back to settings
          */
         print("Failed to connect")
-        disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Try again or return to Settings."
+        disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
         
@@ -233,7 +234,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     }
     
     func breakConnections() {
-        centralManager!.cancelPeripheralConnection(hostPeripheral!)
+        centralManager?.cancelPeripheralConnection(hostPeripheral!)
         hostPeripheral = nil
         discoveredQueues = []
         discoveredQueueInfo = [:]

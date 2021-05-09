@@ -105,16 +105,20 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             if updatedS.contributor == username {
                 cell?.likeButton.isEnabled = false
                 cell?.likeButton.alpha = 0.5
+            } else {
+                cell?.likeButton.isEnabled = true
+                cell?.likeButton.alpha = 1.0
             }
             cell?.completionHandler = {
                 let addlike: Bool = !self.mpDelegate.likedSongs.contains(updatedS.uri)
                 print("Like Song: \(addlike)")
-                self.mpDelegate.likeSong(s.uri, addlike) { e in
+                self.mpDelegate.likeSong(updatedS.uri, addlike) { e in
                     guard let error = e else {
                         // success!
-                        print("\n\n\nSuccessfully liked song\n\n\n")
                         if addlike {
                             self.mpDelegate.likedSongs.insert(updatedS.uri)
+                            print("\n\n\nSuccessfully liked song:\n\n\n")
+
                         } else {
                             self.mpDelegate.likedSongs.remove(updatedS.uri)
                         }

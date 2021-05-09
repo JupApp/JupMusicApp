@@ -7,10 +7,11 @@
 
 import UIKit
 
-class playlistCell: UITableViewCell {
+class PlaylistCell: UITableViewCell {
 
     @IBOutlet weak var playlistImage: UIImageView!
-    @IBOutlet weak var playlistLabel: NSLayoutConstraint!
+    @IBOutlet weak var playlistName: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

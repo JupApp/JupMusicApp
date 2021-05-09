@@ -23,7 +23,7 @@ class AppleMusicUtilities {
     static var amUserToken: String?
     
     // map ID to name
-    static var playlistNames: [String : String] = [:]
+    static var playlists: [String : PlaylistItem] = [:]
     
     // map ID to playlist content (songs and whatnot)
     static var playlistContent: [String : [AppleMusicSongItem]] = [:]
@@ -105,7 +105,7 @@ class AppleMusicUtilities {
      Attempts to convert song from Spotify Catalogue to Apple Music Catalogue
      */
     static func convertSpotifyToAppleMusic(_ songItem: SongItem, _ completionHandler: @escaping (AppleMusicSongItem?) -> ()) {
-        let searchQuery: String = SpotifyUtilities.searchQueryFromSong(songItem)
+        let searchQuery: String = Utilities.searchQueryFromSong(songItem)
         AppleMusicUtilities.searchCatalogue(searchQuery) { (possibleMatches) in
             /*
              For now, take first match
@@ -114,7 +114,7 @@ class AppleMusicUtilities {
                 completionHandler(nil)
                 return
             }
-            let songItem: AppleMusicSongItem = SpotifyUtilities.matchQuery(songItem, possibleMatches)
+            let songItem: AppleMusicSongItem = Utilities.matchQuery(songItem, possibleMatches)
             songItem.retrieveArtwork { (_) in
                 completionHandler(songItem)
             }
@@ -135,7 +135,6 @@ class AppleMusicUtilities {
             completionHandler()
             return
         }
-        print("\nSearching Playlists\n")
 
         guard amDevToken != nil &&  Date(timeIntervalSinceNow: 5) < expiration! else {
             do {try AppleMusicUtilities.setNewAMAccessToken { (token) in
@@ -144,7 +143,6 @@ class AppleMusicUtilities {
             } } catch { return }
             return
         }
-        print("\nSearching Playlists\n")
 
         guard amUserToken != nil else {
             AppleMusicUtilities.setNewUserToken { (token) in
@@ -155,7 +153,6 @@ class AppleMusicUtilities {
             }
             return
         }
-        print("\nSearching Playlists\n")
 
         var components = URLComponents()
         components.scheme = "https"
@@ -177,19 +174,17 @@ class AppleMusicUtilities {
             }
             let jsonData: JSON
             do {try jsonData = JSON(data: dataResponse)} catch{
-                print(dataResponse)
-                print(response)
-                print(error)
-                print("poop")
                 return
             }
-            print("\nRecieving Playlists\n")
 
             for playlistDict in jsonData["data"].arrayValue {
                 let id = playlistDict["id"].stringValue
                 let name = playlistDict["attributes"]["name"].stringValue
-                self.playlistNames[id] = name
                 self.playlistIDs.append(id)
+                // get album artwork
+                let url = playlistDict["attributes"]["artwork"]["url"].stringValue
+                let albumURL = url.replacingOccurrences(of: "{w}x{h}", with: "\(Int(400))x\(Int(400))")
+                self.playlists[id] = PlaylistItem(name, id, albumURL, .APPLE_MUSIC)
             }
             
             completionHandler()
@@ -268,7 +263,6 @@ class AppleMusicUtilities {
                 return
             }
             let songListData: JSON = jsonData["data"]
-            
             // handle songs
             for (_, songDictionary) in songListData {
                 
@@ -285,9 +279,9 @@ class AppleMusicUtilities {
                 let artworkURL: String = songDictionary["attributes"]["artwork"]["url"].stringValue
                 
                 //
-                // ########### CURRENTLY HARDCODED TO 1200x1200 !!!!!!!!!
+                // ########### CURRENTLY HARDCODED TO 400x400 !!!!!!!!!
                 //
-                let newURL = artworkURL.replacingOccurrences(of: "{w}x{h}", with: "\(Int(200))x\(Int(200))")
+                let newURL = artworkURL.replacingOccurrences(of: "{w}x{h}", with: "\(Int(400))x\(Int(400))")
                 
                 let songTitle: String = songDictionary["attributes"]["name"].stringValue
                 let artistName: String = songDictionary["attributes"]["artistName"].stringValue
@@ -327,7 +321,6 @@ class AppleMusicUtilities {
         devExpirationDate = UserDefaults.standard.object(forKey: amDevTokenExpKey) as? Date
         
         guard amDevToken == nil || Date(timeIntervalSinceNow: 5) > devExpirationDate! else {
-            print("Remembered")
             completionHandler(amDevToken)
             return
         }
@@ -351,8 +344,6 @@ class AppleMusicUtilities {
      */
     static func getAMAuthorizationKey() -> String? {
         do {
-            print("Starting to open resource to make Authorization key")
-//            guard let path = Bundle.main.path(forResource: "AuthKey_5CWA2J2HGK", ofType: ".p8") else {
             guard let path = Bundle.main.path(forResource: "AuthKey_K2576M4Z3P", ofType: ".p8") else {
 
                 return nil
@@ -362,7 +353,6 @@ class AppleMusicUtilities {
             guard let key = String(data: data, encoding: .utf8) else {
                 return nil
             }
-            print("Returning the key")
             return key
         }
         catch {
@@ -400,7 +390,7 @@ class AppleMusicUtilities {
     }
     
     static func clearCache() {
-        playlistNames = [:]
+        playlists = [:]
         playlistContent = [:]
         playlistIDs = []
     }
