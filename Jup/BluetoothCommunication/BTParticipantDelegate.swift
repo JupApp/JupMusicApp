@@ -264,12 +264,13 @@ struct CodableSong: Codable {
     var platform: Int
     var likes: Int
     var contributor: String
+    var timeAdded: Date
     
     func decodeSong() -> SongItem {
         if Platform(rawValue: platform)! == .APPLE_MUSIC {
-            return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor)
+            return AppleMusicSongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor, timeAdded: timeAdded)
         } else {
-            return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor)
+            return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor, timeAdded: timeAdded)
         }
     }
 }

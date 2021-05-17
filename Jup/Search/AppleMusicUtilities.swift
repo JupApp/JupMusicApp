@@ -360,10 +360,6 @@ class AppleMusicUtilities {
         }
     }
     
-    static func checkAuthorization(_ completionHandler: @escaping () -> ()) {
-        
-    }
-    
     static func setNewUserToken(_ completionHandler: @escaping (String?) -> ()) {
         do { try setNewAMAccessToken { _ in
             SKCloudServiceController().requestUserToken(forDeveloperToken: amDevToken!) {data, error in
@@ -396,24 +392,3 @@ class AppleMusicUtilities {
     }
 }
 
-extension Data {
-    func urlSafeBase64EncodedString() -> String {
-        return base64EncodedString()
-            .replacingOccurrences(of: "+", with: "-")
-            .replacingOccurrences(of: "/", with: "_")
-            .replacingOccurrences(of: "=", with: "")
-    }
-}
-
-struct AMJWTHeader: Encodable {
-    let typ = "JWT"
-    let alg = "ES256"
-    let kid = "K2576M4Z3P"
-}
-
-struct AMJWTPayload: Encodable {
-    let iss: String = "LT3MWZH387"
-    let iat: Date
-    let exp: Date
-
-}

@@ -38,12 +38,13 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var added: Bool = false
     var platform: Platform = .SPOTIFY
     var contributor: String
+    var timeAdded: Date
     
     convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt, contributor: String) {
-        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0, contributor: contributor)
+        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0, contributor: contributor, timeAdded: Date())
     }
     
-    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int, contributor: String) {
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int, contributor: String, timeAdded: Date) {
         self.uri = id
         self.artistName = artist
         self.songTitle = song
@@ -51,6 +52,7 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
         self.songLength = length
         self.likes = likes
         self.contributor = contributor
+        self.timeAdded = timeAdded
     }
     
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ()) {
@@ -65,7 +67,7 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     }
     
     func copy() -> SongItem {
-        return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor)
+        return SpotifySongItem(id: uri, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, likes: likes, contributor: contributor, timeAdded: timeAdded)
     }
     
     

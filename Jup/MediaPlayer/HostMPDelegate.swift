@@ -127,6 +127,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
             if let _ = error {
                 // assert alert here?
+                print(error!)
                 fatalError("Failed to transition to Next Song")
             } else {
                 self.state = .PLAYING
@@ -134,7 +135,6 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.currentSong = nextSongItem
                 self.updateAlbumArtwork()
                 self.updateDataSource()
-
                 self.parentVC.btDelegate.updateQueueSnapshot()
             }
         })
@@ -155,6 +155,8 @@ class HostMPDelegate: MediaPlayerDelegate {
         //super simple implementation at the moment
         queue.append(songItem.uri)
         songMap[songItem.uri] = songItem
+        // reset timeAdded for song to present time AKA the time at which the song entered the queue
+        songMap[songItem.uri]?.timeAdded = Date()
         songItem.retrieveArtwork { _ in
             print("Artowrk retrieved, now update")
             self.parentVC.tableView.reloadData()
@@ -188,43 +190,29 @@ class HostMPDelegate: MediaPlayerDelegate {
         if (parentVC.queueType == .VOTING) {
             updateQueueOrder()
         }
-        print("Updating datasource")
-        self.updateDataSource()
-//
-//        var snap = self.parentVC.datasource.snapshot()
-//        for item in snap.itemIdentifiers {
-//            if item.uri == uri {
-//                var newItem = item
-//                newItem.likes = songMap[uri]!.likes
-//                snap.reloadItems([newItem])
-//            }
-//        }
-//        DispatchQueue.main.async {
-//            self.parentVC.datasource.apply(snap, animatingDifferences: true)
-//        }
-
         
+        self.updateDataSource()
+
         parentVC.btDelegate.updateQueueSnapshot()
         
         if UIApplication.shared.applicationState == .background {
             /*
              load into queue updated version of song queue
              */
-            print("about to load queue")
             self.loadQueueIntoPlayer()
         }
     }
     
     func updateQueueOrder() {
-        let enumerated: [(Int, String)] = Array(self.queue.enumerated())
-        let sortedEnumeration = enumerated.sorted(by: { (tup_0, tup_1) -> Bool in
-            let (i_0, uri_0) = tup_0
-            let (i_1, uri_1) = tup_1
+        let sortedQueue = queue.sorted(by: { (uri_0, uri_1) -> Bool in
             let likes_0 = songMap[uri_0]!.likes
             let likes_1 = songMap[uri_1]!.likes
-            return likes_0 > likes_1 || (likes_0 == likes_1 && i_0 < i_1)
+            let timeAdded_0 = songMap[uri_0]!.timeAdded
+            let timeAdded_1 = songMap[uri_1]!.timeAdded
+
+            return likes_0 > likes_1 || (likes_0 == likes_1 && timeAdded_0 < timeAdded_1)
         })
-        self.queue = sortedEnumeration.map({ (tuple) -> String in tuple.1 })
+        self.queue = sortedQueue
     }
     
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
@@ -282,6 +270,7 @@ class HostMPDelegate: MediaPlayerDelegate {
             }
         })
     }
+    
     static var returningApp: Bool = false
     /*
      Function addresses any delay in the current queue with songs that
@@ -335,6 +324,9 @@ class HostMPDelegate: MediaPlayerDelegate {
                  Clear the queue, empty album artork and progressview and stackview
                  */
                 self.currentSong = nil
+                self.queue = []
+                self.songMap = [:]
+                self.likedSongs = Set()
                 self.state = .NO_SONG_SET
                 self.mediaPlayer?.pause()
                 self.updateDataSource()

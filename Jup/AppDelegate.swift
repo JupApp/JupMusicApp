@@ -26,9 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
     // ########### SPOTIFY AUTHORIZATION CODE BELOW ####################
@@ -157,55 +154,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }
     
     func connect(_ uri: String, completionHandler: @escaping (Error?) -> ()) {
-        connect(uri, 0, completionHandler: completionHandler)
-    }
-    
-    func connect(_ uri: String, _ playbackPosition: Int, completionHandler: @escaping (Error?) -> ()) {
-        if playbackPosition == 0 {
-            bringBackToVC = completionHandler
-        } else {
-            bringBackToVC = { error in
-                self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
-                    guard e == nil else {
-                        print("Was connected, but failed to play song...")
-                        return
-                }
-                self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
-            })}
-        }
+        bringBackToVC = completionHandler
         self.appRemote.authorizeAndPlayURI(uri)
-
-//        if self.appRemote.isConnected {
-//
-//            self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
-//                if let _ = e {
-//                    print("Was connected, but failed to play song...")
-//                } else {
-//                    self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in
-//                        self.bringBackToVC?()
-//                        self.bringBackToVC = nil
-//                    })
-//                }
-//            })
-//        } else {
-//            SPTAppRemote.checkIfSpotifyAppIsActive { (active) in
-//                if active {
-//                    self.bringBackToVC = {
-//                        print("hopefully connected by now... \(self.appRemote.isConnected)")
-//                        self.appRemote.playerAPI?.play(uri, callback: { (_, e) in
-//                            if let _ = e {
-//                                print("Was connected, but failed to play song...")
-//                            } else {
-//                                self.appRemote.playerAPI?.seek(toPosition: playbackPosition, callback: { (_, _) in })
-//                            }
-//                        })
-//                    }
-//                    self.appRemote.connect()
-//                } else {
-//                    self.appRemote.authorizeAndPlayURI(uri)
-//                }
-//            }
-//        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

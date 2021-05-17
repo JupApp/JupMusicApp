@@ -16,18 +16,20 @@ struct QueueSongItem: Hashable {
     var albumArtwork: UIImage
     var contributor: String
     var likes: Int
+    var timeAdded: Date
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(uri)
     }
     
-    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Int) {
+    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Int, timeAdded: Date) {
         self.title = title
         self.artist = artist
         self.uri = uri
         self.albumArtwork = albumArtwork
         self.contributor = contributor
         self.likes = likes
+        self.timeAdded = timeAdded
     }
     
     init(_ songItem: SongItem) {
@@ -37,6 +39,7 @@ struct QueueSongItem: Hashable {
         self.albumArtwork = songItem.albumArtwork ?? UIImage()
         self.contributor = songItem.contributor
         self.likes = songItem.likes
+        self.timeAdded = songItem.timeAdded
     }
     
     static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
@@ -139,7 +142,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
                 
     }
     
-    let failedSpotifyConnectionAlert = UIAlertController(title: "Failed to connect to Spotify", message: "Please try again", preferredStyle: .alert)
     let songLikeFailedAlert = UIAlertController(title: "Failed to like Song", message: nil, preferredStyle: .alert)
     
     override func viewDidLoad() {
@@ -194,9 +196,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         SideMenuManager.default.leftMenuNavigationController = participantMenu
         participantMenu?.menuWidth = 200
         participantMenu?.parentVC = self
-
-        failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Try again", style: .default, handler: failedSpotifyConnectionAlert(_:)))
-        failedSpotifyConnectionAlert.addAction(UIAlertAction(title: "Return to Queue Settings", style: .cancel, handler: returnToSettingsSegue))
         
         songLikeFailedAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
 
@@ -229,35 +228,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     
     @IBAction func presentSearchVC(_ sender: Any) {
         self.navigationController?.pushViewController(searchVC!, animated: true)
-    }
-    
-    func failedSpotifyConnectionAlert(_ act: UIAlertAction){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        switch (mpDelegate.state) {
-        case .NO_SONG_SET:
-            //do nothing
-            break
-        case .PAUSED:
-            break
-        case .PLAYING:
-            appDelegate.appRemote.playerAPI?.getPlayerState({ (state, error) in
-                var uri: String = ""
-                var position: Int = 0
-                if let _ = error {
-                    print("error retrieving state, setting current song as uri and playback position to 0")
-                } else {
-                    uri = (state as! SPTAppRemotePlayerState).track.uri
-                    position = (state as! SPTAppRemotePlayerState).playbackPosition
-                }
-                appDelegate.connect(uri, position) { _ in 
-                }
-            })
-            break
-        case .TRANSITIONING:
-            
-            // if song up next, connect and then play up next song
-            print("TO DO")
-        }
     }
     
     @IBAction func participantMenuTapped() {
