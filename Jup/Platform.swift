@@ -16,4 +16,12 @@ enum Platform: Int {
             self = .APPLE_MUSIC
         }
     }
+    
+    func toString() -> String {
+        if self == .APPLE_MUSIC {
+            return "Apple Music"
+        } else {
+            return "Spotify"
+        }
+    }
 }

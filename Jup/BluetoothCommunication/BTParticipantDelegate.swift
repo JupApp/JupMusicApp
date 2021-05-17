@@ -17,7 +17,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var centralManager: CBCentralManager!
     var hostPeripheral: CBPeripheral?
     var discoveredQueues: [CBPeripheral] = []
-    var discoveredQueueInfo: [CBPeripheral: [String: Any]] = [:]
+    var discoveredQueueInfo: [CBPeripheral: QueueInfo] = [:]
     var queueVC: QueueVC?
     var participantSettingsVC: ParticipantSettingsVC?
     
@@ -32,10 +32,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
         disconnectedFromQueueAlert.addAction(UIAlertAction(title: "Return to Settings", style: .default, handler: returnToSettings))
-    }
-    
-    func reconnectToQueue(_ alert: UIAlertAction) {
-        centralManager.connect(hostPeripheral!, options: nil)
     }
     
     func returnToSettings(_ alert: UIAlertAction) {
@@ -100,16 +96,27 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     }
         
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        // first check if advertisement data is there
+        guard let hostInfo = advertisementData[CBAdvertisementDataLocalNameKey] as? String else {
+            return
+        }
+        var hostPieces: [String] = hostInfo.split(separator: " ").map { String($0) }
+        let platform: Platform = Platform(rawValue: Int(hostPieces.removeLast())!)!
+        let numParticipants: Int = Int(hostPieces.removeLast())!
+        let hostName: String = hostPieces[0]
+        
+        let queueInfo: QueueInfo = QueueInfo(hostname: hostName, platform: platform, numParticipants: numParticipants)
+        
         for discoveredQueue in discoveredQueues {
             if peripheral.identifier == discoveredQueue.identifier {
-                discoveredQueueInfo[peripheral] = advertisementData
+                discoveredQueueInfo[peripheral] = queueInfo
                 participantSettingsVC?.tableView.reloadData()
                 print("reloaded")
                 return
             }
         }
         discoveredQueues.append(peripheral)
-        discoveredQueueInfo[peripheral] = advertisementData
+        discoveredQueueInfo[peripheral] = queueInfo
         /*
          Update tableview
          */
@@ -240,6 +247,12 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         discoveredQueueInfo = [:]
     }
 
+}
+
+struct QueueInfo {
+    var hostname: String
+    var platform: Platform
+    var numParticipants: Int
 }
 
 struct QueueSnapshot: Codable {

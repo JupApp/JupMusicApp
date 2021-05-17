@@ -67,16 +67,17 @@ class AppleMusicUtilities {
 
         var request = URLRequest(url: url)
         request.setValue("Bearer \(amDevToken!)", forHTTPHeaderField: "Authorization")
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
+//        let session = URLSession.shared
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let dataResponse = data else {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{
+            do {
+                try jsonData = JSON(data: dataResponse)
+            } catch {
                 print("bad data from catalogue request")
                 return
-                
             }
             let songDataList: JSON = jsonData["results"]["songs"]["data"]
             

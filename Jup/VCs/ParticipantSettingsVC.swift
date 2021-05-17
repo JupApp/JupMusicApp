@@ -68,14 +68,6 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         return
     }
     
-//    @IBSegueAction func segueToQueue(_ coder: NSCoder) -> QueueVC? {
-//        let queueVC = QueueVC(coder: coder)
-//        queueVC?.isHost = false
-//        // TO-DO gather data from selected queue
-//        queueVC?.platform = .APPLE_MUSIC
-//        return queueVC
-//    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
@@ -94,53 +86,23 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         let queueVC = navController.viewControllers[0] as! QueueVC
         queueVC.isHost = false
         
-        let hostName = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]![CBAdvertisementDataLocalNameKey] as! String
-        var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
-        let platformRaw: Int? = Int(hostPieces.removeLast())
-        queueVC.platform = Platform(rawValue: platformRaw!)!
+        queueVC.platform = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!.platform
         
         btDelegate.queueVC = queueVC
         queueVC.btDelegate = btDelegate
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        guard identifier == "joinQueue" else {
-            return true
-        }
-        let hostName = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]![CBAdvertisementDataLocalNameKey] as? String
-        guard let host = hostName else {
-            /*
-             SEND ALERT THAT HOST's bluetooth connection is throttled down and host
-             may need to return to app for you to join
-             */
-            return false
-        }
-        var hostPieces: [String] = host.split(separator: " ").map { String($0) }
-        guard let _ = Platform(rawValue: (try? Int(hostPieces.removeLast())) ?? -1) else {
-            /*
-             SEND ALERT THAT HOST's bluetooth connection is throttled down and host
-             may need to return to app for you to join
-             */
-            return false
-        }
-        return true
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell") as! JoinableQueueCell
-//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "JoinHostCell")
+
         if indexPath.row < btDelegate.discoveredQueues.count {
             let peripheral = btDelegate.discoveredQueues[indexPath.row]
             let queueInfo = btDelegate.discoveredQueueInfo[peripheral]!
             
-            guard let hostName = queueInfo[CBAdvertisementDataLocalNameKey] as? String else {
-                print("QueueInfo: \n\(queueInfo)")
-                return cell
-            }
-            var hostPieces: [String] = hostName.split(separator: " ").map { String($0) }
-            let _: Platform = Platform(rawValue: try! Int(hostPieces.removeLast())!)!
-            cell.queueNameLabel.text = hostPieces.joined(separator: " ")
+            cell.queueNameLabel.text = queueInfo.hostname
+            cell.queuePlatformLabel.text = queueInfo.platform.toString()
+            cell.queueNumParticipants.text = "\(queueInfo.numParticipants)"
             cell.buttonClicked = {
                 self.btDelegate.connectToQueue(peripheral)
                 DispatchQueue.main.async {
@@ -148,10 +110,6 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
                 }
             }
         }
-        //cell.queueNameLabel.textColor = .darkGray
-//        cell.detailTextLabel?.textColor = .darkGray
-        //cell.backgroundColor = UIColor(red: 229/255, green: 246/255, blue: 242/255, alpha: 1)
-        
         return cell
         
     }

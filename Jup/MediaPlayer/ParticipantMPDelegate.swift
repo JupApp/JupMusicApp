@@ -70,18 +70,31 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
             
             queue = songItems.map({ $0.uri })
             songMap = songItems.reduce(into: [String: SongItem]()) { $0[$1.uri] = $1 }
-            print("Time In: \(snapshot.timeIn)")
-            print("Out of: \(snapshot.songs[0].songLength)")
         } else {
             queue = []
             songMap = [:]
         }
+                
+        var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
+        snap.appendSections(["Queue"])
+        snap.appendItems(self.queue.map({ (uri) -> QueueSongItem in
+            self.songMap[uri]!.getQueueSongItem()
+        }))
         
-        updateDataSource()
-        
+        let group = DispatchGroup()
         for songItem in songItems {
-            songItem.retrieveArtwork { _ in
-                self.parentVC.tableView.reloadData()
+            DispatchQueue.global(qos: .utility).async(group: group) {
+                group.enter()
+                songItem.retrieveArtwork { image in
+                    self.songMap[songItem.uri]!.albumArtwork = image
+                    group.leave()
+                }
+            }
+        }
+        
+        group.notify(queue: DispatchQueue.main) { [weak self] in
+            self?.parentVC.datasource.apply(snap, animatingDifferences: true) {
+                self?.parentVC.tableView.reloadData()
             }
         }
 
@@ -94,7 +107,6 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
          */
         parentVC.host = snapshot.host
         parentVC.participants = snapshot.participants
-        print("Host: \(parentVC.host)\nParticipants: \(parentVC.participants)")
         parentVC.participantMenu?.participantTableView.reloadData()
     }
     
@@ -118,9 +130,6 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         let songLength: Float = Float(currentSong!.songLength)/1000.0
         let previousPlaybackPosition: Float = parentVC.nowPlayingProgress.progress * songLength
         let newPlaybackPosition: Float = previousPlaybackPosition + 1.0
-        print("Song length: \(songLength)")
-        print("Current Position in Song: \(newPlaybackPosition)\n")
-        print("MediaPlayer delegate is nil? \(self == nil)")
         if songLength - newPlaybackPosition > 0 {
             UIView.animate(withDuration: 1.0) {
                 self.parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)

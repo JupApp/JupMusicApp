@@ -65,7 +65,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             /*
              FIX LATER, GET TOTAL NUMBER OF PARTICIPANTS
              */
-            let queueAd: String = username + " (\(queueVC.participants.count + 1)) \(queueVC.platform.rawValue)"
+            let queueAd: String = username + " \(queueVC.participants.count + 1) \(queueVC.platform.rawValue)"
             peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         @unknown default:
             print("unknown state")

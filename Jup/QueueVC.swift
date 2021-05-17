@@ -79,6 +79,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
             var updatedS = s
             if ip.row < self.mpDelegate.queue.count {
+                print("pulling data from song map, not snapshot")
                 let songURI: String = self.mpDelegate.queue[ip.row]
                 let songItem: SongItem = self.mpDelegate.songMap[songURI]!
                 updatedS = QueueSongItem(songItem)

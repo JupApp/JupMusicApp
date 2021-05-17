@@ -158,8 +158,9 @@ class HostMPDelegate: MediaPlayerDelegate {
         // reset timeAdded for song to present time AKA the time at which the song entered the queue
         songMap[songItem.uri]?.timeAdded = Date()
         songItem.retrieveArtwork { _ in
-            print("Artowrk retrieved, now update")
-            self.parentVC.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.parentVC.tableView.reloadData()
+            }
         }
         updateDataSource()
         
@@ -170,7 +171,6 @@ class HostMPDelegate: MediaPlayerDelegate {
             /*
              load into queue updated version of song queue
              */
-            print("about to load queue")
             self.loadQueueIntoPlayer()
         }
     }
@@ -185,6 +185,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         songMap[uri]!.likes += (liked ? 1 : -1)
         completionHandler(nil)
+        
         self.parentVC.tableView.reloadData()
 
         if (parentVC.queueType == .VOTING) {

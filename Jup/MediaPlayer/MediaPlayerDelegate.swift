@@ -78,7 +78,6 @@ extension MediaPlayerDelegate {
     }
     
     func updateDataSource() {
-        print("updateDataSource called")
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         snap.appendItems(queue.map({ (uri) -> QueueSongItem in

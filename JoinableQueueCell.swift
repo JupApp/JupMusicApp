@@ -16,6 +16,10 @@ class JoinableQueueCell: UITableViewCell {
         
     }
     @IBOutlet weak var queueNameLabel: UILabel!
+    @IBOutlet weak var queuePlatformLabel: UILabel!
+    @IBOutlet weak var queueNumParticipants: UILabel!
+    
+    
     var buttonClicked: (() -> ())?
 
     override func setSelected(_ selected: Bool, animated: Bool) {
