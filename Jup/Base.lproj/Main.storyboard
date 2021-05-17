@@ -390,27 +390,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Jup" largeTitleDisplayMode="always" id="jaz-I6-6G8">
-                        <barButtonItem key="leftBarButtonItem" id="Jn5-D6-PAS">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="03A-VB-UZt">
-                                <rect key="frame" x="20" y="0.0" width="94" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="Group"/>
-                                <connections>
-                                    <action selector="participantMenuTapped" destination="HoO-Qc-tuw" eventType="touchUpInside" id="6LE-ii-ZUQ"/>
-                                </connections>
-                            </button>
-                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Search" image="Return" id="aZi-nT-8pe">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5ja-Fa-J7I">
-                                <rect key="frame" x="292" y="0.0" width="102" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="SearchButton"/>
-                                <connections>
-                                    <action selector="presentSearchVC:" destination="HoO-Qc-tuw" eventType="touchUpInside" id="hX0-DC-3tr"/>
-                                </connections>
-                            </button>
-                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="gearshape" catalog="system" id="Jn5-D6-PAS">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="person.and.person.fill" catalog="system" id="BxC-v4-c6r">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="aZi-nT-8pe">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
@@ -815,12 +804,11 @@
         <segue reference="Vba-Js-efL"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="Group" width="39.666667938232422" height="45.666667938232422"/>
-        <image name="Return" width="44.666667938232422" height="50"/>
-        <image name="SearchButton" width="47.666667938232422" height="49"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="hostTab" width="46" height="49"/>
         <image name="joinTab" width="66" height="50"/>
         <image name="noSongPlayingImage" width="330" height="330"/>
+        <image name="person.and.person.fill" catalog="system" width="128" height="80"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
