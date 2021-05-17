@@ -83,6 +83,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             {
         case 0:
             musicSearchBar.placeholder = "Apple Music"
+            musicSearchBar.tintColor = .lightGray
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
@@ -90,6 +91,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             break;
         case 1:
             musicSearchBar.placeholder = "Spotify"
+            musicSearchBar.tintColor = .lightGray
             currentPlatform = .SPOTIFY
             
             // load playlist of Spotify if hasn't been done already
@@ -97,6 +99,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             break;
         default:
             musicSearchBar.placeholder = "Apple Music"
+            musicSearchBar.tintColor = .lightGray
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
