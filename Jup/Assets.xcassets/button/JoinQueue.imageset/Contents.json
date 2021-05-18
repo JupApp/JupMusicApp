@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "BlurRectangle.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "BlurRectangle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "BlurRectangle@3x.png",
+      "filename" : "JoinQueue@2x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
