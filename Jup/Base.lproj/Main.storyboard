@@ -309,43 +309,45 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="454"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-x8-Q76">
-                                    <rect key="frame" x="30" y="0.0" width="354" height="444.33333333333331"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KdO-x8-Q76">
+                                    <rect key="frame" x="30" y="10" width="354" height="444.33333333333331"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noSongPlayingImage" translatesAutoresizingMaskIntoConstraints="NO" id="8LE-dt-7ox">
-                                            <rect key="frame" x="0.0" y="0.0" width="354" height="330"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPl-B3-wQD">
+                                            <rect key="frame" x="0.0" y="0.0" width="354" height="354"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TestAlbum" translatesAutoresizingMaskIntoConstraints="NO" id="jWD-MF-nAz">
+                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="354"/>
+                                                </imageView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="330" id="8iA-Je-2PG"/>
-                                                <constraint firstAttribute="height" constant="330" id="SGD-b8-rch"/>
+                                                <constraint firstItem="jWD-MF-nAz" firstAttribute="height" secondItem="QPl-B3-wQD" secondAttribute="height" id="LVr-bk-lih"/>
+                                                <constraint firstAttribute="width" secondItem="QPl-B3-wQD" secondAttribute="height" id="OLl-qr-Uhk"/>
+                                                <constraint firstItem="jWD-MF-nAz" firstAttribute="top" secondItem="QPl-B3-wQD" secondAttribute="top" id="Q0j-TB-WB7"/>
+                                                <constraint firstAttribute="bottom" secondItem="jWD-MF-nAz" secondAttribute="bottom" id="Uhe-2b-NWE"/>
+                                                <constraint firstAttribute="width" constant="354" id="jrE-SS-KUK"/>
+                                                <constraint firstItem="jWD-MF-nAz" firstAttribute="width" secondItem="QPl-B3-wQD" secondAttribute="width" id="qdj-Zf-PNe"/>
+                                                <constraint firstItem="jWD-MF-nAz" firstAttribute="leading" secondItem="QPl-B3-wQD" secondAttribute="leading" id="vm3-tc-qE3"/>
+                                                <constraint firstAttribute="trailing" secondItem="jWD-MF-nAz" secondAttribute="trailing" id="yrs-RI-SoS"/>
                                             </constraints>
-                                        </imageView>
+                                        </view>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="cu4-2T-jqI">
-                                            <rect key="frame" x="0.0" y="349" width="354" height="72.333333333333314"/>
+                                            <rect key="frame" x="0.0" y="362" width="354" height="70.333333333333314"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" semanticContentAttribute="forceLeftToRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="19" translatesAutoresizingMaskIntoConstraints="NO" id="WF2-aU-qez">
-                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="24"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="250" id="Z56-EI-eVb"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <color key="textColor" red="0.95970290899999999" green="0.98437434430000004" blue="0.97632890939999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dch-rT-kLY">
-                                                    <rect key="frame" x="0.0" y="26" width="354" height="24"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="250" id="mfO-fh-c6c"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="24" width="354" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <color key="textColor" red="0.83339554069999999" green="0.96477073430000004" blue="0.93704587220000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contributor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNp-ya-Qvm">
-                                                    <rect key="frame" x="0.0" y="52" width="354" height="20.333333333333329"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="250" id="fxk-fg-VgQ"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="50" width="354" height="20.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="textColor" red="0.74429887530000005" green="0.93862217660000002" blue="0.92988663910000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -354,24 +356,18 @@
                                         </stackView>
                                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KoN-rP-fCa">
                                             <rect key="frame" x="0.0" y="440.33333333333331" width="354" height="4"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="330" id="H0T-pZ-Ir5"/>
-                                            </constraints>
                                             <color key="progressTintColor" red="0.54509621860000002" green="0.89421242479999996" blue="0.81530886889999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </progressView>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="8LE-dt-7ox" firstAttribute="top" secondItem="KdO-x8-Q76" secondAttribute="top" constant="30" id="ebj-BW-vMV"/>
-                                    </constraints>
                                 </stackView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="KdO-x8-Q76" secondAttribute="bottom" constant="9.6699999999999999" id="8sI-6c-jHr"/>
                                 <constraint firstItem="KdO-x8-Q76" firstAttribute="leading" secondItem="HOA-ch-QaR" secondAttribute="leading" constant="30" id="XvE-IE-pIa"/>
+                                <constraint firstItem="KdO-x8-Q76" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" constant="10" id="g52-ps-VND"/>
                                 <constraint firstAttribute="trailing" secondItem="KdO-x8-Q76" secondAttribute="trailing" constant="30" id="m7h-ss-fjn"/>
                                 <constraint firstAttribute="height" secondItem="KdO-x8-Q76" secondAttribute="height" multiplier="1.02176" id="mm6-Mh-Jf8"/>
-                                <constraint firstItem="KdO-x8-Q76" firstAttribute="top" secondItem="HOA-ch-QaR" secondAttribute="top" id="s30-gM-mkT"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -392,29 +388,30 @@
                     <navigationItem key="navigationItem" title="Jup" largeTitleDisplayMode="always" id="jaz-I6-6G8">
                         <leftBarButtonItems>
                             <barButtonItem title="Item" image="gearshape" catalog="system" id="Jn5-D6-PAS">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="labelColor"/>
                             </barButtonItem>
                             <barButtonItem title="Item" image="person.and.person.fill" catalog="system" id="BxC-v4-c6r">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="labelColor"/>
                             </barButtonItem>
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="aZi-nT-8pe">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" systemColor="labelColor"/>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
-                        <outlet property="nowPlayingAlbum" destination="8LE-dt-7ox" id="PTl-Ed-MDa"/>
+                        <outlet property="nowPlayingAlbum" destination="jWD-MF-nAz" id="cGo-Xo-uUg"/>
                         <outlet property="nowPlayingArtist" destination="dch-rT-kLY" id="Wpu-Hj-F6A"/>
                         <outlet property="nowPlayingContributor" destination="YNp-ya-Qvm" id="M1Q-rh-zRv"/>
                         <outlet property="nowPlayingProgress" destination="KoN-rP-fCa" id="AL0-oR-6ra"/>
                         <outlet property="nowPlayingTitle" destination="WF2-aU-qez" id="h7n-ze-Ruo"/>
+                        <outlet property="shadowView" destination="QPl-B3-wQD" id="eiK-UO-H1Z"/>
                         <segue destination="g6q-yV-2gd" kind="presentation" identifier="exitQueue" modalPresentationStyle="fullScreen" id="Y2d-2q-OKf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B8N-Kp-GXa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2351" y="289"/>
+            <point key="canvasLocation" x="2350.7246376811595" y="287.94642857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JmT-Of-NGB">
@@ -423,6 +420,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vEe-r2-K4m">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.30203250479109739" green="0.43137252329999998" blue="0.42840644017827001" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
                     <connections>
                         <segue destination="HoO-Qc-tuw" kind="relationship" relationship="rootViewController" id="HLa-Wp-Igv"/>
@@ -772,7 +770,7 @@
         <!--TestVC-->
         <scene sceneID="Mqc-dr-7Eq">
             <objects>
-                <viewController id="bnN-5n-naJ" customClass="testVC" customModule="Work" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bnN-5n-naJ" customClass="testVC" customModule="Jup" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qjj-Bn-ksd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1118,12 +1116,15 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Queue Background" width="533" height="960"/>
+        <image name="TestAlbum" width="325" height="325"/>
         <image name="arrow.triangle.2.circlepath" catalog="system" width="128" height="101"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="hostTab" width="46" height="49"/>
         <image name="joinTab" width="66" height="50"/>
-        <image name="noSongPlayingImage" width="330" height="330"/>
         <image name="person.and.person.fill" catalog="system" width="128" height="80"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

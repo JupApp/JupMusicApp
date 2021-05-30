@@ -46,7 +46,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         participantTableView.separatorStyle = .singleLine
         self.menuWidth = 200
         participantTableView.frame = CGRect(x: 0, y: 40, width: 200, height: view.frame.height-100)
-        participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "BlurRectangle")!)
+        participantTableView.backgroundColor = UIColor(patternImage: UIImage(named: "Queue Background")!)
         participantTableView.backgroundColor = UIColor.clear
         
         let exitQueueButton = UIButton(frame: CGRect(x: 0, y: view.frame.maxY-58, width: 200, height: 58))

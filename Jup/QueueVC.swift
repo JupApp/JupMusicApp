@@ -54,6 +54,7 @@ protocol BackgroundImagePropagator {
 class QueueVC: UITableViewController, BackgroundImagePropagator {
     
 
+    @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var nowPlayingAlbum: UIImageView!
     @IBOutlet weak var nowPlayingTitle: UILabel!
     @IBOutlet weak var nowPlayingArtist: UILabel!
@@ -177,7 +178,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         snap.appendSections(["Queue"])
         datasource.apply(snap, animatingDifferences: false)
 
-        self.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
+        self.nowPlayingAlbum.image = UIImage(named: "PlayButton")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
         tap.cancelsTouchesInView = false
         self.nowPlayingAlbum.addGestureRecognizer(tap)
@@ -213,6 +214,18 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
         backgroundImageView.addSubview(backgroundBlurView)
         backgroundBlurView.frame = self.tableView.bounds
+        
+        nowPlayingAlbum.layer.masksToBounds = true
+        nowPlayingAlbum.layer.cornerRadius = 10
+        
+        shadowView.layer.masksToBounds = false
+        shadowView.layer.shadowRadius = 10
+        shadowView.layer.shadowColor = UIColor.systemBackground.cgColor
+        shadowView.layer.shadowOpacity = 0.6
+        shadowView.layer.shadowOffset = CGSize.zero
+        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 10).cgPath
+        
+        
     }
     
     @objc func play() {
