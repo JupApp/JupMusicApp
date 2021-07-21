@@ -44,7 +44,6 @@ class AppleMusicMediaPlayer: MediaPlayer {
     }
     
     func loadEntireQueue(_ songItems: [SongItem], completionHandler: @escaping (Error?) -> ()) {
-        print("loading queue\n\n\n\n")
         let upNext = MPMusicPlayerStoreQueueDescriptor(storeIDs: songItems.map({ (songItem) -> String in
             songItem.uri
         }))
@@ -61,7 +60,6 @@ class AppleMusicMediaPlayer: MediaPlayer {
     
     func nowPlayingInfo(_ completionHandler: @escaping (String?, Bool) -> ()) {
         let playing: Bool = self.player.playbackState == .playing
-        print("Playing: \(playing)")
         completionHandler(self.player.nowPlayingItem?.playbackStoreID, playing)
     }
     

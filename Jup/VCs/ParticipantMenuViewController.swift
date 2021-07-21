@@ -40,9 +40,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         participantTableView.delegate = self
         participantTableView.dataSource = self
         self.view.addSubview(participantTableView)
-        //participantTableView.frame = self.view.bounds
         participantTableView.register(UINib(nibName: "ParticipantMenuCell", bundle: nil), forCellReuseIdentifier: "ParticipantMenuCell")
-        //participantTableView.backgroundColor = UIColor(red: 205/255, green: 230/255, blue: 231/255, alpha: 1)
         participantTableView.separatorStyle = .singleLine
         self.menuWidth = 200
         participantTableView.frame = CGRect(x: 0, y: 40, width: 200, height: view.frame.height-100)
@@ -58,7 +56,7 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         exitQueueButton.layer.cornerRadius = 10
         self.view.addSubview(exitQueueButton)
         exitQueueButton.addTarget(self, action: #selector(exitButtonPressed), for: .touchUpInside)
-    //Code for TableView SideMenu
+
         exitAlert.addAction(UIAlertAction(title: "Leave the Queue", style: .destructive, handler: {
             (action) in
             self.dismiss(animated: false, completion: {
@@ -83,33 +81,22 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         }
         return 0
     }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 3
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeader = UILabel()
         let color: UIColor = UIColor(red: 233/255, green: 246/255, blue: 242/255, alpha: 1)
         sectionHeader.backgroundColor = color
-////        let sectionTitle = UILabel()
-//        switch section {
-//        case 0:
-////            sectionHeader.text = "Host"
-////            sectionHeader.textColor = .lightGray
-////            sectionHeader.font = UIFont.systemFont(ofSize: 10)
-//        case 1:
-////            sectionHeader.text = "Participant"
-////            sectionHeader.textColor = .lightGray
-////            sectionHeader.font = UIFont.systemFont(ofSize: 10)
-////            sectionHeader.textAlignment = .left
-////            sectionHeader.addSubview(sectionTitle)
-//        default:
-////            sectionHeader.backgroundColor = color
-//        }
         return sectionHeader
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
                 withIdentifier: "ParticipantMenuCell", for: indexPath) as! ParticipantMenuCell
@@ -118,12 +105,9 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
         if indexPath.section == 0 {
             name = parentVC!.host
             cell.participantNameLabel.text = name + (name == userName ? " ⭑":"")
-            print("Text on cell \(indexPath.row): \(cell.participantNameLabel.text)")
         } else {
             name = parentVC!.participants[indexPath.row]
             cell.participantNameLabel.text = name + (name == userName ? " ⭑":"")
-            print("Text on cell \(indexPath.row): \(cell.participantNameLabel.text)")
-
         }
         return cell
     }
@@ -131,5 +115,4 @@ class ParticipantMenuViewController: SideMenuNavigationController, UITableViewDe
     @objc func exitButtonPressed() {
         self.present(exitAlert, animated: true)
     }
-    
 }

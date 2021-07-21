@@ -30,9 +30,7 @@ protocol MediaPlayerDelegate {
     func pause()
     
     func skip()
-    
-    func transitionToNextSong()
-    
+        
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ())
     
     func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ())
@@ -41,7 +39,7 @@ protocol MediaPlayerDelegate {
 
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot)
     
-    func getQueueSnapshot() -> QueueSnapshot
+    func getQueueSnapshot(_ completionHandler: @escaping (QueueSnapshot) -> ())
     
     func updateAlbumArtwork()
     
@@ -56,24 +54,25 @@ protocol MediaPlayerDelegate {
 extension MediaPlayerDelegate {
     
     func updateAlbumArtwork() {
-        guard let songItem = self.currentSong else {
-            /*
-             Fill in album background with blank image
-             */
-            self.parentVC.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
-            self.parentVC.nowPlayingArtist.text = "Artist"
-            self.parentVC.nowPlayingTitle.text = "Song Title"
-            self.parentVC.nowPlayingContributor.text = "Contributor"
-            return
-        }
+        DispatchQueue.main.async {
+            guard let songItem = self.currentSong else {
+                /*
+                 Fill in album background with blank image
+                 */
+                self.parentVC.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
+                self.parentVC.nowPlayingArtist.text = "Artist"
+                self.parentVC.nowPlayingTitle.text = "Song Title"
+                self.parentVC.nowPlayingContributor.text = "Contributor"
+                return
+            }
 
-        songItem.retrieveArtwork { (image) in
-            self.parentVC.nowPlayingAlbum.image = image
-            self.parentVC.nowPlayingArtist.text = songItem.artistName
-            self.parentVC.nowPlayingTitle.text = songItem.songTitle
-            self.parentVC.nowPlayingContributor.text = songItem.contributor
-            self.parentVC.propagateImage()
-//            self.parentVC.backgroundImageView.image = image
+            songItem.retrieveArtwork { (image) in
+                self.parentVC.nowPlayingAlbum.image = image
+                self.parentVC.nowPlayingArtist.text = songItem.artistName
+                self.parentVC.nowPlayingTitle.text = songItem.songTitle
+                self.parentVC.nowPlayingContributor.text = songItem.contributor
+                self.parentVC.propagateImage()
+            }
         }
     }
     

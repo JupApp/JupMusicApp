@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     // ########### SPOTIFY AUTHORIZATION CODE BELOW ####################
     
     func sessionManager(manager: SPTSessionManager, didInitiate session: SPTSession) {
-        print("success", session)
         self.accessToken = session.accessToken
         self.refreshToken = session.refreshToken
         self.expirationDate = session.expirationDate
@@ -40,14 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     }
     
     func sessionManager(manager: SPTSessionManager, didFailWith error: Error) {
-        print("error", error)
         //maybe dont callback
         bringBackToVC?(error)
         bringBackToVC = nil
     }
     
     func sessionManager(manager: SPTSessionManager, didRenew session: SPTSession) {
-        print("renewed", session)
         self.accessToken = session.accessToken
         self.refreshToken = session.refreshToken
         self.expirationDate = session.expirationDate
@@ -57,7 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("application function")
         let parameters = appRemote.authorizationParameters(from: url);
         self.sessionManager.application(app, open: url, options: options)
         if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
@@ -125,27 +121,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     
     lazy var appRemote: SPTAppRemote = {
       let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .none)
-        appRemote.connectionParameters.accessToken = self.accessToken
-
-//        appRemote.connectionParameters.accessToken = sessionManager.session?.accessToken
+      appRemote.connectionParameters.accessToken = self.accessToken
       appRemote.delegate = self
       return appRemote
     }()
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
-        print("\n\nconnected to spotify app\n\n")
         bringBackToVC?(nil)
         bringBackToVC = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
-        print("\n\nfailed to connect to spotify app\n\n")
         bringBackToVC?(error)
         bringBackToVC = nil
     }
     
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
-        print("\n\ndisconnected from spotify app\n\n")
         /*
          TO-DO deal with this
          */

@@ -35,7 +35,6 @@ class SpotifyUtilities {
                 /*
                  Alert user failed to authenticate
                  */
-                print("Not authorized")
                 return
             }
             DispatchQueue.main.async {
@@ -112,12 +111,11 @@ class SpotifyUtilities {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: dataResponse)} catch{ return}
             let playlistData = jsonData["items"].arrayValue
             for playlist in playlistData {
                 let playlistID: String = playlist["id"].stringValue
                 let playlistName: String = playlist["name"].stringValue
-                print(playlist)
                 // get url
                 var albumURL = ""
                 if playlist["images"].arrayValue.count > 0 {
@@ -190,16 +188,13 @@ class SpotifyUtilities {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: dataResponse)} catch{ return}
             let songData = jsonData["items"].arrayValue
             for songDict in songData {
                 SpotifyUtilities.convertJSONToSongItem(songDict["track"]) {songItem in
                     playlistContent[id]!.append(songItem)
                 }
             }
-            /*
-             Test update view with each paging
-             */
             completionHandler()
             
             // check if another call must be made
@@ -238,16 +233,13 @@ class SpotifyUtilities {
                 return
             }
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: dataResponse)} catch{ return}
             let songData = jsonData["items"].arrayValue
             for songDict in songData {
                 SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
                     self.playlistContent[scale.toString()]!.append(songItem)
                 }
             }
-            /*
-             Test update view with each paging
-             */
             completionHandler()
             
             // check if another call must be made
@@ -315,7 +307,7 @@ class SpotifyUtilities {
             var searchResults: [SpotifySongItem] = []
 
             let jsonData: JSON
-            do {try jsonData = JSON(data: dataResponse)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: dataResponse)} catch{ return}
             let songData = jsonData["tracks"]["items"].arrayValue
             for songDict in songData {
                 SpotifyUtilities.convertJSONToSongItem(songDict) {songItem in
@@ -332,14 +324,10 @@ class SpotifyUtilities {
      */
     static func convertAppleMusicToSpotify(_ songItem: SongItem, _ completionHandler: @escaping (SpotifySongItem?) -> ()) {
         let searchQuery: String = Utilities.searchQueryFromSong(songItem)
-        print("Search Query:\n\(searchQuery)")
         SpotifyUtilities.searchCatalogue(searchQuery) { (possibleMatches) in
             /*
              For now, take first match
              */
-            for (i, match) in possibleMatches.enumerated() {
-                print("\(i).\t\(match.songTitle): \(match.artistName)")
-            }
             guard possibleMatches.count > 0 else {
                 completionHandler(nil)
                 return
@@ -415,7 +403,6 @@ class SpotifyUtilities {
                     completionHandler(false)
                     return
                 }
-                print("1")
                 // otherwise, successfully connected to spotify, and ready to go!
                 completionHandler(true)
             }
@@ -425,7 +412,6 @@ class SpotifyUtilities {
         // check if expiration date is already passed
         if expirationDate > Date(timeIntervalSinceNow: 5) {
             // in the clear, don't need to renew yet
-            print("2")
             completionHandler(true)
             return
         }
@@ -442,7 +428,6 @@ class SpotifyUtilities {
                         completionHandler(false)
                         return
                     }
-                    print("5")
                     // otherwise, successfully connected to spotify, and ready to go!
                     completionHandler(true)
                 }
@@ -457,7 +442,6 @@ class SpotifyUtilities {
                         return
                     }
                     appDelegate.accessToken = token
-                    print("3")
                     completionHandler(true)
                     return
                 case .failure(_):
@@ -467,7 +451,6 @@ class SpotifyUtilities {
                             completionHandler(false)
                             return
                         }
-                        print("4")
                         // otherwise, successfully connected to spotify, and ready to go!
                         completionHandler(true)
                     }
@@ -483,12 +466,10 @@ class SpotifyUtilities {
      */
     static func retrieveUserID(completionHandler: @escaping (String) -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        print("Retrieving User ID with \(appDelegate.accessToken!)")
         
         AF.request("https://api.spotify.com/v1/me", method: .get, headers: ["Authorization": "Bearer" + " " + appDelegate.accessToken!]).responseJSON {
             (data) in
                 let response: HTTPURLResponse = data.response!
-                print(data.result)
 
                 // if status 4xx
                 if "\(response.statusCode)".prefix(1) == "4" {
@@ -522,7 +503,6 @@ class SpotifyUtilities {
      */
     static func doesHavePremium(_ completionHandler: @escaping (Bool) -> ()) {
         checkAuthorization { (authorized) in
-            print("Authorized: \(authorized)")
             if !authorized {
                 completionHandler(false)
                 return
@@ -546,9 +526,7 @@ class SpotifyUtilities {
                 }
                 let jsonData: JSON
                 do {try jsonData = JSON(data: dataResponse)} catch{ completionHandler(false); return}
-                print(jsonData)
                 let accountStatus = jsonData["product"].stringValue
-                print("Account Status: \(accountStatus)")
                 guard accountStatus == "premium" else {
                     completionHandler(false)
                     return
@@ -579,15 +557,14 @@ class SpotifyUtilities {
         let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
 
             // Check for Error
-            if let error = error {
-                print("Error took place \(error)")
+            if let _ = error {
                 completionHandler(nil)
                 return
             }
 
             // Convert HTTP Response Data to a String
             let jsonData: JSON
-            do {try jsonData = JSON(data: data!)} catch{ print("bad data"); return}
+            do {try jsonData = JSON(data: data!)} catch{ return}
             spotifyDevToken = jsonData["access_token"].stringValue
             expirationDate = Date(timeIntervalSinceNow: 3600)
             completionHandler(spotifyDevToken)

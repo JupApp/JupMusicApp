@@ -22,24 +22,11 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         self.parentVC = parentVC
         self.state = .NO_SONG_SET
     }
+    
     //dont do anything if participant tries to play pause or skip
     func play() {}
     func pause() {}
     func skip() {}
-    
-    func transitionToNextSong() {
-        if queue.isEmpty {
-            state = .NO_SONG_SET
-            return
-        }
-        let nextSongURI: String = queue.remove(at: 0)
-        currentSong = songMap.removeValue(forKey: nextSongURI)!
-    
-        state = .PLAYING
-        songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
-        updateAlbumArtwork()
-        updateDataSource()
-    }
     
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
         self.parentVC.btDelegate.addSongRequest(songItem, completionHandler)
@@ -61,7 +48,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
                 
                 //update progress bar
                 let timeIn = snapshot.timeIn
-                let progress = Float(timeIn)/Float(currentSong!.songLength)
+                let progress = 1000.0 * Float(timeIn)/Float(currentSong!.songLength)
 
                 self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
                 //update album artwork
@@ -110,7 +97,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         parentVC.participantMenu?.participantTableView.reloadData()
     }
     
-    func getQueueSnapshot() -> QueueSnapshot {
+    func getQueueSnapshot(_ completionHandler: @escaping (QueueSnapshot) -> ()) {
         fatalError("Should not be called as a participant")
     }
     

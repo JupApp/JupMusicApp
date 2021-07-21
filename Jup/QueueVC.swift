@@ -79,7 +79,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
             var updatedS = s
             if ip.row < self.mpDelegate.queue.count {
-                print("pulling data from song map, not snapshot")
                 let songURI: String = self.mpDelegate.queue[ip.row]
                 let songItem: SongItem = self.mpDelegate.songMap[songURI]!
                 updatedS = QueueSongItem(songItem)
@@ -115,14 +114,11 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             }
             cell?.completionHandler = {
                 let addlike: Bool = !self.mpDelegate.likedSongs.contains(updatedS.uri)
-                print("Like Song: \(addlike)")
                 self.mpDelegate.likeSong(updatedS.uri, addlike) { e in
                     guard let error = e else {
                         // success!
                         if addlike {
                             self.mpDelegate.likedSongs.insert(updatedS.uri)
-                            print("\n\n\nSuccessfully liked song:\n\n\n")
-
                         } else {
                             self.mpDelegate.likedSongs.remove(updatedS.uri)
                         }
@@ -140,13 +136,11 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             cell?.albumArtwork.layer.cornerRadius = 8
             
         return cell
-                
     }
     
     let songLikeFailedAlert = UIAlertController(title: "Failed to like Song", message: nil, preferredStyle: .alert)
     
     override func viewDidLoad() {
-        print("View Did Load called")
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
 
@@ -162,7 +156,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         } else {
             mpDelegate = ParticipantMPDelegate(self)
         }
-//        searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
 
         let nib = UINib(nibName: "SongCell", bundle: nil)
 
@@ -171,7 +164,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         tableView.dataSource = datasource
         tableView.allowsSelection = false
         tableView.isScrollEnabled = true
-
 
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
@@ -189,8 +181,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
 
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
-        
-        
 
         participantMenu = ParticipantMenuViewController(rootViewController: UIViewController())
         participantMenu?.leftSide = true
@@ -240,23 +230,16 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         SpotifyUtilities.clearCache()
         AppleMusicUtilities.clearCache()
         mpDelegate.songTimer?.invalidate()
-//        mpDelegate = nil
-        print("segueing to settings")
         performSegue(withIdentifier: "exitQueue", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "exitQueue" {
-            print("breaking connections")
             btDelegate.breakConnections()
-//            btDelegate = nil
         }
     }
     
     @objc func didEnterBackground() {
-        print("App entering background")
-        print(btDelegate == nil)
-        print("MPDelegate is nil: \(mpDelegate == nil)")
         if mpDelegate.state == .PLAYING {
             mpDelegate.loadQueueIntoPlayer()
         }
@@ -264,13 +247,11 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     
     @objc func didEnterForeground() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            print("Async after 0.1 seconds")
             self.mpDelegate.returnedToApp()
         }
     }
     
     @objc func willTerminate() {
-        print("App will terminate")
         btDelegate.breakConnections()
     }
     
@@ -283,11 +264,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             guard let propagator = vc as? BackgroundImagePropagator else {
                 continue
             }
-            print("Set image")
             propagator.backgroundImageView.image = image
         }
-//        self.backgroundImageView.image = image
-//        self.searchVC!.setAlbumImage(image)
     }
 }
     

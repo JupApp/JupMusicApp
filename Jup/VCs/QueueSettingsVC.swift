@@ -68,13 +68,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         authorizeAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
-        
-//        self.tableView.backgroundView = backgroundImageView
-//        backgroundImageView.frame = self.tableView.bounds
-//        
-//        let backgroundBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
-//        backgroundImageView.addSubview(backgroundBlurView)
-//        backgroundBlurView.frame = self.tableView.bounds
     }
     
     
@@ -175,7 +168,6 @@ class QueueSettingsVC: UITableViewController, UITextFieldDelegate{
                 strictQueueSwitch.setOn(true, animated: true)
             }
         }
-    
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

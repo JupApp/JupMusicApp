@@ -11,20 +11,15 @@ import CoreBluetooth
 class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var displayNameTextField: UITextField!
-    
     let btDelegate: BTParticipantDelegate = BTParticipantDelegate()
-        
     let usernameAlert = UIAlertController(title: "Please enter a username", message: nil, preferredStyle: .alert)
-        
    
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
 
-        
         btDelegate.participantSettingsVC = self
         
-        //joinQueueButton.layer.cornerRadius = 8
         displayNameTextField.layer.cornerRadius = 5
         var placeHolderText: String = "username"
         if let lastUsedUsername = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey) {
@@ -38,8 +33,6 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         displayNameTextField.delegate = self
         displayNameTextField.attributedPlaceholder = NSAttributedString(string: placeHolderText,
                                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        //joinQueueButton.addTarget(self, action: #selector(joinButtonPressed), for: .touchUpInside)
-    
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -47,7 +40,8 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         
         tableView.delegate = self
         tableView.allowsSelection = false
-        tableView.isScrollEnabled = true    }
+        tableView.isScrollEnabled = true
+    }
     
     func joinButtonPressed() {
         if displayNameTextField.text == nil || displayNameTextField.text == "" {
@@ -113,12 +107,8 @@ class ParticipantSettingsVC: UITableViewController, UITextFieldDelegate {
         return cell
         
     }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return btDelegate.discoveredQueues.count
     }
 }
-
-
-
-
-

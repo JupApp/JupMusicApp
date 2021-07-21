@@ -67,7 +67,6 @@ class AppleMusicUtilities {
 
         var request = URLRequest(url: url)
         request.setValue("Bearer \(amDevToken!)", forHTTPHeaderField: "Authorization")
-//        let session = URLSession.shared
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let dataResponse = data else {
                 return
@@ -76,7 +75,6 @@ class AppleMusicUtilities {
             do {
                 try jsonData = JSON(data: dataResponse)
             } catch {
-                print("bad data from catalogue request")
                 return
             }
             let songDataList: JSON = jsonData["results"]["songs"]["data"]
@@ -303,10 +301,7 @@ class AppleMusicUtilities {
             }
             let offsetSubstring = path[path.index(index, offsetBy: 8)...]
             let offset = String(offsetSubstring)
-            
-            /*
-             TEST updating with each call
-             */
+
             completionHandler()
 
             self.getPlaylistData(id, offset, completionHandler)

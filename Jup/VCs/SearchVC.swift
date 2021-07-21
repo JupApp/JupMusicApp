@@ -11,7 +11,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
 
 
     @IBOutlet weak var musicSearchBar: UISearchBar!
-//    var musicSearchBar: UISearchBar = UISearchBar()
     var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
     
     var currentPlatform: Platform = .APPLE_MUSIC
@@ -67,7 +66,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         snap.appendSections(["Playlists"])
         snap.appendItems([])
         self.datasource.apply(snap, animatingDifferences: false)
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -193,7 +191,9 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             snap.appendItems(AppleMusicUtilities.playlistIDs.map({ (id) -> PlaylistItem in
                 AppleMusicUtilities.playlists[id]!
             }))
-            self.datasource.apply(snap, animatingDifferences: false)
+            DispatchQueue.main.async {
+                self.datasource.apply(snap, animatingDifferences: false)
+            }
         }
     }
     
@@ -216,7 +216,9 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             snap.appendItems(SpotifyUtilities.playlistIDs.map({ (id) -> PlaylistItem in
                 SpotifyUtilities.playlists[id]!
             }))
-            self.datasource.apply(snap, animatingDifferences: false)
+            DispatchQueue.main.async {
+                self.datasource.apply(snap, animatingDifferences: false)
+            }
         }
     }
     
@@ -241,9 +243,5 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             }
         }
     }
-
-
-    
-    
     
 }

@@ -396,10 +396,16 @@
                             </barButtonItem>
                             <barButtonItem title="Item" image="person.and.person.fill" catalog="system" id="BxC-v4-c6r">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="participantMenuTapped" destination="HoO-Qc-tuw" id="PSC-yF-aUK"/>
+                                </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="aZi-nT-8pe">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="presentSearchVC:" destination="HoO-Qc-tuw" id="0P0-0N-QSS"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>

@@ -43,7 +43,7 @@ extension SongItem {
         }
         let request = URLRequest(url: url)
         let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, _, _ in
             guard let data = data else { completionHandler(UIImage()); return }
             DispatchQueue.main.async {
                 completionHandler(UIImage(data: data) ?? UIImage())

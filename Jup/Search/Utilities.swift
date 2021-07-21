@@ -26,9 +26,6 @@ class Utilities {
             .replacingOccurrences(of: "& ", with: "")
             .replacingOccurrences(of: ",", with: "")
             .replacingOccurrences(of: " x ", with: " ")
-
-        print("Song Title: \n\(title)")
-        print("Artists:\n\(artists)")
         return title + " " + artists
     }
     

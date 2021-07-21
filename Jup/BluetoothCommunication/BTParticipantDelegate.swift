@@ -62,10 +62,10 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
           case .poweredOn:
             print("central.state is .poweredOn")
             //start scanning baby please
-            central.scanForPeripherals(withServices: [queueUUID], options: nil)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                print("Central is scanning: \(central.isScanning)")
+            guard hostPeripheral == nil else {
+                return
             }
+            central.scanForPeripherals(withServices: [queueUUID], options: nil)
         @unknown default:
             print("unknown state: \(central.state)")
         }
@@ -73,7 +73,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         // connected to queue
-        print("Connected to queue")
         peripheral.discoverServices([queueUUID])
     }
     
@@ -81,7 +80,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user disconnected, prompt user to reconnect or go back to settings
          */
-        print("Disconnected")
         disconnectedFromQueueAlert.message = "App disconnected Bluetooth connection to Queue. Return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
@@ -90,7 +88,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user failed to connect, prompt user to reconnect or go back to settings
          */
-        print("Failed to connect")
         disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
@@ -111,7 +108,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             if peripheral.identifier == discoveredQueue.identifier {
                 discoveredQueueInfo[peripheral] = queueInfo
                 participantSettingsVC?.tableView.reloadData()
-                print("reloaded")
                 return
             }
         }
@@ -120,13 +116,11 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Update tableview
          */
-        print("Found peripheral...adding to tableview")
         participantSettingsVC?.tableView.reloadData()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
-        print("discovered services")
         for service in services {
             peripheral.discoverCharacteristics(nil, for: service)
         }
@@ -134,7 +128,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         for characteristic in service.characteristics! {
-            print("discovered characteristic!")
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
@@ -152,11 +145,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let _ = error else {
-            print("Successfully sent add/like song request")
             completionHandler?(nil)
             return
         }
-        print("Error: \n\n\(error.debugDescription)")
         completionHandler?(AddSongError())
         completionHandler = nil
     }
@@ -172,13 +163,10 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
          */
         switch (characteristic.uuid) {
         case snapshotUUID:
-            print("Snapshot updated")
             guard let characteristicData = characteristic.value else { return }
-            print("Received \(characteristicData.count) bytes")
 
             if let stringFromData = String(data: characteristicData, encoding: .utf8) {
                 if stringFromData == "START" {
-                    print("Received START signal")
                     snapshot = Data()
                     return
                 }
@@ -190,20 +178,16 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                     
                     let queueSnapshot: QueueSnapshot? = try? decoder.decode(QueueSnapshot.self, from: snapshot)
                     guard let queue = queueSnapshot else {
-                        print("no snapshot")
                         snapshot = Data()
                         return
                     }
-                    print("With: \n\(queue.songs)\n\(queue.state)\n\(queue.timeIn)")
                     queueVC?.mpDelegate.updateQueueWithSnapshot(queue)
                     snapshot = Data()
                     return
                 }
             }
-            print("Appending \(characteristicData.count) bytes to snapshot data")
             // Otherwise, just append the data to what we have previously received.
             snapshot.append(characteristicData)
-            print("Snapshot: \(String(data: snapshot, encoding: .utf8) ?? "Error decoding data")")
         default:
             print("unknown characteristic")
         }
@@ -215,8 +199,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
          Request to update song
          */
         hostPeripheral?.readValue(for: snapshotCharacteristic!)
-//        let updateRequest: Data? = try? encoder.encode("\n\nUPDATE\n\n")
-//        hostPeripheral?.writeValue(updateRequest ?? Data(), for: snapshotCharacteristic!, type: .withoutResponse)
     }
     
     /*
@@ -224,7 +206,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
      */
     func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
         let data = try! encoder.encode(songItem.encodeSong())
-        print("Attempting to request add song")
         hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
         self.completionHandler = completionHandler
     }
@@ -235,7 +216,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
         let codableLike: CodableLike = CodableLike(uri: songURI, liked: liked)
         let data = try! encoder.encode(codableLike)
-        print("Attempting to request like song")
         hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
         self.completionHandler = completionHandler
     }
@@ -257,7 +237,7 @@ struct QueueInfo {
 
 struct QueueSnapshot: Codable {
     var songs: [CodableSong]
-    var timeIn: Int
+    var timeIn: Double
     var state: Int
     var participants: [String]
     var host: String

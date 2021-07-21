@@ -8,7 +8,6 @@
 class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator where T: Hashable {
     
     var backgroundImageView: UIImageView! = UIImageView()
-    
     var platform: Platform!
         
     lazy var datasource =
@@ -49,7 +48,6 @@ class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator 
         self.tableView.rowHeight = UITableView.automaticDimension;
         self.tableView.allowsSelection = false
         
-
         var snap = NSDiffableDataSourceSnapshot<String, T>()
         snap.appendSections(["Songs"])
         datasource.apply(snap, animatingDifferences: false)
@@ -150,6 +148,5 @@ class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator 
                 self.present(songFailedToAddAlert, animated: true)
             }
         }
-            
     }
 }
