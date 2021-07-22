@@ -7,50 +7,6 @@
 import SideMenu
 import UIKit
 
-class SpotifyAppRemoteError: Error {}
-
-struct QueueSongItem: Hashable {
-    var title: String
-    var artist: String
-    var uri: String
-    var albumArtwork: UIImage
-    var contributor: String
-    var likes: Int
-    var timeAdded: Date
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(uri)
-    }
-    
-    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Int, timeAdded: Date) {
-        self.title = title
-        self.artist = artist
-        self.uri = uri
-        self.albumArtwork = albumArtwork
-        self.contributor = contributor
-        self.likes = likes
-        self.timeAdded = timeAdded
-    }
-    
-    init(_ songItem: SongItem) {
-        self.title = songItem.songTitle
-        self.artist = songItem.artistName
-        self.uri = songItem.uri
-        self.albumArtwork = songItem.albumArtwork ?? UIImage()
-        self.contributor = songItem.contributor
-        self.likes = songItem.likes
-        self.timeAdded = songItem.timeAdded
-    }
-    
-    static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
-        return lhs.uri == rhs.uri
-    }
-}
-
-protocol BackgroundImagePropagator {
-    var backgroundImageView: UIImageView! { get set }
-}
-
 class QueueVC: UITableViewController, BackgroundImagePropagator {
     
 
@@ -63,13 +19,14 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     
     var backgroundImageView: UIImageView!
     var searchVC: SearchVC?
+    var participantMenuVC: ParticipantMenuVC?
+    var settingsVC: QueueSettingsVC?
     
     var btDelegate: BTCommunicationDelegate!
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
     var queueType: QueueType = .VOTING
-    var participantMenu: ParticipantMenuViewController?
     
     var host: String = ""
     var participants: [String] = []
@@ -98,7 +55,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
                 cell?.likeCountLabel.isHidden = false
             }
 
-            let username: String = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+            let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
             
             if self.mpDelegate.likedSongs.contains(updatedS.uri) {
                 cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -182,12 +139,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
 
         self.nowPlayingAlbum.isMultipleTouchEnabled = true
         self.nowPlayingAlbum.isUserInteractionEnabled = true
-
-        participantMenu = ParticipantMenuViewController(rootViewController: UIViewController())
-        participantMenu?.leftSide = true
-        SideMenuManager.default.leftMenuNavigationController = participantMenu
-        participantMenu?.menuWidth = 200
-        participantMenu?.parentVC = self
         
         songLikeFailedAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
 
@@ -234,10 +185,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         self.navigationController?.pushViewController(searchVC!, animated: true)
     }
     
-    @IBAction func participantMenuTapped() {
-        present(participantMenu!, animated: true)
-    }
-    
     func returnToSettingsSegue(_ act:UIAlertAction){
         //clear playlist cache
         SpotifyUtilities.clearCache()
@@ -249,6 +196,12 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "exitQueue" {
             btDelegate.breakConnections()
+        } else if segue.identifier == "openParticipantsMenu" {
+            participantMenuVC = segue.destination as? ParticipantMenuVC
+            participantMenuVC?.parentVC = self
+        } else if segue.identifier == "openSettings" {
+            settingsVC = segue.destination as? QueueSettingsVC
+            settingsVC?.queueVC = self
         }
     }
     
@@ -280,5 +233,49 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             propagator.backgroundImageView.image = image
         }
     }
+}
+
+class SpotifyAppRemoteError: Error {}
+
+struct QueueSongItem: Hashable {
+    var title: String
+    var artist: String
+    var uri: String
+    var albumArtwork: UIImage
+    var contributor: String
+    var likes: Int
+    var timeAdded: Date
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(uri)
+    }
+    
+    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Int, timeAdded: Date) {
+        self.title = title
+        self.artist = artist
+        self.uri = uri
+        self.albumArtwork = albumArtwork
+        self.contributor = contributor
+        self.likes = likes
+        self.timeAdded = timeAdded
+    }
+    
+    init(_ songItem: SongItem) {
+        self.title = songItem.songTitle
+        self.artist = songItem.artistName
+        self.uri = songItem.uri
+        self.albumArtwork = songItem.albumArtwork ?? UIImage()
+        self.contributor = songItem.contributor
+        self.likes = songItem.likes
+        self.timeAdded = songItem.timeAdded
+    }
+    
+    static func ==(lhs: QueueSongItem, rhs: QueueSongItem) -> Bool {
+        return lhs.uri == rhs.uri
+    }
+}
+
+protocol BackgroundImagePropagator {
+    var backgroundImageView: UIImageView! { get set }
 }
     
