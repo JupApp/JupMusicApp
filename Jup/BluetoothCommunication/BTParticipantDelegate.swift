@@ -19,7 +19,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     var discoveredQueues: [CBPeripheral] = []
     var discoveredQueueInfo: [CBPeripheral: QueueInfo] = [:]
     var queueVC: QueueVC?
-    var participantSettingsVC: ParticipantSettingsVC?
+    var settingsVC: SettingsVC?
     
     var encoder: JSONEncoder = JSONEncoder()
     var decoder: JSONDecoder = JSONDecoder()
@@ -100,14 +100,14 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         var hostPieces: [String] = hostInfo.split(separator: " ").map { String($0) }
         let platform: Platform = Platform(rawValue: Int(hostPieces.removeLast())!)!
         let numParticipants: Int = Int(hostPieces.removeLast())!
-        let hostName: String = hostPieces[0]
+        let hostName: String = hostPieces.joined(separator: " ")
         
         let queueInfo: QueueInfo = QueueInfo(hostname: hostName, platform: platform, numParticipants: numParticipants)
         
         for discoveredQueue in discoveredQueues {
             if peripheral.identifier == discoveredQueue.identifier {
                 discoveredQueueInfo[peripheral] = queueInfo
-                participantSettingsVC?.tableView.reloadData()
+                settingsVC?.queueTableView.reloadData()
                 return
             }
         }
@@ -116,7 +116,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Update tableview
          */
-        participantSettingsVC?.tableView.reloadData()
+        settingsVC?.queueTableView.reloadData()
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -136,7 +136,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                 /*
                  Get Updated queue and update queue with name
                  */
-                let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)
+                let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)
                 let usernameData: Data? = try? encoder.encode(username)
                 peripheral.writeValue(usernameData ?? Data(), for: snapshotCharacteristic!, type: .withoutResponse)
             }
@@ -221,7 +221,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     }
     
     func breakConnections() {
-        centralManager?.cancelPeripheralConnection(hostPeripheral!)
+        if let _ = hostPeripheral {
+            centralManager?.cancelPeripheralConnection(hostPeripheral!)
+        }
         hostPeripheral = nil
         discoveredQueues = []
         discoveredQueueInfo = [:]

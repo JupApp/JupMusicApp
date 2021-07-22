@@ -60,7 +60,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                 self.snapshotCharacteristic.value = try? self.encoder.encode(snapshot)
             }
             
-            let username = UserDefaults.standard.string(forKey: QueueSettingsVC.usernameKey)!
+            let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
             /*
              FIX LATER, GET TOTAL NUMBER OF PARTICIPANTS
              */
@@ -77,7 +77,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
         updateQueueSnapshot()
         DispatchQueue.main.async {
-            self.queueVC.participantMenu?.participantTableView.reloadData()
+            self.queueVC.participantMenuVC?.tableView.reloadData()
         }
         for connectedCentral in connectedCentrals.keys {
             if central.identifier == connectedCentral.identifier {
@@ -97,7 +97,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             queueVC.participants.remove(at: index!)
         }
         DispatchQueue.main.async {
-            self.queueVC.participantMenu?.participantTableView.reloadData()
+            self.queueVC.participantMenuVC?.tableView.reloadData()
         }
         updateQueueSnapshot()
     }
@@ -138,7 +138,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                     peripheral.respond(to: request, withResult: .success)
                     updateQueueSnapshot()
                     DispatchQueue.main.async {
-                        self.queueVC.participantMenu?.participantTableView.reloadData()
+                        self.queueVC.participantMenuVC?.tableView.reloadData()
                     }
                     return
                 } else if likedSong != nil {

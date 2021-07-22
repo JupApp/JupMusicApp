@@ -94,7 +94,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
          */
         parentVC.host = snapshot.host
         parentVC.participants = snapshot.participants
-        parentVC.participantMenu?.participantTableView.reloadData()
+        parentVC.participantMenuVC?.tableView.reloadData()
     }
     
     func getQueueSnapshot(_ completionHandler: @escaping (QueueSnapshot) -> ()) {

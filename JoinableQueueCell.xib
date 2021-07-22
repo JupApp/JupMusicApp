@@ -52,6 +52,9 @@
                                             <constraint firstAttribute="width" constant="50" id="ajq-g2-jhz"/>
                                         </constraints>
                                         <state key="normal" image="JoinQueue"/>
+                                        <connections>
+                                            <action selector="clickJoinQueue:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="iiy-eX-PUi"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
