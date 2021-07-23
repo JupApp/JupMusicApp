@@ -143,7 +143,7 @@
                     <navigationItem key="navigationItem" title="Jup" largeTitleDisplayMode="always" id="jaz-I6-6G8">
                         <leftBarButtonItems>
                             <barButtonItem title="Item" image="gearshape" catalog="system" id="Jn5-D6-PAS">
-                                <color key="tintColor" systemColor="labelColor"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <segue destination="bnN-5n-naJ" kind="presentation" identifier="openSettings" id="lYx-6A-JDV"/>
                                 </connections>
@@ -185,7 +185,9 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vEe-r2-K4m">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.30203250479109739" green="0.43137252329999998" blue="0.42840644017827001" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="HoO-Qc-tuw" kind="relationship" relationship="rootViewController" id="HLa-Wp-Igv"/>
@@ -215,23 +217,28 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-HK-MW1">
                                             <rect key="frame" x="15" y="199" width="384" height="229"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-6s-ulW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="384" height="48"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-6s-ulW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="384" height="40"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-XE-erQ">
-                                                    <rect key="frame" x="0.0" y="58" width="384" height="51"/>
+                                                    <rect key="frame" x="0.0" y="52.666666666666657" width="384" height="51"/>
                                                     <subviews>
                                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EW7-Gn-t2r">
-                                                            <rect key="frame" x="15" y="10" width="354" height="32"/>
+                                                            <rect key="frame" x="15" y="10.000000000000028" width="354" height="32"/>
+                                                            <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <segments>
                                                                 <segment title="Apple Music"/>
                                                                 <segment title="Spotify"/>
                                                             </segments>
+                                                            <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </segmentedControl>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
                                                         <constraint firstItem="EW7-Gn-t2r" firstAttribute="top" secondItem="QEb-XE-erQ" secondAttribute="top" constant="10" id="9EV-dn-2jA"/>
                                                         <constraint firstItem="EW7-Gn-t2r" firstAttribute="centerX" secondItem="QEb-XE-erQ" secondAttribute="centerX" id="axJ-kJ-PTB"/>
@@ -242,18 +249,25 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nup-Ov-iPj">
-                                                    <rect key="frame" x="0.0" y="119" width="384" height="50"/>
+                                                    <rect key="frame" x="0.0" y="116.33333333333331" width="384" height="50"/>
                                                     <subviews>
-                                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iXj-at-WSY">
-                                                            <rect key="frame" x="15" y="9" width="344" height="32"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iXj-at-WSY">
+                                                            <rect key="frame" x="15" y="9.6666666666666856" width="354" height="32"/>
+                                                            <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <segments>
                                                                 <segment title="Strict "/>
                                                                 <segment title="Voting"/>
                                                             </segments>
+                                                            <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </segmentedControl>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="iXj-at-WSY" secondAttribute="trailing" constant="15" id="4ih-cY-PVc"/>
+                                                        <constraint firstItem="iXj-at-WSY" firstAttribute="centerX" secondItem="Nup-Ov-iPj" secondAttribute="centerX" id="Jei-rS-r8M"/>
+                                                        <constraint firstItem="iXj-at-WSY" firstAttribute="leading" secondItem="Nup-Ov-iPj" secondAttribute="leading" constant="15" id="QAd-tm-3MT"/>
+                                                        <constraint firstItem="iXj-at-WSY" firstAttribute="centerY" secondItem="Nup-Ov-iPj" secondAttribute="centerY" id="RNE-lT-C4g"/>
+                                                    </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p1r-3z-Ype">
                                                     <rect key="frame" x="0.0" y="179" width="384" height="50"/>
@@ -270,7 +284,7 @@
                                                             </connections>
                                                         </button>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="6DA-oD-YlB" secondAttribute="trailing" id="7Af-Bb-QUs"/>
                                                         <constraint firstItem="6DA-oD-YlB" firstAttribute="top" secondItem="p1r-3z-Ype" secondAttribute="top" id="Kgq-te-d3X"/>
@@ -279,25 +293,32 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="QEb-XE-erQ" firstAttribute="height" secondItem="p1r-3z-Ype" secondAttribute="height" multiplier="1.02" id="Fim-Y7-wH9"/>
+                                                <constraint firstItem="QEb-XE-erQ" firstAttribute="height" secondItem="Nup-Ov-iPj" secondAttribute="height" multiplier="1.02" id="RuB-3P-8UG"/>
+                                                <constraint firstAttribute="height" constant="229" id="dHq-oO-0Nb"/>
+                                            </constraints>
                                         </stackView>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hxe-hl-46k">
                                             <rect key="frame" x="15" y="448" width="384" height="433"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="sectionIndexBackgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </tableView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="hxe-hl-46k" firstAttribute="leading" secondItem="TSC-0O-3sc" secondAttribute="leading" constant="15" id="4FH-bL-mHT"/>
                                         <constraint firstItem="ZNn-HK-MW1" firstAttribute="baseline" secondItem="TSC-0O-3sc" secondAttribute="centerY" constant="-20" id="6V2-kh-A0j"/>
                                         <constraint firstItem="hxe-hl-46k" firstAttribute="centerX" secondItem="TSC-0O-3sc" secondAttribute="centerX" id="FZA-6F-LoF"/>
                                         <constraint firstAttribute="trailing" secondItem="ZNn-HK-MW1" secondAttribute="trailing" constant="15" id="Qpe-sy-634"/>
+                                        <constraint firstItem="hxe-hl-46k" firstAttribute="width" secondItem="ZNn-HK-MW1" secondAttribute="width" id="g0D-xm-Kby"/>
                                         <constraint firstItem="ZNn-HK-MW1" firstAttribute="leading" secondItem="TSC-0O-3sc" secondAttribute="leading" constant="15" id="hnY-Qk-9Jb"/>
                                         <constraint firstItem="ZNn-HK-MW1" firstAttribute="centerX" secondItem="TSC-0O-3sc" secondAttribute="centerX" id="lTQ-7P-rWQ"/>
+                                        <constraint firstItem="hxe-hl-46k" firstAttribute="leading" secondItem="TSC-0O-3sc" secondAttribute="leading" constant="15" id="rh8-as-ZCL"/>
                                         <constraint firstItem="hxe-hl-46k" firstAttribute="firstBaseline" secondItem="TSC-0O-3sc" secondAttribute="centerY" id="tCe-j0-evt"/>
                                         <constraint firstAttribute="bottom" secondItem="hxe-hl-46k" secondAttribute="bottom" constant="15" id="vZq-yJ-5l6"/>
                                         <constraint firstAttribute="trailing" secondItem="hxe-hl-46k" secondAttribute="trailing" constant="15" id="vme-hR-pcy"/>
                                     </constraints>
                                 </view>
-                                <blurEffect style="systemUltraThinMaterialDark"/>
+                                <blurEffect style="systemThinMaterialLight"/>
                             </visualEffectView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8qh-pn-u0y"/>
@@ -314,9 +335,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="hostButtonView" destination="p1r-3z-Ype" id="ROq-48-jUF"/>
                         <outlet property="platformChoiceControl" destination="EW7-Gn-t2r" id="u9K-FK-cGs"/>
+                        <outlet property="queueModeView" destination="Nup-Ov-iPj" id="Xuz-2i-A8J"/>
                         <outlet property="queueTableView" destination="hxe-hl-46k" id="IB6-Be-35n"/>
                         <outlet property="queueTypeControl" destination="iXj-at-WSY" id="8iS-UR-oq7"/>
+                        <outlet property="queueTypeView" destination="QEb-XE-erQ" id="tZJ-1O-HpC"/>
                         <outlet property="usernameTextField" destination="Cpc-6s-ulW" id="RNf-EP-mHf"/>
                         <outlet property="voteQueueControl" destination="EW7-Gn-t2r" id="Xdx-aT-7V6"/>
                         <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueueAsHost" modalPresentationStyle="fullScreen" id="4Sv-ZC-CEk"/>
@@ -702,7 +726,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ulO-FK-Lkp"/>
+        <segue reference="4Jf-Uw-5Fs"/>
         <segue reference="K56-oX-isM"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -711,9 +735,6 @@
         <image name="arrow.triangle.2.circlepath" catalog="system" width="128" height="101"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="person.and.person.fill" catalog="system" width="128" height="80"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
