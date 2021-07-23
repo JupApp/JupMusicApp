@@ -11,9 +11,9 @@ class QueueSettingsVC: UIViewController {
     
     var queueVC: QueueVC?
     @IBOutlet weak var queueTypeControl: UISegmentedControl!
-    @IBOutlet weak var queueOpenControl: UISwitch!
     @IBOutlet weak var hostQueueEditControl: UISwitch!
     @IBOutlet weak var selfLikingControl: UISwitch!
+    @IBOutlet weak var queueOpenControl: UISwitch!
     
     @IBOutlet weak var view1: UIVisualEffectView!
     @IBOutlet weak var view2: UIVisualEffectView!
@@ -25,6 +25,58 @@ class QueueSettingsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if !queueVC!.isHost {
+            queueTypeControl.isUserInteractionEnabled = false
+            hostQueueEditControl.isUserInteractionEnabled = false
+            selfLikingControl.isUserInteractionEnabled = false
+            queueOpenControl.isUserInteractionEnabled = false
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//        if !(queueVC?.isHost ?? false) {
+        updateSettings(animated)
+//        }
+    }
+        
+    @IBAction func toggleOpenCloseQueue(_ sender: Any) {
+        if queueOpenControl.isOn {
+            queueVC?.btDelegate.openQueue()
+        } else {
+            queueVC?.btDelegate.closeQueue()
+        }
+        queueVC?.settings.queueOpen = queueOpenControl.isOn
+        queueVC?.btDelegate.updateQueueSnapshot()
+    }
+    
+    @IBAction func toggleHostEditing(_ sender: Any) {
+        if hostQueueEditControl.isOn {
+            // host control
+            queueTypeControl.selectedSegmentIndex = 0
+            queueVC?.settings.hostControlOn = true
+            
+            queueVC!.tableView.setEditing(true, animated: true)
+        } else {
+            queueVC!.tableView.setEditing(false, animated: true)
+        }
+        queueVC?.settings.hostEditingOn = hostQueueEditControl.isOn
+        queueVC?.btDelegate.updateQueueSnapshot()
+    }
+    
+    @IBAction func toggleHostControlOrVoting(_ sender: Any) {
+        if queueTypeControl.selectedSegmentIndex == 1 {
+            hostQueueEditControl.setOn(false, animated: true)
+            queueVC?.settings.hostEditingOn = false
+        }
+        queueVC?.settings.hostControlOn = queueTypeControl.selectedSegmentIndex == 0
+        queueVC?.btDelegate.updateQueueSnapshot()
+        queueVC?.tableView.reloadData()
+    }
+    
+    @IBAction func toggleSelfLiking(_ sender: Any) {
+        queueVC?.settings.selfLikingOn = selfLikingControl.isOn
+        queueVC?.btDelegate.updateQueueSnapshot()
+        queueVC?.tableView.reloadData()
     }
     
     @IBAction func spotifySignOut(_ sender: Any) {
@@ -50,5 +102,13 @@ class QueueSettingsVC: UIViewController {
         exitAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(exitAlert, animated: true)
+    }
+    
+    func updateSettings(_ animated: Bool) {
+        let settings: Settings = queueVC!.settings
+        queueTypeControl.selectedSegmentIndex = settings.hostControlOn ? 0 : 1
+        queueOpenControl.setOn(settings.queueOpen, animated: animated)
+        hostQueueEditControl.setOn(settings.hostEditingOn, animated: animated)
+        selfLikingControl.setOn(settings.selfLikingOn, animated: animated)
     }
 }
