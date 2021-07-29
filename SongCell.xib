@@ -35,23 +35,23 @@
                             <action selector="songLiked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Sua-4h-4Te"/>
                         </connections>
                     </button>
-                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="CC9-Et-TL3">
+                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="CC9-Et-TL3">
                         <rect key="frame" x="75" y="2" width="197" height="50"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fzy-hv-lQN">
-                                <rect key="frame" x="0.0" y="0.0" width="197" height="15.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Fzy-hv-lQN">
+                                <rect key="frame" x="0.0" y="0.0" width="197" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5PR-jk-DUY">
-                                <rect key="frame" x="0.0" y="17.5" width="197" height="15"/>
+                                <rect key="frame" x="0.0" y="20" width="197" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ContributorLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hi-jC-e9D">
-                                <rect key="frame" x="0.0" y="34.5" width="197" height="15.5"/>
+                                <rect key="frame" x="0.0" y="36.5" width="197" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.78431367870000002" green="0.89411771299999998" blue="0.89803922179999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -71,7 +71,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="CC9-Et-TL3" firstAttribute="height" secondItem="es9-gd-PdC" secondAttribute="height" id="3N4-yF-cXu"/>
+                    <constraint firstItem="es9-gd-PdC" firstAttribute="height" secondItem="CC9-Et-TL3" secondAttribute="height" id="3N4-yF-cXu"/>
                     <constraint firstItem="22v-Y6-KqJ" firstAttribute="centerX" secondItem="cQA-5Q-stQ" secondAttribute="trailing" constant="-2" id="Efo-jd-cY5"/>
                     <constraint firstItem="cQA-5Q-stQ" firstAttribute="top" secondItem="22v-Y6-KqJ" secondAttribute="bottom" constant="-9.5" id="Fng-z2-9eB"/>
                     <constraint firstItem="es9-gd-PdC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Fuf-t5-Quy"/>

@@ -16,8 +16,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var voteQueueControl: UISegmentedControl!
     @IBOutlet weak var queueTypeControl: UISegmentedControl!
     @IBOutlet weak var usernameTextField: UITextField!
-    
     @IBOutlet weak var queueTableView: UITableView!
+    
+    @IBOutlet weak var queueModeView: UIView!
+    @IBOutlet weak var queueTypeView: UIView!
+    @IBOutlet weak var hostButtonView: UIView!
+    
     
     var platform: Platform = .APPLE_MUSIC
     
@@ -65,7 +69,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         queueTableView.allowsSelection = false
         queueTableView.isScrollEnabled = true
         queueTableView.dataSource = self
-
+        
+        queueModeView.layer.cornerRadius = 10
+        queueTypeView.layer.cornerRadius = 10
+        hostButtonView.layer.cornerRadius = 10
+        usernameTextField.layer.cornerRadius = 10
+        queueTableView.layer.cornerRadius = 10
+        
     }
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
