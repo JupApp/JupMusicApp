@@ -188,7 +188,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         DispatchQueue.main.async {
             self.parentVC.tableView.reloadData()
 
-            if (self.parentVC.queueType == .VOTING) {
+            if !self.parentVC.settings.hostControlOn {
                 self.updateQueueOrder()
             }
             
@@ -231,11 +231,11 @@ class HostMPDelegate: MediaPlayerDelegate {
             if songDuration < 1.0 {
                 timeIn = 0
             }
-            let snap = QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: self.state.rawValue, participants: self.parentVC.participants, host: self.parentVC.host)
+            let snap = QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: self.state.rawValue, participants: self.parentVC.participants, host: self.parentVC.host, settings: self.parentVC.settings)
             completionHandler(snap)
         })
         if self.mediaPlayer == nil {
-            let snap = QueueSnapshot(songs: codableSongs, timeIn: 0, state: self.state.rawValue, participants: self.parentVC.participants, host: self.parentVC.host)
+            let snap = QueueSnapshot(songs: codableSongs, timeIn: 0, state: self.state.rawValue, participants: self.parentVC.participants, host: self.parentVC.host, settings: self.parentVC.settings)
             completionHandler(snap)
         }
     }

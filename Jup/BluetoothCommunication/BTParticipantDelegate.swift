@@ -91,6 +91,8 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         disconnectedFromQueueAlert.message = "App failed to make Bluetooth connection to Queue. Return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
+    
+    
         
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         // first check if advertisement data is there
@@ -182,6 +184,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                         return
                     }
                     queueVC?.mpDelegate.updateQueueWithSnapshot(queue)
+                    queueVC?.settings = queue.settings
                     snapshot = Data()
                     return
                 }
@@ -228,6 +231,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         discoveredQueues = []
         discoveredQueueInfo = [:]
     }
+    
+    func openQueue() {}
+    func closeQueue() {}
 
 }
 
@@ -243,6 +249,14 @@ struct QueueSnapshot: Codable {
     var state: Int
     var participants: [String]
     var host: String
+    var settings: Settings
+}
+
+struct Settings: Codable {
+    var hostControlOn: Bool
+    var queueOpen: Bool
+    var hostEditingOn: Bool
+    var selfLikingOn: Bool
 }
 
 struct CodableLike: Codable {

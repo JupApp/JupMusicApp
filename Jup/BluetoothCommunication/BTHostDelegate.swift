@@ -38,6 +38,22 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil, options: nil)
     }
+    
+    func closeQueue() {
+        peripheralManager.stopAdvertising()
+        /*
+         TO-DO alert everyone else queue is closed
+         */
+    }
+    
+    func openQueue() {
+        let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
+        let queueAd: String = username + " \(queueVC.participants.count + 1) \(queueVC.platform.rawValue)"
+        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
+        /*
+         TO-DO alert everyone else queue is open
+         */
+    }
 
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
         switch peripheralManager.state {
@@ -61,9 +77,6 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             }
             
             let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-            /*
-             FIX LATER, GET TOTAL NUMBER OF PARTICIPANTS
-             */
             let queueAd: String = username + " \(queueVC.participants.count + 1) \(queueVC.platform.rawValue)"
             peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         @unknown default:

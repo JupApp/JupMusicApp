@@ -26,8 +26,11 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var queueType: QueueType = .VOTING
-    
+    var settings: Settings = Settings(hostControlOn: true, queueOpen: true, hostEditingOn: true, selfLikingOn: true) {
+        didSet {
+            if !isHost { settingsVC?.updateSettings(true) }
+        }
+    }
     var host: String = ""
     var participants: [String] = []
     
@@ -63,7 +66,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
                 cell?.likeButton.imageView?.transform = .identity
             }
             
-            if updatedS.contributor == username {
+            if (!self.settings.selfLikingOn && updatedS.contributor == username) || self.settings.hostControlOn {
                 cell?.likeButton.isEnabled = false
                 cell?.likeButton.alpha = 0.5
             } else {

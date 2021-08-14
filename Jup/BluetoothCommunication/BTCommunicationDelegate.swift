@@ -20,5 +20,8 @@ protocol BTCommunicationDelegate {
     func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ())
     
     func breakConnections()
+    
+    func openQueue()
+    func closeQueue()
 }
 

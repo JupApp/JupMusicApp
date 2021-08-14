@@ -7,10 +7,6 @@
 import UIKit
 import StoreKit
 
-enum QueueType {
-    case VOTING
-    case STRICT
-}
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
@@ -28,9 +24,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     
     var platform: Platform = .APPLE_MUSIC
-    var queueType: QueueType {
-        queueTypeControl.selectedSegmentIndex == 0 ? .STRICT : .VOTING
-    }
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     

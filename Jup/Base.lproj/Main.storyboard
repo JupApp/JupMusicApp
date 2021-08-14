@@ -380,9 +380,12 @@
                                                                     <constraint firstAttribute="height" constant="30" id="AZ0-iS-rUX"/>
                                                                 </constraints>
                                                                 <segments>
-                                                                    <segment title="Strict"/>
+                                                                    <segment title="Host Control"/>
                                                                     <segment title="Voting"/>
                                                                 </segments>
+                                                                <connections>
+                                                                    <action selector="toggleHostControlOrVoting:" destination="bnN-5n-naJ" eventType="valueChanged" id="gR3-qf-Z98"/>
+                                                                </connections>
                                                             </segmentedControl>
                                                         </subviews>
                                                         <constraints>
@@ -414,6 +417,9 @@
                                                                             </label>
                                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TcR-CN-Zi6">
                                                                                 <rect key="frame" x="305" y="0.0" width="51" height="31"/>
+                                                                                <connections>
+                                                                                    <action selector="toggleOpenCloseQueue:" destination="bnN-5n-naJ" eventType="valueChanged" id="Fpj-Aa-Owd"/>
+                                                                                </connections>
                                                                             </switch>
                                                                         </subviews>
                                                                     </stackView>
@@ -455,6 +461,9 @@
                                                                             </label>
                                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JNq-qw-3EW">
                                                                                 <rect key="frame" x="305" y="0.0" width="51" height="31"/>
+                                                                                <connections>
+                                                                                    <action selector="toggleHostEditing:" destination="bnN-5n-naJ" eventType="valueChanged" id="y7W-G8-wbB"/>
+                                                                                </connections>
                                                                             </switch>
                                                                         </subviews>
                                                                     </stackView>
@@ -496,6 +505,9 @@
                                                                             </label>
                                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2KI-pP-Pt6">
                                                                                 <rect key="frame" x="305" y="0.0" width="51" height="31"/>
+                                                                                <connections>
+                                                                                    <action selector="toggleSelfLiking:" destination="bnN-5n-naJ" eventType="valueChanged" id="0PE-Ig-Ojp"/>
+                                                                                </connections>
                                                                             </switch>
                                                                         </subviews>
                                                                     </stackView>
@@ -680,7 +692,7 @@
                     </view>
                     <connections>
                         <outlet property="hostQueueEditControl" destination="JNq-qw-3EW" id="wh7-lW-27q"/>
-                        <outlet property="queueOpenControl" destination="TcR-CN-Zi6" id="hnp-sn-EQ5"/>
+                        <outlet property="queueOpenControl" destination="TcR-CN-Zi6" id="cby-0u-rgd"/>
                         <outlet property="queueTypeControl" destination="yMH-Wk-CxU" id="6XV-5e-3Y3"/>
                         <outlet property="selfLikingControl" destination="2KI-pP-Pt6" id="vG6-f2-IIx"/>
                         <outlet property="view1" destination="cC7-Ni-Zcw" id="BJw-fT-ac3"/>
@@ -704,6 +716,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="sectionIndexColor" systemColor="linkColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="PGx-Pr-DLT">
                                 <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="43.666667938232422"/>
@@ -735,6 +748,12 @@
         <image name="arrow.triangle.2.circlepath" catalog="system" width="128" height="101"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="person.and.person.fill" catalog="system" width="128" height="80"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
