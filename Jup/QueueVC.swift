@@ -26,7 +26,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var settings: Settings = Settings(hostControlOn: true, queueOpen: true, hostEditingOn: true, selfLikingOn: true) {
+    var settings: Settings = Settings(hostControlOn: false, queueOpen: true, hostEditingOn: false, selfLikingOn: true) {
         didSet {
             if !isHost { settingsVC?.updateSettings(true) }
         }
@@ -225,9 +225,9 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     }
     
     func propagateImage() {
-        let image = self.nowPlayingAlbum.image
-        guard let _ = self.mpDelegate.currentSong else {
-            return
+        var image = self.nowPlayingAlbum.image
+        if let _ = self.mpDelegate.currentSong {
+            image = UIImage()
         }
         for vc in navigationController?.viewControllers ?? [] {
             guard let propagator = vc as? BackgroundImagePropagator else {

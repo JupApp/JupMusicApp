@@ -86,7 +86,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         }
 
         if self.state == .PLAYING {
-            songTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
+            setTimer()
         }
         
         /*
@@ -114,9 +114,13 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     @objc func timerFired() {
+        if parentVC.btDelegate == nil {
+            return
+        }
         let songLength: Float = Float(currentSong!.songLength)/1000.0
         let previousPlaybackPosition: Float = parentVC.nowPlayingProgress.progress * songLength
         let newPlaybackPosition: Float = previousPlaybackPosition + 1.0
+        print("\(songLength - newPlaybackPosition) seconds left in song")
         if songLength - newPlaybackPosition > 0 {
             UIView.animate(withDuration: 1.0) {
                 self.parentVC.nowPlayingProgress.setProgress(newPlaybackPosition / songLength, animated: true)
@@ -136,6 +140,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
          */
         self.parentVC.btDelegate.updateQueueSnapshot()
     }
+    
+    func clearQueue() {}
     
 
 }

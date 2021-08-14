@@ -121,7 +121,13 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
         switch (request.characteristic.uuid) {
         case snapshotUUID:
-            self.queueVC.mpDelegate.returnedToApp()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.mpDelegate.returnedToApp()
+//            }
+            print("did receive read request")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.queueVC.mpDelegate.returnedToApp()
+            }
             return
         default:
             print("unknown characteristic")
@@ -143,7 +149,17 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                      */
                     let usernameOrUpdateRequest = try? decoder.decode(String.self, from: request.value ?? Data())
                     guard let newParticipant = usernameOrUpdateRequest else {
-                        peripheral.respond(to: request, withResult: .attributeNotFound)
+//                        peripheral.respond(to: request, withResult: .attributeNotFound)
+                        // or read request...
+                        print("updating queue snapshot")
+                        if UIApplication.shared.applicationState == .background {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                self.queueVC.mpDelegate.returnedToApp()
+                            }
+                        } else {
+                            updateQueueSnapshot()
+                        }
+//                        updateQueueSnapshot()
                         return
                     }
                     queueVC.participants.append(newParticipant)
@@ -163,6 +179,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                             peripheral.respond(to: request, withResult: .success)
                             return
                         }
+                        print("successfully liked song")
                         // completion handler called implies error
                         peripheral.respond(to: request, withResult: .attributeNotFound)
                     }

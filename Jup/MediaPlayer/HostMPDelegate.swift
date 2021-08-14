@@ -113,17 +113,20 @@ class HostMPDelegate: MediaPlayerDelegate {
     is a current song playing, it is already paused, and that the songTimer is nil.
     */
     private func transitionToNextSong() {
+        print("transition to next song called")
         if queue.isEmpty {
             self.state = .NO_SONG_SET
             parentVC.btDelegate.updateQueueSnapshot()
             return
         }
         DispatchQueue.main.async {
+            print("entered async")
             self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
             let nextSongURI: String = self.queue.remove(at: 0)
             self.likedSongs.remove(nextSongURI)
             let nextSongItem: SongItem = self.songMap.removeValue(forKey: nextSongURI)!
             self.mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
+                print("successfully transitioned to next song via mediaPlayer")
                 if let _ = error {
                     // assert alert here?
                     fatalError("Failed to transition to Next Song")
@@ -281,6 +284,8 @@ class HostMPDelegate: MediaPlayerDelegate {
                 }
             }
             if timeLeft < 2.0 {
+                print("Time left: \(timeLeft)")
+                print("Song Duration: \(songDuration)")
                 self.mediaPlayer?.pause()
                 self.stopTimer()
                 self.state = .TRANSITIONING
@@ -295,6 +300,7 @@ class HostMPDelegate: MediaPlayerDelegate {
      transitioned during absence.
      */
     func returnedToApp() {
+        print("returned to app called")
         if HostMPDelegate.returningApp {
             return
         }
@@ -303,6 +309,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         switch (self.state) {
             case .NO_SONG_SET:
                 // pause in case a song is playing
+                print("No Song Set")
                 self.mediaPlayer?.pause()
                 HostMPDelegate.returningApp = false
                 return
@@ -312,11 +319,17 @@ class HostMPDelegate: MediaPlayerDelegate {
                     1. app is playing, in which we will let them play
                         (user tapped play in Music/Spotiyf app like an idiot)
                  */
+                print("Paused")
+
                 break
             case .TRANSITIONING:
                 HostMPDelegate.returningApp = false
+                print("Transitioning")
+
                 return
-            case .PLAYING: break
+            case .PLAYING:
+                print("playing")
+                break
         }
         self.state = .TRANSITIONING
         // song was playing when left the app last
@@ -325,12 +338,18 @@ class HostMPDelegate: MediaPlayerDelegate {
              Broadcast out new snapshot to participants
              */
             self.parentVC.btDelegate.updateQueueSnapshot()
-                HostMPDelegate.returningApp = false
+            HostMPDelegate.returningApp = false
         }
     }
     
     private func iterateThroughQueue(_ completionHandler: @escaping () -> ()) {
-        mediaPlayer!.nowPlayingInfo { (songID, isPlaying) in
+        guard let _ = mediaPlayer else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.iterateThroughQueue(completionHandler)
+            }
+            return
+        }
+        mediaPlayer?.nowPlayingInfo { (songID, isPlaying) in
             guard let _ = songID else {
                 // no song playing
                 /*
@@ -341,6 +360,8 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.songMap = [:]
                 self.likedSongs = Set()
                 self.state = .NO_SONG_SET
+                print("No song ID found, pausing, setting progress to 0")
+
                 self.mediaPlayer?.pause()
                 self.updateDataSource()
                 self.updateAlbumArtwork()
@@ -386,11 +407,26 @@ class HostMPDelegate: MediaPlayerDelegate {
                 completionHandler()
                 return
             }
-            
+
             let nextSongURI: String = self.queue.remove(at: 0)
             self.likedSongs.remove(nextSongURI)
             self.currentSong = self.songMap.removeValue(forKey: nextSongURI)!
+            print("No match, looking into next song: \(self.currentSong!.songTitle)")
+
             self.iterateThroughQueue(completionHandler)
         }
+    }
+    
+    func clearQueue() {
+        queue = []
+        songMap = [:]
+        likedSongs = Set<String>()
+        currentSong = nil
+        state = .NO_SONG_SET
+        mediaPlayer?.pause()
+        updateDataSource()
+        updateAlbumArtwork()
+        parentVC.nowPlayingProgress.setProgress(0, animated: true)
+        parentVC.btDelegate.updateQueueSnapshot()
     }
 }

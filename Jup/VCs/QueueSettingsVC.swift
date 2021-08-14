@@ -20,7 +20,6 @@ class QueueSettingsVC: UIViewController {
     @IBOutlet weak var view3: UIVisualEffectView!
     @IBOutlet weak var view4: UIVisualEffectView!
     @IBOutlet weak var view5: UIVisualEffectView!
-    @IBOutlet weak var view6: UIVisualEffectView!
     @IBOutlet weak var view7: UIVisualEffectView!
     
     override func viewDidLoad() {
@@ -30,6 +29,7 @@ class QueueSettingsVC: UIViewController {
             hostQueueEditControl.isUserInteractionEnabled = false
             selfLikingControl.isUserInteractionEnabled = false
             queueOpenControl.isUserInteractionEnabled = false
+            
         }
     }
     
@@ -61,12 +61,16 @@ class QueueSettingsVC: UIViewController {
         }
         queueVC?.settings.hostEditingOn = hostQueueEditControl.isOn
         queueVC?.btDelegate.updateQueueSnapshot()
+        queueVC?.tableView.reloadData()
     }
     
     @IBAction func toggleHostControlOrVoting(_ sender: Any) {
         if queueTypeControl.selectedSegmentIndex == 1 {
             hostQueueEditControl.setOn(false, animated: true)
             queueVC?.settings.hostEditingOn = false
+        } else {
+            selfLikingControl.setOn(false, animated: true)
+            queueVC?.settings.selfLikingOn = false
         }
         queueVC?.settings.hostControlOn = queueTypeControl.selectedSegmentIndex == 0
         queueVC?.btDelegate.updateQueueSnapshot()
@@ -74,21 +78,21 @@ class QueueSettingsVC: UIViewController {
     }
     
     @IBAction func toggleSelfLiking(_ sender: Any) {
-        queueVC?.settings.selfLikingOn = selfLikingControl.isOn
+        if queueTypeControl.selectedSegmentIndex == 0 && selfLikingControl.isOn {
+            // no self liking while in host control mode
+            selfLikingControl.setOn(false, animated: true)
+            queueVC?.settings.selfLikingOn = false
+        } else {
+            queueVC?.settings.selfLikingOn = true
+        }
         queueVC?.btDelegate.updateQueueSnapshot()
         queueVC?.tableView.reloadData()
     }
     
-    @IBAction func spotifySignOut(_ sender: Any) {
-        /*
-         TO-DO
-         */
-    }
-    
     @IBAction func clearQueue(_ sender: Any) {
-        /*
-         TO-DO
-         */
+        if queueVC!.isHost {
+            queueVC?.mpDelegate.clearQueue()
+        }
     }
     
     @IBAction func exitQueue(_ sender: Any) {

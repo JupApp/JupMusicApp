@@ -48,6 +48,8 @@ protocol MediaPlayerDelegate {
     func setTimer()
     
     func returnedToApp()
+    
+    func clearQueue()
 
 }
 

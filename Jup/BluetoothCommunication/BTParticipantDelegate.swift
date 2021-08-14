@@ -80,6 +80,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Alert user disconnected, prompt user to reconnect or go back to settings
          */
+        print("Timer fire date: \(queueVC?.mpDelegate.songTimer?.fireDate ?? Date.distantFuture)")
+        queueVC?.mpDelegate.songTimer?.invalidate()
+        print("Timer cancelled...?")
         disconnectedFromQueueAlert.message = "App disconnected Bluetooth connection to Queue. Return to Settings."
         queueVC?.present(disconnectedFromQueueAlert, animated: true)
     }
@@ -201,7 +204,10 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
         /*
          Request to update song
          */
-        hostPeripheral?.readValue(for: snapshotCharacteristic!)
+        print("requesting song update")
+//        hostPeripheral?.readValue(for: snapshotCharacteristic!)
+        hostPeripheral?.writeValue(Data(), for: snapshotCharacteristic!, type: .withResponse)
+
     }
     
     /*
