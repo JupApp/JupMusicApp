@@ -214,22 +214,29 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-HK-MW1">
-                                            <rect key="frame" x="15" y="199" width="384" height="229"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-HK-MW1">
+                                            <rect key="frame" x="15" y="248" width="384" height="180"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-6s-ulW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="384" height="40"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-XE-erQ">
-                                                    <rect key="frame" x="0.0" y="52.666666666666657" width="384" height="51"/>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zrl-jd-ot9">
+                                                    <rect key="frame" x="0.0" y="0.0" width="384" height="50"/>
+                                                    <subviews>
+                                                        <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-6s-ulW">
+                                                            <rect key="frame" x="0.0" y="5" width="384" height="40"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                </view>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-XE-erQ">
+                                                    <rect key="frame" x="0.0" y="64.666666666666686" width="384" height="51"/>
                                                     <subviews>
                                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EW7-Gn-t2r">
-                                                            <rect key="frame" x="15" y="10.000000000000028" width="354" height="32"/>
+                                                            <rect key="frame" x="15" y="10" width="354" height="32"/>
                                                             <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <segments>
                                                                 <segment title="Apple Music"/>
@@ -248,29 +255,8 @@
                                                         <constraint firstItem="EW7-Gn-t2r" firstAttribute="leading" secondItem="QEb-XE-erQ" secondAttribute="leading" constant="15" id="wL1-vK-VID"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nup-Ov-iPj">
-                                                    <rect key="frame" x="0.0" y="116.33333333333331" width="384" height="50"/>
-                                                    <subviews>
-                                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iXj-at-WSY">
-                                                            <rect key="frame" x="15" y="9.6666666666666856" width="354" height="32"/>
-                                                            <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <segments>
-                                                                <segment title="Strict "/>
-                                                                <segment title="Voting"/>
-                                                            </segments>
-                                                            <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </segmentedControl>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="iXj-at-WSY" secondAttribute="trailing" constant="15" id="4ih-cY-PVc"/>
-                                                        <constraint firstItem="iXj-at-WSY" firstAttribute="centerX" secondItem="Nup-Ov-iPj" secondAttribute="centerX" id="Jei-rS-r8M"/>
-                                                        <constraint firstItem="iXj-at-WSY" firstAttribute="leading" secondItem="Nup-Ov-iPj" secondAttribute="leading" constant="15" id="QAd-tm-3MT"/>
-                                                        <constraint firstItem="iXj-at-WSY" firstAttribute="centerY" secondItem="Nup-Ov-iPj" secondAttribute="centerY" id="RNE-lT-C4g"/>
-                                                    </constraints>
-                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p1r-3z-Ype">
-                                                    <rect key="frame" x="0.0" y="179" width="384" height="50"/>
+                                                    <rect key="frame" x="0.0" y="130" width="384" height="50"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6DA-oD-YlB">
                                                             <rect key="frame" x="0.0" y="0.0" width="384" height="50"/>
@@ -295,8 +281,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="QEb-XE-erQ" firstAttribute="height" secondItem="p1r-3z-Ype" secondAttribute="height" multiplier="1.02" id="Fim-Y7-wH9"/>
-                                                <constraint firstItem="QEb-XE-erQ" firstAttribute="height" secondItem="Nup-Ov-iPj" secondAttribute="height" multiplier="1.02" id="RuB-3P-8UG"/>
-                                                <constraint firstAttribute="height" constant="229" id="dHq-oO-0Nb"/>
+                                                <constraint firstAttribute="height" constant="180" id="dHq-oO-0Nb"/>
                                             </constraints>
                                         </stackView>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hxe-hl-46k">
@@ -337,9 +322,7 @@
                     <connections>
                         <outlet property="hostButtonView" destination="p1r-3z-Ype" id="ROq-48-jUF"/>
                         <outlet property="platformChoiceControl" destination="EW7-Gn-t2r" id="u9K-FK-cGs"/>
-                        <outlet property="queueModeView" destination="Nup-Ov-iPj" id="Xuz-2i-A8J"/>
                         <outlet property="queueTableView" destination="hxe-hl-46k" id="IB6-Be-35n"/>
-                        <outlet property="queueTypeControl" destination="iXj-at-WSY" id="8iS-UR-oq7"/>
                         <outlet property="queueTypeView" destination="QEb-XE-erQ" id="tZJ-1O-HpC"/>
                         <outlet property="usernameTextField" destination="Cpc-6s-ulW" id="RNf-EP-mHf"/>
                         <outlet property="voteQueueControl" destination="EW7-Gn-t2r" id="Xdx-aT-7V6"/>

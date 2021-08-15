@@ -169,7 +169,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         shadowView.layer.shadowOffset = CGSize.zero
         shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 10).cgPath
         
-        
     }
     
     @objc func play() {
