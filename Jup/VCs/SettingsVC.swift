@@ -14,11 +14,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     let btDelegate: BTParticipantDelegate = BTParticipantDelegate()
 
     @IBOutlet weak var voteQueueControl: UISegmentedControl!
-    @IBOutlet weak var queueTypeControl: UISegmentedControl!
+    //@IBOutlet weak var queueTypeControl: UISegmentedControl!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var queueTableView: UITableView!
     
-    @IBOutlet weak var queueModeView: UIView!
+    @IBOutlet weak var usernameView: UIView!
     @IBOutlet weak var queueTypeView: UIView!
     @IBOutlet weak var hostButtonView: UIView!
     
@@ -70,7 +70,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         queueTableView.isScrollEnabled = true
         queueTableView.dataSource = self
         
-        queueModeView.layer.cornerRadius = 10
+        usernameView.layer.cornerRadius = 10
         queueTypeView.layer.cornerRadius = 10
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
