@@ -217,7 +217,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="ZNn-HK-MW1">
                                             <rect key="frame" x="15" y="248" width="384" height="180"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zrl-jd-ot9">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zrl-jd-ot9">
                                                     <rect key="frame" x="0.0" y="0.0" width="384" height="50"/>
                                                     <subviews>
                                                         <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Cpc-6s-ulW">
@@ -227,16 +227,16 @@
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                                            <textInputTraits key="textInputTraits"/>
+                                                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="yes"/>
                                                         </textField>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-XE-erQ">
-                                                    <rect key="frame" x="0.0" y="64.666666666666686" width="384" height="51"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QEb-XE-erQ">
+                                                    <rect key="frame" x="0.0" y="64.666666666666686" width="384" height="50.666666666666657"/>
                                                     <subviews>
                                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EW7-Gn-t2r">
-                                                            <rect key="frame" x="15" y="10" width="354" height="32"/>
+                                                            <rect key="frame" x="15" y="10.000000000000002" width="354" height="31.666666666666671"/>
                                                             <color key="backgroundColor" red="0.80392158030000005" green="0.90196073060000004" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <segments>
                                                                 <segment title="Apple Music"/>
@@ -280,7 +280,9 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="QEb-XE-erQ" firstAttribute="centerY" secondItem="ZNn-HK-MW1" secondAttribute="centerY" id="75y-1Y-Luz"/>
                                                 <constraint firstItem="QEb-XE-erQ" firstAttribute="height" secondItem="p1r-3z-Ype" secondAttribute="height" multiplier="1.02" id="Fim-Y7-wH9"/>
+                                                <constraint firstItem="QEb-XE-erQ" firstAttribute="top" secondItem="Zrl-jd-ot9" secondAttribute="bottom" constant="14.666666666666686" id="bSD-hW-DAF"/>
                                                 <constraint firstAttribute="height" constant="180" id="dHq-oO-0Nb"/>
                                             </constraints>
                                         </stackView>
@@ -325,7 +327,6 @@
                         <outlet property="queueTableView" destination="hxe-hl-46k" id="IB6-Be-35n"/>
                         <outlet property="queueTypeView" destination="QEb-XE-erQ" id="tZJ-1O-HpC"/>
                         <outlet property="usernameTextField" destination="Cpc-6s-ulW" id="RNf-EP-mHf"/>
-                        <outlet property="voteQueueControl" destination="EW7-Gn-t2r" id="Xdx-aT-7V6"/>
                         <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueueAsHost" modalPresentationStyle="fullScreen" id="4Sv-ZC-CEk"/>
                         <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueueAsParticipant" modalPresentationStyle="fullScreen" id="K56-oX-isM"/>
                     </connections>
@@ -670,7 +671,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ulO-FK-Lkp"/>
+        <segue reference="4Jf-Uw-5Fs"/>
         <segue reference="K56-oX-isM"/>
     </inferredMetricsTieBreakers>
     <resources>

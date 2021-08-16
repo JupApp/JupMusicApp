@@ -54,10 +54,11 @@ class QueueSettingsVC: UIViewController {
             // host control
             queueTypeControl.selectedSegmentIndex = 0
             queueVC?.settings.hostControlOn = true
-            
-            queueVC!.tableView.setEditing(true, animated: true)
+            queueVC!.tableView.isEditing = true
+//            queueVC!.tableView.setEditing(true, animated: true)
         } else {
-            queueVC!.tableView.setEditing(false, animated: true)
+            queueVC!.tableView.isEditing = false
+//            queueVC!.tableView.setEditing(false, animated: true)
         }
         queueVC?.settings.hostEditingOn = hostQueueEditControl.isOn
         queueVC?.btDelegate.updateQueueSnapshot()
@@ -67,6 +68,8 @@ class QueueSettingsVC: UIViewController {
     @IBAction func toggleHostControlOrVoting(_ sender: Any) {
         if queueTypeControl.selectedSegmentIndex == 1 {
             hostQueueEditControl.setOn(false, animated: true)
+//
+            queueVC!.tableView.isEditing = false
             queueVC?.settings.hostEditingOn = false
         } else {
             selfLikingControl.setOn(false, animated: true)

@@ -95,7 +95,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             }
             cell?.titleLabel.text = updatedS.title
             cell?.albumArtwork.layer.cornerRadius = 8
-            
         return cell
     }
     
@@ -171,6 +170,26 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         
     }
     
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return isHost
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return isHost
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        mpDelegate.moveSong(sourceIndexPath.row, destinationIndexPath.row)
+    }
+        
     @objc func play() {
         if mpDelegate.state == .PLAYING {
             mpDelegate.pause()

@@ -7,7 +7,7 @@
 import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
-
+    
     var currentSong: SongItem?
     var queue: [String] = []
     var songMap: [String : SongItem] = [:]
@@ -142,7 +142,8 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     func clearQueue() {}
-    
+    func moveSong(_ startIndex: Int, _ endIndex: Int) {}
+    func deleteSong(_ index: Int, _ updateTV: Bool) {}
 
 }
 

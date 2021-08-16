@@ -429,4 +429,16 @@ class HostMPDelegate: MediaPlayerDelegate {
         parentVC.nowPlayingProgress.setProgress(0, animated: true)
         parentVC.btDelegate.updateQueueSnapshot()
     }
+    
+    func moveSong(_ startIndex: Int, _ endIndex: Int) {
+        let songURI: String = queue.remove(at: startIndex)
+        queue.insert(songURI, at: endIndex)
+    }
+    
+    func deleteSong(_ index: Int, _ updateTV: Bool) {
+        queue.remove(at: index)
+        if updateTV {
+            updateDataSource()
+        }
+    }
 }

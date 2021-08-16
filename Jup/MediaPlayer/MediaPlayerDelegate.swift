@@ -50,6 +50,10 @@ protocol MediaPlayerDelegate {
     func returnedToApp()
     
     func clearQueue()
+    
+    func moveSong(_ startIndex: Int, _ endIndex: Int)
+    
+    func deleteSong(_ index: Int, _ updateTV: Bool)
 
 }
 
