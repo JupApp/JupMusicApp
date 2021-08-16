@@ -28,8 +28,8 @@ protocol SongItem {
 
 extension SongItem {
     
-    func encodeSong() -> CodableSong {
-        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue, likes: likes, contributor: contributor, timeAdded: timeAdded)
+    func encodeSong(_ addToQueue: Bool = true) -> CodableSong {
+        return CodableSong(uri: uri, artistName: artistName, songTitle: songTitle, albumURL: albumURL, songLength: songLength, platform: platform.rawValue, likes: likes, contributor: contributor, timeAdded: timeAdded, add: addToQueue)
     }
     
     func getQueueSongItem() -> QueueSongItem {

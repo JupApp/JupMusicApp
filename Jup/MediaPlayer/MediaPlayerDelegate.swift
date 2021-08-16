@@ -43,7 +43,7 @@ protocol MediaPlayerDelegate {
     
     func updateAlbumArtwork()
     
-    func updateDataSource()
+//    func updateDataSource(_ animate: Bool)
     
     func setTimer()
     
@@ -53,7 +53,7 @@ protocol MediaPlayerDelegate {
     
     func moveSong(_ startIndex: Int, _ endIndex: Int)
     
-    func deleteSong(_ index: Int, _ updateTV: Bool)
+    func deleteSong(_ uri: String)
 
 }
 
@@ -82,14 +82,14 @@ extension MediaPlayerDelegate {
         }
     }
     
-    func updateDataSource() {
+    func updateDataSource(_ animate: Bool = true) {
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         snap.appendItems(queue.map({ (uri) -> QueueSongItem in
             songMap[uri]!.getQueueSongItem()
         }))
         DispatchQueue.main.async {
-            parentVC.datasource.apply(snap, animatingDifferences: true)
+            parentVC.datasource.apply(snap, animatingDifferences: animate)
         }
     }
 }

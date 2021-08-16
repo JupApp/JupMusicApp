@@ -191,7 +191,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         DispatchQueue.main.async {
             self.parentVC.tableView.reloadData()
 
-            if !self.parentVC.settings.hostControlOn {
+            if !self.parentVC.settings.hostEditingOn {
                 self.updateQueueOrder()
             }
             
@@ -433,12 +433,14 @@ class HostMPDelegate: MediaPlayerDelegate {
     func moveSong(_ startIndex: Int, _ endIndex: Int) {
         let songURI: String = queue.remove(at: startIndex)
         queue.insert(songURI, at: endIndex)
+        updateDataSource(false)
+        parentVC.btDelegate.updateQueueSnapshot()
     }
     
-    func deleteSong(_ index: Int, _ updateTV: Bool) {
+    func deleteSong(_ uri: String) {
+        let index: Int = queue.firstIndex(of: uri)!
         queue.remove(at: index)
-        if updateTV {
-            updateDataSource()
-        }
+        updateDataSource(false)
+        parentVC.btDelegate.updateQueueSnapshot()
     }
 }

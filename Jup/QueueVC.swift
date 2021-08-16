@@ -26,7 +26,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     var mpDelegate: MediaPlayerDelegate!
     var isHost: Bool = false
     var platform: Platform = .APPLE_MUSIC
-    var settings: Settings = Settings(hostControlOn: false, queueOpen: true, hostEditingOn: false, selfLikingOn: true) {
+    var settings: Settings = Settings(queueOpen: true, hostEditingOn: false, selfLikingOn: true) {
         didSet {
             if !isHost { settingsVC?.updateSettings(true) }
         }
@@ -35,68 +35,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     var participants: [String] = []
     
     lazy var datasource =
-        UITableViewDiffableDataSource<String, QueueSongItem>(tableView: self.tableView) { tv, ip, s in
-        var cell =
-            tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
-            var updatedS = s
-            if ip.row < self.mpDelegate.queue.count {
-                let songURI: String = self.mpDelegate.queue[ip.row]
-                let songItem: SongItem = self.mpDelegate.songMap[songURI]!
-                updatedS = QueueSongItem(songItem)
-            }
-            cell?.albumArtwork.image = updatedS.albumArtwork
-            cell?.likeCountLabel.text = "\(updatedS.likes)"
-
-            cell?.artistLabel.text = updatedS.artist
-            cell?.artistLabel.textColor = .none
-            cell?.contributorLabel.text = updatedS.contributor
-            cell?.likeCountLabel.layer.masksToBounds = true
-            cell?.likeCountLabel.layer.cornerRadius = 8
-            if updatedS.likes == 0 {
-                cell?.likeCountLabel.isHidden = true
-            } else {
-                cell?.likeCountLabel.isHidden = false
-            }
-
-            let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-            
-            if self.mpDelegate.likedSongs.contains(updatedS.uri) {
-                cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            } else {
-                cell?.likeButton.imageView?.transform = .identity
-            }
-            
-            if (!self.settings.selfLikingOn && updatedS.contributor == username) || self.settings.hostControlOn {
-                cell?.likeButton.isEnabled = false
-                cell?.likeButton.alpha = 0.5
-            } else {
-                cell?.likeButton.isEnabled = true
-                cell?.likeButton.alpha = 1.0
-            }
-            cell?.completionHandler = {
-                let addlike: Bool = !self.mpDelegate.likedSongs.contains(updatedS.uri)
-                self.mpDelegate.likeSong(updatedS.uri, addlike) { e in
-                    guard let error = e else {
-                        // success!
-                        if addlike {
-                            self.mpDelegate.likedSongs.insert(updatedS.uri)
-                        } else {
-                            self.mpDelegate.likedSongs.remove(updatedS.uri)
-                        }
-                        return
-                    }
-                    /*
-                     Show alert of error!
-                     */
-                    self.songLikeFailedAlert.message = "'\(updatedS.title)' could not be liked"
-                    self.present(self.songLikeFailedAlert, animated: true)
-                    return
-                }
-            }
-            cell?.titleLabel.text = updatedS.title
-            cell?.albumArtwork.layer.cornerRadius = 8
-        return cell
-    }
+        SongDataSource(queueVC: self)
     
     let songLikeFailedAlert = UIAlertController(title: "Failed to like Song", message: nil, preferredStyle: .alert)
     
@@ -124,12 +63,16 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         tableView.dataSource = datasource
         tableView.allowsSelection = false
         tableView.isScrollEnabled = true
+        tableView.dragInteractionEnabled = true
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
+        tableView.alwaysBounceVertical = false
 
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         datasource.apply(snap, animatingDifferences: false)
 
-        self.nowPlayingAlbum.image = UIImage(named: "PlayButton")
+        self.nowPlayingAlbum.image = UIImage(named: "placeholderfinal")
         let tap = UITapGestureRecognizer(target: self, action: #selector(play))
         tap.cancelsTouchesInView = false
         self.nowPlayingAlbum.addGestureRecognizer(tap)
@@ -168,26 +111,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         shadowView.layer.shadowOffset = CGSize.zero
         shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 10).cgPath
         
-    }
-    
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return isHost
-    }
-    
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return isHost
-    }
-    
-    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        true
-    }
-    
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return UITableViewCell.EditingStyle.delete
-    }
-    
-    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        mpDelegate.moveSong(sourceIndexPath.row, destinationIndexPath.row)
     }
         
     @objc func play() {
@@ -244,7 +167,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     
     func propagateImage() {
         var image = self.nowPlayingAlbum.image
-        if let _ = self.mpDelegate.currentSong {
+        if self.mpDelegate.currentSong == nil {
             image = UIImage()
         }
         for vc in navigationController?.viewControllers ?? [] {
@@ -252,6 +175,121 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
                 continue
             }
             propagator.backgroundImageView.image = image
+        }
+    }
+
+}
+
+extension QueueVC: UITableViewDragDelegate {
+    
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        guard let item = datasource.itemIdentifier(for: indexPath) else {
+            return []
+        }
+        let itemProvider = NSItemProvider(object: item.uri as NSString)
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        dragItem.localObject = item
+
+        return [dragItem]
+    }
+    
+}
+
+extension QueueVC: UITableViewDropDelegate {
+    
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+
+    }
+    
+}
+
+class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
+    var queueVC: QueueVC
+    
+    init(queueVC: QueueVC) {
+        self.queueVC = queueVC
+        super.init(tableView: queueVC.tableView) { tv, ip, s in
+            let cell =
+                tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
+                var updatedS = s
+                if ip.row < queueVC.mpDelegate.queue.count {
+                    let songURI: String = queueVC.mpDelegate.queue[ip.row]
+                    let songItem: SongItem = queueVC.mpDelegate.songMap[songURI]!
+                    updatedS = QueueSongItem(songItem)
+                }
+                cell?.albumArtwork.image = updatedS.albumArtwork
+                cell?.likeCountLabel.text = "\(updatedS.likes)"
+
+                cell?.artistLabel.text = updatedS.artist
+                cell?.artistLabel.textColor = .none
+                cell?.contributorLabel.text = updatedS.contributor
+                cell?.likeCountLabel.layer.masksToBounds = true
+                cell?.likeCountLabel.layer.cornerRadius = 8
+                if updatedS.likes == 0 {
+                    cell?.likeCountLabel.isHidden = true
+                } else {
+                    cell?.likeCountLabel.isHidden = false
+                }
+
+                let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
+                
+                if queueVC.mpDelegate.likedSongs.contains(updatedS.uri) {
+                    cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                } else {
+                    cell?.likeButton.imageView?.transform = .identity
+                }
+                
+            if (!queueVC.settings.selfLikingOn && updatedS.contributor == username) || queueVC.settings.hostEditingOn {
+                    cell?.likeButton.isEnabled = false
+                    cell?.likeButton.alpha = 0.5
+                } else {
+                    cell?.likeButton.isEnabled = true
+                    cell?.likeButton.alpha = 1.0
+                }
+                cell?.completionHandler = {
+                    let addlike: Bool = !queueVC.mpDelegate.likedSongs.contains(updatedS.uri)
+                    queueVC.mpDelegate.likeSong(updatedS.uri, addlike) { e in
+                        guard let _ = e else {
+                            // success!
+                            if addlike {
+                                queueVC.mpDelegate.likedSongs.insert(updatedS.uri)
+                            } else {
+                                queueVC.mpDelegate.likedSongs.remove(updatedS.uri)
+                            }
+                            return
+                        }
+                        /*
+                         Show alert of error!
+                         */
+                        queueVC.songLikeFailedAlert.message = "'\(updatedS.title)' could not be liked"
+                        queueVC.present(queueVC.songLikeFailedAlert, animated: true)
+                        return
+                    }
+                }
+                cell?.titleLabel.text = updatedS.title
+                cell?.albumArtwork.layer.cornerRadius = 8
+            return cell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return queueVC.isHost && queueVC.settings.hostEditingOn
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
+        let songToEdit: SongItem = queueVC.mpDelegate.songMap[queueVC.mpDelegate.queue[indexPath.row]]!
+        return queueVC.isHost || songToEdit.contributor == username
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        queueVC.mpDelegate.moveSong(sourceIndexPath.row, destinationIndexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let songURI: String = queueVC.mpDelegate.queue[indexPath.row]
+            queueVC.mpDelegate.deleteSong(songURI)
         }
     }
 }

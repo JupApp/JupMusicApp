@@ -213,8 +213,9 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
     /*
      Request to add song
      */
-    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
-        let data = try! encoder.encode(songItem.encodeSong())
+    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> (), _ deleteSong: Bool) {
+        let encodedSong = deleteSong ? songItem.encodeSong(false) : songItem.encodeSong()
+        let data = try! encoder.encode(encodedSong)
         hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
         self.completionHandler = completionHandler
     }
@@ -259,7 +260,6 @@ struct QueueSnapshot: Codable {
 }
 
 struct Settings: Codable {
-    var hostControlOn: Bool
     var queueOpen: Bool
     var hostEditingOn: Bool
     var selfLikingOn: Bool
@@ -280,6 +280,7 @@ struct CodableSong: Codable {
     var likes: Int
     var contributor: String
     var timeAdded: Date
+    var add: Bool
     
     func decodeSong() -> SongItem {
         if Platform(rawValue: platform)! == .APPLE_MUSIC {
