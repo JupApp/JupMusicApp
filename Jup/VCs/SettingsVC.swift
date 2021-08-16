@@ -13,7 +13,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     static let usernameKey: String = "username"
     let btDelegate: BTParticipantDelegate = BTParticipantDelegate()
 
-    @IBOutlet weak var voteQueueControl: UISegmentedControl!
+    //@IBOutlet weak var voteQueueControl: UISegmentedControl!
     //@IBOutlet weak var queueTypeControl: UISegmentedControl!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var queueTableView: UITableView!
