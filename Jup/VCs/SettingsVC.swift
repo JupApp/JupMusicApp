@@ -18,6 +18,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var queueTypeView: UIView!
     @IBOutlet weak var hostButtonView: UIView!
+    @IBOutlet weak var usernameView: UIView!
     
     var activityIndicator = UIActivityIndicatorView(style: .medium)
     var platform: Platform = .APPLE_MUSIC

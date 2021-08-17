@@ -212,7 +212,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="wwK-os-CP2">
                                         <rect key="frame" x="15" y="248" width="384" height="180"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nn7-lv-vIJ">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nn7-lv-vIJ" userLabel="UsernameView">
                                                 <rect key="frame" x="0.0" y="0.0" width="384" height="51"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="9Ri-S4-qpb">
@@ -232,7 +232,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="9Ri-S4-qpb" secondAttribute="trailing" constant="15" id="ohs-yn-d9l"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M5j-Xu-HZf">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M5j-Xu-HZf" userLabel="QueueTypeView">
                                                 <rect key="frame" x="0.0" y="65" width="384" height="51"/>
                                                 <subviews>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NY5-gH-PzJ">
@@ -255,7 +255,7 @@
                                                     <constraint firstItem="NY5-gH-PzJ" firstAttribute="leading" secondItem="M5j-Xu-HZf" secondAttribute="leading" constant="15" id="taO-DD-Bib"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yir-ds-RT2">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yir-ds-RT2" userLabel="HostButtonView">
                                                 <rect key="frame" x="0.0" y="130" width="384" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t1Z-5Z-dH5">
@@ -320,12 +320,12 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
-                        <outlet property="hostButtonView" destination="yir-ds-RT2" id="c4L-ce-POs"/>
+                        <outlet property="hostButtonView" destination="t1Z-5Z-dH5" id="TUM-cT-SeV"/>
                         <outlet property="platformChoiceControl" destination="NY5-gH-PzJ" id="BXg-gw-TXR"/>
                         <outlet property="queueTableView" destination="FfB-73-AjI" id="pZH-lL-ezH"/>
-                        <outlet property="queueTypeView" destination="Nn7-lv-vIJ" id="eHG-dN-xXI"/>
+                        <outlet property="queueTypeView" destination="M5j-Xu-HZf" id="NHW-xr-WtL"/>
                         <outlet property="usernameTextField" destination="9Ri-S4-qpb" id="IsS-fR-R2q"/>
-                        <outlet property="usernameView" destination="M5j-Xu-HZf" id="RUB-G1-BHY"/>
+                        <outlet property="usernameView" destination="Nn7-lv-vIJ" id="3uS-YE-bL2"/>
                         <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueueAsHost" modalPresentationStyle="fullScreen" id="4Sv-ZC-CEk"/>
                         <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueueAsParticipant" modalPresentationStyle="fullScreen" id="K56-oX-isM"/>
                     </connections>
