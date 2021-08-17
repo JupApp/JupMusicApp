@@ -320,7 +320,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
-                        <outlet property="hostButtonView" destination="t1Z-5Z-dH5" id="TUM-cT-SeV"/>
+                        <outlet property="hostButtonView" destination="yir-ds-RT2" id="OW5-dm-9BO"/>
                         <outlet property="platformChoiceControl" destination="NY5-gH-PzJ" id="BXg-gw-TXR"/>
                         <outlet property="queueTableView" destination="FfB-73-AjI" id="pZH-lL-ezH"/>
                         <outlet property="queueTypeView" destination="M5j-Xu-HZf" id="NHW-xr-WtL"/>

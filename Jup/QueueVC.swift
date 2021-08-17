@@ -141,6 +141,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "exitQueue" {
             btDelegate.breakConnections()
+            opened = false
         } else if segue.identifier == "openParticipantsMenu" {
             participantMenuVC = segue.destination as? ParticipantMenuVC
             participantMenuVC?.parentVC = self
@@ -166,8 +167,13 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         btDelegate.breakConnections()
     }
     
+    var opened: Bool = false
     func propagateImage() {
         var image = self.nowPlayingAlbum.image
+        guard opened else {
+            opened = true
+            return
+        }
         if self.mpDelegate.currentSong == nil {
             image = UIImage()
         }

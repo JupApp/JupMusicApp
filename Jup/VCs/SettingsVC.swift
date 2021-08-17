@@ -76,7 +76,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
         queueTableView.layer.cornerRadius = 10
-        
+        usernameView.layer.cornerRadius = 10
+
     }
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
