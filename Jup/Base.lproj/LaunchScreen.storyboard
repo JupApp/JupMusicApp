@@ -26,8 +26,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wFi-w7-Wqm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="eKZ-bt-Sfw"/>
-                            <constraint firstItem="wFi-w7-Wqm" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="eiW-Ta-Fkl"/>
+                            <constraint firstItem="wFi-w7-Wqm" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="0HV-Wz-e8Y"/>
+                            <constraint firstItem="wFi-w7-Wqm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="i20-bS-5VP"/>
                         </constraints>
                     </view>
                 </viewController>
