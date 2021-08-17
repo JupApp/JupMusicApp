@@ -186,6 +186,9 @@ extension QueueVC: UITableViewDragDelegate {
         guard let item = datasource.itemIdentifier(for: indexPath) else {
             return []
         }
+        guard isHost && settings.hostEditingOn else {
+            return []
+        }
         let itemProvider = NSItemProvider(object: item.uri as NSString)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         dragItem.localObject = item
