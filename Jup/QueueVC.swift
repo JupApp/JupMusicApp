@@ -44,7 +44,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         overrideUserInterfaceStyle = .dark
 
         searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-
+        searchVC!.hostPlatform = platform
+        
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willTerminate), name: UIApplication.willTerminateNotification, object: nil)

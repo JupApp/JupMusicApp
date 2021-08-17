@@ -19,7 +19,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var queueTypeView: UIView!
     @IBOutlet weak var hostButtonView: UIView!
     
-    
+    var activityIndicator = UIActivityIndicatorView(style: .medium)
     var platform: Platform = .APPLE_MUSIC
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
@@ -35,6 +35,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         overrideUserInterfaceStyle = .dark
 
+        view.addSubview(activityIndicator)
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        
         usernameTextField.delegate = self
         var placeHolderText: String = "username"
         
@@ -112,7 +116,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 self.present(authorizeAlert, animated: true)
             }
         } else if platform == .SPOTIFY {
-                
+            activityIndicator.startAnimating()
             // check if user has premium in order to proceed
             SpotifyUtilities.doesHavePremium { (hasPremium) in
                 if !hasPremium {
@@ -120,11 +124,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                      Alert User doesn't have Spotify Premium
                      */
                     DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
                         self.present(self.musicServicAert, animated: true)
                     }
                     return
                 }
                 DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
                     self.performSegue(withIdentifier: "segueToQueueAsHost", sender: nil)
                 }
             }

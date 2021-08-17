@@ -9,12 +9,12 @@ import UIKit
 
 class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, BackgroundImagePropagator{
 
-
     @IBOutlet weak var musicSearchBar: UISearchBar!
     var searchPlatformSegmentedControl: UISegmentedControl = UISegmentedControl()
-    
+    var hostPlatform: Platform!
     var currentPlatform: Platform = .APPLE_MUSIC
     var backgroundImageView: UIImageView! = UIImageView()
+    var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
     
     lazy var datasource =
             UITableViewDiffableDataSource<String, PlaylistItem>(tableView: tableView) { tv, ip, s in
@@ -42,6 +42,13 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
         searchPlatformSegmentedControl.addTarget(self, action: #selector(platformTextfieldPlaceholder(sender:)), for: .valueChanged)
         musicSearchBar.delegate = self
+        musicSearchBar.tintColor = .lightGray
+        musicSearchBar.placeholder = hostPlatform == .APPLE_MUSIC ? "Search Apple Music catalogue" : "Search Spotify catalogue"
+
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        self.tableView.addSubview(activityIndicator)
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -51,7 +58,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         self.tableView.allowsSelection = true
         self.tableView.dataSource = datasource
         self.tableView.register(UINib(nibName: "PlaylistCell", bundle: nil), forCellReuseIdentifier: "PlaylistCell")
-
+        
         searchAMLibrary()
         
         self.tableView.backgroundView = backgroundImageView
@@ -81,24 +88,18 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         switch searchPlatformSegmentedControl.selectedSegmentIndex
             {
         case 0:
-            musicSearchBar.placeholder = "Apple Music"
-            musicSearchBar.tintColor = .lightGray
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
             searchAMLibrary()
             break;
         case 1:
-            musicSearchBar.placeholder = "Spotify"
-            musicSearchBar.tintColor = .lightGray
             currentPlatform = .SPOTIFY
             
             // load playlist of Spotify if hasn't been done already
             searchSpotifyLibrary()
             break;
         default:
-            musicSearchBar.placeholder = "Apple Music"
-            musicSearchBar.tintColor = .lightGray
             currentPlatform = .APPLE_MUSIC
             
             // load playlist of AM if hasn't been done already
@@ -121,7 +122,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
             return
         }
         // if segmented control set to AM, perform AM catalogue request, else Spotify
-        if currentPlatform == .APPLE_MUSIC {
+        if hostPlatform == .APPLE_MUSIC {
             let songListVC = SongListVC<AppleMusicSongItem>()
 
             searchAMCatalogue(searchQuery, songListVC)
@@ -165,6 +166,18 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         return searchPlatformSegmentedControl
     }
     
+    func startLoading() {
+        var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
+        snap.appendSections(["Playlists"])
+        snap.appendItems([])
+        datasource.apply(snap, animatingDifferences: false)
+        activityIndicator.startAnimating()
+    }
+    
+    func stopLoading() {
+        activityIndicator.stopAnimating()
+    }
+    
     /*
      ###########################################################################################
      ########                                                                           ########
@@ -185,6 +198,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     }
     
     func searchAMLibrary() {
+        self.startLoading()
+        
         AppleMusicUtilities.searchPlaylists() {
             // populates results into tableview
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
@@ -193,6 +208,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
                 AppleMusicUtilities.playlists[id]!
             }))
             DispatchQueue.main.async {
+                self.stopLoading()
                 self.datasource.apply(snap, animatingDifferences: false)
             }
         }
@@ -210,6 +226,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     }
     
     func searchSpotifyLibrary() {
+        self.startLoading()
         SpotifyUtilities.searchPlaylists {
             // populates results into tableview
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
@@ -218,6 +235,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
                 SpotifyUtilities.playlists[id]!
             }))
             DispatchQueue.main.async {
+                self.stopLoading()
                 self.datasource.apply(snap, animatingDifferences: false)
             }
         }
