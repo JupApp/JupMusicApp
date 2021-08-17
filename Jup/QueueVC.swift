@@ -44,7 +44,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         overrideUserInterfaceStyle = .dark
 
         searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
-
+        searchVC!.hostPlatform = platform
+        
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willTerminate), name: UIApplication.willTerminateNotification, object: nil)
@@ -184,6 +185,9 @@ extension QueueVC: UITableViewDragDelegate {
     
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         guard let item = datasource.itemIdentifier(for: indexPath) else {
+            return []
+        }
+        guard isHost && settings.hostEditingOn else {
             return []
         }
         let itemProvider = NSItemProvider(object: item.uri as NSString)

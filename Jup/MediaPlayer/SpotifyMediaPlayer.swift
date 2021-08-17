@@ -27,7 +27,7 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if player == nil || !appDelegate.appRemote.isConnected {
-            appDelegate.connect(songItem.uri) { error in
+            appDelegate.connect("") { error in
                 guard appDelegate.appRemote.isConnected else {
                     completionHandler(SpotifyAppRemoteError())
                     return
