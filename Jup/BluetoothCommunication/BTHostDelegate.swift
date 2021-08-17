@@ -185,6 +185,12 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                     }
                     return
                 } else {
+                    if !songAdded!.add {
+                        // delete request, remove from queue
+                        queueVC.mpDelegate.deleteSong(songAdded!.uri)
+                        peripheral.respond(to: request, withResult: .success)
+                        return
+                    }
                     let songItem: SongItem = songAdded!.decodeSong()
                     // request add song to queue
                     queueVC.mpDelegate.addSong(songItem) { error in
@@ -283,7 +289,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         sendSnapshot()
     }
     
-    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {}
+    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> (), _ deleteSong: Bool) {}
     func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {}
     
     func breakConnections() {

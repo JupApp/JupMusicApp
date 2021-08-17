@@ -7,7 +7,7 @@
 import UIKit
 
 class ParticipantMPDelegate: MediaPlayerDelegate {
-
+    
     var currentSong: SongItem?
     var queue: [String] = []
     var songMap: [String : SongItem] = [:]
@@ -29,7 +29,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     func skip() {}
     
     func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
-        self.parentVC.btDelegate.addSongRequest(songItem, completionHandler)
+        self.parentVC.btDelegate.addSongRequest(songItem, completionHandler, false)
     }
     
     func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
@@ -142,7 +142,13 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     }
     
     func clearQueue() {}
+    func moveSong(_ startIndex: Int, _ endIndex: Int) {}
     
+    func deleteSong(_ uri: String) {
+        let index = queue.firstIndex(of: uri)!
+        let songItem: SongItem = songMap[queue[index]]!
+        self.parentVC.btDelegate.addSongRequest(songItem, { _ in}, true)
+    }
 
 }
 

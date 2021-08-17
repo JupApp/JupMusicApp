@@ -66,6 +66,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         snap.appendSections(["Playlists"])
         snap.appendItems([])
         self.datasource.apply(snap, animatingDifferences: false)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
