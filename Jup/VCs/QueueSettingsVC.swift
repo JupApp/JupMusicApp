@@ -26,6 +26,7 @@ class QueueSettingsVC: UIViewController {
             hostQueueEditControl.isUserInteractionEnabled = false
             selfLikingControl.isUserInteractionEnabled = false
             queueOpenControl.isUserInteractionEnabled = false
+
         }
     }
     

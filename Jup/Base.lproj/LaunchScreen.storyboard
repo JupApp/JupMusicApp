@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="JupText" translatesAutoresizingMaskIntoConstraints="NO" id="6bB-x2-LRh">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="JupText" translatesAutoresizingMaskIntoConstraints="NO" id="6bB-x2-LRh">
                                 <rect key="frame" x="119.5" y="368.5" width="175" height="159"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="159" id="qUd-TP-vXd"/>
@@ -26,8 +26,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="0HV-Wz-e8Y"/>
-                            <constraint firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="i20-bS-5VP"/>
+                            <constraint firstItem="6bB-x2-LRh" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="BSd-dz-My0"/>
+                            <constraint firstItem="6bB-x2-LRh" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qDH-mW-d4P"/>
                         </constraints>
                     </view>
                 </viewController>

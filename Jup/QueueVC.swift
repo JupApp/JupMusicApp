@@ -41,6 +41,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Zach doesnt know if this actually works
         overrideUserInterfaceStyle = .dark
 
         searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
@@ -58,8 +60,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         }
 
         let nib = UINib(nibName: "SongCell", bundle: nil)
-
         tableView.register(nib, forCellReuseIdentifier: "SongCell")
+        
         tableView.delegate = self
         tableView.dataSource = datasource
         tableView.allowsSelection = false
@@ -94,6 +96,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         do{try AppleMusicUtilities.setNewAMAccessToken(completionHandler: {_ in})}catch{}
         SpotifyUtilities.setNewSpotifyAccessToken(completionHandler: {_ in })
         
+        //Background
         backgroundImageView = UIImageView()
         self.tableView.backgroundView = backgroundImageView
         backgroundImageView.frame = self.tableView.bounds
@@ -102,15 +105,16 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         backgroundImageView.addSubview(backgroundBlurView)
         backgroundBlurView.frame = self.tableView.bounds
         
+        //Makes Album Artwork corners rounded
         nowPlayingAlbum.layer.masksToBounds = true
         nowPlayingAlbum.layer.cornerRadius = 10
-        
-        shadowView.layer.masksToBounds = false
-        shadowView.layer.shadowRadius = 10
-        shadowView.layer.shadowColor = UIColor.systemBackground.cgColor
-        shadowView.layer.shadowOpacity = 0.6
-        shadowView.layer.shadowOffset = CGSize.zero
-        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 10).cgPath
+        //Shadow behind main album artwork
+//        shadowView.layer.masksToBounds = false
+//        shadowView.layer.shadowRadius = 10
+//        shadowView.layer.shadowColor = UIColor.systemBackground.cgColor
+//        shadowView.layer.shadowOpacity = 0.6
+//        shadowView.layer.shadowOffset = CGSize.zero
+//        shadowView.layer.shadowPath = UIBezierPath(roundedRect: nowPlayingAlbum.bounds, cornerRadius: 10).cgPath
         
     }
         
