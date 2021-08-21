@@ -16,8 +16,8 @@ protocol BTCommunicationDelegate {
     
     func updateQueueSnapshot()
     
-    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> (), _ deleteSong: Bool)
-    func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ())
+    func addSongRequest(_ songItem: SongItem, _ deleteSong: Bool)
+    func likeSongRequest(_ songURI: String, _ liked: Bool, _ likerID: String)
     
     func breakConnections()
     

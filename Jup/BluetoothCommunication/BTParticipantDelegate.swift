@@ -141,20 +141,21 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                 /*
                  Get Updated queue and update queue with name
                  */
-                let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)
-                let usernameData: Data? = try? encoder.encode(username)
+                let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
+                let uniqueID = UIDevice.current.identifierForVendor!.uuidString
+                let usernameData: Data? = try? encoder.encode(username + "\n" + uniqueID)
                 peripheral.writeValue(usernameData ?? Data(), for: snapshotCharacteristic!, type: .withoutResponse)
             }
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard let _ = error else {
-            completionHandler?(nil)
-            return
-        }
-        completionHandler?(AddSongError())
-        completionHandler = nil
+//        guard let _ = error else {
+//            completionHandler?(nil)
+//            return
+//        }
+//        completionHandler?(AddSongError())
+//        completionHandler = nil
     }
       
     var snapshot: Data = Data()
@@ -186,6 +187,7 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                         snapshot = Data()
                         return
                     }
+                    queueVC?.participantIDsToUsernames = queue.participantMap
                     queueVC?.mpDelegate.updateQueueWithSnapshot(queue)
                     queueVC?.settings = queue.settings
                     snapshot = Data()
@@ -205,29 +207,26 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
          Request to update song
          */
         print("requesting song update")
-//        hostPeripheral?.readValue(for: snapshotCharacteristic!)
-        hostPeripheral?.writeValue(Data(), for: snapshotCharacteristic!, type: .withResponse)
+        hostPeripheral?.writeValue(Data(), for: snapshotCharacteristic!, type: .withoutResponse)
 
     }
     
     /*
      Request to add song
      */
-    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> (), _ deleteSong: Bool) {
+    func addSongRequest(_ songItem: SongItem, _ deleteSong: Bool) {
         let encodedSong = deleteSong ? songItem.encodeSong(false) : songItem.encodeSong()
         let data = try! encoder.encode(encodedSong)
-        hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
-        self.completionHandler = completionHandler
+        hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withoutResponse)
     }
     
     /*
      Request to like Song
      */
-    func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
-        let codableLike: CodableLike = CodableLike(uri: songURI, liked: liked)
+    func likeSongRequest(_ songURI: String, _ liked: Bool, _ likerID: String) {
+        let codableLike: CodableLike = CodableLike(uri: songURI, liked: liked, likerID: likerID)
         let data = try! encoder.encode(codableLike)
-        hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withResponse)
-        self.completionHandler = completionHandler
+        hostPeripheral?.writeValue(data, for: snapshotCharacteristic!, type: .withoutResponse)
     }
     
     func breakConnections() {
@@ -255,8 +254,8 @@ struct QueueSnapshot: Codable {
     var timeIn: Double
     var state: Int
     var participants: [String]
-    var host: String
     var settings: Settings
+    var participantMap: [String: String]
 }
 
 struct Settings: Codable {
@@ -268,6 +267,7 @@ struct Settings: Codable {
 struct CodableLike: Codable {
     var uri: String
     var liked: Bool
+    var likerID: String
 }
 
 struct CodableSong: Codable {
@@ -277,7 +277,7 @@ struct CodableSong: Codable {
     var albumURL: String
     var songLength: UInt
     var platform: Int
-    var likes: Int
+    var likes: Set<String>
     var contributor: String
     var timeAdded: Date
     var add: Bool

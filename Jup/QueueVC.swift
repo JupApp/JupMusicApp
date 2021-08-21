@@ -31,8 +31,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
             if !isHost { settingsVC?.updateSettings(true) }
         }
     }
-    var host: String = ""
     var participants: [String] = []
+    var participantIDsToUsernames: [String: String] = [:]
     
     lazy var datasource =
         SongDataSource(queueVC: self)
@@ -42,7 +42,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
-
         searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
         searchVC!.hostPlatform = platform
         
@@ -141,7 +140,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "exitQueue" {
             btDelegate.breakConnections()
-            opened = false
         } else if segue.identifier == "openParticipantsMenu" {
             participantMenuVC = segue.destination as? ParticipantMenuVC
             participantMenuVC?.parentVC = self
@@ -167,16 +165,12 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         btDelegate.breakConnections()
     }
     
-    var opened: Bool = false
     func propagateImage() {
         var image = self.nowPlayingAlbum.image
-        guard opened else {
-            opened = true
-            return
-        }
-        if self.mpDelegate.currentSong == nil {
+        if mpDelegate.currentSong == nil {
             image = UIImage()
         }
+
         for vc in navigationController?.viewControllers ?? [] {
             guard let propagator = vc as? BackgroundImagePropagator else {
                 continue
@@ -219,37 +213,36 @@ class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
     init(queueVC: QueueVC) {
         self.queueVC = queueVC
         super.init(tableView: queueVC.tableView) { tv, ip, s in
-            let cell =
-                tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
-                var updatedS = s
-                if ip.row < queueVC.mpDelegate.queue.count {
-                    let songURI: String = queueVC.mpDelegate.queue[ip.row]
-                    let songItem: SongItem = queueVC.mpDelegate.songMap[songURI]!
-                    updatedS = QueueSongItem(songItem)
-                }
-                cell?.albumArtwork.image = updatedS.albumArtwork
-                cell?.likeCountLabel.text = "\(updatedS.likes)"
+            let cell = tv.dequeueReusableCell(withIdentifier: "SongCell", for: ip) as? SongCell
+            var updatedS = s
+            if ip.row < queueVC.mpDelegate.queue.count {
+                let songURI: String = queueVC.mpDelegate.queue[ip.row]
+                let songItem: SongItem = queueVC.mpDelegate.songMap[songURI]!
+                updatedS = QueueSongItem(songItem)
+            }
+            cell?.albumArtwork.image = updatedS.albumArtwork
+            cell?.likeCountLabel.text = "\(updatedS.likes.count)"
 
-                cell?.artistLabel.text = updatedS.artist
-                cell?.artistLabel.textColor = .none
-                cell?.contributorLabel.text = updatedS.contributor
-                cell?.likeCountLabel.layer.masksToBounds = true
-                cell?.likeCountLabel.layer.cornerRadius = 8
-                if updatedS.likes == 0 {
-                    cell?.likeCountLabel.isHidden = true
-                } else {
-                    cell?.likeCountLabel.isHidden = false
-                }
+            cell?.artistLabel.text = updatedS.artist
+            cell?.artistLabel.textColor = .none
+            cell?.contributorLabel.text = queueVC.participantIDsToUsernames[updatedS.contributor]!
+            cell?.likeCountLabel.layer.masksToBounds = true
+            cell?.likeCountLabel.layer.cornerRadius = 8
+            if updatedS.likes.count == 0 {
+                cell?.likeCountLabel.isHidden = true
+            } else {
+                cell?.likeCountLabel.isHidden = false
+            }
 
-                let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
+            let uniqueID = UIDevice.current.identifierForVendor!.uuidString
+
+            if updatedS.likes.contains(uniqueID) {
+                cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            } else {
+                cell?.likeButton.imageView?.transform = .identity
+            }
                 
-                if queueVC.mpDelegate.likedSongs.contains(updatedS.uri) {
-                    cell?.likeButton.imageView?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-                } else {
-                    cell?.likeButton.imageView?.transform = .identity
-                }
-                
-            if (!queueVC.settings.selfLikingOn && updatedS.contributor == username) || queueVC.settings.hostEditingOn {
+            if (!queueVC.settings.selfLikingOn && updatedS.contributor == uniqueID) || queueVC.settings.hostEditingOn {
                     cell?.likeButton.isEnabled = false
                     cell?.likeButton.alpha = 0.5
                 } else {
@@ -257,24 +250,8 @@ class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
                     cell?.likeButton.alpha = 1.0
                 }
                 cell?.completionHandler = {
-                    let addlike: Bool = !queueVC.mpDelegate.likedSongs.contains(updatedS.uri)
-                    queueVC.mpDelegate.likeSong(updatedS.uri, addlike) { e in
-                        guard let _ = e else {
-                            // success!
-                            if addlike {
-                                queueVC.mpDelegate.likedSongs.insert(updatedS.uri)
-                            } else {
-                                queueVC.mpDelegate.likedSongs.remove(updatedS.uri)
-                            }
-                            return
-                        }
-                        /*
-                         Show alert of error!
-                         */
-                        queueVC.songLikeFailedAlert.message = "'\(updatedS.title)' could not be liked"
-                        queueVC.present(queueVC.songLikeFailedAlert, animated: true)
-                        return
-                    }
+                    let addlike: Bool = !updatedS.likes.contains(uniqueID)
+                    queueVC.mpDelegate.likeSong(updatedS.uri, addlike, uniqueID)
                 }
                 cell?.titleLabel.text = updatedS.title
                 cell?.albumArtwork.layer.cornerRadius = 8
@@ -287,9 +264,9 @@ class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
+        let uniqueID = UIDevice.current.identifierForVendor!.uuidString
         let songToEdit: SongItem = queueVC.mpDelegate.songMap[queueVC.mpDelegate.queue[indexPath.row]]!
-        return queueVC.isHost || songToEdit.contributor == username
+        return queueVC.isHost || songToEdit.contributor == uniqueID
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -312,14 +289,14 @@ struct QueueSongItem: Hashable {
     var uri: String
     var albumArtwork: UIImage
     var contributor: String
-    var likes: Int
+    var likes: Set<String>
     var timeAdded: Date
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(uri)
     }
     
-    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Int, timeAdded: Date) {
+    init(title: String, artist: String, uri: String, albumArtwork: UIImage, contributor: String, likes: Set<String>, timeAdded: Date) {
         self.title = title
         self.artist = artist
         self.uri = uri

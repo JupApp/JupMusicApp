@@ -143,13 +143,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let navController = segue.destination as! UINavigationController
         let queueVC = navController.viewControllers[0] as! QueueVC
-
+        let uniqueID: String = UIDevice.current.identifierForVendor!.uuidString
         if segue.identifier == "segueToQueueAsHost"  {
             queueVC.isHost = true
             queueVC.platform = platform
-            
             let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-            queueVC.host = username
+            queueVC.participants.append(uniqueID)
+            queueVC.participantIDsToUsernames[uniqueID] = username
+
             btDelegate.breakConnections()
             
         } else if segue.identifier == "segueToQueueAsParticipant" {

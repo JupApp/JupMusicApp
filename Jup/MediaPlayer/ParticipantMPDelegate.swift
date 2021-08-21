@@ -11,7 +11,6 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     var currentSong: SongItem?
     var queue: [String] = []
     var songMap: [String : SongItem] = [:]
-    var likedSongs: Set<String> = Set<String>()
     
     var mediaPlayer: MediaPlayer?
     var parentVC: QueueVC
@@ -28,24 +27,24 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     func pause() {}
     func skip() {}
     
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
-        self.parentVC.btDelegate.addSongRequest(songItem, completionHandler, false)
+    func addSong(_ songItem: SongItem) {
+        self.parentVC.btDelegate.addSongRequest(songItem, false)
     }
     
-    func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
-        self.parentVC.btDelegate.likeSongRequest(uri, liked, completionHandler)
+    func likeSong(_ uri: String, _ liked: Bool, _ likerID: String) {
+        self.parentVC.btDelegate.likeSongRequest(uri, liked, likerID)
     }
 
     func updateQueueWithSnapshot(_ snapshot: QueueSnapshot) {
         self.songTimer?.invalidate()
         self.state = State.init(rawValue: snapshot.state)!
-
+        
         var songItems: [SongItem] = snapshot.songs.map { $0.decodeSong() }
         
         if songItems.count > 0 {
             if self.state != .NO_SONG_SET {
                 currentSong = songItems.remove(at: 0)
-                
+                print("Time In: \(snapshot.timeIn)")
                 //update progress bar
                 let timeIn = snapshot.timeIn
                 let progress = 1000.0 * Float(timeIn)/Float(currentSong!.songLength)
@@ -92,9 +91,9 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
         /*
          Update participant menu
          */
-        parentVC.host = snapshot.host
         parentVC.participants = snapshot.participants
         parentVC.participantMenuVC?.tableView.reloadData()
+        
     }
     
     func getQueueSnapshot(_ completionHandler: @escaping (QueueSnapshot) -> ()) {
@@ -147,7 +146,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
     func deleteSong(_ uri: String) {
         let index = queue.firstIndex(of: uri)!
         let songItem: SongItem = songMap[queue[index]]!
-        self.parentVC.btDelegate.addSongRequest(songItem, { _ in}, true)
+        self.parentVC.btDelegate.addSongRequest(songItem, true)
     }
 
 }

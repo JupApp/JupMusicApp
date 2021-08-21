@@ -34,17 +34,17 @@ class SpotifySongItem: NSObject, SongItem, SPTAppRemoteContentItem {
     var albumURL: String
     var songLength: UInt
     var albumArtwork: UIImage?
-    var likes: Int
+    var likes: Set<String>
     var added: Bool = false
     var platform: Platform = .SPOTIFY
     var contributor: String
     var timeAdded: Date
     
     convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt, contributor: String) {
-        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0, contributor: contributor, timeAdded: Date())
+        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: Set(), contributor: contributor, timeAdded: Date())
     }
     
-    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int, contributor: String, timeAdded: Date) {
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Set<String>, contributor: String, timeAdded: Date) {
         self.uri = id
         self.artistName = artist
         self.songTitle = song

@@ -16,33 +16,19 @@ class ParticipantMenuVC: UITableViewController {
 
     override func viewDidLoad() {
         overrideUserInterfaceStyle = .dark
-//
-//        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurEffectView.frame = view.bounds
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        view.addSubview(blurEffectView)
-        
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ParticipantMenuCell")
         tableView.separatorStyle = .singleLine
-//        tableView.backgroundColor = UIColor.clear
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        1
     }
    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }
-        if section == 1 {
-            return parentVC?.participants.count ?? 0
-        }
-        return 0
+        return parentVC?.participants.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -52,17 +38,10 @@ class ParticipantMenuVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "ParticipantMenuCell", for: indexPath)
-        let userName: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-        let name: String
-        if indexPath.section == 0 {
-            name = parentVC!.host
-            print(name)
-            cell.textLabel!.text = name + (name == userName ? " ⭑":"")
-        } else {
-            print("pooper")
-            name = parentVC!.participants[indexPath.row]
-            cell.textLabel!.text = name + (name == userName ? " ⭑":"")
-        }
+        let uniqueID: String = UIDevice.current.identifierForVendor!.uuidString
+        let rowID: String = parentVC!.participants[indexPath.row]
+        let name: String = parentVC!.participantIDsToUsernames[rowID]!
+        cell.textLabel!.text = name + (rowID == uniqueID ? " ⭑":"")
         return cell
     }
     

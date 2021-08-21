@@ -12,11 +12,10 @@ class LikeError: Error {}
 class AddSongError: Error {}
 
 class HostMPDelegate: MediaPlayerDelegate {
-    
+
     var state: State = .NO_SONG_SET
     var queue: [String] = []
     var songMap: [String: SongItem] = [:]
-    var likedSongs: Set<String> = Set<String>()
     var currentSong: SongItem?
         
     var parentVC: QueueVC
@@ -123,7 +122,6 @@ class HostMPDelegate: MediaPlayerDelegate {
             print("entered async")
             self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
             let nextSongURI: String = self.queue.remove(at: 0)
-            self.likedSongs.remove(nextSongURI)
             let nextSongItem: SongItem = self.songMap.removeValue(forKey: nextSongURI)!
             self.mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
                 print("successfully transitioned to next song via mediaPlayer")
@@ -142,7 +140,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
     }
     
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ()) {
+    func addSong(_ songItem: SongItem) {
         // check if song is different platform than host
         guard parentVC.platform == songItem.platform else {
             fatalError("SongItem of the wrong platform was added")
@@ -150,7 +148,6 @@ class HostMPDelegate: MediaPlayerDelegate {
     
         // check if song is already in queue
         guard self.songMap[songItem.uri] == nil else {
-            completionHandler(AddSongError())
             return
         }
         
@@ -166,7 +163,6 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         self.updateDataSource()
         self.parentVC.btDelegate.updateQueueSnapshot()
-        completionHandler(nil)
         
         DispatchQueue.main.async {
             if UIApplication.shared.applicationState == .background {
@@ -181,13 +177,15 @@ class HostMPDelegate: MediaPlayerDelegate {
     /*
      Request to like song
      */
-    func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {
+    func likeSong(_ uri: String, _ liked: Bool, _ likerID: String) {
         guard let _ = self.songMap[uri] else {
-            completionHandler(LikeError())
             return
         }
-        self.songMap[uri]!.likes += (liked ? 1 : -1)
-        completionHandler(nil)
+        if liked {
+            self.songMap[uri]!.likes.insert(likerID)
+        } else {
+            self.songMap[uri]!.likes.remove(likerID)
+        }
         DispatchQueue.main.async {
             self.parentVC.tableView.reloadData()
 
@@ -210,8 +208,8 @@ class HostMPDelegate: MediaPlayerDelegate {
     
     private func updateQueueOrder() {
         let sortedQueue = queue.sorted(by: { (uri_0, uri_1) -> Bool in
-            let likes_0 = songMap[uri_0]!.likes
-            let likes_1 = songMap[uri_1]!.likes
+            let likes_0 = songMap[uri_0]!.likes.count
+            let likes_1 = songMap[uri_1]!.likes.count
             let timeAdded_0 = songMap[uri_0]!.timeAdded
             let timeAdded_1 = songMap[uri_1]!.timeAdded
 
@@ -231,14 +229,14 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         self.mediaPlayer?.getTimeInfo(completionHandler: { timeLeft, songDuration in
             var timeIn: Double = songDuration - timeLeft
-            if songDuration < 1.0 {
+            if timeLeft < 1.0 || timeIn < 0.0 {
                 timeIn = 0
             }
-            let snap = QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: self.state.rawValue, participants: self.parentVC.participants, host: self.parentVC.host, settings: self.parentVC.settings)
+            let snap = QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: self.state.rawValue, participants: self.parentVC.participants, settings: self.parentVC.settings, participantMap: self.parentVC.participantIDsToUsernames)
             completionHandler(snap)
         })
         if self.mediaPlayer == nil {
-            let snap = QueueSnapshot(songs: codableSongs, timeIn: 0, state: self.state.rawValue, participants: self.parentVC.participants, host: self.parentVC.host, settings: self.parentVC.settings)
+            let snap = QueueSnapshot(songs: codableSongs, timeIn: 0, state: self.state.rawValue, participants: self.parentVC.participants, settings: self.parentVC.settings, participantMap: self.parentVC.participantIDsToUsernames)
             completionHandler(snap)
         }
     }
@@ -358,7 +356,6 @@ class HostMPDelegate: MediaPlayerDelegate {
                 self.currentSong = nil
                 self.queue = []
                 self.songMap = [:]
-                self.likedSongs = Set()
                 self.state = .NO_SONG_SET
                 print("No song ID found, pausing, setting progress to 0")
 
@@ -409,7 +406,6 @@ class HostMPDelegate: MediaPlayerDelegate {
             }
 
             let nextSongURI: String = self.queue.remove(at: 0)
-            self.likedSongs.remove(nextSongURI)
             self.currentSong = self.songMap.removeValue(forKey: nextSongURI)!
             print("No match, looking into next song: \(self.currentSong!.songTitle)")
 
@@ -420,7 +416,6 @@ class HostMPDelegate: MediaPlayerDelegate {
     func clearQueue() {
         queue = []
         songMap = [:]
-        likedSongs = Set<String>()
         currentSong = nil
         state = .NO_SONG_SET
         mediaPlayer?.pause()
