@@ -20,7 +20,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var hostButtonView: UIView!
     @IBOutlet weak var usernameView: UIView!
     
-    var activityIndicator = UIActivityIndicatorView(style: .medium)
+    var activityIndicator = UIActivityIndicatorView(style: .large)
     var platform: Platform = .APPLE_MUSIC
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
@@ -190,6 +190,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
         }
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -36,7 +36,9 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
-
+        
+        
+        
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
@@ -164,6 +166,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return searchPlatformSegmentedControl
+        
+//        searchPlatformSegmentedControl
     }
     
     func startLoading() {
