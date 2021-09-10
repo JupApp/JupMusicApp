@@ -106,8 +106,8 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
         backgroundBlurView.frame = self.tableView.bounds
         
         //Makes Album Artwork corners rounded
-        nowPlayingAlbum.layer.masksToBounds = true
-        nowPlayingAlbum.layer.cornerRadius = 10
+        //nowPlayingAlbum.layer.masksToBounds = true
+        //nowPlayingAlbum.layer.cornerRadius = 10
         //Shadow behind main album artwork
 //        shadowView.layer.masksToBounds = false
 //        shadowView.layer.shadowRadius = 10
