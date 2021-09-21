@@ -13,13 +13,13 @@ protocol SongItem {
     var albumURL: String { get }
     var songLength: UInt { get }
     var albumArtwork: UIImage? { get set }
-    var likes: Int { get set }
+    var likes: Set<String> { get set }
     var added: Bool { get set }
     var platform: Platform { get set }
     var contributor: String { get set }
     var timeAdded: Date { get set }
 
-    init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int, contributor: String, timeAdded: Date)
+    init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Set<String>, contributor: String, timeAdded: Date)
 
     func retrieveArtwork(completionHandler: @escaping (_ image: UIImage) -> ())
     func copy() -> SongItem

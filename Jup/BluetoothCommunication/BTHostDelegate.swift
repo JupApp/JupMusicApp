@@ -48,7 +48,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     
     func openQueue() {
         let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-        let queueAd: String = username + " \(queueVC.participants.count + 1) \(queueVC.platform.rawValue)"
+        let queueAd: String = username + " \(queueVC.participants.count) \(queueVC.platform.rawValue)"
         peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         /*
          TO-DO alert everyone else queue is open
@@ -77,7 +77,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             }
             
             let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-            let queueAd: String = username + " \(queueVC.participants.count + 1) \(queueVC.platform.rawValue)"
+            let queueAd: String = username + " \(queueVC.participants.count) \(queueVC.platform.rawValue)"
             peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         @unknown default:
             print("unknown state")
@@ -104,8 +104,9 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         /*
          REMOVE PARTICIPANT FROM CONNECTED CENTRALS LIST AND FROM QUEUE SNAPSHOT
          */
-        let participant: String? = connectedCentrals.removeValue(forKey: central)
-        let index = queueVC.participants.firstIndex(of: participant ?? "")
+        let participantID: String? = connectedCentrals.removeValue(forKey: central)
+        queueVC.participantIDsToUsernames.removeValue(forKey: participantID ?? "")
+        let index = queueVC.participants.firstIndex(of: participantID ?? "")
         if let _ = index {
             queueVC.participants.remove(at: index!)
         }
@@ -149,9 +150,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                      */
                     let usernameOrUpdateRequest = try? decoder.decode(String.self, from: request.value ?? Data())
                     guard let newParticipant = usernameOrUpdateRequest else {
-//                        peripheral.respond(to: request, withResult: .attributeNotFound)
                         // or read request...
-                        print("updating queue snapshot")
                         if UIApplication.shared.applicationState == .background {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                 self.queueVC.mpDelegate.returnedToApp()
@@ -159,11 +158,13 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                         } else {
                             updateQueueSnapshot()
                         }
-//                        updateQueueSnapshot()
                         return
                     }
-                    queueVC.participants.append(newParticipant)
-                    connectedCentrals[request.central] = newParticipant
+                    let participantUsername: String = String(newParticipant.split(separator: "\n")[0])
+                    let participantUniqueID: String = String(newParticipant.split(separator: "\n")[1])
+                    queueVC.participants.append(participantUniqueID)
+                    queueVC.participantIDsToUsernames[participantUniqueID] = participantUsername
+                    connectedCentrals[request.central] = participantUniqueID
                     peripheral.respond(to: request, withResult: .success)
                     updateQueueSnapshot()
                     DispatchQueue.main.async {
@@ -174,33 +175,18 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                     /*
                      Song Like Request
                      */
-                    queueVC.mpDelegate.likeSong(likedSong!.uri, likedSong!.liked) { error in
-                        guard let _ = error else {
-                            peripheral.respond(to: request, withResult: .success)
-                            return
-                        }
-                        print("successfully liked song")
-                        // completion handler called implies error
-                        peripheral.respond(to: request, withResult: .attributeNotFound)
-                    }
+                    queueVC.mpDelegate.likeSong(likedSong!.uri, likedSong!.liked, likedSong!.likerID)
                     return
                 } else {
                     if !songAdded!.add {
                         // delete request, remove from queue
                         queueVC.mpDelegate.deleteSong(songAdded!.uri)
-                        peripheral.respond(to: request, withResult: .success)
+//                        peripheral.respond(to: request, withResult: .success)
                         return
                     }
                     let songItem: SongItem = songAdded!.decodeSong()
                     // request add song to queue
-                    queueVC.mpDelegate.addSong(songItem) { error in
-                        guard let _ = error else {
-                            peripheral.respond(to: request, withResult: .success)
-                            return
-                        }
-                        // completion handler called implies error
-                        peripheral.respond(to: request, withResult: .attributeNotFound)
-                    }
+                    queueVC.mpDelegate.addSong(songItem)
                     return
                 }
             default:
@@ -289,8 +275,8 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
         sendSnapshot()
     }
     
-    func addSongRequest(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> (), _ deleteSong: Bool) {}
-    func likeSongRequest(_ songURI: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ()) {}
+    func addSongRequest(_ songItem: SongItem, _ deleteSong: Bool) {}
+    func likeSongRequest(_ songURI: String, _ liked: Bool, _ likerID: String) {}
     
     func breakConnections() {
         peripheralManager?.stopAdvertising()

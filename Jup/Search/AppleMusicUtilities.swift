@@ -91,8 +91,8 @@ class AppleMusicUtilities {
                 let artworkURL: String = (songDict["attributes"]["artwork"]["url"].stringValue).replacingOccurrences(of: "{w}x{h}", with: "\(Int(300))x\(Int(300))")
                 let songLength: UInt = songDict["attributes"]["durationInMillis"].uIntValue
                 
-                let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: artworkURL, length: songLength, contributor: username)
+                let uniqueID = UIDevice.current.identifierForVendor!.uuidString
+                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: artworkURL, length: songLength, contributor: uniqueID)
                 searchResults.append(songItem)
             }
             completionHandler(searchResults)
@@ -286,8 +286,8 @@ class AppleMusicUtilities {
                 let artistName: String = songDictionary["attributes"]["artistName"].stringValue
                 let songLength: UInt = songDictionary["attributes"]["durationInMillis"].uIntValue
                 
-                let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength, contributor: username)
+                let uniqueID = UIDevice.current.identifierForVendor!.uuidString
+                let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength, contributor: uniqueID)
                 self.playlistContent[id]!.append(songItem)
             }
             if !jsonData["next"].exists() {

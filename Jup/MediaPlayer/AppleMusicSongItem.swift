@@ -24,7 +24,7 @@ class AppleMusicSongItem: SongItem, Hashable {
     var songTitle: String
     var albumURL: String
     var songLength: UInt
-    var likes: Int
+    var likes: Set<String>
     var added: Bool = false
     var platform: Platform = .APPLE_MUSIC
     var contributor: String
@@ -33,10 +33,10 @@ class AppleMusicSongItem: SongItem, Hashable {
     var albumArtwork: UIImage?
     
     convenience init(id: String, artist: String, song: String, albumURL: String, length: UInt, contributor: String) {
-        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: 0, contributor: contributor, timeAdded: Date())
+        self.init(id: id, artist: artist, song: song, albumURL: albumURL, length: length, likes: Set(), contributor: contributor, timeAdded: Date())
     }
     
-    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Int, contributor: String, timeAdded: Date) {
+    required init(id: String, artist: String, song: String, albumURL: String, length: UInt, likes: Set<String>, contributor: String, timeAdded: Date) {
         self.uri = id
         self.artistName = artist
         self.songTitle = song

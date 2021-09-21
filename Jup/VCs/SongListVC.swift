@@ -104,7 +104,7 @@ class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator 
                     }
                     return
                 }
-                self.addConvertedSong(convertedSongItem)
+                queueVC.mpDelegate.addSong(convertedSongItem)
             }
         } else if queueVC.platform == .SPOTIFY && songItem is AppleMusicSongItem {
             SpotifyUtilities.convertAppleMusicToSpotify(songItem) { item in
@@ -121,32 +121,11 @@ class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator 
                     }
                     return
                 }
-                self.addConvertedSong(convertedSongItem)
+                queueVC.mpDelegate.addSong(convertedSongItem)
             }
         } else {
-            self.addConvertedSong(songItem)
+            queueVC.mpDelegate.addSong(songItem)
         }
         
-    }
-    
-    func addConvertedSong(_ songItem: SongItem) {
-        let queueVC: QueueVC = navigationController?.viewControllers[0] as! QueueVC
-
-        queueVC.mpDelegate.addSong(songItem) { error in
-            guard let _ = error else {
-                /*
-                 No error = success
-                 */
-                return
-            }
-            /*
-             Failed to add song
-             */
-            let songFailedToAddAlert: UIAlertController = UIAlertController(title: "Request to Add Song Failed", message: "'\(songItem.songTitle)' might already be in the song queue. Wait for it to be played in order to add it back to the queue.", preferredStyle: .alert)
-            songFailedToAddAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            DispatchQueue.main.async {
-                self.present(songFailedToAddAlert, animated: true)
-            }
-        }
     }
 }

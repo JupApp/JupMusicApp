@@ -380,8 +380,8 @@ class SpotifyUtilities {
             return
         }
         let albumURL: String = songDict["album"]["images"].arrayValue[0]["url"].stringValue
-        let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-        let songItem = SpotifySongItem(id: songID, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, contributor: username)
+        let uniqueID: String = UIDevice.current.identifierForVendor!.uuidString
+        let songItem = SpotifySongItem(id: songID, artist: artistName, song: songTitle, albumURL: albumURL, length: songLength, contributor: uniqueID)
         completionHandler(songItem)
     }
     

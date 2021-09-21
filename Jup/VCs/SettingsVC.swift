@@ -20,7 +20,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var hostButtonView: UIView!
     @IBOutlet weak var usernameView: UIView!
     
-    var activityIndicator = UIActivityIndicatorView(style: .medium)
+    var activityIndicator = UIActivityIndicatorView(style: .large)
     var platform: Platform = .APPLE_MUSIC
     
     @IBOutlet weak var platformChoiceControl: UISegmentedControl!
@@ -76,7 +76,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
         queueTableView.layer.cornerRadius = 10
-        
+        usernameView.layer.cornerRadius = 10
+
     }
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
@@ -142,13 +143,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let navController = segue.destination as! UINavigationController
         let queueVC = navController.viewControllers[0] as! QueueVC
-
+        let uniqueID: String = UIDevice.current.identifierForVendor!.uuidString
         if segue.identifier == "segueToQueueAsHost"  {
             queueVC.isHost = true
             queueVC.platform = platform
-            
             let username: String = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-            queueVC.host = username
+            queueVC.participants.append(uniqueID)
+            queueVC.participantIDsToUsernames[uniqueID] = username
+
             btDelegate.breakConnections()
             
         } else if segue.identifier == "segueToQueueAsParticipant" {

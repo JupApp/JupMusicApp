@@ -22,7 +22,6 @@ protocol MediaPlayerDelegate {
         
     var queue: [String] { get }
     var songMap: [String: SongItem] { get }
-    var likedSongs: Set<String> { get set }
     var currentSong: SongItem? { get }
     
     func play()
@@ -31,9 +30,9 @@ protocol MediaPlayerDelegate {
     
     func skip()
         
-    func addSong(_ songItem: SongItem, _ completionHandler: @escaping (Error?) -> ())
+    func addSong(_ songItem: SongItem)
     
-    func likeSong(_ uri: String, _ liked: Bool, _ completionHandler: @escaping (Error?) -> ())
+    func likeSong(_ uri: String, _ liked: Bool, _ likerID: String)
 
     func loadQueueIntoPlayer()
 
@@ -65,10 +64,10 @@ extension MediaPlayerDelegate {
                 /*
                  Fill in album background with blank image
                  */
-                self.parentVC.nowPlayingAlbum.image = UIImage(named: "placeHolderImage")
-                self.parentVC.nowPlayingArtist.text = "Artist"
-                self.parentVC.nowPlayingTitle.text = "Song Title"
-                self.parentVC.nowPlayingContributor.text = "Contributor"
+                self.parentVC.nowPlayingAlbum.image = UIImage(named: "placeholderfinal")
+                self.parentVC.nowPlayingArtist.text = ""
+                self.parentVC.nowPlayingTitle.text = ""
+                self.parentVC.nowPlayingContributor.text = ""
                 return
             }
 
@@ -76,7 +75,7 @@ extension MediaPlayerDelegate {
                 self.parentVC.nowPlayingAlbum.image = image
                 self.parentVC.nowPlayingArtist.text = songItem.artistName
                 self.parentVC.nowPlayingTitle.text = songItem.songTitle
-                self.parentVC.nowPlayingContributor.text = songItem.contributor
+                self.parentVC.nowPlayingContributor.text = self.parentVC.participantIDsToUsernames[songItem.contributor]!
                 self.parentVC.propagateImage()
             }
         }
