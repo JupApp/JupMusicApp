@@ -21,7 +21,7 @@ class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator 
                 })
                 cell.SCSongArtist.text = s.artistName
                 cell.SCSongTitle.text = s.songTitle
-                cell.SCSongAlbumArt.layer.cornerRadius = 6
+                //cell.SCSongAlbumArt.layer.cornerRadius = 6
                 cell.SCSongAlbumArt.layer.masksToBounds = true
                 cell.songItem = s
                 cell.addSongButton.isHidden = s.added

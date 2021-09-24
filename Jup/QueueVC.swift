@@ -258,7 +258,7 @@ class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
                     queueVC.mpDelegate.likeSong(updatedS.uri, addlike, uniqueID)
                 }
                 cell?.titleLabel.text = updatedS.title
-                cell?.albumArtwork.layer.cornerRadius = 8
+                //cell?.albumArtwork.layer.cornerRadius = 8
             return cell
         }
     }
