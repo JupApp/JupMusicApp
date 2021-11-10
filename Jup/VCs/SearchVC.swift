@@ -46,6 +46,11 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         musicSearchBar.delegate = self
         musicSearchBar.tintColor = .lightGray
         musicSearchBar.placeholder = hostPlatform == .APPLE_MUSIC ? "Search Apple Music catalogue" : "Search Spotify catalogue"
+        
+        let dummyViewHeight = CGFloat(40)
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: dummyViewHeight))
+        self.tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
+
 
         activityIndicator.hidesWhenStopped = true
         activityIndicator.center = view.center

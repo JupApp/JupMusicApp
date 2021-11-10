@@ -19,6 +19,7 @@ class QueueSettingsVC: UIViewController {
     @IBOutlet weak var view4: UIVisualEffectView!
     @IBOutlet weak var view5: UIVisualEffectView!
     @IBOutlet weak var view7: UIVisualEffectView!
+    @IBOutlet weak var logOutButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,8 @@ class QueueSettingsVC: UIViewController {
             queueOpenControl.isUserInteractionEnabled = false
 
         }
-    }
+        logOutButton.layer.masksToBounds = true
+        logOutButton.layer.cornerRadius = 25  }
     
     override func viewWillAppear(_ animated: Bool) {
         updateSettings(animated)
