@@ -20,6 +20,7 @@ class QueueSettingsVC: UIViewController {
     @IBOutlet weak var view5: UIVisualEffectView!
     @IBOutlet weak var view7: UIVisualEffectView!
     @IBOutlet weak var logOutButton: UIButton!
+    @IBOutlet weak var openSpotifyApp: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,11 @@ class QueueSettingsVC: UIViewController {
 
         }
         logOutButton.layer.masksToBounds = true
-        logOutButton.layer.cornerRadius = 25  }
+        logOutButton.layer.cornerRadius = 25
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(openSpotify))
+//        tap.cancelsTouchesInView = false
+//        openSpotifyApp.addGestureRecognizer(tap)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         updateSettings(animated)
@@ -82,5 +87,15 @@ class QueueSettingsVC: UIViewController {
         queueOpenControl.setOn(settings.queueOpen, animated: animated)
         hostQueueEditControl.setOn(settings.hostEditingOn, animated: animated)
         selfLikingControl.setOn(settings.selfLikingOn, animated: animated)
+    }
+    
+    @IBAction func logoutSpotify(_ sender: Any) {
+        SpotifyUtilities.signOutSpotify {
+            //alert user successful signout
+            let signOutAlert = UIAlertController(title: "Signed out of Spotify", message: nil, preferredStyle: .alert)
+            signOutAlert.addAction(UIAlertAction(title: "Okay", style: .default))
+            
+            self.present(signOutAlert, animated: true)
+        }
     }
 }

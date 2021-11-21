@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GIY-Uh-qDG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GIY-Uh-qDG">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,7 +28,7 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="rwT-xd-QVQ">
-                                <rect key="frame" x="0.0" y="68.333333969116211" width="428" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="88.666666030883789" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rwT-xd-QVQ" id="8Fu-HQ-g5W">
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
@@ -127,7 +128,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="5VF-Ia-U6A">
-                                <rect key="frame" x="0.0" y="478.33333396911621" width="428" height="50"/>
+                                <rect key="frame" x="0.0" y="498.66666603088379" width="428" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5VF-Ia-U6A" id="lkk-Xw-KoV">
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
@@ -209,7 +210,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="wwK-os-CP2">
-                                        <rect key="frame" x="21.333333333333343" y="376.66666666666669" width="385.33333333333326" height="186.00000000000006"/>
+                                        <rect key="frame" x="21.333333333333343" y="443.66666666666669" width="385.33333333333326" height="119.00000000000006"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nn7-lv-vIJ" userLabel="UsernameView">
                                                 <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="52"/>
@@ -231,31 +232,8 @@
                                                     <constraint firstAttribute="trailing" secondItem="9Ri-S4-qpb" secondAttribute="trailing" constant="15" id="ohs-yn-d9l"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M5j-Xu-HZf" userLabel="QueueTypeView">
-                                                <rect key="frame" x="0.0" y="67" width="385.33333333333331" height="52"/>
-                                                <subviews>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NY5-gH-PzJ">
-                                                        <rect key="frame" x="15" y="10" width="355.33333333333331" height="33"/>
-                                                        <color key="backgroundColor" systemColor="systemGrayColor"/>
-                                                        <segments>
-                                                            <segment title="Apple Music"/>
-                                                            <segment title="Spotify"/>
-                                                        </segments>
-                                                        <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </segmentedControl>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="NY5-gH-PzJ" secondAttribute="trailing" constant="15" id="3TF-WO-8gQ"/>
-                                                    <constraint firstItem="NY5-gH-PzJ" firstAttribute="centerX" secondItem="M5j-Xu-HZf" secondAttribute="centerX" id="R9B-Xi-Xqv"/>
-                                                    <constraint firstItem="NY5-gH-PzJ" firstAttribute="top" secondItem="M5j-Xu-HZf" secondAttribute="top" constant="10" id="cq6-wy-cej"/>
-                                                    <constraint firstItem="NY5-gH-PzJ" firstAttribute="centerY" secondItem="M5j-Xu-HZf" secondAttribute="centerY" id="gm0-Qw-Tcg"/>
-                                                    <constraint firstAttribute="bottom" secondItem="NY5-gH-PzJ" secondAttribute="bottom" constant="10" id="h3z-W9-seh"/>
-                                                    <constraint firstItem="NY5-gH-PzJ" firstAttribute="leading" secondItem="M5j-Xu-HZf" secondAttribute="leading" constant="15" id="taO-DD-Bib"/>
-                                                </constraints>
-                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yir-ds-RT2" userLabel="HostButtonView">
-                                                <rect key="frame" x="0.0" y="134" width="385.33333333333331" height="52"/>
+                                                <rect key="frame" x="0.0" y="67" width="385.33333333333331" height="52"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t1Z-5Z-dH5">
                                                         <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="52"/>
@@ -284,58 +262,76 @@
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
-                                    <stackView opaque="NO" contentMode="top" distribution="fillEqually" alignment="center" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="viw-V7-AiV">
-                                        <rect key="frame" x="104" y="216.66666666666663" width="220" height="80"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="U7M-pE-7Jv">
+                                        <rect key="frame" x="104" y="269.66666666666669" width="220" height="132"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1xZ-6L-ar0">
-                                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                            <stackView opaque="NO" contentMode="top" distribution="fillProportionally" alignment="center" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="viw-V7-AiV">
+                                                <rect key="frame" x="0.0" y="0.0" width="220" height="110"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1xZ-6L-ar0">
+                                                        <rect key="frame" x="0.0" y="15" width="80" height="80"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="80" id="Mfr-tu-m8P"/>
+                                                            <constraint firstAttribute="width" constant="80" id="Rtf-Dd-hDv"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button" image="Apple_Music_Icon_RGB_lg_073120"/>
+                                                        <connections>
+                                                            <action selector="selectAM:" destination="GIY-Uh-qDG" eventType="touchUpInside" id="4iI-YQ-rdN"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-R5-FTm">
+                                                        <rect key="frame" x="140" y="15" width="80" height="80"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="80" id="12x-TS-AvF"/>
+                                                            <constraint firstAttribute="width" constant="80" id="dEa-eP-lgH"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button" image="Spotify_Icon_CMYK_Green"/>
+                                                        <connections>
+                                                            <action selector="selectSpotify:" destination="GIY-Uh-qDG" eventType="touchUpInside" id="f9f-TM-vEk"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="80" id="Mfr-tu-m8P"/>
-                                                    <constraint firstAttribute="width" constant="80" id="Rtf-Dd-hDv"/>
+                                                    <constraint firstAttribute="height" constant="110" id="kdX-Wj-w9G"/>
                                                 </constraints>
-                                                <state key="normal" title="Button" image="Apple_Music_Icon_RGB_lg_073120"/>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-R5-FTm">
-                                                <rect key="frame" x="140" y="0.0" width="80" height="80"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="80" id="12x-TS-AvF"/>
-                                                    <constraint firstAttribute="width" constant="80" id="dEa-eP-lgH"/>
-                                                </constraints>
-                                                <state key="normal" title="Button" image="Spotify_Icon_CMYK_Green"/>
-                                            </button>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="45" translatesAutoresizingMaskIntoConstraints="NO" id="zpP-pK-MbJ">
+                                                <rect key="frame" x="0.0" y="110" width="220" height="22"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1V-WJ-Dj1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="87.666666666666671" height="22"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" image="circle.fill" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="selectAM:" destination="GIY-Uh-qDG" eventType="touchUpInside" id="TEk-iz-1av"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rO-Zs-1mU">
+                                                        <rect key="frame" x="132.66666666666666" y="0.0" width="87.333333333333343" height="22"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" image="circle" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="selectSpotify:" destination="GIY-Uh-qDG" eventType="touchUpInside" id="IXM-H3-HLz"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="kdX-Wj-w9G"/>
-                                        </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1V-WJ-Dj1">
-                                        <rect key="frame" x="143.33333333333331" y="325" width="19.666666666666671" height="22"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="circle" catalog="system"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rO-Zs-1mU">
-                                        <rect key="frame" x="264.66666666666669" y="325" width="19.666666666666686" height="22"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="circle.fill" catalog="system"/>
-                                    </button>
                                 </subviews>
                                 <viewLayoutGuide key="safeArea" id="da7-xU-Pue"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="wwK-os-CP2" firstAttribute="width" secondItem="0jK-ti-KOt" secondAttribute="width" multiplier="0.9" id="1xe-07-l8N"/>
                                     <constraint firstAttribute="bottom" secondItem="FfB-73-AjI" secondAttribute="bottom" constant="15" id="2YQ-VU-uNB"/>
-                                    <constraint firstItem="R1V-WJ-Dj1" firstAttribute="top" secondItem="1xZ-6L-ar0" secondAttribute="bottom" constant="28.333333333333371" id="3fZ-Oi-cI7"/>
-                                    <constraint firstItem="viw-V7-AiV" firstAttribute="centerX" secondItem="0jK-ti-KOt" secondAttribute="centerX" id="4kV-sq-qGD"/>
                                     <constraint firstItem="wwK-os-CP2" firstAttribute="bottom" secondItem="0jK-ti-KOt" secondAttribute="centerY" constant="-15" id="EI2-xb-wI9"/>
                                     <constraint firstItem="FfB-73-AjI" firstAttribute="centerX" secondItem="0jK-ti-KOt" secondAttribute="centerX" id="IoT-DZ-0Hu"/>
                                     <constraint firstItem="wwK-os-CP2" firstAttribute="centerX" secondItem="0jK-ti-KOt" secondAttribute="centerX" id="M3b-h3-h42"/>
                                     <constraint firstItem="FfB-73-AjI" firstAttribute="top" secondItem="wwK-os-CP2" secondAttribute="bottom" constant="10" id="PFX-8O-jsc"/>
-                                    <constraint firstItem="7rO-Zs-1mU" firstAttribute="centerX" secondItem="Kwk-R5-FTm" secondAttribute="centerX" id="WYG-C0-RDf"/>
+                                    <constraint firstItem="U7M-pE-7Jv" firstAttribute="centerX" secondItem="0jK-ti-KOt" secondAttribute="centerX" id="ZA5-Cy-qfW"/>
                                     <constraint firstAttribute="trailing" secondItem="FfB-73-AjI" secondAttribute="trailing" constant="15" id="lul-tC-OV6"/>
-                                    <constraint firstItem="7rO-Zs-1mU" firstAttribute="top" secondItem="Kwk-R5-FTm" secondAttribute="bottom" constant="28.333333333333371" id="mml-XQ-RVs"/>
-                                    <constraint firstItem="wwK-os-CP2" firstAttribute="top" secondItem="viw-V7-AiV" secondAttribute="bottom" constant="80" id="mqz-I7-9cw"/>
                                     <constraint firstItem="FfB-73-AjI" firstAttribute="leading" secondItem="0jK-ti-KOt" secondAttribute="leading" constant="15" id="rWU-39-E5h"/>
-                                    <constraint firstItem="R1V-WJ-Dj1" firstAttribute="centerX" secondItem="1xZ-6L-ar0" secondAttribute="centerX" id="u1h-6t-dAh"/>
+                                    <constraint firstItem="wwK-os-CP2" firstAttribute="top" secondItem="U7M-pE-7Jv" secondAttribute="bottom" constant="41.670000000000002" id="wY9-0u-skk"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -343,10 +339,12 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
+                        <outlet property="amIcon" destination="1xZ-6L-ar0" id="Mbn-IG-SWX"/>
+                        <outlet property="amSelected" destination="R1V-WJ-Dj1" id="EiG-pa-Gkc"/>
                         <outlet property="hostButtonView" destination="yir-ds-RT2" id="OW5-dm-9BO"/>
-                        <outlet property="platformChoiceControl" destination="NY5-gH-PzJ" id="BXg-gw-TXR"/>
                         <outlet property="queueTableView" destination="FfB-73-AjI" id="pZH-lL-ezH"/>
-                        <outlet property="queueTypeView" destination="M5j-Xu-HZf" id="NHW-xr-WtL"/>
+                        <outlet property="spotifyIcon" destination="Kwk-R5-FTm" id="jiC-fT-5Jl"/>
+                        <outlet property="spotifySelected" destination="7rO-Zs-1mU" id="8es-V5-XZj"/>
                         <outlet property="usernameTextField" destination="9Ri-S4-qpb" id="IsS-fR-R2q"/>
                         <outlet property="usernameView" destination="Nn7-lv-vIJ" id="3uS-YE-bL2"/>
                         <segue destination="Pyb-IG-Bw9" kind="presentation" identifier="segueToQueueAsHost" modalPresentationStyle="fullScreen" id="4Sv-ZC-CEk"/>
@@ -583,6 +581,9 @@
                                                                         <state key="normal" title="Log Out">
                                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
+                                                                        <connections>
+                                                                            <action selector="logoutSpotify:" destination="bnN-5n-naJ" eventType="touchUpInside" id="Ti5-0n-sdS"/>
+                                                                        </connections>
                                                                     </button>
                                                                 </subviews>
                                                             </stackView>
@@ -659,6 +660,7 @@
                     <connections>
                         <outlet property="hostQueueEditControl" destination="JNq-qw-3EW" id="wh7-lW-27q"/>
                         <outlet property="logOutButton" destination="0jR-aW-wYv" id="S0h-2a-oVv"/>
+                        <outlet property="openSpotifyApp" destination="dRL-wo-N9j" id="2vM-ti-NXq"/>
                         <outlet property="queueOpenControl" destination="TcR-CN-Zi6" id="cby-0u-rgd"/>
                         <outlet property="selfLikingControl" destination="2KI-pP-Pt6" id="vG6-f2-IIx"/>
                         <outlet property="view2" destination="YyV-3F-pAr" id="UzK-lG-qfk"/>
@@ -683,7 +685,7 @@
                         <color key="sectionIndexColor" systemColor="linkColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="PGx-Pr-DLT">
-                                <rect key="frame" x="0.0" y="24.333333969116211" width="428" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PGx-Pr-DLT" id="b9W-ER-boF">
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
@@ -721,9 +723,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

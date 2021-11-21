@@ -288,7 +288,7 @@ class AppleMusicUtilities {
                 
                 let uniqueID = UIDevice.current.identifierForVendor!.uuidString
                 let songItem = AppleMusicSongItem(id: songID, artist: artistName, song: songTitle, albumURL: newURL, length: songLength, contributor: uniqueID)
-                self.playlistContent[id]!.append(songItem)
+                self.playlistContent[id]?.append(songItem)
             }
             if !jsonData["next"].exists() {
                 completionHandler()
