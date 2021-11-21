@@ -16,14 +16,17 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var queueTableView: UITableView!
     
-    @IBOutlet weak var queueTypeView: UIView!
     @IBOutlet weak var hostButtonView: UIView!
     @IBOutlet weak var usernameView: UIView!
+    @IBOutlet weak var amSelected: UIButton!
+    @IBOutlet weak var spotifySelected: UIButton!
+    
+    @IBOutlet weak var amIcon: UIButton!
+    @IBOutlet weak var spotifyIcon: UIButton!
+    
     
     var activityIndicator = UIActivityIndicatorView(style: .large)
     var platform: Platform = .APPLE_MUSIC
-    
-    @IBOutlet weak var platformChoiceControl: UISegmentedControl!
     
     let musicServicAert = UIAlertController(title: "Access to selected Music Service not available", message: nil, preferredStyle: .alert)
     let authorizeAlert = UIAlertController(title: "Failed to authorize", message: nil, preferredStyle: .alert)
@@ -54,12 +57,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        //Code to make segmented text field text color black
-        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
-        
-        platformChoiceControl.addTarget(self, action: #selector(platformControlSwitched(sender:)), for: .valueChanged)
-        
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         usernameAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
         authorizeAlert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
@@ -72,13 +69,25 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         queueTableView.isScrollEnabled = true
         queueTableView.dataSource = self
         
-        queueTypeView.layer.cornerRadius = 10
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
         queueTableView.layer.cornerRadius = 10
         usernameView.layer.cornerRadius = 10
 
     }
+    
+    @IBAction func selectAM(_ sender: Any) {
+        amSelected.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+        spotifySelected.setImage(UIImage(systemName: "circle"), for: .normal)
+        platform = .APPLE_MUSIC
+    }
+    
+    @IBAction func selectSpotify(_ sender: Any) {
+        amSelected.setImage(UIImage(systemName: "circle"), for: .normal)
+        spotifySelected.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+        platform = .SPOTIFY
+    }
+    
     
     @IBAction func verifyAndSegueToQueue(_ sender: Any) {
         if !checkUsername() {
@@ -216,11 +225,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             UserDefaults.standard.set(username, forKey: SettingsVC.usernameKey)
         }
         return true
-    }
-    
-    
-    @objc func platformControlSwitched(sender: UISegmentedControl) {
-        platform.toggle()
     }
     
     @objc func dismissKeyboard() {

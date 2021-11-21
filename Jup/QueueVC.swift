@@ -42,7 +42,6 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Zach doesnt know if this actually works
         overrideUserInterfaceStyle = .dark
         searchVC = storyboard?.instantiateViewController(identifier: "SearchVC")
         searchVC!.hostPlatform = platform

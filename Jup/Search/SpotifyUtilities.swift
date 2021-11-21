@@ -462,6 +462,24 @@ class SpotifyUtilities {
     }
     
     /*
+     Signs user out of spotify
+     */
+    static func signOutSpotify(completionHandler: @escaping () -> ()) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        // remove refresh token and expiration date
+        appDelegate.expirationDate = nil
+        appDelegate.refreshToken = nil
+        
+        // remove spotify playlist data from searchVC
+        clearCache()
+        
+        // refresh SearchVC
+        
+        completionHandler()
+    }
+    
+    /*
      Retrieve userID for user, needed to complete web api calls to users libraries
      */
     static func retrieveUserID(completionHandler: @escaping (String) -> ()) {
@@ -502,14 +520,15 @@ class SpotifyUtilities {
      Determines if user has Spotify Premium
      */
     static func doesHavePremium(_ completionHandler: @escaping (Bool) -> ()) {
+        // proceed to request if premium account is active
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let accessToken = appDelegate.accessToken
+        
         checkAuthorization { (authorized) in
             if !authorized {
                 completionHandler(false)
                 return
             }
-
-            // proceed to request if premium account is active
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
             var components = URLComponents()
             components.scheme = "https"
@@ -518,7 +537,7 @@ class SpotifyUtilities {
             let url = components.url!
 
             var request = URLRequest(url: url)
-            request.setValue("Bearer \(appDelegate.accessToken!)", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
             let session = URLSession.shared
             let task = session.dataTask(with: request) { data, response, error in
                 guard let dataResponse = data else {

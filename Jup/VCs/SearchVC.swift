@@ -37,8 +37,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
         
-        
-        
         searchPlatformSegmentedControl.insertSegment(withTitle: "Apple Music", at: 0, animated: false)
         searchPlatformSegmentedControl.insertSegment(withTitle: "Spotify", at: 1, animated: false)
         searchPlatformSegmentedControl.selectedSegmentIndex = 0
@@ -46,11 +44,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         musicSearchBar.delegate = self
         musicSearchBar.tintColor = .lightGray
         musicSearchBar.placeholder = hostPlatform == .APPLE_MUSIC ? "Search Apple Music catalogue" : "Search Spotify catalogue"
-        
-        let dummyViewHeight = CGFloat(40)
-        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: dummyViewHeight))
-        self.tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
-
 
         activityIndicator.hidesWhenStopped = true
         activityIndicator.center = view.center
@@ -66,7 +59,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         self.tableView.dataSource = datasource
         self.tableView.register(UINib(nibName: "PlaylistCell", bundle: nil), forCellReuseIdentifier: "PlaylistCell")
         
-        searchAMLibrary()
+//        searchAMLibrary()
         
         self.tableView.backgroundView = backgroundImageView
         backgroundImageView.frame = self.tableView.bounds
@@ -89,29 +82,24 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         }
         queueVC.propagateImage()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //Refresh playlists listed
+        if searchPlatformSegmentedControl.selectedSegmentIndex == 0 {
+            searchAMLibrary()
+        } else {
+            searchSpotifyLibrary()
+        }
+    }
 
     
     @objc func platformTextfieldPlaceholder(sender: UISegmentedControl){
-        switch searchPlatformSegmentedControl.selectedSegmentIndex
-            {
-        case 0:
+        if searchPlatformSegmentedControl.selectedSegmentIndex == 0 {
             currentPlatform = .APPLE_MUSIC
-            
-            // load playlist of AM if hasn't been done already
             searchAMLibrary()
-            break;
-        case 1:
+        } else {
             currentPlatform = .SPOTIFY
-            
-            // load playlist of Spotify if hasn't been done already
             searchSpotifyLibrary()
-            break;
-        default:
-            currentPlatform = .APPLE_MUSIC
-            
-            // load playlist of AM if hasn't been done already
-            searchAMLibrary()
-            break;
         }
     }
     
