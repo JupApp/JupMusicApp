@@ -523,6 +523,12 @@ class SpotifyUtilities {
         // proceed to request if premium account is active
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let accessToken = appDelegate.accessToken
+        guard let accessToken = accessToken else {
+            setNewSpotifyAccessToken { _ in
+                doesHavePremium(completionHandler)
+            }
+            return
+        }
         
         checkAuthorization { (authorized) in
             if !authorized {
@@ -537,7 +543,7 @@ class SpotifyUtilities {
             let url = components.url!
 
             var request = URLRequest(url: url)
-            request.setValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             let session = URLSession.shared
             let task = session.dataTask(with: request) { data, response, error in
                 guard let dataResponse = data else {

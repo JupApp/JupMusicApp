@@ -76,8 +76,9 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
                 self.snapshotCharacteristic.value = try? self.encoder.encode(snapshot)
             }
             
-            let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
-            let queueAd: String = username + " \(queueVC.participants.count) \(queueVC.platform.rawValue)"
+            let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!.replacingOccurrences(of: " ", with: "_")
+            
+            let queueAd: String = "\(queueVC.platform.rawValue) " + username + " \(queueVC.participants.count) "
             peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         @unknown default:
             print("unknown state")
