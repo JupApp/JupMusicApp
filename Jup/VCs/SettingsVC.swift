@@ -164,7 +164,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
         } else if segue.identifier == "segueToQueueAsParticipant" {
             queueVC.isHost = false
-            queueVC.platform = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!.platform
+            queueVC.platform = btDelegate.discoveredQueueInfo[btDelegate.hostPeripheral!]!.platform 
             
             btDelegate.queueVC = queueVC
             queueVC.btDelegate = btDelegate

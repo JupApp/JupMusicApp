@@ -103,9 +103,31 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
             return
         }
         var hostPieces: [String] = hostInfo.split(separator: " ").map { String($0) }
-        let platform: Platform = Platform(rawValue: Int(hostPieces.removeLast())!)!
-        let numParticipants: Int = Int(hostPieces.removeLast())!
-        let hostName: String = hostPieces.joined(separator: " ")
+        
+        let platform: Platform
+        let numParticipants: Int
+        let hostName: String
+        
+        if hostPieces.count > 2 {
+            numParticipants = Int(hostPieces.removeLast()) ?? 1
+        } else {
+            numParticipants = 1
+        }
+        
+        if hostPieces.count > 1 {
+            hostName = hostPieces.removeLast().replacingOccurrences(of: "_", with: " ")
+        } else {
+            hostName = "Unknown"
+        }
+        
+        if hostPieces.count > 0 {
+            platform = Platform(rawValue: Int(hostPieces.removeLast()) ?? 0)!
+        } else {
+            /*
+             Display host found, but unable to configure a connection. Host device battery may be low.  Restart app and try again
+             */
+            return
+        }
         
         let queueInfo: QueueInfo = QueueInfo(hostname: hostName, platform: platform, numParticipants: numParticipants)
         
