@@ -159,8 +159,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return searchPlatformSegmentedControl
-        
-//        searchPlatformSegmentedControl
     }
     
     func startLoading() {
@@ -195,9 +193,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     }
     
     func searchAMLibrary() {
-        self.startLoading()
-        
-        AppleMusicUtilities.searchPlaylists() {
+        AppleMusicUtilities.searchPlaylists({self.startLoading()}) {
             // populates results into tableview
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
             snap.appendSections(["Playlists"])
@@ -223,8 +219,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
     }
     
     func searchSpotifyLibrary() {
-        self.startLoading()
-        SpotifyUtilities.searchPlaylists {
+        SpotifyUtilities.searchPlaylists({self.startLoading()}) {
             // populates results into tableview
             var snap = NSDiffableDataSourceSnapshot<String, PlaylistItem>()
             snap.appendSections(["Playlists"])

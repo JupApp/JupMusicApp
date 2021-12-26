@@ -102,7 +102,6 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         if !appDelegate.appRemote.isConnected {
-            print("\n\n\n183625\n\n\n\n")
             appDelegate.connect("") { _ in
                 guard let _ = self.player else {
                     completionHandler(nil, false)

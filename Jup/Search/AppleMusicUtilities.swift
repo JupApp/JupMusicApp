@@ -124,7 +124,7 @@ class AppleMusicUtilities {
     /*
      Searches user's playlists linked to their account
      */
-    static func searchPlaylists(_ completionHandler: @escaping () -> ()) {
+    static func searchPlaylists(_ startLoading: @escaping () -> (), _ completionHandler: @escaping () -> ()) {
         let amDevToken = AppleMusicUtilities.amDevToken
         let expiration = AppleMusicUtilities.devExpirationDate
         let amUserToken = AppleMusicUtilities.amUserToken
@@ -134,11 +134,11 @@ class AppleMusicUtilities {
             completionHandler()
             return
         }
-
+        
         guard amDevToken != nil &&  Date(timeIntervalSinceNow: 5) < expiration! else {
             do {try AppleMusicUtilities.setNewAMAccessToken { (token) in
                 guard let _ = token else { return }
-                self.searchPlaylists(completionHandler)
+                self.searchPlaylists(startLoading, completionHandler)
             } } catch { return }
             return
         }
@@ -148,11 +148,12 @@ class AppleMusicUtilities {
                 guard let _ = token else {
                     return
                 }
-                self.searchPlaylists(completionHandler)
+                self.searchPlaylists(startLoading, completionHandler)
             }
             return
         }
-
+        startLoading()
+        
         var components = URLComponents()
         components.scheme = "https"
         components.host   = "api.music.apple.com"
@@ -358,24 +359,42 @@ class AppleMusicUtilities {
     
     static func setNewUserToken(_ completionHandler: @escaping (String?) -> ()) {
         do { try setNewAMAccessToken { _ in
-            SKCloudServiceController().requestUserToken(forDeveloperToken: amDevToken!) {data, error in
-                if let _ = error {
-                    print("Error getting user token: \n\(data ?? "")")
-                    /*
-                     Alert User that app was unable to get user token for AM
-                     Probably because user has not authorized this app to use library or
-                     user does not have apple ID??
-                     */
+            
+            let authStatus = SKCloudServiceController.authorizationStatus()
+            if authStatus == .notDetermined {
+                SKCloudServiceController.requestAuthorization {(status:
+                    SKCloudServiceAuthorizationStatus) in
+                    switch status {
+                    case .authorized:
+                        setNewUserToken(completionHandler)
+                        return
+                    default:
+                        completionHandler(nil)
+                        return
+                    }
+                }
+            } else if authStatus == .authorized {
+                SKCloudServiceController().requestUserToken(forDeveloperToken: amDevToken!) {data, error in
+                    if let e = error {
+                        print("Error getting user token: \n\(e)")
+                        /*
+                         Alert User that app was unable to get user token for AM
+                         Probably because user has not authorized this app to use library or
+                         user does not have apple ID??
+                         */
+                        completionHandler(nil)
+                        return
+                    }
+                    if let token = data {
+                        self.amUserToken = token
+                        completionHandler(token)
+                        return
+                    }
                     completionHandler(nil)
                     return
                 }
-                if let token = data {
-                    self.amUserToken = token
-                    completionHandler(token)
-                    return
-                }
+            } else {
                 completionHandler(nil)
-                return
             }
         }
         } catch { completionHandler(nil); return }

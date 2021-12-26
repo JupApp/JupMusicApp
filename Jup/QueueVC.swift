@@ -153,7 +153,7 @@ class QueueVC: UITableViewController, BackgroundImagePropagator {
     }
     
     @objc func didEnterBackground() {
-        if mpDelegate.state == .PLAYING {
+        if mpDelegate != nil && mpDelegate.state == .PLAYING {
             mpDelegate.loadQueueIntoPlayer()
         }
     }
@@ -203,9 +203,11 @@ extension QueueVC: UITableViewDragDelegate {
 }
 
 extension QueueVC: UITableViewDropDelegate {
-    
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-
+    }
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     }
     
 }
@@ -273,6 +275,22 @@ class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        var snap = snapshot()
+        guard let fromSong = queueVC.datasource.itemIdentifier(for: sourceIndexPath), let toSong = queueVC.datasource.itemIdentifier(for: destinationIndexPath) else {
+            return
+        }
+        snap.deleteItems([fromSong])
+        
+        let isAfter = destinationIndexPath.row > sourceIndexPath.row
+        
+        if isAfter {
+            snap.insertItems([fromSong], afterItem: toSong)
+        } else {
+            snap.insertItems([fromSong], beforeItem: toSong)
+        }
+        
+        
+        apply(snap, animatingDifferences: false)
         queueVC.mpDelegate.moveSong(sourceIndexPath.row, destinationIndexPath.row)
     }
     

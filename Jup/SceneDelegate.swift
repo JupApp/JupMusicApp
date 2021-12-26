@@ -40,11 +40,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate{
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//
         guard let _ = appDelegate.bringBackToVC else {
             return
         }
-//        print(appDelegate.appRemote.isConnected)
         appDelegate.appRemote.connect()
 
     }

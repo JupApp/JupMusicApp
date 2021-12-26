@@ -72,7 +72,7 @@ class ParticipantMPDelegate: MediaPlayerDelegate {
             DispatchQueue.global(qos: .utility).async(group: group) {
                 group.enter()
                 songItem.retrieveArtwork { image in
-                    self.songMap[songItem.uri]!.albumArtwork = image
+                    self.songMap[songItem.uri]?.albumArtwork = image
                     group.leave()
                 }
             }
