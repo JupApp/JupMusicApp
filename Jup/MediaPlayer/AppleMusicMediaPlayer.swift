@@ -53,7 +53,7 @@ class AppleMusicMediaPlayer: MediaPlayer {
     }
     
     func getTimeInfo(completionHandler: @escaping (Double, Double) -> ()) {
-        let songDuration: Double = self.player.nowPlayingItem!.playbackDuration.magnitude
+        let songDuration: Double = self.player.nowPlayingItem?.playbackDuration.magnitude ?? 0.0
         let timeLeft: Double = songDuration - self.player.currentPlaybackTime.magnitude
         completionHandler(timeLeft, songDuration)
     }

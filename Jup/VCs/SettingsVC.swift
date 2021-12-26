@@ -171,14 +171,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
-    func joinQueueButtonPressed() {
-        if !checkUsername() {
-            return
-        }
-            
-        self.performSegue(withIdentifier: "segueToQueueAsParticipant", sender: nil)
-        return
-    }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -192,9 +185,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell.queuePlatformLabel.text = queueInfo.platform.toString()
             cell.queueNumParticipants.text = "\(queueInfo.numParticipants)"
             cell.buttonClicked = {
-                self.btDelegate.connectToQueue(peripheral)
-                DispatchQueue.main.async {
-                    self.joinQueueButtonPressed()
+                if self.checkUsername() {
+                    self.btDelegate.connectToQueue(peripheral)
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "segueToQueueAsParticipant", sender: nil)
+                    }
                 }
             }
         }

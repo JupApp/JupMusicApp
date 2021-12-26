@@ -106,7 +106,6 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
          REMOVE PARTICIPANT FROM CONNECTED CENTRALS LIST AND FROM QUEUE SNAPSHOT
          */
         let participantID: String? = connectedCentrals.removeValue(forKey: central)
-        queueVC.participantIDsToUsernames.removeValue(forKey: participantID ?? "")
         let index = queueVC.participants.firstIndex(of: participantID ?? "")
         if let _ = index {
             queueVC.participants.remove(at: index!)

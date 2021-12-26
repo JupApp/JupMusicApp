@@ -112,22 +112,19 @@ class HostMPDelegate: MediaPlayerDelegate {
     is a current song playing, it is already paused, and that the songTimer is nil.
     */
     private func transitionToNextSong() {
-        print("transition to next song called")
         if queue.isEmpty {
             self.state = .NO_SONG_SET
             parentVC.btDelegate.updateQueueSnapshot()
             return
         }
         DispatchQueue.main.async {
-            print("entered async")
             self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
             let nextSongURI: String = self.queue.remove(at: 0)
             let nextSongItem: SongItem = self.songMap.removeValue(forKey: nextSongURI)!
             self.mediaPlayer?.transitionNextSong(nextSongItem, completionHandler: { (error) in
-                print("successfully transitioned to next song via mediaPlayer")
                 if let _ = error {
                     // assert alert here?
-                    fatalError("Failed to transition to Next Song")
+                    self.state = .NO_SONG_SET
                 } else {
                     self.state = .PLAYING
                     self.setTimer()
@@ -229,7 +226,7 @@ class HostMPDelegate: MediaPlayerDelegate {
         }
         self.mediaPlayer?.getTimeInfo(completionHandler: { timeLeft, songDuration in
             var timeIn: Double = songDuration - timeLeft
-            if timeLeft < 1.0 || timeIn < 0.0 {
+            if timeLeft < 2.0 || timeIn < 0.0 {
                 timeIn = 0
             }
             let snap = QueueSnapshot(songs: codableSongs, timeIn: timeIn, state: self.state.rawValue, participants: self.parentVC.participants, settings: self.parentVC.settings, participantMap: self.parentVC.participantIDsToUsernames)
@@ -277,13 +274,11 @@ class HostMPDelegate: MediaPlayerDelegate {
         mediaPlayer?.getTimeInfo(completionHandler: { (timeLeft, songDuration) in
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 1.0) {
-                    let progress = Float(1.0 - (timeLeft/songDuration))
+                    let progress = Float(1.0 - (timeLeft/(songDuration + 0.0000000001)))
                     self.parentVC.nowPlayingProgress.setProgress(progress, animated: true)
                 }
             }
             if timeLeft < 2.0 {
-                print("Time left: \(timeLeft)")
-                print("Song Duration: \(songDuration)")
                 self.mediaPlayer?.pause()
                 self.stopTimer()
                 self.state = .TRANSITIONING
@@ -300,6 +295,7 @@ class HostMPDelegate: MediaPlayerDelegate {
     func returnedToApp() {
         print("returned to app called")
         if HostMPDelegate.returningApp {
+            print("Already returning to app")
             return
         }
         HostMPDelegate.returningApp = true
@@ -321,9 +317,8 @@ class HostMPDelegate: MediaPlayerDelegate {
 
                 break
             case .TRANSITIONING:
-                HostMPDelegate.returningApp = false
                 print("Transitioning")
-
+                HostMPDelegate.returningApp = false
                 return
             case .PLAYING:
                 print("playing")
@@ -347,30 +342,37 @@ class HostMPDelegate: MediaPlayerDelegate {
             }
             return
         }
+        print("Media Player exists")
         mediaPlayer?.nowPlayingInfo { (songID, isPlaying) in
             guard let _ = songID else {
-                // no song playing
-                /*
-                 Clear the queue, empty album artork and progressview and stackview
-                 */
-                self.currentSong = nil
-                self.queue = []
-                self.songMap = [:]
-                self.state = .NO_SONG_SET
-                print("No song ID found, pausing, setting progress to 0")
-
-                self.mediaPlayer?.pause()
-                self.updateDataSource()
-                self.updateAlbumArtwork()
-                self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
-                completionHandler()
+                // I believe the only case this happens is actually when the app fails to determine what song is currently playing, which I think the best course of action is to let it be, and try again in a couple seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.iterateThroughQueue(completionHandler)
+                }
                 return
+                // no song playing
+//                /*
+//                 Clear the queue, empty album artork and progressview and stackview
+//                 */
+//                self.currentSong = nil
+//                self.queue = []
+//                self.songMap = [:]
+//                self.state = .NO_SONG_SET
+//                print("No song ID found, pausing, setting progress to 0")
+//
+//                self.mediaPlayer?.pause()
+//                self.updateDataSource()
+//                self.updateAlbumArtwork()
+//                self.parentVC.nowPlayingProgress.setProgress(0, animated: true)
+//                completionHandler()
+//                return
             }
             /*
              if a match, great success, update
              album artwork and set timer
             */
             if songID == self.currentSong?.uri {
+                print("SongID matches currentSong")
                 self.updateAlbumArtwork()
                 self.updateDataSource()
                 /*
@@ -395,6 +397,7 @@ class HostMPDelegate: MediaPlayerDelegate {
              If no match, move on to next song in queue
              */
             if self.queue.isEmpty {
+                print("Empty queue")
                 self.currentSong = nil
                 self.state = .NO_SONG_SET
                 self.mediaPlayer?.pause()
@@ -428,7 +431,7 @@ class HostMPDelegate: MediaPlayerDelegate {
     func moveSong(_ startIndex: Int, _ endIndex: Int) {
         let songURI: String = queue.remove(at: startIndex)
         queue.insert(songURI, at: endIndex)
-        updateDataSource(false)
+//        updateDataSource(false)
         parentVC.btDelegate.updateQueueSnapshot()
     }
     

@@ -75,7 +75,7 @@ extension MediaPlayerDelegate {
                 self.parentVC.nowPlayingAlbum.image = image
                 self.parentVC.nowPlayingArtist.text = songItem.artistName
                 self.parentVC.nowPlayingTitle.text = songItem.songTitle
-                self.parentVC.nowPlayingContributor.text = self.parentVC.participantIDsToUsernames[songItem.contributor]!
+                self.parentVC.nowPlayingContributor.text = self.parentVC.participantIDsToUsernames[songItem.contributor] ?? "Loading..."
                 self.parentVC.propagateImage()
             }
         }
@@ -85,7 +85,8 @@ extension MediaPlayerDelegate {
         var snap = NSDiffableDataSourceSnapshot<String, QueueSongItem>()
         snap.appendSections(["Queue"])
         snap.appendItems(queue.map({ (uri) -> QueueSongItem in
-            songMap[uri]!.getQueueSongItem()
+            print(songMap[uri]?.songTitle ?? "")
+            return songMap[uri]!.getQueueSongItem()
         }))
         DispatchQueue.main.async {
             parentVC.datasource.apply(snap, animatingDifferences: animate)

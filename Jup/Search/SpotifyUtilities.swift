@@ -29,7 +29,7 @@ class SpotifyUtilities {
     /*
      Searches user's personal playlists
      */
-    static func searchPlaylists(_ completionHandler: @escaping () -> ()) {
+    static func searchPlaylists(_ startLoading: @escaping () -> (), _ completionHandler: @escaping () -> ()) {
         SpotifyUtilities.checkAuthorization { (authorized) in
             if !authorized {
                 /*
@@ -40,9 +40,7 @@ class SpotifyUtilities {
             DispatchQueue.main.async {
                 SpotifyUtilities.retrieveUserID {(id) in
                     self.userID = id
-                    self.searchUsersPlaylists {
-                        completionHandler()
-                    }
+                    self.searchUsersPlaylists(startLoading, completionHandler)
                 }
             }
         }
@@ -53,13 +51,13 @@ class SpotifyUtilities {
      Helper function to retrieve all the different types of personal
      User playlists in spotify
      */
-    private static func searchUsersPlaylists(completionHandler: @escaping () -> ()) {
+    private static func searchUsersPlaylists(_ startLoading: @escaping () -> (), _ completionHandler: @escaping () -> ()) {
         
         guard playlistIDs.isEmpty else {
             completionHandler()
             return
         }
-        
+        startLoading()
         /*
          Add playlist corresponding to user's top played songs (short-term)
          */
