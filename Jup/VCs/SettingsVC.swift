@@ -52,7 +52,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
         }
         usernameTextField.attributedPlaceholder = NSAttributedString(string: placeHolderText,
-                                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
                 
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,26 +20,34 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lIW-k6-Poi">
                         <rect key="frame" x="10" y="10" width="300" height="100"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-en-4mv">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="JoinVC Background"/>
+                                <connections>
+                                    <action selector="clickJoinQueue:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="iiy-eX-PUi"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wZq-B4-yJI">
                                 <rect key="frame" x="10" y="10" width="280" height="80"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fH1-Ac-7y9">
-                                        <rect key="frame" x="0.0" y="0.0" width="230" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="80"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLY-9D-9pT">
-                                                <rect key="frame" x="0.0" y="0.0" width="230" height="26.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SERVICE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XY-H2-Kw1">
-                                                <rect key="frame" x="0.0" y="26.5" width="230" height="27"/>
+                                                <rect key="frame" x="0.0" y="26.5" width="280" height="27"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&quot;#/PARTICIPANTS&quot;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aab-RY-CPl">
-                                                <rect key="frame" x="0.0" y="53.5" width="230" height="26.5"/>
+                                                <rect key="frame" x="0.0" y="53.5" width="280" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -46,25 +55,19 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-en-4mv">
-                                        <rect key="frame" x="230" y="0.0" width="50" height="80"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="ajq-g2-jhz"/>
-                                        </constraints>
-                                        <state key="normal" image="JoinQueue"/>
-                                        <connections>
-                                            <action selector="clickJoinQueue:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="iiy-eX-PUi"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="nmd-en-4mv" firstAttribute="top" secondItem="lIW-k6-Poi" secondAttribute="top" id="4IC-As-Fo5"/>
                             <constraint firstItem="wZq-B4-yJI" firstAttribute="leading" secondItem="lIW-k6-Poi" secondAttribute="leading" constant="10" id="4Tc-H9-JTO"/>
+                            <constraint firstItem="nmd-en-4mv" firstAttribute="leading" secondItem="lIW-k6-Poi" secondAttribute="leading" id="6mP-2w-7zM"/>
                             <constraint firstAttribute="bottom" secondItem="wZq-B4-yJI" secondAttribute="bottom" constant="10" id="94A-mg-gPp"/>
+                            <constraint firstAttribute="trailing" secondItem="nmd-en-4mv" secondAttribute="trailing" id="Fed-e8-Z9I"/>
                             <constraint firstAttribute="trailing" secondItem="wZq-B4-yJI" secondAttribute="trailing" constant="10" id="I85-ma-Pte"/>
+                            <constraint firstAttribute="bottom" secondItem="nmd-en-4mv" secondAttribute="bottom" id="x02-KW-nFA"/>
                             <constraint firstItem="wZq-B4-yJI" firstAttribute="top" secondItem="lIW-k6-Poi" secondAttribute="top" constant="10" id="zng-9l-l1B"/>
                         </constraints>
                     </view>
@@ -80,6 +83,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="joinButton" destination="nmd-en-4mv" id="gTb-gv-bkj"/>
                 <outlet property="queueNameLabel" destination="WLY-9D-9pT" id="77E-QO-fPZ"/>
                 <outlet property="queueNumParticipants" destination="aab-RY-CPl" id="3zX-o4-klK"/>
                 <outlet property="queuePlatformLabel" destination="5XY-H2-Kw1" id="r7a-Pu-dG2"/>
@@ -88,6 +92,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="JoinQueue" width="30" height="33.333332061767578"/>
+        <image name="JoinVC Background" width="448" height="896"/>
     </resources>
 </document>

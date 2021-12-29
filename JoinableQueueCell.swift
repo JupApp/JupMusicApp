@@ -9,6 +9,7 @@ import UIKit
 
 class JoinableQueueCell: UITableViewCell {
     
+    @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var queueNameLabel: UILabel!
     @IBOutlet weak var queuePlatformLabel: UILabel!
     @IBOutlet weak var queueNumParticipants: UILabel!
@@ -16,6 +17,7 @@ class JoinableQueueCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        joinButton.layer.cornerRadius = joinButton.frame.height/4
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
