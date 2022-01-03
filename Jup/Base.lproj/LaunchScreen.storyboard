@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,6 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="JoinVC Background" translatesAutoresizingMaskIntoConstraints="NO" id="RrX-CJ-AUT">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="1096"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="JupText" translatesAutoresizingMaskIntoConstraints="NO" id="6bB-x2-LRh">
                                 <rect key="frame" x="119.5" y="368.5" width="175" height="159"/>
                                 <constraints>
@@ -26,7 +30,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="RrX-CJ-AUT" secondAttribute="bottom" constant="-200" id="2Ih-BA-MHq"/>
                             <constraint firstItem="6bB-x2-LRh" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="BSd-dz-My0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RrX-CJ-AUT" secondAttribute="trailing" id="D3G-tw-eIT"/>
+                            <constraint firstItem="RrX-CJ-AUT" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="d75-sF-h7k"/>
+                            <constraint firstItem="RrX-CJ-AUT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="esi-tB-heJ"/>
                             <constraint firstItem="6bB-x2-LRh" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qDH-mW-d4P"/>
                         </constraints>
                     </view>
@@ -37,6 +45,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="JoinVC Background" width="448" height="896"/>
         <image name="JupText" width="175" height="159"/>
     </resources>
 </document>

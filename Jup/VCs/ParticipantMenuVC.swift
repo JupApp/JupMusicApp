@@ -26,13 +26,14 @@ class ParticipantMenuVC: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
-   
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return parentVC?.participants.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 70
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,7 +42,9 @@ class ParticipantMenuVC: UITableViewController {
         let uniqueID: String = UIDevice.current.identifierForVendor!.uuidString
         let rowID: String = parentVC!.participants[indexPath.row]
         let name: String = parentVC!.participantIDsToUsernames[rowID]!
-        cell.textLabel!.text = name + (rowID == uniqueID ? " ⭑":"")
+        //cell.textLabel!.text = name + (rowID == uniqueID ? " ⭑":"")
+        cell.textLabel!.text = String(indexPath.row + 1) + ".)  " + name
+        cell.textLabel!.font = .boldSystemFont(ofSize: 30)
         return cell
     }
     
