@@ -230,7 +230,7 @@ class SongDataSource: UITableViewDiffableDataSource<String, QueueSongItem> {
 
             cell?.artistLabel.text = updatedS.artist
             cell?.artistLabel.textColor = .none
-            cell?.contributorLabel.text = queueVC.participantIDsToUsernames[updatedS.contributor]!
+            cell?.contributorLabel.text = queueVC.participantIDsToUsernames[updatedS.contributor] ?? "Unknown"
             cell?.likeCountLabel.layer.masksToBounds = true
             cell?.likeCountLabel.layer.cornerRadius = 8
             if updatedS.likes.count == 0 {

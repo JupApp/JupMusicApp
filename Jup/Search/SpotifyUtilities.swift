@@ -388,41 +388,17 @@ class SpotifyUtilities {
      has user authentication to search their playlists
      */
     static func checkAuthorization(completionHandler: @escaping (Bool) -> ()) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        DispatchQueue.main.async {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
-        // check if refresh token doesn't exist
-        guard let expirationDate = appDelegate.expirationDate as? Date,
-              let refreshToken = appDelegate.refreshToken else {
+            // check if refresh token doesn't exist
+            guard let expirationDate = appDelegate.expirationDate as? Date,
+                  let refreshToken = appDelegate.refreshToken else {
 
-            //must initiate session for first time
-            appDelegate.connectToSpotify {e in
-
-                guard e == nil else {
-                    completionHandler(false)
-                    return
-                }
-                // otherwise, successfully connected to spotify, and ready to go!
-                completionHandler(true)
-            }
-            return
-        }
-
-        // check if expiration date is already passed
-        if expirationDate > Date(timeIntervalSinceNow: 5) {
-            // in the clear, don't need to renew yet
-            completionHandler(true)
-            return
-        }
-        
-        // session expired, try to use refresh token to get new token
-        AF.request("https://jup-music-queue.herokuapp.com/api/refresh_token", method: .post, parameters: ["refresh_token": refreshToken]).responseJSON { (data) in
-            let response: HTTPURLResponse = data.response!
-
-            // if status 4xx
-            if "\(response.statusCode)".prefix(1) == "4" {
-                // just reinitiate session...
+                //must initiate session for first time
                 appDelegate.connectToSpotify {e in
-                    if let _ = e {
+
+                    guard e == nil else {
                         completionHandler(false)
                         return
                     }
@@ -430,21 +406,23 @@ class SpotifyUtilities {
                     completionHandler(true)
                 }
                 return
+            }
 
-            } else {
-                switch data.result {
-                case .success(let result):
-                    let access_token: String? = (result as? [String: Any])?["access_token"] as? String
-                    guard let token = access_token else {
-                        completionHandler(false)
-                        return
-                    }
-                    appDelegate.accessToken = token
-                    completionHandler(true)
-                    return
-                case .failure(_):
+            // check if expiration date is already passed
+            if expirationDate > Date(timeIntervalSinceNow: 5) {
+                // in the clear, don't need to renew yet
+                completionHandler(true)
+                return
+            }
+            
+            // session expired, try to use refresh token to get new token
+            AF.request("https://jup-music-queue.herokuapp.com/api/refresh_token", method: .post, parameters: ["refresh_token": refreshToken]).responseJSON { (data) in
+                let response: HTTPURLResponse = data.response!
+
+                // if status 4xx
+                if "\(response.statusCode)".prefix(1) == "4" {
+                    // just reinitiate session...
                     appDelegate.connectToSpotify {e in
-
                         if let _ = e {
                             completionHandler(false)
                             return
@@ -453,10 +431,34 @@ class SpotifyUtilities {
                         completionHandler(true)
                     }
                     return
+
+                } else {
+                    switch data.result {
+                    case .success(let result):
+                        let access_token: String? = (result as? [String: Any])?["access_token"] as? String
+                        guard let token = access_token else {
+                            completionHandler(false)
+                            return
+                        }
+                        appDelegate.accessToken = token
+                        completionHandler(true)
+                        return
+                    case .failure(_):
+                        appDelegate.connectToSpotify {e in
+
+                            if let _ = e {
+                                completionHandler(false)
+                                return
+                            }
+                            // otherwise, successfully connected to spotify, and ready to go!
+                            completionHandler(true)
+                        }
+                        return
+                    }
                 }
             }
+            return
         }
-        return
     }
     
     /*
@@ -517,23 +519,23 @@ class SpotifyUtilities {
     /*
      Determines if user has Spotify Premium
      */
-    static func doesHavePremium(_ completionHandler: @escaping (Bool) -> ()) {
+    static func doesHavePremium(_ accessToken: String?, _ completionHandler: @escaping (Bool) -> ()) {
         // proceed to request if premium account is active
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let accessToken = appDelegate.accessToken
         guard let accessToken = accessToken else {
-            setNewSpotifyAccessToken { _ in
-                doesHavePremium(completionHandler)
+            print("accessToken doesn't exist, set new one")
+            setNewSpotifyAccessToken { token in
+                doesHavePremium(token, completionHandler)
             }
             return
         }
-        
+        print("accessToken exists, check authorization:\n\(accessToken)")
         checkAuthorization { (authorized) in
             if !authorized {
+                print("not authorized")
                 completionHandler(false)
                 return
             }
-
+            print("authorized, check if has premium")
             var components = URLComponents()
             components.scheme = "https"
             components.host   = "api.spotify.com"
@@ -542,6 +544,7 @@ class SpotifyUtilities {
 
             var request = URLRequest(url: url)
             request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            print("URL:\n\(request.headers)")
             let session = URLSession.shared
             let task = session.dataTask(with: request) { data, response, error in
                 guard let dataResponse = data else {
@@ -549,8 +552,10 @@ class SpotifyUtilities {
                 }
                 let jsonData: JSON
                 do {try jsonData = JSON(data: dataResponse)} catch{ completionHandler(false); return}
+                print("DATA:\n\(jsonData)")
                 let accountStatus = jsonData["product"].stringValue
                 guard accountStatus == "premium" else {
+                    print("Account status: \(accountStatus)")
                     completionHandler(false)
                     return
                 }
@@ -581,6 +586,7 @@ class SpotifyUtilities {
 
             // Check for Error
             if let _ = error {
+                print("Error setting new access token")
                 completionHandler(nil)
                 return
             }
@@ -588,6 +594,7 @@ class SpotifyUtilities {
             // Convert HTTP Response Data to a String
             let jsonData: JSON
             do {try jsonData = JSON(data: data!)} catch{ return}
+            print("Setting new access token with: \(jsonData)")
             spotifyDevToken = jsonData["access_token"].stringValue
             expirationDate = Date(timeIntervalSinceNow: 3600)
             completionHandler(spotifyDevToken)

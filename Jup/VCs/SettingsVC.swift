@@ -127,9 +127,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 self.present(authorizeAlert, animated: true)
             }
         } else if platform == .SPOTIFY {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
             activityIndicator.startAnimating()
             // check if user has premium in order to proceed
-            SpotifyUtilities.doesHavePremium { (hasPremium) in
+            SpotifyUtilities.doesHavePremium(appDelegate.accessToken) { (hasPremium) in
+                print("Has Premium: \(hasPremium)")
                 if !hasPremium {
                     /*
                      Alert User doesn't have Spotify Premium
