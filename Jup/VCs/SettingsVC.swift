@@ -23,6 +23,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var amIcon: UIButton!
     @IBOutlet weak var spotifyIcon: UIButton!
+    @IBOutlet weak var joinButton: UIButton!
     
     
     var activityIndicator = UIActivityIndicatorView(style: .large)
@@ -68,11 +69,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         queueTableView.allowsSelection = false
         queueTableView.isScrollEnabled = true
         queueTableView.dataSource = self
+        queueTableView.tableFooterView = UIView.init(frame: CGRect.zero)
         
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
         queueTableView.layer.cornerRadius = 10
         usernameView.layer.cornerRadius = 10
+        joinButton.layer.cornerRadius = 5
 
     }
     
@@ -193,6 +196,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 }
             }
         }
+        if indexPath.row == 0 {
+            cell.queueNameLabel.text = "No Queues Available"
+            cell.queuePlatformLabel.text = "Host must open app to make queue available to join"
+            cell.queueNumParticipants.text = ""
+
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -200,7 +209,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return btDelegate.discoveredQueues.count
+        var number: Int = btDelegate.discoveredQueues.count
+        if btDelegate.discoveredQueues.count > 0{
+            number = btDelegate.discoveredQueues.count
+        }
+        else{
+            number = 1
+        }
+        return number
     }
     
     private func checkUsername() -> Bool {

@@ -23,7 +23,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-en-4mv">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="JoinVC Background"/>
                                 <connections>
                                     <action selector="clickJoinQueue:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="iiy-eX-PUi"/>
                                 </connections>
@@ -40,7 +39,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SERVICE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5XY-H2-Kw1">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SERVICE" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5XY-H2-Kw1">
                                                 <rect key="frame" x="0.0" y="26.5" width="280" height="27"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -91,7 +90,4 @@
             <point key="canvasLocation" x="73.913043478260875" y="111.83035714285714"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="JoinVC Background" width="448" height="896"/>
-    </resources>
 </document>
