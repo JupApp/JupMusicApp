@@ -212,14 +212,20 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="JoinVC Background" translatesAutoresizingMaskIntoConstraints="NO" id="rZZ-Ck-lgr">
                                         <rect key="frame" x="0.0" y="0.0" width="428" height="1121"/>
                                     </imageView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wwK-os-CP2">
-                                        <rect key="frame" x="21.333333333333343" y="432.66666666666669" width="385.33333333333326" height="130.00000000000006"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wwK-os-CP2">
+                                        <rect key="frame" x="21.333333333333343" y="419.33333333333331" width="385.33333333333326" height="143.33333333333331"/>
                                         <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a single use username unique for the queue" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7P-0C-B1I">
+                                                <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7FM-qI-GJq" userLabel="UsernameView">
-                                                <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="60"/>
+                                                <rect key="frame" x="0.0" y="22.999999999999996" width="385.33333333333331" height="57.666666666666657"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="usernames" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wEJ-N0-z4e">
-                                                        <rect key="frame" x="0.0" y="5" width="385.33333333333331" height="50"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="57.666666666666664"/>
                                                         <color key="backgroundColor" systemColor="separatorColor"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -230,16 +236,16 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="wEJ-N0-z4e" firstAttribute="leading" secondItem="7FM-qI-GJq" secondAttribute="leading" id="1R5-qh-fG8"/>
-                                                    <constraint firstItem="wEJ-N0-z4e" firstAttribute="top" secondItem="7FM-qI-GJq" secondAttribute="top" constant="5" id="8LL-Dh-Ai6"/>
-                                                    <constraint firstAttribute="bottom" secondItem="wEJ-N0-z4e" secondAttribute="bottom" constant="5" id="9qW-Sf-OJe"/>
+                                                    <constraint firstItem="wEJ-N0-z4e" firstAttribute="top" secondItem="7FM-qI-GJq" secondAttribute="top" id="8LL-Dh-Ai6"/>
+                                                    <constraint firstAttribute="bottom" secondItem="wEJ-N0-z4e" secondAttribute="bottom" id="9qW-Sf-OJe"/>
                                                     <constraint firstAttribute="trailing" secondItem="wEJ-N0-z4e" secondAttribute="trailing" id="QKX-AP-QcM"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNa-e0-k92" userLabel="HostButtonView">
-                                                <rect key="frame" x="0.0" y="70" width="385.33333333333331" height="60"/>
+                                                <rect key="frame" x="0.0" y="85.666666666666686" width="385.33333333333331" height="57.666666666666657"/>
                                                 <subviews>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y0y-aB-fPo">
-                                                        <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="60"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="57.666666666666664"/>
                                                         <color key="backgroundColor" systemColor="separatorColor"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="Host">
@@ -276,13 +282,13 @@
                                         <color key="sectionIndexBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="U7M-pE-7Jv">
-                                        <rect key="frame" x="104" y="258.66666666666669" width="220" height="132"/>
+                                        <rect key="frame" x="104" y="245.33333333333337" width="220" height="132"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="top" distribution="fillProportionally" alignment="center" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="viw-V7-AiV">
                                                 <rect key="frame" x="0.0" y="0.0" width="220" height="110"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1xZ-6L-ar0">
-                                                        <rect key="frame" x="0.0" y="15" width="80" height="80"/>
+                                                        <rect key="frame" x="0.0" y="14.999999999999972" width="80" height="80"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="80" id="Mfr-tu-m8P"/>
                                                             <constraint firstAttribute="width" constant="80" id="Rtf-Dd-hDv"/>
@@ -293,7 +299,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-R5-FTm">
-                                                        <rect key="frame" x="140" y="15" width="80" height="80"/>
+                                                        <rect key="frame" x="140" y="14.999999999999972" width="80" height="80"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="80" id="12x-TS-AvF"/>
                                                             <constraint firstAttribute="width" constant="80" id="dEa-eP-lgH"/>
@@ -309,7 +315,7 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="45" translatesAutoresizingMaskIntoConstraints="NO" id="zpP-pK-MbJ">
-                                                <rect key="frame" x="0.0" y="110" width="220" height="22"/>
+                                                <rect key="frame" x="0.0" y="109.99999999999997" width="220" height="22"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1V-WJ-Dj1">
                                                         <rect key="frame" x="0.0" y="0.0" width="87.666666666666671" height="22"/>
@@ -757,6 +763,9 @@
         <image name="person.and.person.fill" catalog="system" width="128" height="80"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="separatorColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
