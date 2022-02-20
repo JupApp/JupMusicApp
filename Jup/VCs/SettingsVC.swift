@@ -56,6 +56,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                                                                          attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
                 
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
         musicServicAert.addAction(UIAlertAction(title: "Return", style: .cancel, handler: nil))
@@ -66,10 +67,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         queueTableView.register(UINib(nibName: "JoinableQueueCell", bundle: nil), forCellReuseIdentifier: "JoinHostCell")
         
         queueTableView.delegate = self
-//        queueTableView.allowsSelection = false
         queueTableView.isScrollEnabled = true
         queueTableView.dataSource = self
         queueTableView.tableFooterView = UIView.init(frame: CGRect.zero)
+        queueTableView.becomeFirstResponder()
         
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
@@ -177,8 +178,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard btDelegate.discoveredQueues.count > 0 else {
+            return nil
+        }
+        return indexPath
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("You are trash")
         if self.checkUsername() {
             let peripheral = btDelegate.discoveredQueues[indexPath.row]
             self.btDelegate.connectToQueue(peripheral)
@@ -187,9 +193,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "JoinHostCell") as! JoinableQueueCell
-
         if indexPath.row < btDelegate.discoveredQueues.count {
             let peripheral = btDelegate.discoveredQueues[indexPath.row]
             let queueInfo = btDelegate.discoveredQueueInfo[peripheral]!
@@ -204,6 +208,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         return cell
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
@@ -237,11 +242,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         return true
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(false)
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false

@@ -6,6 +6,7 @@
 //
 
 import CoreBluetooth
+import UIKit
 
 class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDelegate {
 
@@ -58,16 +59,6 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
 
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
         switch peripheralManager.state {
-          case .unknown:
-            print("peripheral.state is .unknown")
-          case .resetting:
-            print("peripheral.state is .resetting")
-          case .unsupported:
-            print("peripheral.state is .unsupported")
-          case .unauthorized:
-            print("peripheral.state is .unauthorized")
-          case .poweredOff:
-            print("peripheral.state is .poweredOff")
           case .poweredOn:
             print("peripheral.state is .poweredOn")
             let service: CBMutableService = CBMutableService(type: queueUUID, primary: true)
@@ -81,8 +72,10 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
             
             let queueAd: String = "\(queueVC.platform.rawValue) " + username + " \(queueVC.participants.count) "
             peripheral.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
-        @unknown default:
-            print("unknown state")
+          default:
+            let alert = UIAlertController(title: "Bluetooth", message: "Turn on BlueTooth in order to utilize music queues.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
+            queueVC.present(alert, animated: true)
         }
     }
     

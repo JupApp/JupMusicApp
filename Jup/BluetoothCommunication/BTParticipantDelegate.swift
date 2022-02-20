@@ -49,16 +49,6 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
-          case .unknown:
-            print("central.state is .unknown")
-          case .resetting:
-            print("central.state is .resetting")
-          case .unsupported:
-            print("central.state is .unsupported")
-          case .unauthorized:
-            print("central.state is .unauthorized")
-          case .poweredOff:
-            print("central.state is .poweredOff")
           case .poweredOn:
             print("central.state is .poweredOn")
             //start scanning baby please
@@ -66,8 +56,14 @@ class BTParticipantDelegate: NSObject, BTCommunicationDelegate, CBCentralManager
                 return
             }
             central.scanForPeripherals(withServices: [queueUUID], options: nil)
-        @unknown default:
-            print("unknown state: \(central.state)")
+          default:
+            let alert = UIAlertController(title: "Bluetooth", message: "Turn on BlueTooth in order to utilize music queues.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
+            if let _ = queueVC {
+                queueVC?.present(alert, animated: true)
+            } else if let _ = settingsVC {
+                settingsVC?.present(alert, animated: true)
+            }
         }
     }
     

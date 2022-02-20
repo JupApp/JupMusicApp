@@ -211,6 +211,9 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="JoinVC Background" translatesAutoresizingMaskIntoConstraints="NO" id="rZZ-Ck-lgr">
                                         <rect key="frame" x="0.0" y="0.0" width="428" height="1121"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                        </accessibility>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wwK-os-CP2">
                                         <rect key="frame" x="21.333333333333343" y="419.33333333333331" width="385.33333333333326" height="143.33333333333331"/>
