@@ -43,7 +43,7 @@ class ParticipantMenuVC: UITableViewController {
         let rowID: String = parentVC!.participants[indexPath.row]
         let name: String = parentVC!.participantIDsToUsernames[rowID]!
         //cell.textLabel!.text = name + (rowID == uniqueID ? " ⭑":"")
-        cell.textLabel!.text = String(indexPath.row + 1) + ".)  " + name
+        cell.textLabel!.text = String(indexPath.row + 1) + ".  " + name
         cell.textLabel!.font = .boldSystemFont(ofSize: 30)
         return cell
     }

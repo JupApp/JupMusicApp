@@ -23,6 +23,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @IBOutlet weak var amIcon: UIButton!
     @IBOutlet weak var spotifyIcon: UIButton!
+    @IBOutlet weak var joinButton: UIButton!
     
     
     var activityIndicator = UIActivityIndicatorView(style: .large)
@@ -65,14 +66,16 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         queueTableView.register(UINib(nibName: "JoinableQueueCell", bundle: nil), forCellReuseIdentifier: "JoinHostCell")
         
         queueTableView.delegate = self
-        queueTableView.allowsSelection = false
+//        queueTableView.allowsSelection = false
         queueTableView.isScrollEnabled = true
         queueTableView.dataSource = self
+        queueTableView.tableFooterView = UIView.init(frame: CGRect.zero)
         
         hostButtonView.layer.cornerRadius = 10
         usernameTextField.layer.cornerRadius = 10
         queueTableView.layer.cornerRadius = 10
         usernameView.layer.cornerRadius = 10
+        joinButton.layer.cornerRadius = 5
 
     }
     
@@ -174,7 +177,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You are trash")
+        if self.checkUsername() {
+            let peripheral = btDelegate.discoveredQueues[indexPath.row]
+            self.btDelegate.connectToQueue(peripheral)
+            self.performSegue(withIdentifier: "segueToQueueAsParticipant", sender: nil)
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -183,18 +193,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if indexPath.row < btDelegate.discoveredQueues.count {
             let peripheral = btDelegate.discoveredQueues[indexPath.row]
             let queueInfo = btDelegate.discoveredQueueInfo[peripheral]!
-            
+            print(queueInfo)
             cell.queueNameLabel.text = queueInfo.hostname
             cell.queuePlatformLabel.text = queueInfo.platform.toString()
             cell.queueNumParticipants.text = "\(queueInfo.numParticipants)"
-            cell.buttonClicked = {
-                if self.checkUsername() {
-                    self.btDelegate.connectToQueue(peripheral)
-                    DispatchQueue.main.async {
-                        self.performSegue(withIdentifier: "segueToQueueAsParticipant", sender: nil)
-                    }
-                }
-            }
+        } else if indexPath.row == 0 {
+            cell.queueNameLabel.text = "No Queues Available"
+            cell.queuePlatformLabel.text = "Host must open app to make queue available to join"
+            cell.queueNumParticipants.text = ""
         }
         return cell
     }
@@ -203,7 +209,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return btDelegate.discoveredQueues.count
+        var number: Int = btDelegate.discoveredQueues.count
+        if btDelegate.discoveredQueues.count > 0{
+            number = btDelegate.discoveredQueues.count
+        }
+        else{
+            number = 1
+        }
+        return number
     }
     
     private func checkUsername() -> Bool {

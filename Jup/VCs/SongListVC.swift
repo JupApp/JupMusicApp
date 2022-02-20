@@ -74,7 +74,7 @@ class SongListVC<T: SongItem>: UITableViewController, BackgroundImagePropagator 
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 86
     }
     
     func songAdded(_ songItem: T) {

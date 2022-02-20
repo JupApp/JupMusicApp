@@ -49,6 +49,7 @@ class BTHostDelegate: NSObject, BTCommunicationDelegate, CBPeripheralManagerDele
     func openQueue() {
         let username = UserDefaults.standard.string(forKey: SettingsVC.usernameKey)!
         let queueAd: String = username + " \(queueVC.participants.count) \(queueVC.platform.rawValue)"
+        print(queueAd)
         peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey: queueAd, CBAdvertisementDataServiceUUIDsKey: [queueUUID]])
         /*
          TO-DO alert everyone else queue is open

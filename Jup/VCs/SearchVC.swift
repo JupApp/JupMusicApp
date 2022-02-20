@@ -157,6 +157,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate, SearchDelegate, Back
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 66
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return searchPlatformSegmentedControl
     }
