@@ -70,6 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTSessionManagerDelegate
     static let kRefreshTokenKey = "refresh-token-key"
     static let kExpirationDate = "expiration-date"
     
+    var openingSpotifyApp = false
+    
     var bringBackToVC: ((Error?) -> ())?
 
     lazy var configuration = SPTConfiguration(

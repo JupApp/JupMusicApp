@@ -73,7 +73,8 @@ class SpotifyMediaPlayer: NSObject, MediaPlayer/*, SPTAppRemotePlayerStateDelega
             completionHandler(nil)
             return
         }
-        let nextItem: SpotifySongItem = songItems[songItems.count - 1 - currentIndex]
+//        let nextItem: SpotifySongItem = songItems[songItems.count - 1 - currentIndex]
+        let nextItem: SpotifySongItem = songItems[currentIndex]
 
         self.player?.enqueueTrackUri(nextItem.uri, callback: { (result, error) in
             Thread.sleep(forTimeInterval: 0.02)
